@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Services & Contact — BENAYAS LEULSEGED</title>
+<style>
+  :root{
+    --bg: radial-gradient(1200px 600px at 10% -10%, #1f4fff22, transparent 60%),
+          radial-gradient(1000px 500px at 110% 0%, #00d0ff22, transparent 55%),
+          linear-gradient(180deg, #0b1220 0%, #090f1a 100%);
+  }
+  html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+    color:#e7eefc;background:var(--bg); background-attachment: fixed;}
+  .grid-bg{position: fixed; inset:0; pointer-events:none; opacity:.18; mix-blend:screen;
+    background-image:linear-gradient(#3a4a70 1px, transparent 1px),linear-gradient(90deg,#3a4a70 1px, transparent 1px);
+    background-size:36px 36px,36px 36px}
+  header{position:sticky;top:0;background:#0b1220cc;backdrop-filter: blur(8px); border-bottom:1px solid #23304b;z-index:10}
+  nav{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+  nav a{color:#e7eefc;text-decoration:none;margin-left:18px;font-weight:600}
+  nav a:hover{color:#61dafb}
+  .wrap{max-width:1100px;margin:28px auto 48px;padding:0 20px}
+  h1{font-size:clamp(26px,4.5vw,44px);margin:6px 0 16px}
+  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:900px){.services{grid-template-columns:1fr 1fr}}
+  @media (max-width:650px){.services{grid-template-columns:1fr}}
+  .card{background:#0b1326;border:1px solid #22375b;border-radius:18px;padding:16px}
+  .card h3{margin:6px 0 8px}
+  .muted{color:#9fb2d6}
+  .contact{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-top:26px}
+  @media (max-width:900px){.contact{grid-template-columns:1fr}}
+  .panel{background:#0f1830;border:1px solid #243a5e;border-radius:18px;padding:16px}
+  .btn{display:inline-block;margin-top:10px;padding:10px 14px;border-radius:12px;border:1px solid #2a3f61;background:#0e1730;color:#e7eefc;text-decoration:none;font-weight:700}
+  .btn:hover{transform:translateY(-1px)}
+  footer{max-width:1100px;margin:0 auto 32px;padding:10px 20px;color:#9fb2d6}
+  ul{margin:8px 0 0 18px}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<header>
+  <nav>
+    <div style="font-weight:800">BENAYAS LEULSEGED</div>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="services.html">Services & Contact</a>
+      <a href="thanks.html">Thanks & Comment</a>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <h1>Getted services</h1>
+  <h3>የሚሰጡት አገልግሎቶች</h3>
+  <p class="muted">ጥራት ባለው ስራ በተመጣጣኝ ዋጋ የሚፈልጉትን ስራ በአግባቡ ይሰራል.</p>
+
+  <section class="services">
+    <div class="card"><h3>🌐 Website Creation</h3><p class="muted">ጥራት ያለው ዌብሳይት በፈለጉት መልክ ይሰራል</p></div>
+    <div class="card"><h3>👩‍💻⚙️ Software Development</h3><p class="muted"> ምርጥ ሶፍትዌር ይሰራል :ለድርጅቶች ፣ለትምህርት ወዘተ...</p></div>
+    <div class="card"><h3>📱 Private App Development</h3><p class="muted">በእርስዎ ዲቫይስ ብቻ የሚሰራ አፕ ይሰራል.</p></div>
+    <div class="card"><h3>🕹️ Games Setup & Sales</h3><p class="muted">“የትኛውንም game በተመጣጣኝ ዋጋ ይሸጣል</p></div>
+    <div class="card"><h3>💽 Bootable USB OS</h3><p class="muted">የትኛውንም ኦፕሬቲንግ ሲስተም በድራይቭ እንጭናለን</p></div>
+    <div class="card"><h3>🪛 OS Installation</h3><p class="muted">የትኛውንም ኦፕሬቲንግ ሲስተም በርካሽ ዋጋ እንሸጣለን</p></div>
+    <div class="card"><h3>🗂️🛡️ File security & Safety</h3><p class="muted">ፍይል እና አካካውንት በሚገባ ይጠበቃል</p></div>
+    <div class="card"><h3>🔧device formatting</h3><p class="muted">የትኛውም ዲቫይስ ፎርማት ይደረጋል</p></div>
+    <div class="card"><h3>👨🏽‍🏫 Computer Basics</h3><p class="muted">ስለ መሰረታዊ ኮምፒውተር ትምህርት  ሙሉ ኮርስ ይሰጣል </p></div>
+    <div class="card"><h3>🧑🏽‍💻 Learn Programming</h3><p class="muted">ስለ ፕሮግራሚንግ ሙሉ ኮርስ ይሰጣል</p></div>
+    <div class="card"><h3>🔑 Password Recovery</h3><p class="muted">የትኛውም ፓስዎርድ ሪከቨር ይደረጋል</p></div>
+    <div class="card"><h3> 👨🏽‍🏫 learn web develment</h3><p class="muted"></p>ዌብሳይት መፍጠር ማስተማር</div>
+    <div class="card"><h3>🛠️🧑🏽‍💻 learn software    development</h3><p class="muted">ሶፍትዌር መፍጠር ማስተማር</p></div>
+    <div class="card"><h3>✂️🎨photoediting</h3><p class="muted">“ፎቶ ይቀናበራል </p></div>
+    <div class="card"><h3>🧾make best printable file</h3><p class="muted">ጥራት ያለው ፕሪንት ሚሆን ዶክመንት ይሰራል</p></div>
+    <div class="card"><h3> 📱learn app development</h3><p class="muted">አፕ መፍጠር ማስተማር</p></div>
+    <div class="card"><h3>🛠️ fix damaged device problem</h3><p class="muted">የተበላሸ ዲቫይሶችን ማስተካከል</p></div>
+    <div class="card"><h3>📡school club roject helping in technology</h3><p class="muted">በክለብ ውስጥ የሚሰጡ የቴክኖሎጂ ፕሮጀክቶች እርዳታ</p></div>
+    <div class="card"><h3>💽software purchasing</h3><p class="muted">የማይገኙ  ሶፍትዌር እና አፖችን በተመጣጣኝ ዋጋ </p></div>
+    <div class="card"><h3>🧰 Plus More</h3><p class="muted">ተጨማሪ ካለ ከታች በቀረቡት ኮንታክቶች ያግኙኝ</p></div>
+  </section>
+
+  <section class="contact">
+    <div class="panel">
+      <h2>Contact Info</h2>
+      <ul>
+        <li><strong>📍Location:</strong> Ethiopia, Jimma</li>
+        <li><strong>☎️Phone:</strong> <a class="btn" href="tel:+251917551250">+251 917 551 250</a></li>
+        <li><strong>🌐Email:</strong> <a class="btn" href="https://mail.google.com">benayasleulseged@gmail.com</a></li>
+        <li><strong>🌐Telegram:</strong> <a class="btn" href="https://t.me/beni7leo" target="_blank" rel="noopener">Chat on telegram</a></li>
+        <li><strong>🌐Telegram channel:</strong> <a class="btn" href="https://t.me/computerbebi" target="_blank" rel="noopener"> open telegram channel to see another</a></li>
+        <li><strong>🌐Instagram:</strong> <a class="btn" href="https://www.instagram.com/unkownpeople87/#" target="_blank" rel="noopener">Chat on instagram</a></li>
+        <li><strong>🌐WhatsApp:</strong> <a class="btn" href="https://wa.me/251917551250" target="_blank" rel="noopener">Chat on WhatsApp</a></li>
+        <li><strong>🌍🗺️Map:</strong> <a class="btn" href="https://maps.google.com/?q=Jimma,Ethiopia" target="_blank" rel="noopener">Open Jimma on Maps</a></li>
+        <li><strong>online in ip web:</strong> <a class="btn" href="https:192.168.100.163" target="_blank" rel="noopener">open ip web</a></li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2>Why Choose Me?</h2>
+      <ul>
+        <li>Fast response & clear communication</li>
+        <li>Secure handling of your data</li>
+        <li>Friendly pricing & guarantees</li>
+        <li>Teach + Do: I explain while I solve</li>
+      </ul>
+      <a class="btn" href="thanks.html">Leave a Comment</a>
+    </div>
+  </section>
+</div>
+
+<footer>© <span id="yr"></span> BENAYAS LEULSEGED — Jimma, Ethiopia</footer>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
