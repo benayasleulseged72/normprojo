@@ -5,29 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="google-site-verification" content="CvaeFMWxsIWnvjwGoErskfnMeKQSygjX-hKccMuS5_A" />
 <title>BLSC - Benayas Leulseged Software Community | Web & Software Services Ethiopia</title>
-<meta name="description" content="BLSC - Benayas Leulseged Software Community. Quality web development, software, app development, and tech services in Jimma, Ethiopia. Affordable prices, professional work.">
-<meta name="keywords" content="BLSC, blsc web, blsc adv, Benayas Leulseged, software community, web development Ethiopia, software development Jimma, app development, tech services Ethiopia">
+<meta name="description" content="BLSC - Benayas Leulseged Software Community. Quality web development, software, app development, and tech services in Jimma, Ethiopia.">
+<meta name="keywords" content="BLSC, blsc web, blsc adv, Benayas Leulseged, software community, web development Ethiopia">
 <meta name="author" content="Benayas Leulseged">
 <meta name="robots" content="index, follow">
-<meta property="og:title" content="BLSC - Benayas Leulseged Software Community">
-<meta property="og:description" content="Quality web development, software, and tech services in Jimma, Ethiopia">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="en_US">
 <link rel="canonical" href="https://benio.vercel.app/">
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-    background:#0d1117;
-    color:#e6edf3;
+    font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background:#0a0a0a;
+    color:#ffffff;
     min-height:100vh;
+    overflow-x:hidden;
+  }
+  
+  /* Animated gradient background */
+  .bg-gradient{
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(63,185,80,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(88,166,255,0.1) 0%, transparent 50%),
+      #0a0a0a;
+    z-index:-1;
   }
   
   header{
-    background:rgba(13,17,23,0.95);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid #21262d;
+    background:rgba(10,10,10,0.8);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,0.1);
     position:sticky;top:0;z-index:100;
   }
   nav{
@@ -36,203 +46,203 @@
     padding:16px 24px;flex-wrap:wrap;gap:16px;
   }
   .logo{
-    font-size:22px;font-weight:700;
-    color:#58a6ff;
+    font-size:20px;font-weight:700;
+    color:#fff;
+    display:flex;align-items:center;gap:12px;
   }
-  .nav-links{display:flex;gap:8px;flex-wrap:wrap;}
+  .logo img{width:42px;height:42px;border-radius:50%;border:2px solid #3fb950;}
+  .nav-links{display:flex;gap:6px;flex-wrap:wrap;}
   .nav-links a{
     text-decoration:none;
-    color:#8b949e;
-    padding:10px 18px;
-    border-radius:8px;
+    color:rgba(255,255,255,0.7);
+    padding:10px 20px;
+    border-radius:100px;
     font-weight:500;
-    font-size:15px;
-    transition:all 0.2s;
+    font-size:14px;
+    transition:all 0.3s;
   }
-  .nav-links a:hover{color:#e6edf3;background:#21262d;}
-  .nav-links a.active{color:#58a6ff;background:rgba(88,166,255,0.1);}
+  .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.1);}
+  .nav-links a.active{color:#0a0a0a;background:#3fb950;}
   
   .hero{
-    background-image:url('2.jpg');
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
+    min-height:90vh;
+    display:flex;align-items:center;
     position:relative;
+    overflow:hidden;
   }
-  .hero::before{
-    content:'';
+  .hero-bg{
     position:absolute;
-    top:0;left:0;right:0;bottom:0;
-    background:rgba(13,17,23,0.85);
+    right:-10%;top:50%;
+    transform:translateY(-50%);
+    width:600px;height:600px;
+    background:url('2.jpg') center/cover;
+    border-radius:50%;
+    opacity:0.3;
+    filter:blur(2px);
   }
   .hero-inner{
     max-width:1200px;margin:0 auto;
-    padding:100px 24px;
-    display:flex;align-items:center;justify-content:space-between;gap:50px;
-    flex-wrap:wrap;
-    position:relative;
-    z-index:1;
+    padding:60px 24px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:center;
+    position:relative;z-index:1;
   }
-  .hero-content{flex:1;min-width:300px;}
-  .hero-content h1{
-    font-size:clamp(32px,5vw,52px);
-    font-weight:700;
-    line-height:1.2;
-    margin-bottom:20px;
-  }
-  .hero-content h1 span{color:#3fb950;}
-  .hero-content p{
-    font-size:18px;
-    color:#8b949e;
-    line-height:1.7;
-    margin-bottom:30px;
-    max-width:500px;
-  }
-  .hero-image{flex:1;min-width:280px;text-align:center;}
-  .hero-image img{
-    width:220px;height:220px;
-    border-radius:50%;
-    border:4px solid #3fb950;
-    box-shadow:0 0 40px rgba(63,185,80,0.3);
+  @media(max-width:900px){
+    .hero-inner{grid-template-columns:1fr;text-align:center;}
+    .hero-bg{display:none;}
   }
   
+  .hero-content h1{
+    font-size:clamp(36px,6vw,64px);
+    font-weight:800;
+    line-height:1.1;
+    margin-bottom:24px;
+    background:linear-gradient(135deg, #fff 0%, #3fb950 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+  }
+  .hero-content p{
+    font-size:18px;
+    color:rgba(255,255,255,0.6);
+    line-height:1.8;
+    margin-bottom:36px;
+    max-width:480px;
+  }
+  @media(max-width:900px){.hero-content p{margin:0 auto 36px;}}
+  
+  .hero-buttons{display:flex;gap:16px;flex-wrap:wrap;}
+  @media(max-width:900px){.hero-buttons{justify-content:center;}}
+  
   .btn{
-    display:inline-block;
-    padding:14px 32px;
-    background:#3fb950;
-    color:#0d1117;
+    display:inline-flex;align-items:center;gap:8px;
+    padding:16px 32px;
+    background:linear-gradient(135deg, #3fb950, #2ea043);
+    color:#fff;
     text-decoration:none;
-    border-radius:8px;
+    border-radius:100px;
     font-weight:600;
-    font-size:16px;
-    transition:all 0.2s;
+    font-size:15px;
+    transition:all 0.3s;
+    box-shadow:0 4px 20px rgba(63,185,80,0.4);
   }
   .btn:hover{
-    background:#2ea043;
-    transform:translateY(-2px);
-    box-shadow:0 8px 25px rgba(63,185,80,0.3);
+    transform:translateY(-3px);
+    box-shadow:0 8px 30px rgba(63,185,80,0.5);
   }
   .btn-outline{
     background:transparent;
-    border:2px solid #3fb950;
-    color:#3fb950;
-    margin-left:12px;
+    border:2px solid rgba(255,255,255,0.3);
+    color:#fff;
+    box-shadow:none;
   }
-  .btn-outline:hover{background:#3fb950;color:#0d1117;}
-  
-  .features{
-    max-width:1200px;margin:0 auto;
-    padding:60px 24px;
-  }
-  .features h2{
-    text-align:center;
-    font-size:32px;
-    margin-bottom:50px;
-  }
-  .features h2 span{color:#3fb950;}
-  
-  .feature-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
-    gap:24px;
-  }
-  .feature-card{
-    background:#161b22;
-    border:1px solid #21262d;
-    border-radius:12px;
-    padding:28px;
-    transition:all 0.3s;
-  }
-  .feature-card:hover{
+  .btn-outline:hover{
     border-color:#3fb950;
-    transform:translateY(-4px);
-    box-shadow:0 12px 40px rgba(0,0,0,0.4);
+    background:rgba(63,185,80,0.1);
+    box-shadow:0 8px 30px rgba(63,185,80,0.2);
   }
-  .feature-card .icon{
-    width:50px;height:50px;
-    background:rgba(63,185,80,0.15);
-    border-radius:10px;
-    display:flex;align-items:center;justify-content:center;
-    font-size:24px;
+  
+  .hero-image{text-align:center;}
+  .hero-image img{
+    width:280px;height:280px;
+    border-radius:50%;
+    border:4px solid #3fb950;
+    box-shadow:0 0 60px rgba(63,185,80,0.4);
+    animation:float 4s ease-in-out infinite;
+  }
+  @keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-20px);}
+  }
+  
+  .section-title{
+    text-align:center;
+    margin-bottom:60px;
+  }
+  .section-title h2{
+    font-size:clamp(28px,4vw,42px);
+    font-weight:700;
     margin-bottom:16px;
   }
-  .feature-card h3{font-size:20px;margin-bottom:10px;color:#e6edf3;}
-  .feature-card p{color:#8b949e;line-height:1.6;font-size:15px;}
+  .section-title h2 span{color:#3fb950;}
+  .section-title p{color:rgba(255,255,255,0.5);font-size:17px;}
   
   .pages-section{
     max-width:1200px;margin:0 auto;
-    padding:60px 24px;
+    padding:100px 24px;
   }
-  .pages-section h2{
-    text-align:center;
-    font-size:32px;
-    margin-bottom:50px;
-  }
-  .pages-section h2 span{color:#3fb950;}
-  
   .pages-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
-    gap:24px;
+    grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+    gap:30px;
   }
   .page-card{
-    background:#161b22;
-    border:1px solid #21262d;
-    border-radius:16px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:24px;
     overflow:hidden;
     text-decoration:none;
-    transition:all 0.3s;
+    transition:all 0.4s;
   }
   .page-card:hover{
     border-color:#3fb950;
-    transform:translateY(-6px);
-    box-shadow:0 16px 50px rgba(0,0,0,0.5);
+    transform:translateY(-10px);
+    box-shadow:0 30px 60px rgba(0,0,0,0.5);
   }
   .page-card img{
     width:100%;
-    height:180px;
+    height:200px;
     object-fit:cover;
+    transition:transform 0.4s;
   }
-  .page-card-content{
-    padding:20px;
-  }
+  .page-card:hover img{transform:scale(1.05);}
+  .page-card-content{padding:24px;}
   .page-card h3{
-    font-size:20px;
-    color:#e6edf3;
+    font-size:22px;
+    color:#fff;
     margin-bottom:8px;
+    font-weight:600;
   }
-  .page-card p{
-    color:#8b949e;
-    font-size:14px;
-  }
+  .page-card p{color:rgba(255,255,255,0.5);font-size:15px;}
   
   .stats{
-    background:#161b22;
-    border-top:1px solid #21262d;
-    border-bottom:1px solid #21262d;
-    padding:50px 24px;
-    margin:60px 0;
+    background:rgba(255,255,255,0.02);
+    border-top:1px solid rgba(255,255,255,0.05);
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    padding:80px 24px;
   }
   .stats-grid{
     max-width:1000px;margin:auto;
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-    gap:30px;
+    grid-template-columns:repeat(3, 1fr);
+    gap:40px;
     text-align:center;
   }
-  .stat-item h3{font-size:42px;color:#3fb950;margin-bottom:8px;}
-  .stat-item p{color:#8b949e;font-size:15px;}
+  @media(max-width:600px){.stats-grid{grid-template-columns:1fr;}}
+  .stat-item h3{
+    font-size:clamp(36px,6vw,56px);
+    font-weight:800;
+    background:linear-gradient(135deg, #3fb950, #58a6ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    margin-bottom:8px;
+  }
+  .stat-item p{color:rgba(255,255,255,0.5);font-size:16px;font-weight:500;}
   
   footer{
     text-align:center;
-    padding:40px 24px;
-    color:#8b949e;
+    padding:50px 24px;
+    color:rgba(255,255,255,0.4);
     font-size:14px;
-    border-top:1px solid #21262d;
   }
+  footer a{color:#3fb950;text-decoration:none;}
 </style>
 </head>
 <body>
+<div class="bg-gradient"></div>
 
 <audio autoplay>
   <source src="1.mp3" type="audio/mpeg">
@@ -240,7 +250,10 @@
 
 <header>
   <nav>
-    <div class="logo">BENAYAS LEULSEGED SOFTWARE COMMUNITY</div>
+    <div class="logo">
+      <img src="1.png" alt="Logo">
+      <span>BLSC</span>
+    </div>
     <div class="nav-links">
       <a href="index.html" class="active">Home</a>
       <a href="about.html">About</a>
@@ -251,41 +264,47 @@
 </header>
 
 <section class="hero">
+  <div class="hero-bg"></div>
   <div class="hero-inner">
     <div class="hero-content">
-      <h1>Quality <span>Software</span> & Technology Services</h1>
+      <h1>Quality Software & Technology Services</h1>
       <p>We provide premium hardware and software solutions at affordable prices. From web development to app creation, we've got you covered.</p>
-      <a href="serv.html" class="btn">View Services</a>
-      <a href="com.html" class="btn btn-outline">Contact Us</a>
+      <div class="hero-buttons">
+        <a href="serv.html" class="btn">View Services →</a>
+        <a href="com.html" class="btn btn-outline">Contact Us</a>
+      </div>
     </div>
     <div class="hero-image">
-      <img src="1.png" alt="Logo">
+      <img src="1.png" alt="BLSC Logo">
     </div>
   </div>
 </section>
 
 <section class="pages-section">
-  <h2>Explore <span>Our Pages</span></h2>
+  <div class="section-title">
+    <h2>Explore <span>Our Pages</span></h2>
+    <p>Discover what we offer and how we can help you</p>
+  </div>
   <div class="pages-grid">
     <a href="about.html" class="page-card">
-      <img src="https://images.pexels.com/photos/5380582/pexels-photo-5380582.jpeg" alt="About Us">
+      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop" alt="About Us">
       <div class="page-card-content">
         <h3>About Us</h3>
-        <p>Learn more about who we are</p>
+        <p>Learn more about who we are and our mission</p>
       </div>
     </a>
     <a href="serv.html" class="page-card">
-      <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=250&fit=crop" alt="Services">
+      <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500&h=300&fit=crop" alt="Services">
       <div class="page-card-content">
         <h3>Our Services</h3>
-        <p>View all services we offer</p>
+        <p>View all the services we offer</p>
       </div>
     </a>
     <a href="com.html" class="page-card">
-      <img src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=400&h=250&fit=crop" alt="Contact">
+      <img src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=500&h=300&fit=crop" alt="Contact">
       <div class="page-card-content">
         <h3>Contact Us</h3>
-        <p>Get in touch with us</p>
+        <p>Get in touch with us today</p>
       </div>
     </a>
   </div>
@@ -309,7 +328,7 @@
 </section>
 
 <footer>
-  <p>© <span id="yr"></span> BENAYAS LEULSEGED — Jimma, Ethiopia</p>
+  <p>© <span id="yr"></span> <a href="#">BENAYAS LEULSEGED SOFTWARE COMMUNITY</a> — Jimma, Ethiopia</p>
 </footer>
 <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 </body>

@@ -3,29 +3,36 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Services - BLSC | Web Development, Software, Apps | Jimma Ethiopia</title>
-<meta name="description" content="BLSC Services: Website creation, software development, app development, OS installation, tech support, programming courses in Jimma, Ethiopia. Affordable prices.">
-<meta name="keywords" content="BLSC services, blsc web, blsc adv, web development Ethiopia, software development, app development, tech services Jimma, programming courses">
-<meta name="author" content="Benayas Leulseged">
+<title>Services - BLSC | Web Development, Software, Apps</title>
+<meta name="description" content="BLSC Services: Website creation, software development, app development in Jimma, Ethiopia.">
 <meta name="robots" content="index, follow">
-<meta property="og:title" content="BLSC Services - Web, Software, Apps">
-<meta property="og:description" content="Quality tech services in Jimma, Ethiopia at affordable prices">
-<meta property="og:type" content="website">
 <link rel="canonical" href="https://benio.vercel.app/serv.html">
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-    background:#0d1117;
-    color:#e6edf3;
+    font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background:#0a0a0a;
+    color:#ffffff;
     min-height:100vh;
   }
   
+  .bg-gradient{
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(63,185,80,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(88,166,255,0.1) 0%, transparent 50%),
+      #0a0a0a;
+    z-index:-1;
+  }
+  
   header{
-    background:rgba(13,17,23,0.95);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid #21262d;
+    background:rgba(10,10,10,0.8);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,0.1);
     position:sticky;top:0;z-index:100;
   }
   nav{
@@ -33,70 +40,88 @@
     display:flex;align-items:center;justify-content:space-between;
     padding:16px 24px;flex-wrap:wrap;gap:16px;
   }
-  .logo{font-size:22px;font-weight:700;color:#58a6ff;display:flex;align-items:center;gap:10px;}
-  .logo img{width:40px;height:40px;border-radius:50%;}
-  .nav-links{display:flex;gap:8px;flex-wrap:wrap;}
-  .nav-links a{
-    text-decoration:none;color:#8b949e;padding:10px 18px;
-    border-radius:8px;font-weight:500;font-size:15px;transition:all 0.2s;
+  .logo{
+    font-size:20px;font-weight:700;color:#fff;
+    display:flex;align-items:center;gap:12px;
   }
-  .nav-links a:hover{color:#e6edf3;background:#21262d;}
-  .nav-links a.active{color:#58a6ff;background:rgba(88,166,255,0.1);}
+  .logo img{width:42px;height:42px;border-radius:50%;border:2px solid #3fb950;}
+  .nav-links{display:flex;gap:6px;flex-wrap:wrap;}
+  .nav-links a{
+    text-decoration:none;color:rgba(255,255,255,0.7);padding:10px 20px;
+    border-radius:100px;font-weight:500;font-size:14px;transition:all 0.3s;
+  }
+  .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.1);}
+  .nav-links a.active{color:#0a0a0a;background:#3fb950;}
   
   .page-header{
     text-align:center;
-    padding:60px 24px 40px;
+    padding:80px 24px 60px;
     max-width:800px;margin:auto;
   }
   .page-logo{
     width:100px;height:100px;
     border-radius:50%;
     border:3px solid #3fb950;
-    box-shadow:0 0 30px rgba(63,185,80,0.3);
-    margin-bottom:20px;
+    box-shadow:0 0 40px rgba(63,185,80,0.4);
+    margin-bottom:24px;
+    animation:pulse 3s ease-in-out infinite;
   }
-  .page-header h1{font-size:clamp(28px,5vw,42px);margin-bottom:16px;}
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 40px rgba(63,185,80,0.4);}
+    50%{box-shadow:0 0 60px rgba(63,185,80,0.6);}
+  }
+  .page-header h1{
+    font-size:clamp(32px,5vw,48px);
+    font-weight:800;
+    margin-bottom:16px;
+  }
   .page-header h1 span{color:#3fb950;}
-  .page-header h3{color:#3fb950;font-weight:500;margin-bottom:12px;font-size:18px;}
-  .page-header p{color:#8b949e;font-size:17px;line-height:1.7;}
+  .page-header h3{
+    color:#3fb950;
+    font-weight:500;
+    margin-bottom:12px;
+    font-size:18px;
+  }
+  .page-header p{color:rgba(255,255,255,0.6);font-size:17px;line-height:1.7;}
   
   .services{
-    max-width:1200px;margin:0 auto;
-    padding:0 24px 60px;
+    max-width:1300px;margin:0 auto;
+    padding:0 24px 80px;
     display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
-    gap:24px;
+    grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
+    gap:28px;
   }
   
   .card{
-    background:#161b22;
-    border:1px solid #21262d;
-    border-radius:16px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:20px;
     overflow:hidden;
-    transition:all 0.3s;
+    transition:all 0.4s;
     cursor:pointer;
   }
   .card:hover{
     border-color:#3fb950;
-    transform:translateY(-6px);
-    box-shadow:0 16px 50px rgba(0,0,0,0.5);
+    transform:translateY(-8px);
+    box-shadow:0 30px 60px rgba(0,0,0,0.5);
   }
   .card-img{
     width:100%;
-    height:160px;
+    height:180px;
     object-fit:cover;
-    border-bottom:1px solid #21262d;
+    transition:transform 0.4s;
   }
-  .card-body{padding:20px;}
-  .card h3{font-size:18px;margin-bottom:10px;color:#e6edf3;}
-  .card .desc{color:#8b949e;font-size:14px;line-height:1.6;}
+  .card:hover .card-img{transform:scale(1.05);}
+  .card-body{padding:24px;}
+  .card h3{font-size:18px;margin-bottom:10px;color:#fff;font-weight:600;}
+  .card .desc{color:rgba(255,255,255,0.6);font-size:14px;line-height:1.7;}
   .card .more{
     display:none;
-    margin-top:14px;
-    padding-top:14px;
-    border-top:1px solid #21262d;
+    margin-top:16px;
+    padding-top:16px;
+    border-top:1px solid rgba(255,255,255,0.1);
     color:#3fb950;
-    font-size:13px;
+    font-size:14px;
     line-height:1.7;
   }
   .card.open .more{display:block;}
@@ -104,59 +129,66 @@
     display:inline-block;
     color:#58a6ff;
     font-size:13px;
-    margin-top:12px;
-    padding:6px 12px;
+    margin-top:14px;
+    padding:8px 16px;
     background:rgba(88,166,255,0.1);
-    border-radius:20px;
+    border-radius:100px;
+    transition:all 0.3s;
   }
+  .card:hover .card-hint{background:rgba(63,185,80,0.15);color:#3fb950;}
   .card.open .card-hint{display:none;}
   
   .cta-section{
-    max-width:800px;margin:0 auto;
-    padding:0 24px 60px;
+    max-width:900px;margin:0 auto;
+    padding:0 24px 100px;
     text-align:center;
   }
   .cta-box{
-    background:#161b22;
-    border:1px solid #21262d;
-    border-radius:16px;
-    padding:40px;
+    background:linear-gradient(135deg, rgba(63,185,80,0.1), rgba(88,166,255,0.1));
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:24px;
+    padding:60px 40px;
   }
-  .cta-box h2{font-size:28px;margin-bottom:12px;}
+  .cta-box h2{
+    font-size:clamp(24px,4vw,36px);
+    font-weight:700;
+    margin-bottom:16px;
+  }
   .cta-box h2 span{color:#3fb950;}
-  .cta-box p{color:#8b949e;margin-bottom:24px;font-size:16px;}
+  .cta-box p{color:rgba(255,255,255,0.6);margin-bottom:32px;font-size:17px;}
   
   .btn-large{
-    display:inline-block;
-    padding:16px 36px;
-    background:#3fb950;
-    color:#0d1117;
+    display:inline-flex;align-items:center;gap:8px;
+    padding:18px 40px;
+    background:linear-gradient(135deg, #3fb950, #2ea043);
+    color:#fff;
     text-decoration:none;
-    border-radius:8px;
+    border-radius:100px;
     font-weight:600;
     font-size:16px;
-    transition:all 0.2s;
+    transition:all 0.3s;
+    box-shadow:0 4px 20px rgba(63,185,80,0.4);
   }
   .btn-large:hover{
-    background:#2ea043;
-    transform:translateY(-2px);
-    box-shadow:0 8px 25px rgba(63,185,80,0.3);
+    transform:translateY(-3px);
+    box-shadow:0 8px 30px rgba(63,185,80,0.5);
   }
   
   footer{
     text-align:center;
-    padding:40px 24px;
-    color:#8b949e;
+    padding:50px 24px;
+    color:rgba(255,255,255,0.4);
     font-size:14px;
-    border-top:1px solid #21262d;
+    border-top:1px solid rgba(255,255,255,0.05);
   }
 </style>
 </head>
 <body>
+<div class="bg-gradient"></div>
 
 <header>
   <nav>
-    <div class="logo"><img src="1.png" alt="Logo">BLSC</div>
+    <div class="logo"><img src="1.png" alt="Logo"><span>BLSC</span></div>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
@@ -180,7 +212,7 @@
       <h3>🌐 Website Creation</h3>
       <p class="desc">ጥራት ያለው ዌብሳይት በፈለጉት መልክ ይሰራል</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Personal websites, business sites, e-commerce, portfolios. Responsive design for all devices. Fast delivery and affordable prices.</div>
+      <div class="more">Personal websites, business sites, e-commerce, portfolios. Responsive design for all devices.</div>
     </div>
   </div>
   
@@ -190,17 +222,17 @@
       <h3>💻 Software Development</h3>
       <p class="desc">ምርጥ ሶፍትዌር ይሰራል: ለድርጅቶች፣ ለትምህርት ወዘተ...</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Custom desktop applications, management systems, inventory software, school systems, and more. Built to your exact needs.</div>
+      <div class="more">Custom desktop applications, management systems, inventory software, school systems.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=200&fit=crop" alt="App" class="card-img">
     <div class="card-body">
-      <h3>📱 Private App Development</h3>
+      <h3>📱 App Development</h3>
       <p class="desc">በእርስዎ ዲቫይስ ብቻ የሚሰራ አፕ ይሰራል</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Android apps designed exclusively for your device. Private, secure, and customized to your requirements.</div>
+      <div class="more">Android apps designed exclusively for your device. Private, secure, and customized.</div>
     </div>
   </div>
   
@@ -210,7 +242,77 @@
       <h3>🕹️ Games Setup & Sales</h3>
       <p class="desc">የትኛውንም game በተመጣጣኝ ዋጋ ይሸጣል</p>
       <span class="card-hint">+ More</span>
-      <div class="more">PC games, mobile games, game installation and setup. All popular titles available at good prices.</div>
+      <div class="more">PC games, mobile games, game installation and setup. All popular titles available.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=400&h=200&fit=crop" alt="OS" class="card-img">
+    <div class="card-body">
+      <h3>🪛 OS Installation</h3>
+      <p class="desc">የትኛውንም ኦፕሬቲንግ ሲስተም በርካሽ ዋጋ እንሸጣለን</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Windows 7/8/10/11, Linux. Full installation with drivers and essential software.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=200&fit=crop" alt="Security" class="card-img">
+    <div class="card-body">
+      <h3>🛡️ File Security</h3>
+      <p class="desc">ፍይል እና አካካውንት በሚገባ ይጠበቃል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">File encryption, secure backup, account protection, privacy settings.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=200&fit=crop" alt="Computer" class="card-img">
+    <div class="card-body">
+      <h3>👨‍🏫 Computer Basics</h3>
+      <p class="desc">ስለ መሰረታዊ ኮምፒውተር ትምህርት ሙሉ ኮርስ ይሰጣል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Learn typing, Microsoft Office, internet basics, file management.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=400&h=200&fit=crop" alt="Programming" class="card-img">
+    <div class="card-body">
+      <h3>🧑‍💻 Learn Programming</h3>
+      <p class="desc">ስለ ፕሮግራሚንግ ሙሉ ኮርስ ይሰጣል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Python, JavaScript, HTML/CSS, Java. From basics to advanced.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=400&h=200&fit=crop" alt="Password" class="card-img">
+    <div class="card-body">
+      <h3>🔑 Password Recovery</h3>
+      <p class="desc">የትኛውም ፓስዎርድ ሪከቨር ይደረጋል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Windows password, phone lock, email recovery, social media accounts.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.pexels.com/photos/31949740/pexels-photo-31949740.jpeg" alt="Photo Edit" class="card-img">
+    <div class="card-body">
+      <h3>🎨 Photo Editing & Video Editing</h3>
+      <p class="desc">ፎቶ  ማቀናበር እና ቪዲዮ ማቀናበር</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Background removal, retouching, color correction, photo manipulation.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1597673030062-0a0f1a801a31?w=400&h=200&fit=crop" alt="Repair" class="card-img">
+    <div class="card-body">
+      <h3>🔧 Device Repair</h3>
+      <p class="desc">የተበላሸ ዲቫይሶችን ማስተካከል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Software issues, virus removal, slow performance, boot problems.</div>
     </div>
   </div>
   
@@ -225,26 +327,6 @@
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=400&h=200&fit=crop" alt="OS" class="card-img">
-    <div class="card-body">
-      <h3>🪛 OS Installation</h3>
-      <p class="desc">የትኛውንም ኦፕሬቲንግ ሲስተም በርካሽ ዋጋ እንሸጣለን</p>
-      <span class="card-hint">+ More</span>
-      <div class="more">Full OS installation with drivers, essential software, and optimization. Clean setup guaranteed.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=200&fit=crop" alt="Security" class="card-img">
-    <div class="card-body">
-      <h3>🛡️ File Security</h3>
-      <p class="desc">ፍይል እና አካካውንት በሚገባ ይጠበቃል</p>
-      <span class="card-hint">+ More</span>
-      <div class="more">File encryption, secure backup, account protection, privacy settings. Keep your data safe.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1530133532239-eda6f53fcf0f?w=400&h=200&fit=crop" alt="Format" class="card-img">
     <div class="card-body">
       <h3>🔧 Device Formatting</h3>
@@ -255,39 +337,9 @@
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=200&fit=crop" alt="Computer" class="card-img">
-    <div class="card-body">
-      <h3>👨‍🏫 Computer Basics</h3>
-      <p class="desc">ስለ መሰረታዊ ኮምፒውተር ትምህርት ሙሉ ኮርስ ይሰጣል</p>
-      <span class="card-hint">+ More</span>
-      <div class="more">Learn typing, Microsoft Office, internet basics, file management. Perfect for beginners.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=400&h=200&fit=crop" alt="Programming" class="card-img">
-    <div class="card-body">
-      <h3>🧑‍💻 Learn Programming</h3>
-      <p class="desc">ስለ ፕሮግራሚንግ ሙሉ ኮርስ ይሰጣል</p>
-      <span class="card-hint">+ More</span>
-      <div class="more">Python, JavaScript, HTML/CSS, Java, and more. From basics to advanced. Hands-on projects included.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=400&h=200&fit=crop" alt="Password" class="card-img">
-    <div class="card-body">
-      <h3>🔑 Password Recovery</h3>
-      <p class="desc">የትኛውም ፓስዎርድ ሪከቨር ይደረጋል</p>
-      <span class="card-hint">+ More</span>
-      <div class="more">Windows password, phone lock, email recovery, social media accounts. Safe and confidential.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=200&fit=crop" alt="Web Dev" class="card-img">
     <div class="card-body">
-      <h3>🌐 Learn Web Dev</h3>
+      <h3>👨‍🏫 Learn Web Development</h3>
       <p class="desc">ዌብሳይት መፍጠር ማስተማር</p>
       <span class="card-hint">+ More</span>
       <div class="more">HTML, CSS, JavaScript, responsive design. Build your own websites from scratch.</div>
@@ -297,20 +349,10 @@
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=400&h=200&fit=crop" alt="Software Dev" class="card-img">
     <div class="card-body">
-      <h3>🛠️ Learn Software Dev</h3>
+      <h3>🛠️ Learn Software Development</h3>
       <p class="desc">ሶፍትዌር መፍጠር ማስተማር</p>
       <span class="card-hint">+ More</span>
       <div class="more">Desktop application development, databases, user interfaces. Complete software engineering course.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=400&h=200&fit=crop" alt="Photo Edit" class="card-img">
-    <div class="card-body">
-      <h3>🎨 Photo Editing</h3>
-      <p class="desc">ፎቶ ይቀናበራል</p>
-      <span class="card-hint">+ More</span>
-      <div class="more">Background removal, retouching, color correction, photo manipulation. Professional quality edits.</div>
     </div>
   </div>
   
@@ -327,20 +369,10 @@
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=200&fit=crop" alt="App Dev" class="card-img">
     <div class="card-body">
-      <h3>📱 Learn App Dev</h3>
+      <h3>📱 Learn App Development</h3>
       <p class="desc">አፕ መፍጠር ማስተማር</p>
       <span class="card-hint">+ More</span>
       <div class="more">Android app development, UI design, publishing to Play Store. Build your own mobile apps.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1597673030062-0a0f1a801a31?w=400&h=200&fit=crop" alt="Repair" class="card-img">
-    <div class="card-body">
-      <h3>🔧 Fix Damaged Devices</h3>
-      <p class="desc">የተበላሸ ዲቫይሶችን ማስተካከል</p>
-      <span class="card-hint">+ More</span>
-      <div class="more">Software issues, virus removal, slow performance, boot problems. Get your device working again.</div>
     </div>
   </div>
   
@@ -370,7 +402,7 @@
       <h3>🧰 Plus More</h3>
       <p class="desc">ተጨማሪ ካለ ከታች በቀረቡት ኮንታክቶች ያግኙኝ</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Have a different request? Contact us! We're flexible and ready to help with any tech need.</div>
+      <div class="more">Have a different request? Contact us! We're flexible and ready to help.</div>
     </div>
   </div>
 </section>
@@ -379,12 +411,12 @@
   <div class="cta-box">
     <h2>Interested in our <span>services</span>?</h2>
     <p>Get in touch with us today. We're here to help!</p>
-    <a href="com.html" class="btn-large">Contact Us</a>
+    <a href="com.html" class="btn-large">Contact Us →</a>
   </div>
 </section>
 
 <footer>
-  <p>© <span id="yr"></span> BENAYAS LEULSEGED — Jimma, Ethiopia</p>
+  <p>© <span id="yr"></span> BENAYAS LEULSEGED SOFTWARE COMMUNITY — Jimma, Ethiopia</p>
 </footer>
 <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 </body>
