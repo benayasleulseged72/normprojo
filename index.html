@@ -3,334 +3,313 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>BENAYAS LEULSEGED GETTED SERVICES BY TECHNOLOGY</title>
+<title>BLSC - Benayas Leulseged Software Community | Web & Software Services Ethiopia</title>
+<meta name="description" content="BLSC - Benayas Leulseged Software Community. Quality web development, software, app development, and tech services in Jimma, Ethiopia. Affordable prices, professional work.">
+<meta name="keywords" content="BLSC, blsc web, blsc adv, Benayas Leulseged, software community, web development Ethiopia, software development Jimma, app development, tech services Ethiopia">
+<meta name="author" content="Benayas Leulseged">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="BLSC - Benayas Leulseged Software Community">
+<meta property="og:description" content="Quality web development, software, and tech services in Jimma, Ethiopia">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://blsc.com/">
 <style>
-  :root{
-    --bg: radial-gradient(1200px 700px at 10% -10%, #00e5ff22, transparent 60%),
-          radial-gradient(1200px 700px at 110% 10%, #ff00e522, transparent 55%),
-          radial-gradient(900px 600px at 50% 120%, #00ff8a11, transparent 60%),
-          linear-gradient(180deg, #02010a 0%, #050818 40%, #02010a 100%);
-    --surface: #050816;
-    --surface-soft: #070f1f;
-    --surface-alt: #050310;
-    --border-soft: #1b2845;
-    --border-strong: #37f3ff;
-    --accent: #37f3ff;
-    --accent-soft: #00bcd4;
-    --accent-pink: #ff007a;
-    --text: #f5f7ff;
-    --muted: #7f8bb3;
-    --shadow-soft: 0 0 22px #00f6ff55;
-    /* smaller radius = closer to original structure */
-    --radius-lg: 14px;
-    --radius-md: 10px;
-  }
-  *{box-sizing:border-box;}
-  html,body{
-    margin:0;
-    height:100%;
-    font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
-    color:var(--text);
-    background:var(--bg);
-    background-attachment:fixed;
-  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
   body{
-    position:relative;
-    overflow-x:hidden;
-    /* simpler feel: remove continuous body glow animation */
+    font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background:#0d1117;
+    color:#e6edf3;
+    min-height:100vh;
   }
-  body::before{
-    content:"";
-    position:fixed;
-    inset:-40%;
-    background:
-      radial-gradient(circle at 0% 0%, #00f6ff20 0, transparent 55%),
-      radial-gradient(circle at 100% 0%, #ff00e520 0, transparent 55%),
-      radial-gradient(circle at 50% 120%, #00ff8a18 0, transparent 60%);
-    mix-blend-mode:screen;
-    opacity:.95;
-    pointer-events:none;
-    z-index:-2;
-  }
-  .grid-bg{
-    position: fixed; inset:0; pointer-events:none;
-    opacity:.22; mix-blend-mode:screen;
-    background-image:
-      linear-gradient(#151b33 1px, transparent 1px),
-      linear-gradient(90deg,#151b33 1px, transparent 1px);
-    background-size: 40px 40px, 40px 40px;
-    filter:drop-shadow(0 0 10px #00f6ff55);
-    z-index:-1;
-    /* static grid to keep background calm */
-  }
+  
   header{
-    position:sticky;
-    top:0;
-    background:linear-gradient(90deg,#050816f5,#050310f5);
-    backdrop-filter: blur(18px);
-    border-bottom:1px solid rgba(55,243,255,.5);
-    box-shadow:0 16px 45px #000000e0;
-    z-index:10;
+    background:rgba(13,17,23,0.95);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid #21262d;
+    position:sticky;top:0;z-index:100;
   }
   nav{
-    max-width:1100px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:12px 22px;
-  }
-  .brand{
-    display:flex;
-    gap:10px;
-    align-items:center;
-    font-weight:800;
-    letter-spacing:.09em;
-    text-transform:uppercase;
-    color:var(--text);
+    max-width:1200px;margin:auto;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;flex-wrap:wrap;gap:16px;
   }
   .logo{
-    width:44px;
-    height:44px;
-    border-radius:16px;
-    object-fit:cover;
-    border:1px solid rgba(55,243,255,.9);
-    box-shadow:0 0 24px #37f3ffbb;
-    background:#020617;
+    font-size:22px;font-weight:700;
+    color:#58a6ff;
   }
-  .chip{
-    font-size:11px;
-    padding:4px 10px;
-    border-radius:999px;
-    border:1px solid rgba(148, 163, 253,.6);
-    background:radial-gradient(circle at 0 0,#22d3ee44,transparent 55%);
-    color:var(--muted);
-    text-transform:uppercase;
-  }
-  nav a{
-    position:relative;
-    color:var(--muted);
+  .nav-links{display:flex;gap:8px;flex-wrap:wrap;}
+  .nav-links a{
     text-decoration:none;
-    margin-left:18px;
-    font-weight:600;
-    font-size:14px;
-    letter-spacing:.08em;
-    text-transform:uppercase;
+    color:#8b949e;
+    padding:10px 18px;
+    border-radius:8px;
+    font-weight:500;
+    font-size:15px;
+    transition:all 0.2s;
   }
-  nav a::after{
-    content:"";
-    position:absolute;
-    left:0;
-    right:0;
-    bottom:-4px;
-    height:2px;
-    background:linear-gradient(90deg,transparent,#37f3ff,#ff007a,transparent);
-    transform:scaleX(0);
-    transform-origin:center;
-    transition:transform .18s ease-out;
-  }
-  nav a:hover{
-    color:var(--accent);
-  }
-  nav a:hover::after{
-    transform:scaleX(1);
-  }
+  .nav-links a:hover{color:#e6edf3;background:#21262d;}
+  .nav-links a.active{color:#58a6ff;background:rgba(88,166,255,0.1);}
+  
   .hero{
-    max-width:1100px;
-    margin:22px auto 40px;
-    padding:18px 16px 30px;
-    display:grid;
-    grid-template-columns:1.25fr .85fr;
-    gap:20px;
+    background-image:url('2.jpg');
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    position:relative;
   }
-  @media (max-width:900px){
-    .hero{grid-template-columns:1fr;}
+  .hero::before{
+    content:'';
+    position:absolute;
+    top:0;left:0;right:0;bottom:0;
+    background:rgba(13,17,23,0.85);
   }
-  .title{
-    font-size:clamp(32px,5vw,56px);
-    line-height:1.02;
-    margin:.2em 0;
-    font-weight:900;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    text-shadow:0 0 22px #37f3ff88,0 0 34px #ff007a55;
-  }
-  .subtitle{
-    color:var(--muted);
-    font-size:clamp(14px,2.4vw,18px);
-  }
-  .cta{
-    display:flex;
-    gap:12px;
-    margin-top:22px;
+  .hero-inner{
+    max-width:1200px;margin:0 auto;
+    padding:100px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:50px;
     flex-wrap:wrap;
+    position:relative;
+    z-index:1;
   }
-  .btn{
-    padding:11px 20px;
-    border-radius:var(--radius-md);
-    border:1px solid #1f2937;
-    background:radial-gradient(circle at 0 0,#111827,#020617);
-    color:var(--text);
+  .hero-content{flex:1;min-width:300px;}
+  .hero-content h1{
+    font-size:clamp(32px,5vw,52px);
     font-weight:700;
-    cursor:pointer;
-    font-size:14px;
-    text-decoration:none;
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    transition:transform .14s ease-out, box-shadow .14s ease-out, border-color .14s ease-out, background .14s ease-out;
+    line-height:1.2;
+    margin-bottom:20px;
   }
-  .btn.primary{
-    background:linear-gradient(135deg,#22d3ee,#0ea5e9,#6366f1);
-    border-color:#37f3ff;
-    box-shadow:0 0 26px #0ea5e9aa;
-    text-shadow:0 0 10px #0f172a;
+  .hero-content h1 span{color:#3fb950;}
+  .hero-content p{
+    font-size:18px;
+    color:#8b949e;
+    line-height:1.7;
+    margin-bottom:30px;
+    max-width:500px;
+  }
+  .hero-image{flex:1;min-width:280px;text-align:center;}
+  .hero-image img{
+    width:220px;height:220px;
+    border-radius:50%;
+    border:4px solid #3fb950;
+    box-shadow:0 0 40px rgba(63,185,80,0.3);
+  }
+  
+  .btn{
+    display:inline-block;
+    padding:14px 32px;
+    background:#3fb950;
+    color:#0d1117;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:600;
+    font-size:16px;
+    transition:all 0.2s;
   }
   .btn:hover{
-    transform:translateY(-1px) translateZ(0);
-    box-shadow:0 20px 42px #000000e0, 0 0 26px #37f3ff99;
-    border-color:#37f3ff;
+    background:#2ea043;
+    transform:translateY(-2px);
+    box-shadow:0 8px 25px rgba(63,185,80,0.3);
   }
-  .panel{
-    background:radial-gradient(circle at 0 0,#111827,#020617);
-    border-radius:var(--radius-lg);
-    border:1px solid rgba(148, 163, 253,.7);
-    box-shadow:var(--shadow-soft);
-    padding:14px 14px 16px;
-    position:relative;
-    overflow:hidden;
+  .btn-outline{
+    background:transparent;
+    border:2px solid #3fb950;
+    color:#3fb950;
+    margin-left:12px;
   }
-  .panel::before{
-    content:"";
-    position:absolute;
-    inset:-40%;
-    background:conic-gradient(from 180deg,#37f3ff33,#ff007a66,#37f3ff33);
-    opacity:.22;
-    mix-blend-mode:screen;
-    filter:blur(34px);
-    pointer-events:none;
-    /* no rotation animation = calmer panel */
+  .btn-outline:hover{background:#3fb950;color:#0d1117;}
+  
+  .features{
+    max-width:1200px;margin:0 auto;
+    padding:60px 24px;
   }
-  .panel>*{position:relative;z-index:1;}
-  .kpis{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-top:14px;
-  }
-  @media (max-width:700px){
-    .kpis{grid-template-columns:repeat(2,1fr)}
-  }
-  .kpi{
-    background:radial-gradient(circle at 0 0,#020617,#020617);
-    border-radius:16px;
-    border:1px solid #1b2640;
-    padding:14px 14px 13px;
-    box-shadow:0 0 18px #020617;
-  }
-  .kpi .v{
-    font-size:22px;
-    font-weight:900;
-    color:#e5e7ff;
-    text-shadow:0 0 12px #37f3ff88;
-  }
-  .techs{
-    display:grid;
-    grid-template-columns:repeat(6,1fr);
-    gap:10px;
-    margin-top:12px;
-  }
-  @media (max-width:700px){.techs{grid-template-columns:repeat(3,1fr)}}
-  .tech{
-    background:radial-gradient(circle at 30% 0,#1e293b,#020617);
-    border-radius:12px;
-    border:1px solid #1f2937;
-    padding:10px;
+  .features h2{
     text-align:center;
-    font-size:22px;
-    box-shadow:0 0 18px #020617;
+    font-size:32px;
+    margin-bottom:50px;
   }
+  .features h2 span{color:#3fb950;}
+  
+  .feature-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+    gap:24px;
+  }
+  .feature-card{
+    background:#161b22;
+    border:1px solid #21262d;
+    border-radius:12px;
+    padding:28px;
+    transition:all 0.3s;
+  }
+  .feature-card:hover{
+    border-color:#3fb950;
+    transform:translateY(-4px);
+    box-shadow:0 12px 40px rgba(0,0,0,0.4);
+  }
+  .feature-card .icon{
+    width:50px;height:50px;
+    background:rgba(63,185,80,0.15);
+    border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;
+    margin-bottom:16px;
+  }
+  .feature-card h3{font-size:20px;margin-bottom:10px;color:#e6edf3;}
+  .feature-card p{color:#8b949e;line-height:1.6;font-size:15px;}
+  
+  .pages-section{
+    max-width:1200px;margin:0 auto;
+    padding:60px 24px;
+  }
+  .pages-section h2{
+    text-align:center;
+    font-size:32px;
+    margin-bottom:50px;
+  }
+  .pages-section h2 span{color:#3fb950;}
+  
+  .pages-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+    gap:24px;
+  }
+  .page-card{
+    background:#161b22;
+    border:1px solid #21262d;
+    border-radius:16px;
+    overflow:hidden;
+    text-decoration:none;
+    transition:all 0.3s;
+  }
+  .page-card:hover{
+    border-color:#3fb950;
+    transform:translateY(-6px);
+    box-shadow:0 16px 50px rgba(0,0,0,0.5);
+  }
+  .page-card img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+  }
+  .page-card-content{
+    padding:20px;
+  }
+  .page-card h3{
+    font-size:20px;
+    color:#e6edf3;
+    margin-bottom:8px;
+  }
+  .page-card p{
+    color:#8b949e;
+    font-size:14px;
+  }
+  
+  .stats{
+    background:#161b22;
+    border-top:1px solid #21262d;
+    border-bottom:1px solid #21262d;
+    padding:50px 24px;
+    margin:60px 0;
+  }
+  .stats-grid{
+    max-width:1000px;margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+    gap:30px;
+    text-align:center;
+  }
+  .stat-item h3{font-size:42px;color:#3fb950;margin-bottom:8px;}
+  .stat-item p{color:#8b949e;font-size:15px;}
+  
   footer{
-    max-width:1100px;
-    margin:0 auto 32px;
-    padding:10px 20px;
-    color:var(--muted);
-    font-size:13px;
-    letter-spacing:.08em;
-    text-transform:uppercase;
+    text-align:center;
+    padding:40px 24px;
+    color:#8b949e;
+    font-size:14px;
+    border-top:1px solid #21262d;
   }
 </style>
 </head>
 <body>
-<div class="grid-bg"></div>
+
+<audio autoplay>
+  <source src="1.mp3" type="audio/mpeg">
+</audio>
 
 <header>
   <nav>
-    <div class="brand">
-      <img src="1.png" alt="BENAYAS logo" class="logo">
-      <span class="chip">Tech Services</span>
-      <span>BENAYAS LEULSEGED</span>
-    </div>
-    <div>
-      <a href="index.html">Home</a>
-      <a href="services.html">Services & Contact</a>
-      <a href="thanks.html">Thanks & Comment</a>
+    <div class="logo">BENAYAS LEULSEGED</div>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="serv.html">Services</a>
+      <a href="com.html">Contact</a>
     </div>
   </nav>
 </header>
 
 <section class="hero">
-  <div>
-    <div class="chip">Ethiopia • Jimma</div>
-    <h1 class="title">BENAYAS SERVICES BY TECHNOLOGY</h1>
-    <p 
-     <h3 class="subtitle">
-      ሰላም ኢትዮጵያ ይህ የሃርድዌር እና የሶፍትዌር ቴክኖሎጂ አግልግሎት የሚሰጥበት ድርጅት ነው፡፡ ከቀረቡት አንዱ ወይም ከዛ በላይ ከሆኑ አግልግሎቶች የእርስዎ ፍላጎት ከሆነ በቀረቡት ኮንታክት ኢንፎ መገናኘት ይቻላል፡፡ አግልግሎቶቹን ለማወቅ See services ይጫኑ
-     </h3>
-    </p>
-    <div class="cta">
-      <a class="btn primary" href="services.html">See Services</a>
-     
+  <div class="hero-inner">
+    <div class="hero-content">
+      <h1>Quality <span>Software</span> & Technology Services</h1>
+      <p>We provide premium hardware and software solutions at affordable prices. From web development to app creation, we've got you covered.</p>
+      <a href="serv.html" class="btn">View Services</a>
+      <a href="com.html" class="btn btn-outline">Contact Us</a>
     </div>
-
-    <div class="kpis">
-      <div class="kpi"><div class="v">24/7</div><div>Support</div></div>
-      <div class="kpi"><div class="v">15+</div><div>Core Services</div></div>
-      <div class="kpi"><div class="v">Trusted services</div><div>all</div></div>
-      <div class="kpi"><div class="v">24/7</div><div>ድጋፍ</div></div>
-      <div class="kpi"><div class="v">15+</div><div>የቴክኖሎጂ አገልግሎቶች</div></div>
-     
+    <div class="hero-image">
+      <img src="1.png" alt="Logo">
     </div>
   </div>
+</section>
 
-  <div class="panel">
-    <h3 style="margin:0 0 10px 0;">Technology Stack I Use</h3>
-    <div class="techs">
-      <div class="tech">🌐</div>
-      <div class="tech">⚙️</div>
-      <div class="tech">💾</div>
-      <div class="tech">🧠</div>
-      <div class="tech">🔐</div>
-      <div class="tech">🖥️</div>
-      <div class="tech">📱</div>
-      <div class="tech">🕹️</div>
-      <div class="tech">🛠️</div>
-      <div class="tech">☁️</div>
-      <div class="tech">🐧</div>
-      <div class="tech">🪟</div>
+<section class="pages-section">
+  <h2>Explore <span>Our Pages</span></h2>
+  <div class="pages-grid">
+    <a href="about.html" class="page-card">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop" alt="About Us">
+      <div class="page-card-content">
+        <h3>About Us</h3>
+        <p>Learn more about who we are</p>
+      </div>
+    </a>
+    <a href="serv.html" class="page-card">
+      <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=250&fit=crop" alt="Services">
+      <div class="page-card-content">
+        <h3>Our Services</h3>
+        <p>View all services we offer</p>
+      </div>
+    </a>
+    <a href="com.html" class="page-card">
+      <img src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=400&h=250&fit=crop" alt="Contact">
+      <div class="page-card-content">
+        <h3>Contact Us</h3>
+        <p>Get in touch with us</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <h3>20+</h3>
+      <p>Services Offered</p>
     </div>
-    <p style="color:#9fb2d6;margin-top:12px;font-size:14px">
-      click see services to see more
-    </p>
+    <div class="stat-item">
+      <h3>100%</h3>
+      <p>Client Satisfaction</p>
+    </div>
+    <div class="stat-item">
+      <h3>24/7</h3>
+      <p>Support Available</p>
+    </div>
   </div>
 </section>
 
 <footer>
-  © <span id="yr"></span> BENAYAS LEULSEGED — Jimma, Ethiopia
+  <p>© <span id="yr"></span> BENAYAS LEULSEGED — Jimma, Ethiopia</p>
 </footer>
-
-<script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
-</script>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 </body>
 </html>

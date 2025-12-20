@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Services - BLSC | Web Development, Software, Apps | Jimma Ethiopia</title>
+<meta name="description" content="BLSC Services: Website creation, software development, app development, OS installation, tech support, programming courses in Jimma, Ethiopia. Affordable prices.">
+<meta name="keywords" content="BLSC services, blsc web, blsc adv, web development Ethiopia, software development, app development, tech services Jimma, programming courses">
+<meta name="author" content="Benayas Leulseged">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="BLSC Services - Web, Software, Apps">
+<meta property="og:description" content="Quality tech services in Jimma, Ethiopia at affordable prices">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://blsc.com/serv.html">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background:#0d1117;
+    color:#e6edf3;
+    min-height:100vh;
+  }
+  
+  header{
+    background:rgba(13,17,23,0.95);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid #21262d;
+    position:sticky;top:0;z-index:100;
+  }
+  nav{
+    max-width:1200px;margin:auto;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;flex-wrap:wrap;gap:16px;
+  }
+  .logo{font-size:22px;font-weight:700;color:#58a6ff;}
+  .nav-links{display:flex;gap:8px;flex-wrap:wrap;}
+  .nav-links a{
+    text-decoration:none;color:#8b949e;padding:10px 18px;
+    border-radius:8px;font-weight:500;font-size:15px;transition:all 0.2s;
+  }
+  .nav-links a:hover{color:#e6edf3;background:#21262d;}
+  .nav-links a.active{color:#58a6ff;background:rgba(88,166,255,0.1);}
+  
+  .page-header{
+    text-align:center;
+    padding:60px 24px 40px;
+    max-width:800px;margin:auto;
+  }
+  .page-header h1{font-size:clamp(28px,5vw,42px);margin-bottom:16px;}
+  .page-header h1 span{color:#3fb950;}
+  .page-header h3{color:#3fb950;font-weight:500;margin-bottom:12px;font-size:18px;}
+  .page-header p{color:#8b949e;font-size:17px;line-height:1.7;}
+  
+  .services{
+    max-width:1200px;margin:0 auto;
+    padding:0 24px 60px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+    gap:24px;
+  }
+  
+  .card{
+    background:#161b22;
+    border:1px solid #21262d;
+    border-radius:16px;
+    overflow:hidden;
+    transition:all 0.3s;
+    cursor:pointer;
+  }
+  .card:hover{
+    border-color:#3fb950;
+    transform:translateY(-6px);
+    box-shadow:0 16px 50px rgba(0,0,0,0.5);
+  }
+  .card-img{
+    width:100%;
+    height:160px;
+    object-fit:cover;
+    border-bottom:1px solid #21262d;
+  }
+  .card-body{padding:20px;}
+  .card h3{font-size:18px;margin-bottom:10px;color:#e6edf3;}
+  .card .desc{color:#8b949e;font-size:14px;line-height:1.6;}
+  .card .more{
+    display:none;
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid #21262d;
+    color:#3fb950;
+    font-size:13px;
+    line-height:1.7;
+  }
+  .card.open .more{display:block;}
+  .card-hint{
+    display:inline-block;
+    color:#58a6ff;
+    font-size:13px;
+    margin-top:12px;
+    padding:6px 12px;
+    background:rgba(88,166,255,0.1);
+    border-radius:20px;
+  }
+  .card.open .card-hint{display:none;}
+  
+  .cta-section{
+    max-width:800px;margin:0 auto;
+    padding:0 24px 60px;
+    text-align:center;
+  }
+  .cta-box{
+    background:#161b22;
+    border:1px solid #21262d;
+    border-radius:16px;
+    padding:40px;
+  }
+  .cta-box h2{font-size:28px;margin-bottom:12px;}
+  .cta-box h2 span{color:#3fb950;}
+  .cta-box p{color:#8b949e;margin-bottom:24px;font-size:16px;}
+  
+  .btn-large{
+    display:inline-block;
+    padding:16px 36px;
+    background:#3fb950;
+    color:#0d1117;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:600;
+    font-size:16px;
+    transition:all 0.2s;
+  }
+  .btn-large:hover{
+    background:#2ea043;
+    transform:translateY(-2px);
+    box-shadow:0 8px 25px rgba(63,185,80,0.3);
+  }
+  
+  footer{
+    text-align:center;
+    padding:40px 24px;
+    color:#8b949e;
+    font-size:14px;
+    border-top:1px solid #21262d;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">BENAYAS LEULSEGED</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="serv.html" class="active">Services</a>
+      <a href="com.html">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<div class="page-header">
+  <h1>Our <span>Services</span></h1>
+  <h3>የሚሰጡት አገልግሎቶች</h3>
+  <p>ጥራት ባለው ስራ በተመጣጣኝ ዋጋ የሚፈልጉትን ስራ በአግባቡ ይሰራል</p>
+</div>
+
+<section class="services">
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=400&h=200&fit=crop" alt="Website" class="card-img">
+    <div class="card-body">
+      <h3>🌐 Website Creation</h3>
+      <p class="desc">ጥራት ያለው ዌብሳይት በፈለጉት መልክ ይሰራል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Personal websites, business sites, e-commerce, portfolios. Responsive design for all devices. Fast delivery and affordable prices.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop" alt="Software" class="card-img">
+    <div class="card-body">
+      <h3>💻 Software Development</h3>
+      <p class="desc">ምርጥ ሶፍትዌር ይሰራል: ለድርጅቶች፣ ለትምህርት ወዘተ...</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Custom desktop applications, management systems, inventory software, school systems, and more. Built to your exact needs.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=200&fit=crop" alt="App" class="card-img">
+    <div class="card-body">
+      <h3>📱 Private App Development</h3>
+      <p class="desc">በእርስዎ ዲቫይስ ብቻ የሚሰራ አፕ ይሰራል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Android apps designed exclusively for your device. Private, secure, and customized to your requirements.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400&h=200&fit=crop" alt="Games" class="card-img">
+    <div class="card-body">
+      <h3>🕹️ Games Setup & Sales</h3>
+      <p class="desc">የትኛውንም game በተመጣጣኝ ዋጋ ይሸጣል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">PC games, mobile games, game installation and setup. All popular titles available at good prices.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&h=200&fit=crop" alt="USB" class="card-img">
+    <div class="card-body">
+      <h3>💽 Bootable USB OS</h3>
+      <p class="desc">የትኛውንም ኦፕሬቲንግ ሲስተም በድራይቭ እንጭናለን</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Windows 7/8/10/11, Linux distributions, recovery tools. Ready-to-use bootable USB drives.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=400&h=200&fit=crop" alt="OS" class="card-img">
+    <div class="card-body">
+      <h3>🪛 OS Installation</h3>
+      <p class="desc">የትኛውንም ኦፕሬቲንግ ሲስተም በርካሽ ዋጋ እንሸጣለን</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Full OS installation with drivers, essential software, and optimization. Clean setup guaranteed.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=200&fit=crop" alt="Security" class="card-img">
+    <div class="card-body">
+      <h3>🛡️ File Security</h3>
+      <p class="desc">ፍይል እና አካካውንት በሚገባ ይጠበቃል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">File encryption, secure backup, account protection, privacy settings. Keep your data safe.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1530133532239-eda6f53fcf0f?w=400&h=200&fit=crop" alt="Format" class="card-img">
+    <div class="card-body">
+      <h3>🔧 Device Formatting</h3>
+      <p class="desc">የትኛውም ዲቫይስ ፎርማት ይደረጋል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Complete device reset, data backup before format, fresh start for phones, tablets, and computers.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=200&fit=crop" alt="Computer" class="card-img">
+    <div class="card-body">
+      <h3>👨‍🏫 Computer Basics</h3>
+      <p class="desc">ስለ መሰረታዊ ኮምፒውተር ትምህርት ሙሉ ኮርስ ይሰጣል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Learn typing, Microsoft Office, internet basics, file management. Perfect for beginners.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=400&h=200&fit=crop" alt="Programming" class="card-img">
+    <div class="card-body">
+      <h3>🧑‍💻 Learn Programming</h3>
+      <p class="desc">ስለ ፕሮግራሚንግ ሙሉ ኮርስ ይሰጣል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Python, JavaScript, HTML/CSS, Java, and more. From basics to advanced. Hands-on projects included.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=400&h=200&fit=crop" alt="Password" class="card-img">
+    <div class="card-body">
+      <h3>🔑 Password Recovery</h3>
+      <p class="desc">የትኛውም ፓስዎርድ ሪከቨር ይደረጋል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Windows password, phone lock, email recovery, social media accounts. Safe and confidential.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop" alt="Web Dev" class="card-img">
+    <div class="card-body">
+      <h3>🌐 Learn Web Dev</h3>
+      <p class="desc">ዌብሳይት መፍጠር ማስተማር</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">HTML, CSS, JavaScript, responsive design. Build your own websites from scratch.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=400&h=200&fit=crop" alt="Software Dev" class="card-img">
+    <div class="card-body">
+      <h3>🛠️ Learn Software Dev</h3>
+      <p class="desc">ሶፍትዌር መፍጠር ማስተማር</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Desktop application development, databases, user interfaces. Complete software engineering course.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=400&h=200&fit=crop" alt="Photo Edit" class="card-img">
+    <div class="card-body">
+      <h3>🎨 Photo Editing</h3>
+      <p class="desc">ፎቶ ይቀናበራል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Background removal, retouching, color correction, photo manipulation. Professional quality edits.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&h=200&fit=crop" alt="Documents" class="card-img">
+    <div class="card-body">
+      <h3>🧾 Printable Documents</h3>
+      <p class="desc">ጥራት ያለው ፕሪንት ሚሆን ዶክመንት ይሰራል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">CVs, certificates, business cards, flyers, reports. Print-ready professional documents.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=200&fit=crop" alt="App Dev" class="card-img">
+    <div class="card-body">
+      <h3>📱 Learn App Dev</h3>
+      <p class="desc">አፕ መፍጠር ማስተማር</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Android app development, UI design, publishing to Play Store. Build your own mobile apps.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1597673030062-0a0f1a801a31?w=400&h=200&fit=crop" alt="Repair" class="card-img">
+    <div class="card-body">
+      <h3>🔧 Fix Damaged Devices</h3>
+      <p class="desc">የተበላሸ ዲቫይሶችን ማስተካከል</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Software issues, virus removal, slow performance, boot problems. Get your device working again.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400&h=200&fit=crop" alt="School" class="card-img">
+    <div class="card-body">
+      <h3>📡 School Club Projects</h3>
+      <p class="desc">በክለብ ውስጥ የሚሰጡ የቴክኖሎጂ ፕሮጀክቶች እርዳታ</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Science fair projects, tech demonstrations, coding workshops. Help for students and teachers.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?w=400&h=200&fit=crop" alt="Software" class="card-img">
+    <div class="card-body">
+      <h3>💽 Software Purchasing</h3>
+      <p class="desc">የማይገኙ ሶፍትዌር እና አፖችን በተመጣጣኝ ዋጋ</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Hard-to-find software, premium apps, licensed programs. We can get what you need.</div>
+    </div>
+  </div>
+  
+  <div class="card" onclick="this.classList.toggle('open')">
+    <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop" alt="More" class="card-img">
+    <div class="card-body">
+      <h3>🧰 Plus More</h3>
+      <p class="desc">ተጨማሪ ካለ ከታች በቀረቡት ኮንታክቶች ያግኙኝ</p>
+      <span class="card-hint">+ More</span>
+      <div class="more">Have a different request? Contact us! We're flexible and ready to help with any tech need.</div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="cta-box">
+    <h2>Interested in our <span>services</span>?</h2>
+    <p>Get in touch with us today. We're here to help!</p>
+    <a href="com.html" class="btn-large">Contact Us</a>
+  </div>
+</section>
+
+<footer>
+  <p>© <span id="yr"></span> BENAYAS LEULSEGED — Jimma, Ethiopia</p>
+</footer>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
