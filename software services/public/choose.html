@@ -326,12 +326,12 @@
         const params = new URLSearchParams(window.location.search);
         const app = params.get('app');
         const apps = {
-            'gallery': { icon: '🖼️', name: 'BLSC <span>Gallery</span>', desc: 'Manage your images', url: 'gal/gal.html', appName: 'BLSC Gallery' },
-            'translator': { icon: '🌍', name: 'BLSC <span>Translator</span>', desc: 'Break language barriers', url: 'lang/la.html', appName: 'BLSC Translator' },
-            'images': { icon: '🔍', name: 'BLSC <span>Image Stock</span>', desc: 'Search free photos', url: 'images/index.html', appName: 'BLSC Images' },
-            'ai-image': { icon: '🎨', name: 'BLSC <span>AI Image</span>', desc: 'Generate images with AI', url: 'sis/sis.html', appName: 'BLSC AI Image' },
+            'gallery': { icon: '🖼️', name: 'BLSC <span>Gallery</span>', desc: 'Manage your images', url: 'gal/ga.html', appName: 'BLSC Gallery' },
+            'translator': { icon: '🌍', name: 'BLSC <span>Translator</span>', desc: 'Break language barriers', url: 'lang/lang.html', appName: 'BLSC Translator' },
+            'images': { icon: '🔍', name: 'BLSC <span>Image Stock</span>', desc: 'Search free photos', url: 'images/image-search.html', appName: 'BLSC Images' },
+            'ai-image': { icon: '🎨', name: 'BLSC <span>AI Image</span>', desc: 'Generate images with AI', url: 'sis/siso.html', appName: 'BLSC AI Image' },
             'ai-video': { icon: '🎬', name: 'BLSC <span>AI Video</span>', desc: 'Create videos with AI', url: 'videgn/vdg.html', appName: 'BLSC AI Video' },
-            'browser': { icon: '🌐', name: 'BLSC <span>Browser</span>', desc: 'Fast secure browsing', url: 'brs/brs.html', appName: 'BLSC Browser' },
+            'browser': { icon: '🌐', name: 'BLSC <span>Browser</span>', desc: 'Fast secure browsing', url: 'brs/browser.html', appName: 'BLSC Browser' },
             'websites': { icon: '⭐', name: 'Important <span>Websites</span>', desc: 'Essential resources', url: 'impweb/impweb.html', appName: 'Important Websites' }
         };
         let currentApp = apps[app] || apps['gallery'];
