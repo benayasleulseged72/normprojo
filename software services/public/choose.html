@@ -24,114 +24,219 @@
             z-index: -1;
         }
         .back-btn {
-            position: fixed;
-            top: 30px;
-            left: 30px;
+            position: fixed; top: 30px; left: 30px;
             padding: 12px 24px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 100px;
-            color: #fff;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
+            color: #fff; font-size: 14px; font-weight: 500;
+            cursor: pointer; text-decoration: none;
             transition: all 0.3s;
         }
-        .back-btn:hover {
-            background: #3fb950;
-            color: #000;
-            border-color: #3fb950;
-        }
-        .container {
-            text-align: center;
-            padding: 40px;
-            max-width: 800px;
-        }
-        .app-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-        h1 {
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
+        .back-btn:hover { background: #3fb950; color: #000; border-color: #3fb950; }
+        .container { text-align: center; padding: 40px; max-width: 900px; }
+        .app-icon { font-size: 80px; margin-bottom: 20px; }
+        h1 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
         h1 span { color: #3fb950; }
-        .subtitle {
-            color: rgba(255,255,255,0.6);
-            font-size: 16px;
-            margin-bottom: 50px;
-        }
-        .choose-title {
-            font-size: 20px;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 30px;
-        }
-        .options {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 16px; margin-bottom: 50px; }
+        .choose-title { font-size: 20px; color: rgba(255,255,255,0.8); margin-bottom: 30px; }
+        .options { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
         .option-card {
             background: rgba(255,255,255,0.03);
             border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 40px;
-            width: 280px;
-            cursor: pointer;
-            transition: all 0.4s;
-            text-decoration: none;
-            color: inherit;
+            border-radius: 24px; padding: 40px; width: 280px;
+            cursor: pointer; transition: all 0.4s;
+            text-decoration: none; color: inherit;
         }
         .option-card:hover {
             transform: translateY(-10px);
             border-color: #3fb950;
             box-shadow: 0 30px 60px rgba(0,0,0,0.4);
         }
-        .option-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-            display: block;
-        }
-        .option-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #fff;
-        }
-        .option-desc {
-            font-size: 14px;
-            color: rgba(255,255,255,0.5);
-            line-height: 1.6;
-        }
+        .option-icon { font-size: 60px; margin-bottom: 20px; display: block; }
+        .option-title { font-size: 22px; font-weight: 700; margin-bottom: 10px; color: #fff; }
+        .option-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.6; }
         .option-card.web:hover { border-color: #58a6ff; }
-        .option-card.web:hover .option-icon { color: #58a6ff; }
         .option-card.desktop:hover { border-color: #3fb950; }
-        .option-card.desktop:hover .option-icon { color: #3fb950; }
         .badge {
-            display: inline-block;
-            padding: 6px 14px;
-            background: rgba(63,185,80,0.15);
+            display: inline-block; padding: 6px 14px;
+            background: rgba(63,185,80,0.15); color: #3fb950;
+            border-radius: 100px; font-size: 12px; font-weight: 600; margin-top: 15px;
+        }
+        .badge.blue { background: rgba(88,166,255,0.15); color: #58a6ff; }
+        
+        /* Icon Section */
+        .icon-section {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(63,185,80,0.3);
+            border-radius: 24px;
+            padding: 50px 40px;
+            margin-top: 40px;
+        }
+        .icon-section h3 {
+            font-size: 28px;
+            margin-bottom: 30px;
             color: #3fb950;
+            font-weight: 700;
+        }
+        .icon-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .icon-preview {
+            width: 100px;
+            height: 100px;
+            background: #fff;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .icon-preview img {
+            width: 72px;
+            height: 72px;
+        }
+        .download-icon-btn {
+            padding: 18px 36px;
+            background: linear-gradient(135deg, #3fb950, #2ea043);
+            color: #fff;
+            border: none;
             border-radius: 100px;
-            font-size: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(63,185,80,0.3);
+        }
+        .download-icon-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(63,185,80,0.5);
+        }
+        .how-to-btn {
+            padding: 18px 36px;
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 100px;
+            font-size: 18px;
             font-weight: 600;
-            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
         }
-        .badge.blue {
-            background: rgba(88,166,255,0.15);
-            color: #58a6ff;
+        .how-to-btn:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.4);
         }
-        footer {
+        
+        /* Modal */
+        .modal {
+            display: none;
             position: fixed;
-            bottom: 30px;
-            left: 0; right: 0;
-            text-align: center;
-            color: rgba(255,255,255,0.3);
-            font-size: 12px;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
+        .modal.show { display: flex; }
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-content h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #3fb950;
+        }
+        .modal-content .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .steps {
+            text-align: left;
+        }
+        .step {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .step-num {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #3fb950;
+            color: #000;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .step-desc {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-left: 40px;
+        }
+        .close-modal-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: #3fb950;
+            color: #000;
+            border: none;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        footer {
+            position: fixed; bottom: 30px; left: 0; right: 0;
+            text-align: center; color: rgba(255,255,255,0.3); font-size: 12px;
+        }
+        .installing {
+            display: none; position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.9); z-index: 1000;
+            align-items: center; justify-content: center; flex-direction: column;
+        }
+        .installing.show { display: flex; }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 3px solid rgba(63,185,80,0.3);
+            border-top-color: #3fb950;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .installing p { color: #3fb950; font-size: 18px; }
     </style>
 </head>
 <body>
@@ -142,68 +247,141 @@
         <div class="app-icon" id="appIcon">🖼️</div>
         <h1 id="appName">BLSC <span>Gallery</span></h1>
         <p class="subtitle" id="appDesc">Manage and showcase your images</p>
-        
         <p class="choose-title">How would you like to use this app?</p>
         
         <div class="options">
             <a href="#" class="option-card web" id="webOption">
                 <span class="option-icon">🌐</span>
                 <h3 class="option-title">Use Web</h3>
-                <p class="option-desc">Open directly in your browser. No installation needed.</p>
+                <p class="option-desc">Open directly in your browser</p>
                 <span class="badge blue">Instant Access</span>
             </a>
-            
-            <div class="option-card desktop" id="desktopOption" onclick="installApp()">
+            <div class="option-card desktop" id="desktopOption">
                 <span class="option-icon">💻</span>
                 <h3 class="option-title">Desktop App</h3>
-                <p class="option-desc">Install as app on your device for offline access.</p>
+                <p class="option-desc">Install as app on your device</p>
                 <span class="badge">Install Now</span>
             </div>
         </div>
+        
+        <!-- Icon Download Section -->
+        <div class="icon-section">
+            <h3>🎨 Custom App Icon</h3>
+            <div class="icon-row">
+                <div class="icon-preview">
+                    <img src="1.ico" alt="BLSC Icon">
+                </div>
+                <button class="download-icon-btn" onclick="downloadIcon()">
+                    ⬇️ Download Icon
+                </button>
+                <button class="how-to-btn" onclick="showHowTo()">
+                    ❓ How to Change Icon
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- How To Modal -->
+    <div class="modal" id="howToModal">
+        <div class="modal-content">
+            <h2>🎨 How to Change App Icon</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-title"><span class="step-num">1</span>Download the Icon</div>
+                    <p class="step-desc">Click "Download Icon" button to save BLSC-Icon.ico to your computer</p>
+                </div>
+                <div class="step">
+                    <div class="step-title"><span class="step-num">2</span>Find the Shortcut</div>
+                    <p class="step-desc">Right-click on the app shortcut on your Desktop</p>
+                </div>
+                <div class="step">
+                    <div class="step-title"><span class="step-num">3</span>Open Properties</div>
+                    <p class="step-desc">Click "Properties" at the bottom of the menu</p>
+                </div>
+                <div class="step">
+                    <div class="step-title"><span class="step-num">4</span>Change Icon</div>
+                    <p class="step-desc">Click "Change Icon..." button, then "Browse..."</p>
+                </div>
+                <div class="step">
+                    <div class="step-title"><span class="step-num">5</span>Select the Icon</div>
+                    <p class="step-desc">Navigate to your Downloads folder, select BLSC-Icon.ico, click "Open"</p>
+                </div>
+                <div class="step">
+                    <div class="step-title"><span class="step-num">6</span>Apply Changes</div>
+                    <p class="step-desc">Click "OK" then "Apply" to save your new icon!</p>
+                </div>
+            </div>
+            <button class="close-modal-btn" onclick="closeHowTo()">Got it!</button>
+        </div>
+    </div>
+    
+    <div class="installing" id="installing">
+        <div class="spinner"></div>
+        <p>Opening app...</p>
     </div>
     
     <footer>© BENAYAS LEULSEGED SOFTWARE COMMUNITY</footer>
     
     <script>
-        // Get URL parameters
         const params = new URLSearchParams(window.location.search);
         const app = params.get('app');
-        const webUrl = params.get('url');
-        
-        // App configurations
         const apps = {
-            'gallery': { icon: '🖼️', name: 'BLSC <span>Gallery</span>', desc: 'Manage and showcase your images', url: 'gal/gal.html' },
-            'translator': { icon: '🌍', name: 'BLSC <span>Translator</span>', desc: 'Break language barriers', url: 'lang/la.html' },
-            'images': { icon: '🔍', name: 'BLSC <span>Image Stock</span>', desc: 'Search millions of free photos', url: 'images/index.html' },
-            'ai-image': { icon: '🎨', name: 'BLSC <span>AI Image</span>', desc: 'Generate images with AI', url: 'sis/sis.html' },
-            'ai-video': { icon: '🎬', name: 'BLSC <span>AI Video</span>', desc: 'Create videos with AI', url: 'videgn/vdg.html' },
-            'browser': { icon: '🌐', name: 'BLSC <span>Browser</span>', desc: 'Fast and secure browsing', url: 'brs/brs.html' },
-            'websites': { icon: '⭐', name: 'Important <span>Websites</span>', desc: 'Essential web resources', url: 'impweb/impweb.html' }
+            'gallery': { icon: '🖼️', name: 'BLSC <span>Gallery</span>', desc: 'Manage your images', url: 'gal/gal.html', appName: 'BLSC Gallery' },
+            'translator': { icon: '🌍', name: 'BLSC <span>Translator</span>', desc: 'Break language barriers', url: 'lang/la.html', appName: 'BLSC Translator' },
+            'images': { icon: '🔍', name: 'BLSC <span>Image Stock</span>', desc: 'Search free photos', url: 'images/index.html', appName: 'BLSC Images' },
+            'ai-image': { icon: '🎨', name: 'BLSC <span>AI Image</span>', desc: 'Generate images with AI', url: 'sis/sis.html', appName: 'BLSC AI Image' },
+            'ai-video': { icon: '🎬', name: 'BLSC <span>AI Video</span>', desc: 'Create videos with AI', url: 'videgn/vdg.html', appName: 'BLSC AI Video' },
+            'browser': { icon: '🌐', name: 'BLSC <span>Browser</span>', desc: 'Fast secure browsing', url: 'brs/brs.html', appName: 'BLSC Browser' },
+            'websites': { icon: '⭐', name: 'Important <span>Websites</span>', desc: 'Essential resources', url: 'impweb/impweb.html', appName: 'Important Websites' }
         };
+        let currentApp = apps[app] || apps['gallery'];
+        let deferredPrompt = null;
         
-        // Set app info
-        if (app && apps[app]) {
-            document.getElementById('appIcon').textContent = apps[app].icon;
-            document.getElementById('appName').innerHTML = apps[app].name;
-            document.getElementById('appDesc').textContent = apps[app].desc;
-            document.getElementById('webOption').href = apps[app].url;
-        } else if (webUrl) {
-            document.getElementById('webOption').href = webUrl;
+        document.getElementById('appIcon').textContent = currentApp.icon;
+        document.getElementById('appName').innerHTML = currentApp.name;
+        document.getElementById('appDesc').textContent = currentApp.desc;
+        document.getElementById('webOption').href = currentApp.url;
+        
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+        
+        document.getElementById('desktopOption').addEventListener('click', async () => {
+            document.getElementById('installing').classList.add('show');
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                setTimeout(() => { window.location.href = currentApp.url; }, 500);
+            } else {
+                const w = 1200, h = 800;
+                const l = (screen.width - w) / 2, t = (screen.height - h) / 2;
+                window.open(currentApp.url, currentApp.appName, 
+                    `width=${w},height=${h},left=${l},top=${t},menubar=no,toolbar=no,location=no,status=no`);
+                setTimeout(() => { document.getElementById('installing').classList.remove('show'); }, 1000);
+            }
+        });
+        
+        function showHowTo() {
+            document.getElementById('howToModal').classList.add('show');
         }
         
-        // Install as PWA
-        function installApp() {
-            const url = document.getElementById('webOption').href;
-            
-            // Check if browser supports PWA installation
-            if ('BeforeInstallPromptEvent' in window || navigator.standalone !== undefined) {
-                alert('To install as Desktop App:\n\n1. Click "Use Web" first\n2. In Chrome: Click ⋮ menu → "Install app" or "Add to Home screen"\n3. In Edge: Click ⋯ menu → "Apps" → "Install this site as an app"');
-            } else {
-                alert('To install as Desktop App:\n\n1. Open the web version first\n2. In your browser menu, look for "Install" or "Add to Home screen" option\n3. Follow the prompts to install');
-            }
-            
-            // Open the web version
-            window.location.href = url;
+        function closeHowTo() {
+            document.getElementById('howToModal').classList.remove('show');
+        }
+        
+        // Close modal on outside click
+        document.getElementById('howToModal').addEventListener('click', (e) => {
+            if (e.target.id === 'howToModal') closeHowTo();
+        });
+        
+        // Force download icon
+        function downloadIcon() {
+            const a = document.createElement('a');
+            a.href = '1.ico';
+            a.download = 'BLSC-Icon.ico';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
     </script>
 </body>
