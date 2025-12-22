@@ -22,6 +22,17 @@
             overflow-x: hidden;
         }
 
+        .lang-select {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .lang-select option { background: #1a1a1a; }
+
         /* Navigation */
         nav {
             display: flex;
@@ -331,24 +342,35 @@
             <span>BLSC</span>
         </a>
         <ul class="nav-links">
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="../about.html">About</a></li>
-            <li><a href="../serv.html">Services</a></li>
-            <li><a href="#" class="active">Software</a></li>
-            <li><a href="../com.html">Contact</a></li>
+            <li><a href="../index.html" data-lang="home">Home</a></li>
+            <li><a href="../about.html" data-lang="about">About</a></li>
+            <li><a href="../serv.html" data-lang="services">Services</a></li>
+            <li><a href="#" class="active" data-lang="software">Software</a></li>
+            <li><a href="../com.html" data-lang="contact">Contact</a></li>
+            <li>
+                <select class="lang-select" id="langSelect">
+                    <option value="en">🇺🇸 EN</option>
+                    <option value="am">🇪🇹 አማ</option>
+                    <option value="or">🇪🇹 OR</option>
+                    <option value="es">🇪🇸 ES</option>
+                    <option value="fr">🇫🇷 FR</option>
+                    <option value="ar">🇸🇦 AR</option>
+                    <option value="zh">🇨🇳 中</option>
+                </select>
+            </li>
         </ul>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1><span class="green">Quality</span> <span class="white">Software</span> <span class="green">Services</span></h1>
-            <p>We provide premium software solutions at affordable prices. Cloud storage, AI tools, messaging apps and more.</p>
+            <h1><span class="green" id="heroTitle1">Quality</span> <span class="white" id="heroTitle2">Software</span> <span class="green" id="heroTitle3">Services</span></h1>
+            <p id="heroDesc">We provide premium software solutions at affordable prices. Cloud storage, AI tools, messaging apps and more.</p>
             <div class="hero-buttons">
-                <a href="../serv.html" class="btn btn-secondary">← Go Back</a>
-                <a href="#services" class="btn btn-primary">View Softwares →</a>
+                <a href="../serv.html" class="btn btn-secondary" id="goBackBtn">← Go Back</a>
+                <a href="#services" class="btn btn-primary" id="viewSoftwaresBtn">View Softwares →</a>
                
-                <a href="../com.html" class="btn btn-secondary">Contact Us</a>
+                <a href="../com.html" class="btn btn-secondary" id="contactUsBtn">Contact Us</a>
             </div>
         </div>
         <div class="hero-image">
@@ -358,8 +380,8 @@
 
     <!-- Services Section -->
     <section class="services" id="services">
-        <h2 class="section-title">Software <span>Services</span></h2>
-        <p class="section-subtitle">Explore our collection of powerful tools and applications</p>
+        <h2 class="section-title"><span id="sectionTitle1">Software </span><span id="sectionTitle2">Services</span></h2>
+        <p class="section-subtitle" id="sectionSubtitle">Explore our collection of powerful tools and applications</p>
         
         <div class="services-grid">
   
@@ -369,7 +391,7 @@
                 <div class="service-body">
                     <h3 class="service-title">💬 BLSC-Message & File Sharing</h3>
                     <p class="service-desc">Share messages and files instantly with our secure web application</p>
-                    <span class="service-hint">Coming Soon</span>
+                    <span class="service-hint hint-coming">Coming Soon</span>
                 </div>
             </div>
 
@@ -378,7 +400,7 @@
                 <div class="service-body">
                     <h3 class="service-title">🎓 BLSC-Online Software Courses</h3>
                     <p class="service-desc">Learn programming and software development from expert instructors</p>
-                    <span class="service-hint">Coming Soon</span>
+                    <span class="service-hint hint-coming">Coming Soon</span>
                 </div>
             </div>
 
@@ -388,7 +410,7 @@
                 <div class="service-body">
                     <h3 class="service-title">🌐 BLSC-Browser</h3>
                     <p class="service-desc">Fast and secure web browsing experience tailored for developers</p>
-                    <span class="service-hint">Choose →</span>
+                    <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
 
@@ -397,7 +419,7 @@
                 <div class="service-body">
                     <h3 class="service-title">📦 Developed by BLSC Applications</h3>
                     <p class="service-desc">Explore our collection of powerful productivity applications</p>
-                    <span class="service-hint">Coming Soon</span>
+                    <span class="service-hint hint-explore">Explore →</span>
                 </div>
             </div>
 
@@ -406,7 +428,7 @@
                 <div class="service-body">
                     <h3 class="service-title">☁️ BLCS-Drive</h3>
                     <p class="service-desc">Store and access your files anywhere with our cloud storage solution</p>
-                    <span class="service-hint">Coming Soon</span>
+                    <span class="service-hint hint-coming">Coming Soon</span>
                 </div>
             </div>
 
@@ -415,7 +437,7 @@
                 <div class="service-body">
                     <h3 class="service-title">🖼️ BLSC-Gallery</h3>
                     <p class="service-desc">Manage and showcase your images with advanced editing tools</p>
-                    <span class="service-hint">Choose →</span>
+                    <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
 
@@ -424,7 +446,7 @@
                 <div class="service-body">
                     <h3 class="service-title">⭐ Important Websites</h3>
                     <p class="service-desc">Curated collection of essential web resources and tools</p>
-                    <span class="service-hint">Choose →</span>
+                    <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
 
@@ -433,7 +455,7 @@
                 <div class="service-body">
                     <h3 class="service-title">🌍 BLSC-Language Translator</h3>
                     <p class="service-desc">Break language barriers with our powerful translation tool</p>
-                    <span class="service-hint">Choose →</span>
+                    <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
 
@@ -442,7 +464,7 @@
                 <div class="service-body">
                     <h3 class="service-title">🤝 BLCS Meeting</h3>
                     <p class="service-desc">Connect and collaborate with team members in real-time</p>
-                    <span class="service-hint">Coming Soon</span>
+                    <span class="service-hint hint-coming">Coming Soon</span>
                 </div>
             </div>
 
@@ -451,7 +473,7 @@
                 <div class="service-body">
                     <h3 class="service-title">🔍 BLSC-Image Stock</h3>
                     <p class="service-desc">Search and download millions of free stock photos instantly</p>
-                    <span class="service-hint">Choose →</span>
+                    <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
 
@@ -460,7 +482,7 @@
                 <div class="service-body">
                     <h3 class="service-title">🎨 BLSC-Image Generator</h3>
                     <p class="service-desc">Create any image you imagine with AI - just describe it!</p>
-                    <span class="service-hint">Choose →</span>
+                    <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
 
@@ -469,7 +491,7 @@
                 <div class="service-body">
                     <h3 class="service-title">🎬 BLSC-Video Generator</h3>
                     <p class="service-desc">Turn your ideas into stunning videos with AI technology</p>
-                    <span class="service-hint">Choose →</span>
+                    <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
         </div>
@@ -482,6 +504,62 @@
 
     <script>
         document.getElementById('yr').textContent = new Date().getFullYear();
+        
+        // Translations
+        const translations = {
+            en: {home:'Home',about:'About',services:'Services',software:'Software',contact:'Contact',heroTitle1:'Quality',heroTitle2:'Software',heroTitle3:'Services',heroDesc:'We provide premium software solutions at affordable prices. Cloud storage, AI tools, messaging apps and more.',goBack:'← Go Back',viewSoftwares:'View Softwares →',contactUs:'Contact Us',sectionTitle:'Software',sectionTitle2:'Services',sectionSubtitle:'Explore our collection of powerful tools and applications',comingSoon:'Coming Soon',choose:'Choose →',explore:'Explore →'},
+            am: {home:'መነሻ',about:'ስለ እኛ',services:'አገልግሎቶች',software:'ሶፍትዌር',contact:'አግኙን',heroTitle1:'ጥራት ያለው',heroTitle2:'ሶፍትዌር',heroTitle3:'አገልግሎቶች',heroDesc:'በተመጣጣኝ ዋጋ ከፍተኛ ጥራት ያላቸው የሶፍትዌር መፍትሄዎችን እናቀርባለን።',goBack:'← ተመለስ',viewSoftwares:'ሶፍትዌሮችን ይመልከቱ →',contactUs:'አግኙን',sectionTitle:'ሶፍትዌር',sectionTitle2:'አገልግሎቶች',sectionSubtitle:'ኃይለኛ መሳሪያዎችን እና መተግበሪያዎችን ያስሱ',comingSoon:'በቅርቡ',choose:'ይምረጡ →',explore:'ያስሱ →'},
+            or: {home:'Mana',about:'Waa\'ee',services:'Tajaajila',software:'Sooftiweerii',contact:'Nu Quunnamaa',heroTitle1:'Qulqullina',heroTitle2:'Sooftiweerii',heroTitle3:'Tajaajila',heroDesc:'Gatii madaalawaa ta\'een furmaata sooftiweerii olaanaa dhiyeessina.',goBack:'← Deebi',viewSoftwares:'Sooftiweerii Ilaali →',contactUs:'Nu Quunnamaa',sectionTitle:'Sooftiweerii',sectionTitle2:'Tajaajila',sectionSubtitle:'Meeshaalee fi aplikeeshinoota jabaa sakatta\'i',comingSoon:'Dhiyootti',choose:'Filadhu →',explore:'Sakatta\'i →'},
+            es: {home:'Inicio',about:'Acerca de',services:'Servicios',software:'Software',contact:'Contacto',heroTitle1:'Calidad',heroTitle2:'Software',heroTitle3:'Servicios',heroDesc:'Proporcionamos soluciones de software premium a precios asequibles.',goBack:'← Volver',viewSoftwares:'Ver Software →',contactUs:'Contáctenos',sectionTitle:'Software',sectionTitle2:'Servicios',sectionSubtitle:'Explore nuestra colección de herramientas y aplicaciones',comingSoon:'Próximamente',choose:'Elegir →',explore:'Explorar →'},
+            fr: {home:'Accueil',about:'À propos',services:'Services',software:'Logiciel',contact:'Contact',heroTitle1:'Qualité',heroTitle2:'Logiciel',heroTitle3:'Services',heroDesc:'Nous fournissons des solutions logicielles premium à des prix abordables.',goBack:'← Retour',viewSoftwares:'Voir les Logiciels →',contactUs:'Contactez-nous',sectionTitle:'Logiciel',sectionTitle2:'Services',sectionSubtitle:'Explorez notre collection d\'outils et d\'applications',comingSoon:'Bientôt',choose:'Choisir →',explore:'Explorer →'},
+            ar: {home:'الرئيسية',about:'حول',services:'الخدمات',software:'البرمجيات',contact:'اتصل بنا',heroTitle1:'جودة',heroTitle2:'برمجيات',heroTitle3:'خدمات',heroDesc:'نقدم حلول برمجية متميزة بأسعار معقولة.',goBack:'← رجوع',viewSoftwares:'عرض البرمجيات →',contactUs:'اتصل بنا',sectionTitle:'برمجيات',sectionTitle2:'خدمات',sectionSubtitle:'استكشف مجموعتنا من الأدوات والتطبيقات',comingSoon:'قريباً',choose:'اختر →',explore:'استكشف →'},
+            zh: {home:'首页',about:'关于',services:'服务',software:'软件',contact:'联系',heroTitle1:'优质',heroTitle2:'软件',heroTitle3:'服务',heroDesc:'我们以实惠的价格提供优质的软件解决方案。',goBack:'← 返回',viewSoftwares:'查看软件 →',contactUs:'联系我们',sectionTitle:'软件',sectionTitle2:'服务',sectionSubtitle:'探索我们强大的工具和应用程序',comingSoon:'即将推出',choose:'选择 →',explore:'探索 →'}
+        };
+        
+        function changeLanguage() {
+            const lang = document.getElementById('langSelect').value;
+            const t = translations[lang];
+            localStorage.setItem('blsc_lang', lang);
+            
+            // Update nav links
+            document.querySelector('[data-lang="home"]').textContent = t.home;
+            document.querySelector('[data-lang="about"]').textContent = t.about;
+            document.querySelector('[data-lang="services"]').textContent = t.services;
+            document.querySelector('[data-lang="software"]').textContent = t.software;
+            document.querySelector('[data-lang="contact"]').textContent = t.contact;
+            
+            // Update hero
+            document.getElementById('heroTitle1').textContent = t.heroTitle1;
+            document.getElementById('heroTitle2').textContent = t.heroTitle2;
+            document.getElementById('heroTitle3').textContent = t.heroTitle3;
+            document.getElementById('heroDesc').textContent = t.heroDesc;
+            document.getElementById('goBackBtn').textContent = t.goBack;
+            document.getElementById('viewSoftwaresBtn').textContent = t.viewSoftwares;
+            document.getElementById('contactUsBtn').textContent = t.contactUs;
+            
+            // Update section
+            document.getElementById('sectionTitle1').textContent = t.sectionTitle + ' ';
+            document.getElementById('sectionTitle2').textContent = t.sectionTitle2;
+            document.getElementById('sectionSubtitle').textContent = t.sectionSubtitle;
+            
+            // Update hints
+            document.querySelectorAll('.hint-coming').forEach(el => el.textContent = t.comingSoon);
+            document.querySelectorAll('.hint-choose').forEach(el => el.textContent = t.choose);
+            document.querySelectorAll('.hint-explore').forEach(el => el.textContent = t.explore);
+            
+            // RTL for Arabic
+            document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+        }
+        
+        // Event listener for language change
+        document.getElementById('langSelect').addEventListener('change', changeLanguage);
+        
+        // Load saved language
+        const savedLang = localStorage.getItem('blsc_lang');
+        if (savedLang) {
+            document.getElementById('langSelect').value = savedLang;
+            changeLanguage();
+        }
         
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
