@@ -52,6 +52,8 @@
   }
   .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.1);}
   .nav-links a.active{color:#0a0a0a;background:#3fb950;}
+  .lang-select{padding:8px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;font-size:13px;cursor:pointer;}
+  .lang-select option{background:#1a1a1a;}
   
   .page-header{
     text-align:center;
@@ -181,30 +183,39 @@
   <nav>
     <div class="logo"><img src="1.png" alt="Logo"><span>BLSC</span></div>
     <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="serv.html">Services</a>
-      <a href="com.html" class="active">Contact</a>
+      <a href="index.html" id="navHome">Home</a>
+      <a href="about.html" id="navAbout">About</a>
+      <a href="serv.html" id="navServices">Services</a>
+      <a href="com.html" class="active" id="navContact">Contact</a>
+      <select class="lang-select" id="langSelect">
+        <option value="en">🇺🇸 EN</option>
+        <option value="am">🇪🇹 አማ</option>
+        <option value="or">🇪🇹 OR</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="ar">🇸🇦 AR</option>
+        <option value="zh">🇨🇳 中</option>
+      </select>
     </div>
   </nav>
 </header>
 
 <div class="page-header">
-  <h1>Get in <span>Touch</span></h1>
-  <p>Have a question or want to work together? Send us a message or reach out through any of our channels.</p>
+  <h1 id="pageTitle">Get in <span>Touch</span></h1>
+  <p id="pageDesc">Have a question or want to work together? Send us a message or reach out through any of our channels.</p>
 </div>
 
 <section class="contact-grid">
   <div class="panel">
-    <h2>📞 <span>Contact</span> Info</h2>
+    <h2 id="contactInfoTitle">📞 <span>Contact</span> Info</h2>
     <ul class="contact-list">
-      <li><strong>📍 Location</strong> Ethiopia, Jimma</li>
-      <li><strong>☎️ Phone</strong> <a class="btn-small" href="tel:+251912191892">+251 912 191892</a></li>
-      <li><strong>📧 Email</strong> <a class="btn-small" href="mailto:benayasleulseged@gmail.com">support@blsc.com</a></li>
-      <li><strong>🗺️ Map</strong> <a class="btn-small" href="https://maps.google.com/?q=Jimma,Ethiopia" target="_blank">Open Map</a></li>
+      <li><strong id="labelLocation">📍 Location</strong> Ethiopia, Jimma</li>
+      <li><strong id="labelPhone">☎️ Phone</strong> <a class="btn-small" href="tel:+251912191892">+251 912 191892</a></li>
+      <li><strong id="labelEmail">📧 Email</strong> <a class="btn-small" href="mailto:benayasleulseged@gmail.com">support@blsc.com</a></li>
+      <li><strong id="labelMap">🗺️ Map</strong> <a class="btn-small" href="https://maps.google.com/?q=Jimma,Ethiopia" target="_blank" id="openMap">Open Map</a></li>
     </ul>
     
-    <h3 style="margin-top:32px;margin-bottom:8px;color:#fff;font-size:18px;">Connect With Me</h3>
+    <h3 style="margin-top:32px;margin-bottom:8px;color:#fff;font-size:18px;" id="connectTitle">Connect With Me</h3>
     <div class="social-links">
       <a href="https://t.me/beni7leo" target="_blank" class="social-btn telegram">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
@@ -226,29 +237,29 @@
   </div>
   
   <div class="panel" id="formPanel">
-    <h2>💬 Send a <span>Message</span></h2>
-    <p style="color:rgba(255,255,255,0.5);margin-bottom:24px;font-size:14px;">Fill out the form below and we'll get back to you within 24 hours.</p>
+    <h2 id="sendMsgTitle">💬 Send a <span>Message</span></h2>
+    <p style="color:rgba(255,255,255,0.5);margin-bottom:24px;font-size:14px;" id="formDesc">Fill out the form below and we'll get back to you within 24 hours.</p>
     
     <!-- Form -->
     <form id="contactForm">
       <div class="form-group">
-        <label for="name">👤 Full Name</label>
+        <label for="name" id="labelName">👤 Full Name</label>
         <input type="text" name="name" id="name" placeholder="Enter your full name" required>
       </div>
       <div class="form-group">
-        <label for="company">🏢 Company Name</label>
+        <label for="company" id="labelCompany">🏢 Company Name</label>
         <input type="text" name="company" id="company" placeholder="Enter your company name">
       </div>
       <div class="form-group">
-        <label for="email">✉️ Email</label>
+        <label for="email" id="labelEmailForm">✉️ Email</label>
         <input type="email" name="email" id="email" placeholder="Enter your email address" required>
       </div>
       <div class="form-group">
-        <label for="subject">📋 Subject</label>
+        <label for="subject" id="labelSubject">📋 Subject</label>
         <input type="text" name="subject" id="subject" placeholder="What is this about?">
       </div>
       <div class="form-group">
-        <label for="message">💬 Your Message</label>
+        <label for="message" id="labelMessage">💬 Your Message</label>
         <textarea name="message" id="message" placeholder="Describe your message..." required></textarea>
       </div>
       <button type="submit" class="btn-submit" id="submitBtn">
@@ -264,8 +275,8 @@
           <path d="M20 6L9 17l-5-5"/>
         </svg>
       </div>
-      <h3>Message Sent Successfully!</h3>
-      <p>Thank you for reaching out. We'll get back to you shortly.</p>
+      <h3 id="successTitle">Message Sent Successfully!</h3>
+      <p id="successDesc">Thank you for reaching out. We'll get back to you shortly.</p>
       <button class="btn-another" id="sendAnother">Send Another Message</button>
     </div>
   </div>
@@ -277,6 +288,52 @@
 
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
+
+const translations = {
+  en: {home:'Home',about:'About',services:'Services',contact:'Contact',pageTitle:'Get in <span>Touch</span>',pageDesc:'Have a question or want to work together? Send us a message or reach out through any of our channels.',contactInfo:'📞 <span>Contact</span> Info',location:'📍 Location',phone:'☎️ Phone',email:'📧 Email',map:'🗺️ Map',openMap:'Open Map',connect:'Connect With Me',sendMsg:'💬 Send a <span>Message</span>',formDesc:'Fill out the form below and we\'ll get back to you within 24 hours.',fullName:'👤 Full Name',companyName:'🏢 Company Name',emailLabel:'✉️ Email',subject:'📋 Subject',yourMsg:'💬 Your Message',sendBtn:'Send Message',sending:'Sending...',successTitle:'Message Sent Successfully!',successDesc:'Thank you for reaching out. We\'ll get back to you shortly.',sendAnother:'Send Another Message'},
+  am: {home:'መነሻ',about:'ስለ እኛ',services:'አገልግሎቶች',contact:'አግኙን',pageTitle:'<span>ያግኙን</span>',pageDesc:'ጥያቄ አለዎት ወይም አብረን መስራት ይፈልጋሉ? መልእክት ይላኩልን።',contactInfo:'📞 የእውቂያ <span>መረጃ</span>',location:'📍 አድራሻ',phone:'☎️ ስልክ',email:'📧 ኢሜይል',map:'🗺️ ካርታ',openMap:'ካርታ ክፈት',connect:'ያገኙኝ',sendMsg:'💬 <span>መልእክት</span> ይላኩ',formDesc:'ከዚህ በታች ያለውን ቅጽ ይሙሉ እና በ24 ሰዓታት ውስጥ እንመልስልዎታለን።',fullName:'👤 ሙሉ ስም',companyName:'🏢 የኩባንያ ስም',emailLabel:'✉️ ኢሜይል',subject:'📋 ርዕሰ ጉዳይ',yourMsg:'💬 መልእክትዎ',sendBtn:'መልእክት ላክ',sending:'በመላክ ላይ...',successTitle:'መልእክት በተሳካ ሁኔታ ተልኳል!',successDesc:'ስለተገናኙን እናመሰግናለን። በቅርቡ እንመልስልዎታለን።',sendAnother:'ሌላ መልእክት ላክ'},
+  or: {home:'Mana',about:'Waa\'ee',services:'Tajaajila',contact:'Nu Quunnamaa',pageTitle:'Nu <span>Quunnamaa</span>',pageDesc:'Gaaffii qabdaa yookiin waliin hojjechuu barbaaddaa? Ergaa nuuf ergaa.',contactInfo:'📞 Odeeffannoo <span>Quunnamtii</span>',location:'📍 Bakka',phone:'☎️ Bilbila',email:'📧 Imeelii',map:'🗺️ Kaartaa',openMap:'Kaartaa Bani',connect:'Na Quunnamaa',sendMsg:'💬 <span>Ergaa</span> Ergi',formDesc:'Unka armaan gadii guutii sa\'aatii 24 keessatti siif deebina.',fullName:'👤 Maqaa Guutuu',companyName:'🏢 Maqaa Dhaabbataa',emailLabel:'✉️ Imeelii',subject:'📋 Mata Duree',yourMsg:'💬 Ergaa Kee',sendBtn:'Ergaa Ergi',sending:'Ergaa jira...',successTitle:'Ergaan Milkaa\'inaan Ergame!',successDesc:'Nu quunnamuu keessaniif galatoomaa. Dhiyootti isinii deebina.',sendAnother:'Ergaa Biraa Ergi'},
+  es: {home:'Inicio',about:'Acerca de',services:'Servicios',contact:'Contacto',pageTitle:'Ponte en <span>Contacto</span>',pageDesc:'¿Tienes una pregunta o quieres trabajar juntos? Envíanos un mensaje.',contactInfo:'📞 Info de <span>Contacto</span>',location:'📍 Ubicación',phone:'☎️ Teléfono',email:'📧 Correo',map:'🗺️ Mapa',openMap:'Abrir Mapa',connect:'Conéctate Conmigo',sendMsg:'💬 Enviar <span>Mensaje</span>',formDesc:'Completa el formulario y te responderemos en 24 horas.',fullName:'👤 Nombre Completo',companyName:'🏢 Nombre de Empresa',emailLabel:'✉️ Correo',subject:'📋 Asunto',yourMsg:'💬 Tu Mensaje',sendBtn:'Enviar Mensaje',sending:'Enviando...',successTitle:'¡Mensaje Enviado!',successDesc:'Gracias por contactarnos. Te responderemos pronto.',sendAnother:'Enviar Otro Mensaje'},
+  fr: {home:'Accueil',about:'À propos',services:'Services',contact:'Contact',pageTitle:'Contactez-<span>nous</span>',pageDesc:'Vous avez une question ou voulez travailler ensemble? Envoyez-nous un message.',contactInfo:'📞 Info de <span>Contact</span>',location:'📍 Lieu',phone:'☎️ Téléphone',email:'📧 Email',map:'🗺️ Carte',openMap:'Ouvrir Carte',connect:'Connectez-vous',sendMsg:'💬 Envoyer un <span>Message</span>',formDesc:'Remplissez le formulaire et nous vous répondrons dans 24 heures.',fullName:'👤 Nom Complet',companyName:'🏢 Nom d\'Entreprise',emailLabel:'✉️ Email',subject:'📋 Sujet',yourMsg:'💬 Votre Message',sendBtn:'Envoyer',sending:'Envoi...',successTitle:'Message Envoyé!',successDesc:'Merci de nous avoir contacté. Nous vous répondrons bientôt.',sendAnother:'Envoyer un Autre'},
+  ar: {home:'الرئيسية',about:'حول',services:'الخدمات',contact:'اتصل بنا',pageTitle:'تواصل <span>معنا</span>',pageDesc:'هل لديك سؤال أو تريد العمل معنا؟ أرسل لنا رسالة.',contactInfo:'📞 معلومات <span>الاتصال</span>',location:'📍 الموقع',phone:'☎️ الهاتف',email:'📧 البريد',map:'🗺️ الخريطة',openMap:'فتح الخريطة',connect:'تواصل معي',sendMsg:'💬 إرسال <span>رسالة</span>',formDesc:'املأ النموذج وسنرد عليك خلال 24 ساعة.',fullName:'👤 الاسم الكامل',companyName:'🏢 اسم الشركة',emailLabel:'✉️ البريد',subject:'📋 الموضوع',yourMsg:'💬 رسالتك',sendBtn:'إرسال',sending:'جاري الإرسال...',successTitle:'تم إرسال الرسالة!',successDesc:'شكراً لتواصلك. سنرد عليك قريباً.',sendAnother:'إرسال رسالة أخرى'},
+  zh: {home:'首页',about:'关于',services:'服务',contact:'联系',pageTitle:'联系<span>我们</span>',pageDesc:'有问题或想合作？给我们发消息。',contactInfo:'📞 联系<span>信息</span>',location:'📍 位置',phone:'☎️ 电话',email:'📧 邮箱',map:'🗺️ 地图',openMap:'打开地图',connect:'联系我',sendMsg:'💬 发送<span>消息</span>',formDesc:'填写表格，我们将在24小时内回复。',fullName:'👤 全名',companyName:'🏢 公司名称',emailLabel:'✉️ 邮箱',subject:'📋 主题',yourMsg:'💬 您的消息',sendBtn:'发送',sending:'发送中...',successTitle:'消息已发送！',successDesc:'感谢您的联系。我们会尽快回复。',sendAnother:'发送另一条'}
+};
+
+function changeLanguage() {
+  const lang = document.getElementById('langSelect').value;
+  const t = translations[lang];
+  localStorage.setItem('blsc_lang', lang);
+  
+  document.getElementById('navHome').textContent = t.home;
+  document.getElementById('navAbout').textContent = t.about;
+  document.getElementById('navServices').textContent = t.services;
+  document.getElementById('navContact').textContent = t.contact;
+  document.getElementById('pageTitle').innerHTML = t.pageTitle;
+  document.getElementById('pageDesc').textContent = t.pageDesc;
+  document.getElementById('contactInfoTitle').innerHTML = t.contactInfo;
+  document.getElementById('labelLocation').textContent = t.location;
+  document.getElementById('labelPhone').textContent = t.phone;
+  document.getElementById('labelEmail').textContent = t.email;
+  document.getElementById('labelMap').textContent = t.map;
+  document.getElementById('openMap').textContent = t.openMap;
+  document.getElementById('connectTitle').textContent = t.connect;
+  document.getElementById('sendMsgTitle').innerHTML = t.sendMsg;
+  document.getElementById('formDesc').textContent = t.formDesc;
+  document.getElementById('labelName').textContent = t.fullName;
+  document.getElementById('labelCompany').textContent = t.companyName;
+  document.getElementById('labelEmailForm').textContent = t.emailLabel;
+  document.getElementById('labelSubject').textContent = t.subject;
+  document.getElementById('labelMessage').textContent = t.yourMsg;
+  document.getElementById('successTitle').textContent = t.successTitle;
+  document.getElementById('successDesc').textContent = t.successDesc;
+  document.getElementById('sendAnother').textContent = t.sendAnother;
+  
+  document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+}
+
+document.getElementById('langSelect').addEventListener('change', changeLanguage);
+const savedLang = localStorage.getItem('blsc_lang');
+if (savedLang) { document.getElementById('langSelect').value = savedLang; changeLanguage(); }
 
 const form = document.getElementById('contactForm');
 const submitBtn = document.getElementById('submitBtn');

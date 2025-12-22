@@ -23,8 +23,11 @@
                         radial-gradient(circle at 70% 70%, rgba(88,166,255,0.1) 0%, transparent 50%), #0a0a0a;
             z-index: -1;
         }
+        .top-bar {
+            position: fixed; top: 30px; left: 30px; right: 30px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
         .back-btn {
-            position: fixed; top: 30px; left: 30px;
             padding: 12px 24px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
@@ -34,6 +37,16 @@
             transition: all 0.3s;
         }
         .back-btn:hover { background: #3fb950; color: #000; border-color: #3fb950; }
+        .lang-select {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .lang-select option { background: #1a1a1a; }
         .container { text-align: center; padding: 40px; max-width: 900px; }
         .app-icon { font-size: 80px; margin-bottom: 20px; }
         h1 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
@@ -241,26 +254,37 @@
 </head>
 <body>
     <div class="bg-gradient"></div>
-    <a href="../index.html" class="back-btn">← Back</a>
+    <div class="top-bar">
+        <a href="../index.html" class="back-btn" data-lang="back">← Back</a>
+        <select class="lang-select" id="langSelect">
+            <option value="en">🇺🇸 English</option>
+            <option value="am">🇪🇹 አማርኛ</option>
+            <option value="or">🇪🇹 Afaan Oromoo</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="ar">🇸🇦 العربية</option>
+            <option value="zh">🇨🇳 中文</option>
+        </select>
+    </div>
     
     <div class="container">
         <div class="app-icon" id="appIcon">🖼️</div>
         <h1 id="appName">BLSC <span>Gallery</span></h1>
         <p class="subtitle" id="appDesc">Manage and showcase your images</p>
-        <p class="choose-title">How would you like to use this app?</p>
+        <p class="choose-title" data-lang="choose">How would you like to use this app?</p>
         
         <div class="options">
             <a href="#" class="option-card web" id="webOption">
                 <span class="option-icon">🌐</span>
-                <h3 class="option-title">Use Web</h3>
-                <p class="option-desc">Open directly in your browser</p>
-                <span class="badge blue">Instant Access</span>
+                <h3 class="option-title" data-lang="useWeb">Use Web</h3>
+                <p class="option-desc" data-lang="webDesc">Open directly in your browser</p>
+                <span class="badge blue" data-lang="instantAccess">Instant Access</span>
             </a>
             <div class="option-card desktop" id="desktopOption">
                 <span class="option-icon">💻</span>
-                <h3 class="option-title">Desktop App</h3>
-                <p class="option-desc">Install as app on your device</p>
-                <span class="badge">Install Now</span>
+                <h3 class="option-title" data-lang="desktop">Desktop App</h3>
+                <p class="option-desc" data-lang="desktopDesc">Install as app on your device</p>
+                <span class="badge" data-lang="installNow">Install Now</span>
             </div>
         </div>
         
@@ -384,5 +408,6 @@
             document.body.removeChild(a);
         }
     </script>
+    <script src="lang.js"></script>
 </body>
 </html>

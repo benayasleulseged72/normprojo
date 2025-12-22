@@ -30,8 +30,7 @@
         .page-title span{color:#3fb950}
         .page-subtitle{text-align:center;color:rgba(255,255,255,0.6);font-size:18px;margin-bottom:50px}
         .apps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
-        .a
-pp-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:28px;cursor:pointer;transition:all 0.4s}
+        .app-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:28px;cursor:pointer;transition:all 0.4s}
         .app-card:hover{transform:translateY(-8px);border-color:#3fb950;box-shadow:0 20px 50px rgba(0,0,0,0.4)}
         .app-card.coming-soon{opacity:0.85}
         .app-card.coming-soon:hover{border-color:#f59e0b}
@@ -78,7 +77,7 @@ pp-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1)
                 <img src="../../1.png" alt="BLSC">
                 <h1>BLSC <span id="titleApps">Applications</span></h1>
             </div>
-            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+            <select class="lang-select" id="langSelect">
                 <option value="en">🇺🇸 English</option>
                 <option value="am">🇪🇹 አማርኛ</option>
                 <option value="or">🇪🇹 Afaan Oromoo</option>
@@ -212,6 +211,19 @@ pp-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1)
             if (e.target.id === 'comingSoonModal') closeModal();
         });
         renderApps();
+        
+        // Sync with shared language system
+        const savedLang = localStorage.getItem('blsc_lang');
+        if (savedLang && translations[savedLang]) {
+            document.getElementById('langSelect').value = savedLang;
+            changeLanguage();
+        }
+        
+        // Save language choice and apply
+        document.getElementById('langSelect').addEventListener('change', function() {
+            localStorage.setItem('blsc_lang', this.value);
+            changeLanguage();
+        });
     </script>
 </body>
 </html>

@@ -52,6 +52,8 @@
   }
   .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.1);}
   .nav-links a.active{color:#0a0a0a;background:#3fb950;}
+  .lang-select{padding:8px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;font-size:13px;cursor:pointer;}
+  .lang-select option{background:#1a1a1a;}
   
   .about-section{
     max-width:1200px;margin:100px auto;padding:0 24px;
@@ -132,27 +134,36 @@
   <nav>
     <div class="logo"><img src="1.png" alt="Logo"><span>BLSC</span></div>
     <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html" class="active">About</a>
-      <a href="serv.html">Services</a>
-      <a href="com.html">Contact</a>
+      <a href="index.html" id="navHome">Home</a>
+      <a href="about.html" class="active" id="navAbout">About</a>
+      <a href="serv.html" id="navServices">Services</a>
+      <a href="com.html" id="navContact">Contact</a>
+      <select class="lang-select" id="langSelect">
+        <option value="en">🇺🇸 EN</option>
+        <option value="am">🇪🇹 አማ</option>
+        <option value="or">🇪🇹 OR</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="ar">🇸🇦 AR</option>
+        <option value="zh">🇨🇳 中</option>
+      </select>
     </div>
   </nav>
 </header>
 
 <section class="about-section">
   <div class="about-text">
-    <span class="founded">Founded in 2026 • Ethiopia</span>
-    <h1>About <span>Benayas Leulseged</span> Software Community</h1>
-    <p>BLSC is a software developer company in Ethiopia, dedicated to helping individuals and organizations build their digital presence and solve technology challenges.</p>
-    <p>We provide quality technology services including web development, software solutions, app development, and tech support. Our goal is to deliver excellent work at affordable prices while teaching and helping others learn.</p>
+    <span class="founded" id="founded">Founded in 2026 • Ethiopia</span>
+    <h1 id="aboutTitle">About <span>Benayas Leulseged</span> Software Community</h1>
+    <p id="aboutDesc1">BLSC is a software developer company in Ethiopia, dedicated to helping individuals and organizations build their digital presence and solve technology challenges.</p>
+    <p id="aboutDesc2">We provide quality technology services including web development, software solutions, app development, and tech support. Our goal is to deliver excellent work at affordable prices while teaching and helping others learn.</p>
   </div>
   
   <div class="about-image">
     <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=500&fit=crop" alt="Developer working">
     <div class="mission-box">
-      <h3>Our Mission</h3>
-      <p>To provide high-quality technology services at affordable prices, making software development accessible to everyone in Ethiopia with unwavering commitment to our clients' success.</p>
+      <h3 id="missionTitle">Our Mission</h3>
+      <p id="missionDesc">To provide high-quality technology services at affordable prices, making software development accessible to everyone in Ethiopia with unwavering commitment to our clients' success.</p>
     </div>
   </div>
 </section>
@@ -160,6 +171,41 @@
 <footer>
   <p>© <span id="yr"></span> BENAYAS LEULSEGED SOFTWARE COMMUNITY — Jimma, Ethiopia</p>
 </footer>
-<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+const translations = {
+  en: {home:'Home',about:'About',services:'Services',contact:'Contact',founded:'Founded in 2026 • Ethiopia',aboutTitle:'About <span>Benayas Leulseged</span> Software Community',aboutDesc1:'BLSC is a software developer company in Ethiopia, dedicated to helping individuals and organizations build their digital presence and solve technology challenges.',aboutDesc2:'We provide quality technology services including web development, software solutions, app development, and tech support. Our goal is to deliver excellent work at affordable prices while teaching and helping others learn.',missionTitle:'Our Mission',missionDesc:'To provide high-quality technology services at affordable prices, making software development accessible to everyone in Ethiopia with unwavering commitment to our clients\' success.'},
+  am: {home:'መነሻ',about:'ስለ እኛ',services:'አገልግሎቶች',contact:'አግኙን',founded:'በ2026 የተመሰረተ • ኢትዮጵያ',aboutTitle:'ስለ <span>ቤናያስ ለውልሰገድ</span> ሶፍትዌር ማህበረሰብ',aboutDesc1:'BLSC በኢትዮጵያ ውስጥ የሶፍትዌር ገንቢ ኩባንያ ነው፣ ግለሰቦች እና ድርጅቶች ዲጂታል መገኘታቸውን እንዲገነቡ እና የቴክኖሎጂ ችግሮችን እንዲፈቱ ለመርዳት የተሰጠ።',aboutDesc2:'የድር ልማት፣ የሶፍትዌር መፍትሄዎች፣ የመተግበሪያ ልማት እና የቴክኖሎጂ ድጋፍን ጨምሮ ጥራት ያለው የቴክኖሎጂ አገልግሎቶችን እናቀርባለን።',missionTitle:'ተልዕኮአችን',missionDesc:'በተመጣጣኝ ዋጋ ከፍተኛ ጥራት ያለው የቴክኖሎጂ አገልግሎቶችን ማቅረብ፣ የሶፍትዌር ልማትን ለሁሉም በኢትዮጵያ ተደራሽ ማድረግ።'},
+  or: {home:'Mana',about:'Waa\'ee',services:'Tajaajila',contact:'Nu Quunnamaa',founded:'Bara 2026 Hundeeffame • Itoophiyaa',aboutTitle:'Waa\'ee Hawaasa Sooftiweerii <span>Benayas Leulseged</span>',aboutDesc1:'BLSC Itoophiyaa keessatti kompanii sooftiweerii hojjetu yoo ta\'u, namoota dhuunfaa fi dhaabbilee argama dijitaalaa isaanii ijaaruu fi rakkoo teeknooloojii furuuf gargaaruuf of kenne.',aboutDesc2:'Tajaajila teeknooloojii qulqullina qabu kan misoomaa weebii, furmaata sooftiweerii, misoomaa appii, fi deeggarsa teeknooloojii dabalatee dhiyeessina.',missionTitle:'Ergama Keenya',missionDesc:'Gatii madaalawaa ta\'een tajaajila teeknooloojii qulqullina olaanaa qabu dhiyeessuu, misoomaa sooftiweerii Itoophiyaa keessatti hundaaf argamsiisuu.'},
+  es: {home:'Inicio',about:'Acerca de',services:'Servicios',contact:'Contacto',founded:'Fundada en 2026 • Etiopía',aboutTitle:'Acerca de la Comunidad de Software <span>Benayas Leulseged</span>',aboutDesc1:'BLSC es una empresa desarrolladora de software en Etiopía, dedicada a ayudar a individuos y organizaciones a construir su presencia digital y resolver desafíos tecnológicos.',aboutDesc2:'Proporcionamos servicios tecnológicos de calidad incluyendo desarrollo web, soluciones de software, desarrollo de aplicaciones y soporte técnico.',missionTitle:'Nuestra Misión',missionDesc:'Proporcionar servicios tecnológicos de alta calidad a precios asequibles, haciendo el desarrollo de software accesible para todos en Etiopía.'},
+  fr: {home:'Accueil',about:'À propos',services:'Services',contact:'Contact',founded:'Fondée en 2026 • Éthiopie',aboutTitle:'À propos de la Communauté Logicielle <span>Benayas Leulseged</span>',aboutDesc1:'BLSC est une entreprise de développement de logiciels en Éthiopie, dédiée à aider les individus et les organisations à construire leur présence numérique et à résoudre les défis technologiques.',aboutDesc2:'Nous fournissons des services technologiques de qualité incluant le développement web, les solutions logicielles, le développement d\'applications et le support technique.',missionTitle:'Notre Mission',missionDesc:'Fournir des services technologiques de haute qualité à des prix abordables, rendant le développement logiciel accessible à tous en Éthiopie.'},
+  ar: {home:'الرئيسية',about:'حول',services:'الخدمات',contact:'اتصل بنا',founded:'تأسست في 2026 • إثيوبيا',aboutTitle:'حول مجتمع برمجيات <span>بنياس ليولسيجيد</span>',aboutDesc1:'BLSC هي شركة تطوير برمجيات في إثيوبيا، مكرسة لمساعدة الأفراد والمنظمات على بناء حضورهم الرقمي وحل تحديات التكنولوجيا.',aboutDesc2:'نقدم خدمات تقنية عالية الجودة بما في ذلك تطوير الويب وحلول البرمجيات وتطوير التطبيقات والدعم الفني.',missionTitle:'مهمتنا',missionDesc:'تقديم خدمات تقنية عالية الجودة بأسعار معقولة، مما يجعل تطوير البرمجيات في متناول الجميع في إثيوبيا.'},
+  zh: {home:'首页',about:'关于',services:'服务',contact:'联系',founded:'成立于2026年 • 埃塞俄比亚',aboutTitle:'关于<span>Benayas Leulseged</span>软件社区',aboutDesc1:'BLSC是埃塞俄比亚的一家软件开发公司，致力于帮助个人和组织建立数字化存在并解决技术挑战。',aboutDesc2:'我们提供优质的技术服务，包括网站开发、软件解决方案、应用程序开发和技术支持。',missionTitle:'我们的使命',missionDesc:'以实惠的价格提供高质量的技术服务，使软件开发对埃塞俄比亚的每个人都可及。'}
+};
+
+function changeLanguage() {
+  const lang = document.getElementById('langSelect').value;
+  const t = translations[lang];
+  localStorage.setItem('blsc_lang', lang);
+  
+  document.getElementById('navHome').textContent = t.home;
+  document.getElementById('navAbout').textContent = t.about;
+  document.getElementById('navServices').textContent = t.services;
+  document.getElementById('navContact').textContent = t.contact;
+  document.getElementById('founded').textContent = t.founded;
+  document.getElementById('aboutTitle').innerHTML = t.aboutTitle;
+  document.getElementById('aboutDesc1').textContent = t.aboutDesc1;
+  document.getElementById('aboutDesc2').textContent = t.aboutDesc2;
+  document.getElementById('missionTitle').textContent = t.missionTitle;
+  document.getElementById('missionDesc').textContent = t.missionDesc;
+  
+  document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+}
+
+document.getElementById('langSelect').addEventListener('change', changeLanguage);
+const savedLang = localStorage.getItem('blsc_lang');
+if (savedLang) { document.getElementById('langSelect').value = savedLang; changeLanguage(); }
+</script>
 </body>
 </html>

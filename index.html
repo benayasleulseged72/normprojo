@@ -64,6 +64,17 @@
   .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.1);}
   .nav-links a.active{color:#0a0a0a;background:#3fb950;}
   
+  .lang-select{
+    padding:8px 14px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:8px;
+    color:#fff;
+    font-size:13px;
+    cursor:pointer;
+  }
+  .lang-select option{background:#1a1a1a;}
+  
   .hero{
     min-height:90vh;
     display:flex;align-items:center;
@@ -255,10 +266,19 @@
       <span>Benayas Leulseged Software Community</span>
     </div>
     <div class="nav-links">
-      <a href="index.html" class="active">Home</a>
-      <a href="about.html">About</a>
-      <a href="serv.html">Services</a>
-      <a href="com.html">Contact</a>
+      <a href="index.html" class="active" id="navHome">Home</a>
+      <a href="about.html" id="navAbout">About</a>
+      <a href="serv.html" id="navServices">Services</a>
+      <a href="com.html" id="navContact">Contact</a>
+      <select class="lang-select" id="langSelect">
+        <option value="en">🇺🇸 EN</option>
+        <option value="am">🇪🇹 አማ</option>
+        <option value="or">🇪🇹 OR</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="ar">🇸🇦 AR</option>
+        <option value="zh">🇨🇳 中</option>
+      </select>
     </div>
   </nav>
 </header>
@@ -267,11 +287,11 @@
   <div class="hero-bg"></div>
   <div class="hero-inner">
     <div class="hero-content">
-      <h1>Quality Software & Technology Services</h1>
-      <p>We provide premium hardware and software solutions at affordable prices. From web development to app creation, we've got you covered.</p>
+      <h1 id="heroTitle">Quality Software & Technology Services</h1>
+      <p id="heroDesc">We provide premium hardware and software solutions at affordable prices. From web development to app creation, we've got you covered.</p>
       <div class="hero-buttons">
-        <a href="serv.html" class="btn">View Services →</a>
-        <a href="com.html" class="btn btn-outline">Contact Us</a>
+        <a href="serv.html" class="btn" id="btnServices">View Services →</a>
+        <a href="com.html" class="btn btn-outline" id="btnContact">Contact Us</a>
       </div>
     </div>
     <div class="hero-image">
@@ -282,29 +302,29 @@
 
 <section class="pages-section">
   <div class="section-title">
-    <h2>Explore <span>Our Pages</span></h2>
-    <p>Discover what we offer and how we can help you</p>
+    <h2 id="exploreTitle">Explore <span>Our Pages</span></h2>
+    <p id="exploreDesc">Discover what we offer and how we can help you</p>
   </div>
   <div class="pages-grid">
     <a href="about.html" class="page-card">
       <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop" alt="About Us">
       <div class="page-card-content">
-        <h3>About Us</h3>
-        <p>Learn more about who we are and our mission</p>
+        <h3 id="cardAbout">About Us</h3>
+        <p id="cardAboutDesc">Learn more about who we are and our mission</p>
       </div>
     </a>
     <a href="serv.html" class="page-card">
       <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500&h=300&fit=crop" alt="Services">
       <div class="page-card-content">
-        <h3>Our Services</h3>
-        <p>View all the services we offer</p>
+        <h3 id="cardServices">Our Services</h3>
+        <p id="cardServicesDesc">View all the services we offer</p>
       </div>
     </a>
     <a href="com.html" class="page-card">
       <img src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=500&h=300&fit=crop" alt="Contact">
       <div class="page-card-content">
-        <h3>Contact Us</h3>
-        <p>Get in touch with us today</p>
+        <h3 id="cardContact">Contact Us</h3>
+        <p id="cardContactDesc">Get in touch with us today</p>
       </div>
     </a>
   </div>
@@ -314,15 +334,15 @@
   <div class="stats-grid">
     <div class="stat-item">
       <h3>20+</h3>
-      <p>Services Offered</p>
+      <p id="statServices">Services Offered</p>
     </div>
     <div class="stat-item">
       <h3>100%</h3>
-      <p>Client Satisfaction</p>
+      <p id="statSatisfaction">Client Satisfaction</p>
     </div>
     <div class="stat-item">
       <h3>24/7</h3>
-      <p>Support Available</p>
+      <p id="statSupport">Support Available</p>
     </div>
   </div>
 </section>
@@ -330,6 +350,124 @@
 <footer>
   <p>© <span id="yr"></span> <a href="#">BENAYAS LEULSEGED SOFTWARE COMMUNITY</a> — Jimma, Ethiopia</p>
 </footer>
-<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+const translations = {
+  en: {
+    home:'Home',about:'About',services:'Services',contact:'Contact',
+    heroTitle:'Quality Software & Technology Services',
+    heroDesc:'We provide premium hardware and software solutions at affordable prices. From web development to app creation, we\'ve got you covered.',
+    btnServices:'View Services →',btnContact:'Contact Us',
+    exploreTitle:'Explore <span>Our Pages</span>',exploreDesc:'Discover what we offer and how we can help you',
+    cardAbout:'About Us',cardAboutDesc:'Learn more about who we are and our mission',
+    cardServices:'Our Services',cardServicesDesc:'View all the services we offer',
+    cardContact:'Contact Us',cardContactDesc:'Get in touch with us today',
+    statServices:'Services Offered',statSatisfaction:'Client Satisfaction',statSupport:'Support Available'
+  },
+  am: {
+    home:'መነሻ',about:'ስለ እኛ',services:'አገልግሎቶች',contact:'አግኙን',
+    heroTitle:'ጥራት ያለው ሶፍትዌር እና ቴክኖሎጂ አገልግሎቶች',
+    heroDesc:'በተመጣጣኝ ዋጋ ከፍተኛ ጥራት ያላቸው ሃርድዌር እና ሶፍትዌር መፍትሄዎችን እናቀርባለን።',
+    btnServices:'አገልግሎቶችን ይመልከቱ →',btnContact:'አግኙን',
+    exploreTitle:'ገጾቻችንን <span>ያስሱ</span>',exploreDesc:'የምናቀርበውን እና እንዴት ልንረዳዎት እንደምንችል ይወቁ',
+    cardAbout:'ስለ እኛ',cardAboutDesc:'እኛ ማን እንደሆንን እና ተልዕኮአችንን ይወቁ',
+    cardServices:'አገልግሎቶቻችን',cardServicesDesc:'የምናቀርባቸውን አገልግሎቶች ሁሉ ይመልከቱ',
+    cardContact:'አግኙን',cardContactDesc:'ዛሬ ያግኙን',
+    statServices:'የሚቀርቡ አገልግሎቶች',statSatisfaction:'የደንበኛ እርካታ',statSupport:'ድጋፍ ይገኛል'
+  },
+  or: {
+    home:'Mana',about:'Waa\'ee',services:'Tajaajila',contact:'Nu Quunnamaa',
+    heroTitle:'Tajaajila Sooftiweerii fi Teeknooloojii Qulqullina Qabu',
+    heroDesc:'Gatii madaalawaa ta\'een furmaata haardweerii fi sooftiweerii olaanaa dhiyeessina.',
+    btnServices:'Tajaajila Ilaali →',btnContact:'Nu Quunnamaa',
+    exploreTitle:'Fuulawwan Keenya <span>Sakatta\'i</span>',exploreDesc:'Maal akka dhiyeessinu fi akkamitti si gargaaruu dandeenya barbaadi',
+    cardAbout:'Waa\'ee Keenya',cardAboutDesc:'Eenyu akka taane fi kaayyoo keenya barbaadi',
+    cardServices:'Tajaajila Keenya',cardServicesDesc:'Tajaajila hunda dhiyeessinu ilaali',
+    cardContact:'Nu Quunnamaa',cardContactDesc:'Har\'a nu quunnamaa',
+    statServices:'Tajaajila Dhiyaatan',statSatisfaction:'Gammachuu Maamilaa',statSupport:'Deeggarsi Ni Argama'
+  },
+  es: {
+    home:'Inicio',about:'Acerca de',services:'Servicios',contact:'Contacto',
+    heroTitle:'Servicios de Software y Tecnología de Calidad',
+    heroDesc:'Proporcionamos soluciones de hardware y software premium a precios asequibles.',
+    btnServices:'Ver Servicios →',btnContact:'Contáctenos',
+    exploreTitle:'Explore <span>Nuestras Páginas</span>',exploreDesc:'Descubra lo que ofrecemos y cómo podemos ayudarle',
+    cardAbout:'Sobre Nosotros',cardAboutDesc:'Conozca más sobre quiénes somos y nuestra misión',
+    cardServices:'Nuestros Servicios',cardServicesDesc:'Vea todos los servicios que ofrecemos',
+    cardContact:'Contáctenos',cardContactDesc:'Póngase en contacto con nosotros hoy',
+    statServices:'Servicios Ofrecidos',statSatisfaction:'Satisfacción del Cliente',statSupport:'Soporte Disponible'
+  },
+  fr: {
+    home:'Accueil',about:'À propos',services:'Services',contact:'Contact',
+    heroTitle:'Services Logiciels et Technologiques de Qualité',
+    heroDesc:'Nous fournissons des solutions matérielles et logicielles premium à des prix abordables.',
+    btnServices:'Voir les Services →',btnContact:'Contactez-nous',
+    exploreTitle:'Explorez <span>Nos Pages</span>',exploreDesc:'Découvrez ce que nous offrons et comment nous pouvons vous aider',
+    cardAbout:'À Propos de Nous',cardAboutDesc:'En savoir plus sur qui nous sommes et notre mission',
+    cardServices:'Nos Services',cardServicesDesc:'Voir tous les services que nous offrons',
+    cardContact:'Contactez-nous',cardContactDesc:'Contactez-nous aujourd\'hui',
+    statServices:'Services Offerts',statSatisfaction:'Satisfaction Client',statSupport:'Support Disponible'
+  },
+  ar: {
+    home:'الرئيسية',about:'حول',services:'الخدمات',contact:'اتصل بنا',
+    heroTitle:'خدمات برمجيات وتكنولوجيا عالية الجودة',
+    heroDesc:'نقدم حلول أجهزة وبرمجيات متميزة بأسعار معقولة.',
+    btnServices:'عرض الخدمات →',btnContact:'اتصل بنا',
+    exploreTitle:'استكشف <span>صفحاتنا</span>',exploreDesc:'اكتشف ما نقدمه وكيف يمكننا مساعدتك',
+    cardAbout:'من نحن',cardAboutDesc:'تعرف على المزيد عنا وعن مهمتنا',
+    cardServices:'خدماتنا',cardServicesDesc:'عرض جميع الخدمات التي نقدمها',
+    cardContact:'اتصل بنا',cardContactDesc:'تواصل معنا اليوم',
+    statServices:'الخدمات المقدمة',statSatisfaction:'رضا العملاء',statSupport:'الدعم متاح'
+  },
+  zh: {
+    home:'首页',about:'关于',services:'服务',contact:'联系',
+    heroTitle:'优质软件和技术服务',
+    heroDesc:'我们以实惠的价格提供优质的硬件和软件解决方案。',
+    btnServices:'查看服务 →',btnContact:'联系我们',
+    exploreTitle:'探索<span>我们的页面</span>',exploreDesc:'了解我们提供的服务以及我们如何帮助您',
+    cardAbout:'关于我们',cardAboutDesc:'了解更多关于我们是谁和我们的使命',
+    cardServices:'我们的服务',cardServicesDesc:'查看我们提供的所有服务',
+    cardContact:'联系我们',cardContactDesc:'今天就联系我们',
+    statServices:'提供的服务',statSatisfaction:'客户满意度',statSupport:'支持可用'
+  }
+};
+
+function changeLanguage() {
+  const lang = document.getElementById('langSelect').value;
+  const t = translations[lang];
+  localStorage.setItem('blsc_lang', lang);
+  
+  document.getElementById('navHome').textContent = t.home;
+  document.getElementById('navAbout').textContent = t.about;
+  document.getElementById('navServices').textContent = t.services;
+  document.getElementById('navContact').textContent = t.contact;
+  document.getElementById('heroTitle').textContent = t.heroTitle;
+  document.getElementById('heroDesc').textContent = t.heroDesc;
+  document.getElementById('btnServices').textContent = t.btnServices;
+  document.getElementById('btnContact').textContent = t.btnContact;
+  document.getElementById('exploreTitle').innerHTML = t.exploreTitle;
+  document.getElementById('exploreDesc').textContent = t.exploreDesc;
+  document.getElementById('cardAbout').textContent = t.cardAbout;
+  document.getElementById('cardAboutDesc').textContent = t.cardAboutDesc;
+  document.getElementById('cardServices').textContent = t.cardServices;
+  document.getElementById('cardServicesDesc').textContent = t.cardServicesDesc;
+  document.getElementById('cardContact').textContent = t.cardContact;
+  document.getElementById('cardContactDesc').textContent = t.cardContactDesc;
+  document.getElementById('statServices').textContent = t.statServices;
+  document.getElementById('statSatisfaction').textContent = t.statSatisfaction;
+  document.getElementById('statSupport').textContent = t.statSupport;
+  
+  document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+}
+
+document.getElementById('langSelect').addEventListener('change', changeLanguage);
+
+const savedLang = localStorage.getItem('blsc_lang');
+if (savedLang) {
+  document.getElementById('langSelect').value = savedLang;
+  changeLanguage();
+}
+</script>
 </body>
 </html>
