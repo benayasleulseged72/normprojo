@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLSC Image Search</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0a0a; min-height: 100vh; color: #fff; padding: 20px; }
+.back-btn { position: fixed; top: 30px; left: 30px; padding: 12px 24px; background: #1a1a1a; border: 1px solid #333; border-radius: 25px; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; z-index: 1000; text-decoration: none; }
+.back-btn:hover { background: #22c55e; color: #000; border-color: #22c55e; }
+.header { text-align: center; margin-bottom: 40px; padding-top: 60px; }
+h1 { font-size: 42px; font-weight: 700; margin-bottom: 10px; }
+h1 span { color: #22c55e; }
+.subtitle { color: #9ca3af; font-size: 16px; }
+.search-container { max-width: 800px; margin: 0 auto 40px; }
+.search-box { display: flex; gap: 15px; background: #1a1a1a; padding: 10px; border-radius: 25px; border: 1px solid #2a2a2a; }
+#searchInput { flex: 1; padding: 15px 25px; border: none; font-size: 16px; border-radius: 20px; outline: none; background: #0f0f0f; color: #fff; }
+#searchBtn { padding: 15px 30px; background: #22c55e; border: none; border-radius: 20px; color: #000; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; }
+#searchBtn:hover { background: #16a34a; }
+.categories { max-width: 1400px; margin: 0 auto 40px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.category-btn { padding: 10px 20px; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 20px; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+.category-btn:hover { border-color: #22c55e; transform: translateY(-2px); }
+.loading { text-align: center; color: #22c55e; font-size: 18px; padding: 40px; display: none; }
+.loading.active { display: block; }
+.spinner { border: 4px solid #1a1a1a; border-top: 4px solid #22c55e; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.gallery { max-width: 1400px; margin: 0 auto; }
+</style>
+</head>
+<body>
+<a href="../../index.html" class="back-btn">← Back to Home</a>
+<div class="header"><h1>🖼️ Image <span>Search</span></h1><p class="subtitle">Search and download millions of free stock photos</p></div>
+<div class="search-container"><div class="search-box"><input type="text" id="searchInput" placeholder="Search for images..." onkeypress="handleEnter(event)"><button id="searchBtn" onclick="searchImages()">🔍 Search</button></div></div>
+<div class="categories">
+<button class="category-btn" onclick="quickSearch('nature')">🌿 Nature</button>
+<button class="category-btn" onclick="quickSearch('background')">🎨 Backgrounds</button>
+<button class="category-btn" onclick="quickSearch('cars')">🚗 Cars</button>
+<button class="category-btn" onclick="quickSearch('food')">🍔 Food</button>
+<button class="category-btn" onclick="quickSearch('animals')">🐾 Animals</button>
+<button class="category-btn" onclick="quickSearch('technology')">💻 Technology</button>
+</div>
+<div class="loading" id="loading"><div class="spinner"></div>Searching for images...</div>
+<div class="gallery" id="gallery"></div>
+<script>
+function handleEnter(event) { if (event.key === 'Enter') searchImages(); }
+function quickSearch(query) { document.getElementById('searchInput').value = query; searchImages(); }
+async function searchImages() {
+const query = document.getElementById('searchInput').value.trim();
+if (!query) { alert('⚠️ Please enter a search term!'); return; }
+const gallery = document.getElementById('gallery');
+const loading = document.getElementById('loading');
+gallery.innerHTML = ''; loading.classList.add('active');
+setTimeout(() => {
+loading.classList.remove('active');
+gallery.innerHTML = `<div style="width:100%;height:85vh;background:#1a1a1a;border-radius:20px;overflow:hidden;border:1px solid #2a2a2a;position:relative;">
+<iframe src="https://www.pexels.com/search/${encodeURIComponent(query)}/" style="width:100%;height:calc(100% + 200px);border:none;margin-top:-120px;" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"></iframe>
+<div style="position:absolute;top:0;left:0;right:0;height:60px;background:#22c55e;display:flex;align-items:center;justify-content:center;color:#000;font-size:18px;font-weight:700;z-index:10;">📸 ${query} Images</div></div>
+<p style="text-align:center;color:#9ca3af;padding:20px;font-size:14px;">✨ Scroll to see images • Click to view • Right-click to download</p>`;
+}, 500);
+}
+window.onload = () => { document.getElementById('gallery').innerHTML = '<div style="text-align:center;padding:60px;color:#9ca3af;"><div style="font-size:80px;margin-bottom:20px;">🔍</div><h2 style="font-size:28px;margin-bottom:15px;color:#fff;">Search for Any Image</h2><p>Try: ethiopia, background, nature, cars...</p></div>'; };
+</script>
+</body>
+</html>

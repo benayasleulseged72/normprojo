@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Important Websites - BLSC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .bg-gradient {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 20% 20%, rgba(63,185,80,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(88,166,255,0.1) 0%, transparent 50%), #0a0a0a;
+            z-index: -1;
+        }
+        .back-btn {
+            position: fixed; top: 30px; left: 30px; padding: 12px 24px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 100px;
+            color: #fff; font-size: 14px; font-weight: 600; cursor: pointer;
+            transition: all 0.3s ease; z-index: 1000; text-decoration: none;
+        }
+        .back-btn:hover { background: #3fb950; color: #000; border-color: #3fb950; }
+        .container { max-width: 1200px; margin: 0 auto; padding-top: 80px; }
+        .header { text-align: center; margin-bottom: 60px; }
+        .header img { height: 100px; margin-bottom: 20px; border-radius: 50%; border: 3px solid #3fb950; box-shadow: 0 0 40px rgba(63,185,80,0.4); }
+        .header h1 { font-size: 48px; font-weight: 800; margin-bottom: 16px; }
+        .header h1 span { color: #3fb950; }
+        .header p { color: rgba(255,255,255,0.6); font-size: 18px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+            padding: 40px 30px; text-align: center; cursor: pointer;
+            transition: all 0.4s ease; position: relative; overflow: hidden;
+        }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #3fb950, #2ea043); transform: scaleX(0); transition: transform 0.3s ease;
+        }
+        .card:hover::before { transform: scaleX(1); }
+        .card:hover { transform: translateY(-10px); border-color: #3fb950; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        .card-icon { font-size: 56px; margin-bottom: 20px; }
+        .card-title { font-size: 22px; font-weight: 700; margin-bottom: 12px; color: #fff; }
+        .card-desc { color: rgba(255,255,255,0.5); font-size: 14px; line-height: 1.6; }
+        .card-arrow { display: inline-block; margin-top: 16px; color: #3fb950; font-size: 14px; opacity: 0; transition: all 0.3s; }
+        .card:hover .card-arrow { opacity: 1; }
+        @media (max-width: 768px) { .header h1 { font-size: 32px; } .back-btn { top: 20px; left: 20px; } }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <a href="../../index.html" class="back-btn">← Back to Home</a>
+    <div class="container">
+        <div class="header">
+            <img src="1.png" alt="BLSC Logo">
+            <h1>Discover <span>Amazing</span> Websites</h1>
+            <p>Choose your purpose and explore the best resources</p>
+        </div>
+        <div class="cards-grid">
+            <div class="card" onclick="window.location.href='elrn.html'">
+                <span class="card-icon">📚</span>
+                <h2 class="card-title">For Learning</h2>
+                <p class="card-desc">Access top educational platforms, courses, and tutorials</p>
+                <span class="card-arrow">Explore →</span>
+            </div>
+            <div class="card" onclick="window.location.href='gmst.html'">
+                <span class="card-icon">🎮</span>
+                <h2 class="card-title">Game Store</h2>
+                <p class="card-desc">Discover the best gaming platforms and download games</p>
+                <span class="card-arrow">Explore →</span>
+            </div>
+            <div class="card" onclick="window.location.href='apst.html'">
+                <span class="card-icon">📱</span>
+                <h2 class="card-title">App Store</h2>
+                <p class="card-desc">Find and download applications from trusted sources</p>
+                <span class="card-arrow">Explore →</span>
+            </div>
+            <div class="card" onclick="window.location.href='jobs.html'">
+                <span class="card-icon">💼</span>
+                <h2 class="card-title">For Job</h2>
+                <p class="card-desc">Explore job opportunities and career resources</p>
+                <span class="card-arrow">Explore →</span>
+            </div>
+            <div class="card" onclick="window.location.href='entrm.html'">
+                <span class="card-icon">🎬</span>
+                <h2 class="card-title">Entertainment</h2>
+                <p class="card-desc">Stream movies, music, and enjoy entertainment</p>
+                <span class="card-arrow">Explore →</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

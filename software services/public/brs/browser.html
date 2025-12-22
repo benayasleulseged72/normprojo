@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLSC Browser</title>
+    <link rel="icon" type="image/png" href="1.png">
+    <link rel="stylesheet" href="browser-style.css">
+</head>
+<body>
+    <div class="tab-bar">
+        <div class="tab active" data-tab="0">
+            <span class="tab-favicon">🏠</span>
+            <span class="tab-title">New Tab</span>
+            <button class="tab-close" onclick="closeTab(0, event)">×</button>
+        </div>
+        <button class="new-tab-btn" onclick="addNewTab()">+</button>
+    </div>
+
+    <div class="top-bar">
+        <img src="1.png" alt="BLSC Logo" class="logo">
+        
+        <div class="nav-buttons">
+            <button class="nav-btn" id="backBtn" onclick="goBack()" disabled>←</button>
+            <button class="nav-btn" id="forwardBtn" onclick="goForward()" disabled>→</button>
+            <button class="nav-btn" onclick="reloadPage()">↻</button>
+            <button class="nav-btn" onclick="goHome()">🏠</button>
+            <button class="nav-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+        </div>
+
+        <div class="address-bar-container">
+            <span class="lock-icon">🔒</span>
+            <input type="text" class="address-bar" id="addressBar" placeholder="Search or enter website URL" onkeypress="handleAddressBar(event)">
+            <button class="star-btn" onclick="toggleBookmark()">☆</button>
+            <button class="star-btn" onclick="savePageOffline()" title="Save Page Offline">💾</button>
+        </div>
+
+        <button class="menu-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
+        <button class="menu-btn" onclick="toggleMenu()">⋮</button>
+    </div>
+
+    <div class="browser-content">
+        <div class="loading-bar" id="loadingBar"></div>
+        <div class="home-page" id="homePage"></div>
+        <iframe id="browserFrame" style="display: none;" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation allow-modals"></iframe>
+        <div class="error-page" id="errorPage"></div>
+    </div>
+
+    <div class="menu-panel" id="menuPanel"></div>
+    <div class="modal" id="modal"></div>
+
+    <script src="browser-script.js"></script>
+</body>
+</html>

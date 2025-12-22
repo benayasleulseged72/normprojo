@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLSC Browser Launcher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .launcher {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .launch-btn {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(17, 153, 142, 0.4);
+            margin: 10px;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .launch-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(17, 153, 142, 0.6);
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+<body>
+    <a href="../../index.html" class="back-btn">← Back to Home</a>
+
+    <div class="launcher">
+        <div class="logo">🌐</div>
+        <h1>BLSC Web Browser</h1>
+        <p class="subtitle">Python Tkinter Web Browser</p>
+
+        <button class="launch-btn" onclick="runBrowser()">
+            🚀 Launch Browser
+        </button>
+
+        <button class="launch-btn" onclick="downloadPython()" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+            🐍 Install Python
+        </button>
+
+        <div class="instructions">
+            <h3>📋 How to Run:</h3>
+            <ol>
+                <li><strong>Click "Launch Browser"</strong> - This will try to run the browser automatically</li>
+                <li><strong>If it doesn't work:</strong> Make sure Python is installed</li>
+                <li><strong>Install Python:</strong> Click "Install Python" button above</li>
+                <li><strong>Manual Run:</strong> Double-click "run_browser.bat" file</li>
+                <li><strong>Alternative:</strong> Open command prompt, navigate to this folder, type: <code>python browser.py</code></li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function runBrowser() {
+            // Show options for different browsers
+            const choice = confirm('Choose browser type:\n\nOK = Real Chrome Browser (recommended)\nCancel = Simple Text Browser');
+            
+            if (choice) {
+                // Run real Chrome browser
+                try {
+                    window.open('run_chrome_browser.bat', '_blank');
+                } catch (error) {
+                    alert('To run the Chrome browser:\n\n1. Double-click "run_chrome_browser.bat"\n2. Or type: python chrome_browser.py\n\nThis gives you REAL web browsing with full website support!');
+                }
+            } else {
+                // Run simple browser
+                try {
+                    window.open('run_browser.bat', '_blank');
+                } catch (error) {
+                    alert('To run the simple browser:\n\n1. Double-click "run_browser.bat"\n2. Or type: python browser.py');
+                }
+            }
+        }
+
+        function downloadPython() {
+            window.open('https://www.python.org/downloads/', '_blank');
+        }
+    </script>
+</body>
+</html>

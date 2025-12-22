@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entertainment - Best Streaming Websites</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: #0a0a0a; min-height: 100vh; padding: 20px; color: #fff; }
+        .bg-gradient { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 20%, rgba(63,185,80,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(88,166,255,0.1) 0%, transparent 50%), #0a0a0a; z-index: -1; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; padding-top: 20px; }
+        header img { height: 80px; margin-bottom: 15px; border-radius: 50%; border: 3px solid #3fb950; box-shadow: 0 0 30px rgba(63,185,80,0.4); }
+        h1 { color: white; font-size: 42px; font-weight: 800; margin-bottom: 10px; }
+        h1 span { color: #3fb950; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 16px; margin-bottom: 30px; }
+        .search-box { max-width: 600px; margin: 0 auto 40px; position: relative; }
+        .search-input { width: 100%; padding: 18px 50px 18px 25px; font-size: 16px; border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; background: rgba(255,255,255,0.05); color: #fff; outline: none; transition: all 0.3s; }
+        .search-input:focus { border-color: #3fb950; box-shadow: 0 0 20px rgba(63,185,80,0.2); }
+        .search-input::placeholder { color: rgba(255,255,255,0.4); }
+        .search-icon { position: absolute; right: 25px; top: 50%; transform: translateY(-50%); font-size: 20px; }
+        .apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .app-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.3s; text-decoration: none; color: inherit; }
+        .app-card:hover { transform: translateY(-5px); border-color: #3fb950; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .app-logo { width: 48px; height: 48px; border-radius: 12px; object-fit: contain; background: #fff; padding: 6px; }
+        .app-info { flex: 1; }
+        .app-name { font-size: 17px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+        .app-tag { font-size: 12px; color: rgba(255,255,255,0.5); background: rgba(63,185,80,0.15); padding: 4px 10px; border-radius: 100px; display: inline-block; }
+        .app-arrow { font-size: 20px; color: #3fb950; opacity: 0; transition: all 0.3s; }
+        .app-card:hover .app-arrow { opacity: 1; }
+        .back-btn { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, #3fb950, #2ea043); color: #fff; border: none; padding: 15px 30px; border-radius: 100px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(63,185,80,0.4); transition: all 0.3s; }
+        .back-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(63,185,80,0.5); }
+        .no-results { text-align: center; color: rgba(255,255,255,0.5); font-size: 20px; margin-top: 50px; display: none; }
+        @media (max-width: 768px) { h1 { font-size: 28px; } .apps-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="container">
+        <header>
+            <img src="1.png" alt="BLSC Logo">
+            <h1>🎬 Best <span>Entertainment</span> Websites</h1>
+            <p class="subtitle">Stream movies, music, and enjoy entertainment</p>
+        </header>
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search entertainment sites...">
+            <span class="search-icon">🔍</span>
+        </div>
+        <div class="apps-grid" id="appsGrid">
+            <a href="https://www.youtube.com" target="_blank" class="app-card" data-name="YouTube"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">YouTube</div><span class="app-tag">Videos</span></div><div class="app-arrow">→</div></a>
+            <a href="https://www.netflix.com" target="_blank" class="app-card" data-name="Netflix"><img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">Netflix</div><span class="app-tag">Movies & Shows</span></div><div class="app-arrow">→</div></a>
+            <a href="https://www.spotify.com" target="_blank" class="app-card" data-name="Spotify"><img src="https://www.google.com/s2/favicons?domain=spotify.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">Spotify</div><span class="app-tag">Music</span></div><div class="app-arrow">→</div></a>
+            <a href="https://www.twitch.tv" target="_blank" class="app-card" data-name="Twitch"><img src="https://www.google.com/s2/favicons?domain=twitch.tv&sz=128" class="app-logo"><div class="app-info"><div class="app-name">Twitch</div><span class="app-tag">Live Streaming</span></div><div class="app-arrow">→</div></a>
+            <a href="https://www.primevideo.com" target="_blank" class="app-card" data-name="Prime Video"><img src="https://www.google.com/s2/favicons?domain=primevideo.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">Prime Video</div><span class="app-tag">Amazon</span></div><div class="app-arrow">→</div></a>
+            <a href="https://www.disneyplus.com" target="_blank" class="app-card" data-name="Disney+"><img src="https://www.google.com/s2/favicons?domain=disneyplus.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">Disney+</div><span class="app-tag">Disney Content</span></div><div class="app-arrow">→</div></a>
+            <a href="https://www.hbomax.com" target="_blank" class="app-card" data-name="HBO Max"><img src="https://www.google.com/s2/favicons?domain=hbomax.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">HBO Max</div><span class="app-tag">Premium</span></div><div class="app-arrow">→</div></a>
+            <a href="https://soundcloud.com" target="_blank" class="app-card" data-name="SoundCloud"><img src="https://www.google.com/s2/favicons?domain=soundcloud.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">SoundCloud</div><span class="app-tag">Music</span></div><div class="app-arrow">→</div></a>
+            <a href="https://www.tiktok.com" target="_blank" class="app-card" data-name="TikTok"><img src="https://www.google.com/s2/favicons?domain=tiktok.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">TikTok</div><span class="app-tag">Short Videos</span></div><div class="app-arrow">→</div></a>
+            <a href="https://www.reddit.com" target="_blank" class="app-card" data-name="Reddit"><img src="https://www.google.com/s2/favicons?domain=reddit.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">Reddit</div><span class="app-tag">Community</span></div><div class="app-arrow">→</div></a>
+            <a href="https://www.imdb.com" target="_blank" class="app-card" data-name="IMDb"><img src="https://www.google.com/s2/favicons?domain=imdb.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">IMDb</div><span class="app-tag">Movie Database</span></div><div class="app-arrow">→</div></a>
+            <a href="https://www.crunchyroll.com" target="_blank" class="app-card" data-name="Crunchyroll"><img src="https://www.google.com/s2/favicons?domain=crunchyroll.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">Crunchyroll</div><span class="app-tag">Anime</span></div><div class="app-arrow">→</div></a>
+            <a href="https://www.deezer.com" target="_blank" class="app-card" data-name="Deezer"><img src="https://www.google.com/s2/favicons?domain=deezer.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">Deezer</div><span class="app-tag">Music</span></div><div class="app-arrow">→</div></a>
+            <a href="https://www.vimeo.com" target="_blank" class="app-card" data-name="Vimeo"><img src="https://www.google.com/s2/favicons?domain=vimeo.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">Vimeo</div><span class="app-tag">Quality Videos</span></div><div class="app-arrow">→</div></a>
+            <a href="https://www.dailymotion.com" target="_blank" class="app-card" data-name="Dailymotion"><img src="https://www.google.com/s2/favicons?domain=dailymotion.com&sz=128" class="app-logo"><div class="app-info"><div class="app-name">Dailymotion</div><span class="app-tag">Videos</span></div><div class="app-arrow">→</div></a>
+        </div>
+        <div class="no-results" id="noResults">No sites found 😔</div>
+        <button class="back-btn" onclick="window.history.back()">← Back</button>
+    </div>
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const appCards = document.querySelectorAll('.app-card');
+        const noResults = document.getElementById('noResults');
+        const appsGrid = document.getElementById('appsGrid');
+        searchInput.addEventListener('input', function() {
+            const term = this.value.toLowerCase();
+            let count = 0;
+            appCards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                if (name.includes(term)) { card.style.display = 'flex'; count++; } else { card.style.display = 'none'; }
+            });
+            noResults.style.display = count === 0 && term ? 'block' : 'none';
+            appsGrid.style.display = count === 0 && term ? 'none' : 'grid';
+        });
+    </script>
+</body>
+</html>

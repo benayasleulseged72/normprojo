@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download BLSC Gallery</title>
+    <link rel="icon" type="image/png" href="1.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            padding: 12px 24px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 25px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            text-decoration: none;
+        }
+        .back-btn:hover { background: #22c55e; color: #000; border-color: #22c55e; }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: #0f0f0f;
+            border: 1px solid #1a1a1a;
+            border-radius: 24px;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        .logo { width: 100px; height: 100px; margin-bottom: 30px; border-radius: 50%; border: 3px solid #22c55e; }
+        h1 { font-size: 32px; font-weight: 700; margin-bottom: 16px; }
+        h1 span { color: #22c55e; }
+        .subtitle { color: #9ca3af; font-size: 16px; margin-bottom: 40px; }
+        .btn-group { display: flex; flex-direction: column; gap: 16px; }
+        .btn {
+            padding: 18px 30px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            background: #1a1a1a;
+            color: #fff;
+            border: 1px solid #2a2a2a;
+        }
+        .btn:hover { border-color: #22c55e; transform: translateY(-3px); }
+        .btn-info { display: flex; align-items: center; gap: 15px; }
+        .btn-icon { font-size: 32px; }
+        .btn-text { text-align: left; }
+        .btn-title { font-size: 18px; font-weight: 600; }
+        .btn-desc { font-size: 13px; color: #9ca3af; }
+        .btn-arrow { color: #22c55e; font-size: 20px; }
+    </style>
+</head>
+<body>
+    <a href="gal.html" class="back-btn">← Back</a>
+    <div class="container">
+        <img src="1.png" alt="BLSC Logo" class="logo">
+        <h1>Download <span>BLSC Gallery</span></h1>
+        <p class="subtitle">Choose your platform to download</p>
+        <div class="btn-group">
+            <a href="frw.html" class="btn">
+                <div class="btn-info">
+                    <span class="btn-icon">🪟</span>
+                    <div class="btn-text">
+                        <div class="btn-title">Windows</div>
+                        <div class="btn-desc">For Windows 7, 8, 10, 11</div>
+                    </div>
+                </div>
+                <span class="btn-arrow">→</span>
+            </a>
+            <a href="#" class="btn" onclick="alert('Android version coming soon!')">
+                <div class="btn-info">
+                    <span class="btn-icon">🤖</span>
+                    <div class="btn-text">
+                        <div class="btn-title">Android</div>
+                        <div class="btn-desc">For Android phones and tablets</div>
+                    </div>
+                </div>
+                <span class="btn-arrow">→</span>
+            </a>
+            <a href="#" class="btn" onclick="alert('iPhone version coming soon!')">
+                <div class="btn-info">
+                    <span class="btn-icon">🍎</span>
+                    <div class="btn-text">
+                        <div class="btn-title">iPhone / iPad</div>
+                        <div class="btn-desc">For iOS devices</div>
+                    </div>
+                </div>
+                <span class="btn-arrow">→</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

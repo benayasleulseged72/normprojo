@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Courses - Coming Soon</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: #0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .scanline {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 100;
+        }
+        .container { text-align: center; }
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            padding: 12px 24px;
+            background: transparent;
+            border: 1px solid #0f0;
+            color: #0f0;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background: #0f0;
+            color: #000;
+            box-shadow: 0 0 20px #0f0;
+        }
+        .logo {
+            font-size: 120px;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { text-shadow: 0 0 20px #0f0; }
+            50% { text-shadow: 0 0 60px #0f0, 0 0 100px #0f0; }
+        }
+        h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #0f0;
+            animation: glitch 3s infinite;
+        }
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-3px, 3px); }
+            94% { transform: translate(3px, -3px); }
+        }
+        .subtitle {
+            font-size: 24px;
+            color: #0a0;
+            margin-bottom: 50px;
+        }
+        .coming {
+            font-size: 80px;
+            font-weight: bold;
+            text-shadow: 0 0 30px #0f0, 0 0 60px #0f0;
+            animation: flicker 1.5s infinite;
+        }
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+            52% { opacity: 1; }
+        }
+        footer {
+            position: fixed;
+            bottom: 30px;
+            left: 0; right: 0;
+            text-align: center;
+            color: #0a0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="scanline"></div>
+    <a href="../../index.html" class="back-btn">[← BACK]</a>
+    <div class="container">
+        <div class="logo">🎓</div>
+        <h1>ONLINE SOFTWARE COURSES</h1>
+        <p class="subtitle">// LEARN PROGRAMMING //</p>
+        <div class="coming">COMING SOON</div>
+    </div>
+    <footer>[ BENAYAS LEULSEGED SOFTWARE COMMUNITY ]</footer>
+</body>
+</html>

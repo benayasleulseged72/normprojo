@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLSC Universal Translator</title>
+    <link rel="icon" type="image/png" href="1.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            padding: 12px 24px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 25px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            text-decoration: none;
+        }
+        .back-btn:hover { background: #22c55e; color: #000; border-color: #22c55e; }
+        .header { text-align: center; margin-bottom: 40px; padding-top: 60px; }
+        .logo { width: 80px; height: 80px; margin-bottom: 20px; border-radius: 50%; border: 3px solid #22c55e; }
+        h1 { font-size: 42px; font-weight: 700; margin-bottom: 10px; }
+        h1 span { color: #22c55e; }
+        .subtitle { color: #9ca3af; font-size: 16px; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #0f0f0f;
+            border: 1px solid #1a1a1a;
+            border-radius: 24px;
+            padding: 40px;
+        }
+        .translator-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            align-items: start;
+            margin-bottom: 30px;
+        }
+        .text-box { position: relative; }
+        .language-selector { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .language-selector select {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            background: #1a1a1a;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .language-selector select:focus { outline: none; border-color: #22c55e; }
+        .flag-icon { font-size: 24px; }
+        textarea {
+            width: 100%;
+            height: 250px;
+            padding: 20px;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            font-size: 16px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        textarea:focus { outline: none; border-color: #22c55e; }
+        textarea:read-only { background: #151515; }
+        .swap-btn {
+            align-self: center;
+            padding: 15px;
+            background: #22c55e;
+            border: none;
+            border-radius: 50%;
+            color: #000;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .swap-btn:hover { transform: rotate(180deg) scale(1.1); background: #16a34a; }
+        .translate-btn {
+            width: 100%;
+            padding: 18px;
+            background: #22c55e;
+            border: none;
+            border-radius: 16px;
+            color: #000;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        .translate-btn:hover { background: #16a34a; transform: translateY(-3px); }
+        .translate-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 30px; }
+        .feature {
+            padding: 20px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .feature:hover { border-color: #22c55e; transform: translateY(-3px); }
+        .feature-icon { font-size: 32px; margin-bottom: 10px; }
+        .feature-text { font-size: 14px; color: #9ca3af; font-weight: 600; }
+        .char-count { text-align: right; color: #6b7280; font-size: 14px; margin-top: 10px; }
+        .loading { display: none; text-align: center; padding: 20px; color: #22c55e; font-weight: 600; }
+        .loading.active { display: block; }
+        .spinner {
+            border: 3px solid #1a1a1a;
+            border-top: 3px solid #22c55e;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @media (max-width: 968px) {
+            .translator-grid { grid-template-columns: 1fr; }
+            .swap-btn { transform: rotate(90deg); margin: 20px auto; }
+            .swap-btn:hover { transform: rotate(270deg) scale(1.1); }
+            .features { grid-template-columns: repeat(2, 1fr); }
+            h1 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="la.html" class="back-btn">← Back</a>
+    <div class="header">
+        <img src="1.png" alt="BLSC Logo" class="logo">
+        <h1>🌍 BLSC <span>Translator</span></h1>
+        <p class="subtitle">Translate any text to any language instantly</p>
+    </div>
+    <div class="container">
+        <div class="translator-grid">
+            <div class="text-box">
+                <div class="language-selector">
+                    <span class="flag-icon">🌐</span>
+                    <select id="sourceLang">
+                        <option value="auto">Auto Detect</option>
+                        <option value="en">English</option>
+                        <option value="am">Amharic (አማርኛ)</option>
+                        <option value="ar">Arabic (العربية)</option>
+                        <option value="zh">Chinese (中文)</option>
+                        <option value="fr">French (Français)</option>
+                        <option value="de">German (Deutsch)</option>
+                        <option value="hi">Hindi (हिन्दी)</option>
+                        <option value="it">Italian (Italiano)</option>
+                        <option value="ja">Japanese (日本語)</option>
+                        <option value="ko">Korean (한국어)</option>
+                        <option value="pt">Portuguese (Português)</option>
+                        <option value="ru">Russian (Русский)</option>
+                        <option value="es">Spanish (Español)</option>
+                        <option value="sw">Swahili (Kiswahili)</option>
+                        <option value="tr">Turkish (Türkçe)</option>
+                    </select>
+                </div>
+                <textarea id="inputText" placeholder="Type or paste your text here..."></textarea>
+                <div class="char-count"><span id="charCount">0</span> characters</div>
+            </div>
+            <button class="swap-btn" onclick="swapLanguages()" title="Swap languages">⇄</button>
+            <div class="text-box">
+                <div class="language-selector">
+                    <span class="flag-icon">🎯</span>
+                    <select id="targetLang">
+                        <option value="en">English</option>
+                        <option value="am">Amharic (አማርኛ)</option>
+                        <option value="ar">Arabic (العربية)</option>
+                        <option value="zh">Chinese (中文)</option>
+                        <option value="fr">French (Français)</option>
+                        <option value="de">German (Deutsch)</option>
+                        <option value="hi">Hindi (हिन्दी)</option>
+                        <option value="it">Italian (Italiano)</option>
+                        <option value="ja">Japanese (日本語)</option>
+                        <option value="ko">Korean (한국어)</option>
+                        <option value="pt">Portuguese (Português)</option>
+                        <option value="ru">Russian (Русский)</option>
+                        <option value="es">Spanish (Español)</option>
+                        <option value="sw">Swahili (Kiswahili)</option>
+                        <option value="tr">Turkish (Türkçe)</option>
+                    </select>
+                </div>
+                <textarea id="outputText" readonly placeholder="Translation will appear here..."></textarea>
+            </div>
+        </div>
+        <button class="translate-btn" onclick="translateText()">🌐 Translate Now</button>
+        <div class="loading" id="loading"><div class="spinner"></div>Translating...</div>
+        <div class="features">
+            <div class="feature"><div class="feature-icon">🌍</div><div class="feature-text">10+ Languages</div></div>
+            <div class="feature"><div class="feature-icon">⚡</div><div class="feature-text">Instant Translation</div></div>
+            <div class="feature"><div class="feature-icon">📝</div><div class="feature-text">Unlimited Text</div></div>
+            <div class="feature"><div class="feature-icon">🎯</div><div class="feature-text">High Accuracy</div></div>
+        </div>
+    </div>
+    <script>
+        const inputText = document.getElementById('inputText');
+        const charCount = document.getElementById('charCount');
+        inputText.addEventListener('input', () => { charCount.textContent = inputText.value.length; });
+        function swapLanguages() {
+            const sourceLang = document.getElementById('sourceLang');
+            const targetLang = document.getElementById('targetLang');
+            const inputTextEl = document.getElementById('inputText');
+            const outputTextEl = document.getElementById('outputText');
+            const tempLang = sourceLang.value;
+            sourceLang.value = targetLang.value;
+            targetLang.value = tempLang;
+            const tempText = inputTextEl.value;
+            inputTextEl.value = outputTextEl.value;
+            outputTextEl.value = tempText;
+            charCount.textContent = inputTextEl.value.length;
+        }
+        async function translateText() {
+            const inputTextEl = document.getElementById('inputText');
+            const outputTextEl = document.getElementById('outputText');
+            const sourceLang = document.getElementById('sourceLang').value;
+            const targetLang = document.getElementById('targetLang').value;
+            const loading = document.getElementById('loading');
+            const translateBtn = document.querySelector('.translate-btn');
+            const text = inputTextEl.value.trim();
+            if (!text) { alert('⚠️ Please enter some text to translate!'); return; }
+            if (sourceLang === targetLang && sourceLang !== 'auto') { alert('⚠️ Source and target languages are the same!'); return; }
+            loading.classList.add('active');
+            translateBtn.disabled = true;
+            outputTextEl.value = '';
+            try {
+                const langPair = sourceLang === 'auto' ? `${targetLang}` : `${sourceLang}|${targetLang}`;
+                const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langPair}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.responseStatus === 200 || data.responseData) {
+                    outputTextEl.value = data.responseData.translatedText;
+                } else { throw new Error('Translation failed'); }
+            } catch (error) {
+                console.error('Translation error:', error);
+                outputTextEl.value = '❌ Translation failed. Please check your internet connection and try again.';
+            } finally {
+                loading.classList.remove('active');
+                translateBtn.disabled = false;
+            }
+        }
+        inputText.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.ctrlKey) { e.preventDefault(); translateText(); } });
+        document.getElementById('outputText').addEventListener('click', function() {
+            if (this.value) { this.select(); document.execCommand('copy'); }
+        });
+        document.getElementById('targetLang').addEventListener('change', () => { if (inputText.value.trim()) { translateText(); } });
+    </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Video Generator - BLSC</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0a0a; min-height: 100vh; color: #fff; padding: 20px; }
+        .back-btn { position: fixed; top: 20px; left: 20px; background: #1a1a1a; border: 1px solid #333; color: white; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: 600; transition: all 0.3s ease; z-index: 1000; text-decoration: none; }
+        .back-btn:hover { background: #22c55e; color: #000; border-color: #22c55e; }
+        .container { max-width: 900px; margin: 0 auto; padding-top: 80px; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { font-size: 42px; font-weight: 700; margin-bottom: 10px; }
+        .header h1 span { color: #22c55e; }
+        .header p { color: #9ca3af; font-size: 18px; }
+        .generator-card { background: #0f0f0f; border: 1px solid #1a1a1a; border-radius: 24px; padding: 40px; }
+        .input-group { margin-bottom: 25px; }
+        .input-group label { display: block; font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+        .input-group textarea { width: 100%; padding: 18px; border: 1px solid #2a2a2a; border-radius: 15px; font-size: 16px; font-family: inherit; resize: vertical; min-height: 120px; background: #1a1a1a; color: #fff; transition: all 0.3s ease; }
+        .input-group input, .input-group select { width: 100%; padding: 15px; border: 1px solid #2a2a2a; border-radius: 12px; font-size: 16px; font-family: inherit; background: #1a1a1a; color: #fff; transition: all 0.3s ease; }
+        .input-group textarea:focus, .input-group input:focus, .input-group select:focus { outline: none; border-color: #22c55e; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .generate-btn { width: 100%; padding: 18px; background: #22c55e; color: #000; border: none; border-radius: 15px; font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-top: 10px; }
+        .generate-btn:hover { background: #16a34a; transform: translateY(-3px); }
+        .generate-btn:disabled { background: #333; cursor: not-allowed; transform: none; }
+        .loading { display: none; text-align: center; margin-top: 30px; }
+        .loading.active { display: block; }
+        .spinner { border: 4px solid #1a1a1a; border-top: 4px solid #22c55e; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { font-size: 18px; color: #9ca3af; font-weight: 600; }
+        .result-section { display: none; margin-top: 40px; }
+        .result-section.active { display: block; }
+        .video-container { background: #000; border-radius: 15px; overflow: hidden; margin-bottom: 20px; border: 1px solid #2a2a2a; }
+        canvas { display: none; }
+        .action-buttons { display: flex; gap: 15px; }
+        .action-btn { flex: 1; padding: 16px; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .download-btn { background: #22c55e; color: #000; }
+        .download-btn:hover { background: #16a34a; transform: translateY(-2px); }
+        .new-video-btn { background: #1a1a1a; color: #fff; border: 1px solid #333; }
+        .new-video-btn:hover { border-color: #22c55e; transform: translateY(-2px); }
+        @media (max-width: 768px) { .options-grid { grid-template-columns: 1fr; } .action-buttons { flex-direction: column; } }
+    </style>
+</head>
+<body>
+    <a href="../../index.html" class="back-btn">← Back to Home</a>
+    <div class="container">
+        <div class="header"><h1>🎬 Text Video <span>Generator</span></h1><p>Type your text and create an animated video!</p></div>
+        <div class="generator-card">
+            <div class="input-group"><label>✨ Your Text</label><textarea id="videoText" placeholder="Type your text here..."></textarea></div>
+            <div class="options-grid">
+                <div class="input-group"><label>Text Color</label><input type="color" id="textColor" value="#ffffff"></div>
+                <div class="input-group"><label>Background Color</label><input type="color" id="bgColor" value="#22c55e"></div>
+                <div class="input-group"><label>Font Size</label><select id="fontSize"><option value="40">Small</option><option value="60" selected>Medium</option><option value="80">Large</option></select></div>
+                <div class="input-group"><label>Duration</label><select id="duration"><option value="3">3 seconds</option><option value="5" selected>5 seconds</option><option value="8">8 seconds</option></select></div>
+            </div>
+            <button class="generate-btn" id="generateBtn" onclick="generateVideo()">🎥 Generate Video</button>
+            <div class="loading" id="loading"><div class="spinner"></div><p class="loading-text">Creating your video... ✨</p></div>
+            <div class="result-section" id="resultSection">
+                <div class="video-container"><video id="generatedVideo" controls loop style="width:100%;"><source id="videoSource" type="video/webm"></video></div>
+                <div class="action-buttons"><button class="action-btn download-btn" onclick="downloadVideo()">⬇️ Download</button><button class="action-btn new-video-btn" onclick="createNewVideo()">➕ New Video</button></div>
+            </div>
+        </div>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script>
+        let videoBlob = null;
+        async function generateVideo() {
+            const text = document.getElementById('videoText').value.trim();
+            if (!text) { alert('Please enter some text!'); return; }
+            const textColor = document.getElementById('textColor').value;
+            const bgColor = document.getElementById('bgColor').value;
+            const fontSize = parseInt(document.getElementById('fontSize').value);
+            const duration = parseInt(document.getElementById('duration').value);
+            document.getElementById('generateBtn').disabled = true;
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('resultSection').classList.remove('active');
+            try { await createTextVideo(text, textColor, bgColor, fontSize, duration); document.getElementById('loading').classList.remove('active'); document.getElementById('resultSection').classList.add('active'); }
+            catch (error) { console.error('Error:', error); alert('Failed to create video.'); }
+            finally { document.getElementById('generateBtn').disabled = false; }
+        }
+        async function createTextVideo(text, textColor, bgColor, fontSize, duration) {
+            const canvas = document.getElementById('canvas'); const ctx = canvas.getContext('2d');
+            canvas.width = 1280; canvas.height = 720;
+            const fps = 30; const totalFrames = fps * duration; const frames = [];
+            for (let i = 0; i < totalFrames; i++) {
+                ctx.fillStyle = bgColor; ctx.fillRect(0, 0, canvas.width, canvas.height);
+                const progress = i / totalFrames; const scale = 0.5 + Math.sin(progress * Math.PI * 4) * 0.2;
+                ctx.save(); ctx.translate(canvas.width / 2, canvas.height / 2); ctx.scale(scale, scale);
+                ctx.fillStyle = textColor; ctx.font = `bold ${fontSize}px Arial`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                const words = text.split(' '); const lines = []; let currentLine = '';
+                words.forEach(word => { const testLine = currentLine + word + ' '; if (ctx.measureText(testLine).width > canvas.width * 0.8 && currentLine !== '') { lines.push(currentLine); currentLine = word + ' '; } else { currentLine = testLine; } });
+                lines.push(currentLine);
+                const lineHeight = fontSize * 1.2; const startY = -(lines.length - 1) * lineHeight / 2;
+                lines.forEach((line, index) => { ctx.fillText(line, 0, startY + index * lineHeight); });
+                ctx.restore(); frames.push(canvas.toDataURL('image/webp'));
+            }
+            await createVideoFromFrames(frames, fps);
+        }
+        async function createVideoFromFrames(frames, fps) {
+            const canvas = document.getElementById('canvas'); const stream = canvas.captureStream(fps);
+            const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9', videoBitsPerSecond: 5000000 });
+            const chunks = [];
+            mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
+            mediaRecorder.onstop = () => { videoBlob = new Blob(chunks, { type: 'video/webm' }); document.getElementById('videoSource').src = URL.createObjectURL(videoBlob); document.getElementById('generatedVideo').load(); };
+            mediaRecorder.start();
+            const ctx = canvas.getContext('2d'); const frameDelay = 1000 / fps;
+            for (let i = 0; i < frames.length; i++) { await new Promise(resolve => { const img = new Image(); img.onload = () => { ctx.drawImage(img, 0, 0); setTimeout(resolve, frameDelay); }; img.src = frames[i]; }); }
+            mediaRecorder.stop();
+        }
+        function downloadVideo() { if (!videoBlob) return; const a = document.createElement('a'); a.href = URL.createObjectURL(videoBlob); a.download = `text-video-${Date.now()}.webm`; a.click(); }
+        function createNewVideo() { document.getElementById('videoText').value = ''; document.getElementById('resultSection').classList.remove('active'); videoBlob = null; }
+    </script>
+</body>
+</html>
