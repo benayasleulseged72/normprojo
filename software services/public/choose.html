@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Platform - BLSC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .bg-gradient {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(63,185,80,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 70%, rgba(88,166,255,0.1) 0%, transparent 50%), #0a0a0a;
+            z-index: -1;
+        }
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background: #3fb950;
+            color: #000;
+            border-color: #3fb950;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            max-width: 800px;
+        }
+        .app-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        h1 span { color: #3fb950; }
+        .subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 16px;
+            margin-bottom: 50px;
+        }
+        .choose-title {
+            font-size: 20px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 30px;
+        }
+        .options {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .option-card {
+            background: rgba(255,255,255,0.03);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 40px;
+            width: 280px;
+            cursor: pointer;
+            transition: all 0.4s;
+            text-decoration: none;
+            color: inherit;
+        }
+        .option-card:hover {
+            transform: translateY(-10px);
+            border-color: #3fb950;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+        .option-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .option-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .option-desc {
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.6;
+        }
+        .option-card.web:hover { border-color: #58a6ff; }
+        .option-card.web:hover .option-icon { color: #58a6ff; }
+        .option-card.desktop:hover { border-color: #3fb950; }
+        .option-card.desktop:hover .option-icon { color: #3fb950; }
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(63,185,80,0.15);
+            color: #3fb950;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        .badge.blue {
+            background: rgba(88,166,255,0.15);
+            color: #58a6ff;
+        }
+        footer {
+            position: fixed;
+            bottom: 30px;
+            left: 0; right: 0;
+            text-align: center;
+            color: rgba(255,255,255,0.3);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <a href="../index.html" class="back-btn">← Back</a>
+    
+    <div class="container">
+        <div class="app-icon" id="appIcon">🖼️</div>
+        <h1 id="appName">BLSC <span>Gallery</span></h1>
+        <p class="subtitle" id="appDesc">Manage and showcase your images</p>
+        
+        <p class="choose-title">How would you like to use this app?</p>
+        
+        <div class="options">
+            <a href="#" class="option-card web" id="webOption">
+                <span class="option-icon">🌐</span>
+                <h3 class="option-title">Use Web</h3>
+                <p class="option-desc">Open directly in your browser. No installation needed.</p>
+                <span class="badge blue">Instant Access</span>
+            </a>
+            
+            <div class="option-card desktop" id="desktopOption" onclick="installApp()">
+                <span class="option-icon">💻</span>
+                <h3 class="option-title">Desktop App</h3>
+                <p class="option-desc">Install as app on your device for offline access.</p>
+                <span class="badge">Install Now</span>
+            </div>
+        </div>
+    </div>
+    
+    <footer>© BENAYAS LEULSEGED SOFTWARE COMMUNITY</footer>
+    
+    <script>
+        // Get URL parameters
+        const params = new URLSearchParams(window.location.search);
+        const app = params.get('app');
+        const webUrl = params.get('url');
+        
+        // App configurations
+        const apps = {
+            'gallery': { icon: '🖼️', name: 'BLSC <span>Gallery</span>', desc: 'Manage and showcase your images', url: 'gal/gal.html' },
+            'translator': { icon: '🌍', name: 'BLSC <span>Translator</span>', desc: 'Break language barriers', url: 'lang/la.html' },
+            'images': { icon: '🔍', name: 'BLSC <span>Image Stock</span>', desc: 'Search millions of free photos', url: 'images/index.html' },
+            'ai-image': { icon: '🎨', name: 'BLSC <span>AI Image</span>', desc: 'Generate images with AI', url: 'sis/sis.html' },
+            'ai-video': { icon: '🎬', name: 'BLSC <span>AI Video</span>', desc: 'Create videos with AI', url: 'videgn/vdg.html' },
+            'browser': { icon: '🌐', name: 'BLSC <span>Browser</span>', desc: 'Fast and secure browsing', url: 'brs/brs.html' },
+            'websites': { icon: '⭐', name: 'Important <span>Websites</span>', desc: 'Essential web resources', url: 'impweb/impweb.html' }
+        };
+        
+        // Set app info
+        if (app && apps[app]) {
+            document.getElementById('appIcon').textContent = apps[app].icon;
+            document.getElementById('appName').innerHTML = apps[app].name;
+            document.getElementById('appDesc').textContent = apps[app].desc;
+            document.getElementById('webOption').href = apps[app].url;
+        } else if (webUrl) {
+            document.getElementById('webOption').href = webUrl;
+        }
+        
+        // Install as PWA
+        function installApp() {
+            const url = document.getElementById('webOption').href;
+            
+            // Check if browser supports PWA installation
+            if ('BeforeInstallPromptEvent' in window || navigator.standalone !== undefined) {
+                alert('To install as Desktop App:\n\n1. Click "Use Web" first\n2. In Chrome: Click ⋮ menu → "Install app" or "Add to Home screen"\n3. In Edge: Click ⋯ menu → "Apps" → "Install this site as an app"');
+            } else {
+                alert('To install as Desktop App:\n\n1. Open the web version first\n2. In your browser menu, look for "Install" or "Add to Home screen" option\n3. Follow the prompts to install');
+            }
+            
+            // Open the web version
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>
