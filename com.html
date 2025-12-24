@@ -64,13 +64,44 @@
   }
   .logo img{width:42px;height:42px;border-radius:50%;border:2px solid #3fb950;}
   
-  .nav-links{display:flex;gap:6px;flex-wrap:wrap;}
+  .nav-links{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
   .nav-links a{
     text-decoration:none;color:rgba(255,255,255,0.7);padding:10px 20px;
     border-radius:100px;font-weight:500;font-size:14px;transition:all 0.3s;
   }
   .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.1);}
   .nav-links a.active{color:#0a0a0a;background:#3fb950;}
+  
+  /* user icon styling - purple theme */
+  .user-icon{
+    position:relative;
+    display:flex;align-items:center;justify-content:center;
+    width:44px;height:44px;
+    background:transparent;
+    border-radius:12px;
+    color:#fff;
+    text-decoration:none;
+    transition:all 0.3s;
+    margin-left:20px;
+  }
+  .user-icon:hover{
+    transform:translateY(-2px);
+  }
+  .user-icon img{
+    width:44px;height:44px;
+    border-radius:12px;
+  }
+  .user-badge{
+    position:absolute;
+    bottom:-2px;right:-2px;
+    width:18px;height:18px;
+    background:#8b5cf6;
+    border-radius:50%;
+    font-size:10px;
+    display:flex;align-items:center;justify-content:center;
+    border:2px solid #0a0a0a;
+    color:#fff;
+  }
   
   /* lang selector */
   .lang-select{padding:8px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;font-size:13px;cursor:pointer;}
@@ -217,6 +248,9 @@
         <option value="ar">🇸🇦 AR</option>
         <option value="zh">🇨🇳 中</option>
       </select>
+      <a href="auth.html" class="user-icon" title="Login / Account">
+        <img src="user.png" alt="User">
+      </a>
     </div>
   </nav>
 </header>
@@ -307,6 +341,7 @@
   <p>© <span id="yr"></span> BENAYAS LEULSEGED Software Company — Jimma, Ethiopia</p>
 </footer>
 
+<script src="blsc-account.js"></script>
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
 

@@ -45,13 +45,56 @@
     display:flex;align-items:center;gap:12px;
   }
   .logo img{width:42px;height:42px;border-radius:50%;border:2px solid #3fb950;}
-  .nav-links{display:flex;gap:6px;flex-wrap:wrap;}
+  .nav-links{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
   .nav-links a{
     text-decoration:none;color:rgba(255,255,255,0.7);padding:10px 20px;
     border-radius:100px;font-weight:500;font-size:14px;transition:all 0.3s;
   }
   .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.1);}
   .nav-links a.active{color:#0a0a0a;background:#3fb950;}
+  
+  /* language selector */
+  .lang-select{
+    padding:8px 14px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:8px;
+    color:#fff;
+    font-size:13px;
+    cursor:pointer;
+  }
+  .lang-select option{background:#1a1a1a;}
+  
+  /* user icon styling - purple theme */
+  .user-icon{
+    position:relative;
+    display:flex;align-items:center;justify-content:center;
+    width:44px;height:44px;
+    background:transparent;
+    border-radius:12px;
+    color:#fff;
+    text-decoration:none;
+    transition:all 0.3s;
+    margin-left:20px;
+  }
+  .user-icon:hover{
+    transform:translateY(-2px);
+  }
+  .user-icon img{
+    width:44px;height:44px;
+    border-radius:12px;
+  }
+  .user-badge{
+    position:absolute;
+    bottom:-2px;right:-2px;
+    width:18px;height:18px;
+    background:#8b5cf6;
+    border-radius:50%;
+    font-size:10px;
+    display:flex;align-items:center;justify-content:center;
+    border:2px solid #0a0a0a;
+    color:#fff;
+  }
   
   .page-header{
     text-align:center;
@@ -190,244 +233,475 @@
   <nav>
     <div class="logo"><img src="1.png" alt="Logo"><span>BLSC</span></div>
     <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="serv.html" class="active">Services</a>
-      <a href="com.html">Contact</a>
+      <a href="index.html" id="navHome">Home</a>
+      <a href="about.html" id="navAbout">About</a>
+      <a href="serv.html" class="active" id="navServices">Services</a>
+      <a href="com.html" id="navContact">Contact</a>
+      <select class="lang-select" id="langSelect">
+        <option value="en">🇺🇸 EN</option>
+        <option value="am">🇪🇹 አማ</option>
+        <option value="or">🇪🇹 OR</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="ar">🇸🇦 AR</option>
+        <option value="zh">🇨🇳 中</option>
+      </select>
+      <a href="auth.html" class="user-icon" title="Login / Account">
+        <img src="user.png" alt="User">
+      </a>
     </div>
   </nav>
 </header>
 
 <div class="page-header">
   <img src="1.png" alt="BLSC Logo" class="page-logo">
-  <h1>Our <span>Services</span></h1>
-  <h3>የሚሰጡት አገልግሎቶች</h3>
-  <p>ጥራት ባለው ስራ በተመጣጣኝ ዋጋ የሚፈልጉትን ስራ በአግባቡ ይሰራል</p>
+  <h1 id="pageTitle">Our <span>Services</span></h1>
+  <h3 id="pageSubtitle">የሚሰጡት አገልግሎቶች</h3>
+  <p id="pageDesc">ጥራት ባለው ስራ በተመጣጣኝ ዋጋ የሚፈልጉትን ስራ በአግባቡ ይሰራል</p>
 </div>
 
 <section class="services">
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=400&h=200&fit=crop" alt="Website" class="card-img">
     <div class="card-body">
-      <h3>🌐 Website Creation</h3>
-      <p class="desc">ጥራት ያለው ዌብሳይት በፈለጉት መልክ ይሰራል</p>
+      <h3 id="s1Title">🌐 Website Creation</h3>
+      <p class="desc" id="s1Desc">Quality websites built to your specifications</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Personal websites, business sites, e-commerce, portfolios. Responsive design for all devices.</div>
+      <div class="more" id="s1More">Personal websites, business sites, e-commerce, portfolios. Responsive design for all devices.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop" alt="Software" class="card-img">
     <div class="card-body">
-      <h3>💻 Software Development</h3>
-      <p class="desc">ምርጥ ሶፍትዌር ይሰራል: ለድርጅቶች፣ ለትምህርት ወዘተ...</p>
+      <h3 id="s2Title">💻 Software Development</h3>
+      <p class="desc" id="s2Desc">Custom software for businesses, education, and more</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Custom desktop applications, management systems, inventory software, school systems.</div>
+      <div class="more" id="s2More">Custom desktop applications, management systems, inventory software, school systems.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=200&fit=crop" alt="App" class="card-img">
     <div class="card-body">
-      <h3>📱 App Development</h3>
-      <p class="desc">በእርስዎ ዲቫይስ ብቻ የሚሰራ አፕ ይሰራል</p>
+      <h3 id="s3Title">📱 App Development</h3>
+      <p class="desc" id="s3Desc">Apps designed exclusively for your device</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Android apps designed exclusively for your device. Private, secure, and customized.</div>
+      <div class="more" id="s3More">Android apps designed exclusively for your device. Private, secure, and customized.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400&h=200&fit=crop" alt="Games" class="card-img">
     <div class="card-body">
-      <h3>🕹️ Games Setup & Sales</h3>
-      <p class="desc">የትኛውንም game በተመጣጣኝ ዋጋ ይሸጣል</p>
+      <h3 id="s4Title">🕹️ Games Setup & Sales</h3>
+      <p class="desc" id="s4Desc">Any game at affordable prices</p>
       <span class="card-hint">+ More</span>
-      <div class="more">PC games, mobile games, game installation and setup. All popular titles available.</div>
+      <div class="more" id="s4More">PC games, mobile games, game installation and setup. All popular titles available.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=400&h=200&fit=crop" alt="OS" class="card-img">
     <div class="card-body">
-      <h3>🪛 OS Installation</h3>
-      <p class="desc">የትኛውንም ኦፕሬቲንግ ሲስተም በርካሽ ዋጋ እንሸጣለን</p>
+      <h3 id="s5Title">🪛 OS Installation</h3>
+      <p class="desc" id="s5Desc">Any operating system at low prices</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Windows 7/8/10/11, Linux. Full installation with drivers and essential software.</div>
+      <div class="more" id="s5More">Windows 7/8/10/11, Linux. Full installation with drivers and essential software.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=200&fit=crop" alt="Security" class="card-img">
     <div class="card-body">
-      <h3>🛡️ File Security</h3>
-      <p class="desc">ፍይል እና አካካውንት በሚገባ ይጠበቃል</p>
+      <h3 id="s6Title">🛡️ File Security</h3>
+      <p class="desc" id="s6Desc">File and account protection services</p>
       <span class="card-hint">+ More</span>
-      <div class="more">File encryption, secure backup, account protection, privacy settings.</div>
+      <div class="more" id="s6More">File encryption, secure backup, account protection, privacy settings.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=200&fit=crop" alt="Computer" class="card-img">
     <div class="card-body">
-      <h3>👨‍🏫 Computer Basics</h3>
-      <p class="desc">ስለ መሰረታዊ ኮምፒውተር ትምህርት ሙሉ ኮርስ ይሰጣል</p>
+      <h3 id="s7Title">👨‍🏫 Computer Basics</h3>
+      <p class="desc" id="s7Desc">Full course on basic computer skills</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Learn typing, Microsoft Office, internet basics, file management.</div>
+      <div class="more" id="s7More">Learn typing, Microsoft Office, internet basics, file management.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=400&h=200&fit=crop" alt="Programming" class="card-img">
     <div class="card-body">
-      <h3>🧑‍💻 Learn Programming</h3>
-      <p class="desc">ስለ ፕሮግራሚንግ ሙሉ ኮርስ ይሰጣል</p>
+      <h3 id="s8Title">🧑‍💻 Learn Programming</h3>
+      <p class="desc" id="s8Desc">Full programming courses available</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Python, JavaScript, HTML/CSS, Java. From basics to advanced.</div>
+      <div class="more" id="s8More">Python, JavaScript, HTML/CSS, Java. From basics to advanced.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=400&h=200&fit=crop" alt="Password" class="card-img">
     <div class="card-body">
-      <h3>🔑 Password Recovery</h3>
-      <p class="desc">የትኛውም ፓስዎርድ ሪከቨር ይደረጋል</p>
+      <h3 id="s9Title">🔑 Password Recovery</h3>
+      <p class="desc" id="s9Desc">Any password can be recovered</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Windows password, phone lock, email recovery, social media accounts.</div>
+      <div class="more" id="s9More">Windows password, phone lock, email recovery, social media accounts.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.pexels.com/photos/31949740/pexels-photo-31949740.jpeg" alt="Photo Edit" class="card-img">
     <div class="card-body">
-      <h3>🎨 Photo Editing & Video Editing</h3>
-      <p class="desc">ፎቶ  ማቀናበር እና ቪዲዮ ማቀናበር</p>
+      <h3 id="s10Title">🎨 Photo & Video Editing</h3>
+      <p class="desc" id="s10Desc">Photo editing and video editing services</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Background removal, retouching, color correction, photo manipulation.</div>
+      <div class="more" id="s10More">Background removal, retouching, color correction, video editing.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1597673030062-0a0f1a801a31?w=400&h=200&fit=crop" alt="Repair" class="card-img">
     <div class="card-body">
-      <h3>🔧 Device Repair</h3>
-      <p class="desc">የተበላሸ ዲቫይሶችን ማስተካከል</p>
+      <h3 id="s11Title">🔧 Device Repair</h3>
+      <p class="desc" id="s11Desc">Fix broken devices</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Software issues, virus removal, slow performance, boot problems.</div>
+      <div class="more" id="s11More">Software issues, virus removal, slow performance, boot problems.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&h=200&fit=crop" alt="USB" class="card-img">
     <div class="card-body">
-      <h3>💽 Bootable USB OS</h3>
-      <p class="desc">የትኛውንም ኦፕሬቲንግ ሲስተም በድራይቭ እንጭናለን</p>
+      <h3 id="s12Title">💽 Bootable USB OS</h3>
+      <p class="desc" id="s12Desc">Any OS on bootable USB drive</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Windows 7/8/10/11, Linux distributions, recovery tools. Ready-to-use bootable USB drives.</div>
+      <div class="more" id="s12More">Windows 7/8/10/11, Linux distributions, recovery tools.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1530133532239-eda6f53fcf0f?w=400&h=200&fit=crop" alt="Format" class="card-img">
     <div class="card-body">
-      <h3>🔧 Device Formatting</h3>
-      <p class="desc">የትኛውም ዲቫይስ ፎርማት ይደረጋል</p>
+      <h3 id="s13Title">🔧 Device Formatting</h3>
+      <p class="desc" id="s13Desc">Any device can be formatted</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Complete device reset, data backup before format, fresh start for phones, tablets, and computers.</div>
+      <div class="more" id="s13More">Complete device reset, data backup, fresh start for all devices.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=200&fit=crop" alt="Web Dev" class="card-img">
     <div class="card-body">
-      <h3>👨‍🏫 Learn Web Development</h3>
-      <p class="desc">ዌብሳይት መፍጠር ማስተማር</p>
+      <h3 id="s14Title">👨‍🏫 Learn Web Development</h3>
+      <p class="desc" id="s14Desc">Learn to create websites</p>
       <span class="card-hint">+ More</span>
-      <div class="more">HTML, CSS, JavaScript, responsive design. Build your own websites from scratch.</div>
+      <div class="more" id="s14More">HTML, CSS, JavaScript, responsive design.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=400&h=200&fit=crop" alt="Software Dev" class="card-img">
     <div class="card-body">
-      <h3>🛠️ Learn Software Development</h3>
-      <p class="desc">ሶፍትዌር መፍጠር ማስተማር</p>
+      <h3 id="s15Title">🛠️ Learn Software Dev</h3>
+      <p class="desc" id="s15Desc">Learn to create software</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Desktop application development, databases, user interfaces. Complete software engineering course.</div>
+      <div class="more" id="s15More">Desktop apps, databases, user interfaces.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&h=200&fit=crop" alt="Documents" class="card-img">
     <div class="card-body">
-      <h3>🧾 Printable Documents</h3>
-      <p class="desc">ጥራት ያለው ፕሪንት ሚሆን ዶክመንት ይሰራል</p>
+      <h3 id="s16Title">🧾 Printable Documents</h3>
+      <p class="desc" id="s16Desc">Quality print-ready documents</p>
       <span class="card-hint">+ More</span>
-      <div class="more">CVs, certificates, business cards, flyers, reports. Print-ready professional documents.</div>
+      <div class="more" id="s16More">CVs, certificates, business cards, flyers, reports.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=200&fit=crop" alt="App Dev" class="card-img">
     <div class="card-body">
-      <h3>📱 Learn App Development</h3>
-      <p class="desc">አፕ መፍጠር ማስተማር</p>
+      <h3 id="s17Title">📱 Learn App Development</h3>
+      <p class="desc" id="s17Desc">Learn to create apps</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Android app development, UI design, publishing to Play Store. Build your own mobile apps.</div>
+      <div class="more" id="s17More">Android app development, UI design, Play Store publishing.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400&h=200&fit=crop" alt="School" class="card-img">
     <div class="card-body">
-      <h3>📡 School Club Projects</h3>
-      <p class="desc">በክለብ ውስጥ የሚሰጡ የቴክኖሎጂ ፕሮጀክቶች እርዳታ</p>
+      <h3 id="s18Title">📡 School Club Projects</h3>
+      <p class="desc" id="s18Desc">Tech project help for clubs</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Science fair projects, tech demonstrations, coding workshops. Help for students and teachers.</div>
+      <div class="more" id="s18More">Science fair projects, tech demos, coding workshops.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?w=400&h=200&fit=crop" alt="Software" class="card-img">
     <div class="card-body">
-      <h3>💽 Software Purchasing</h3>
-      <p class="desc">የማይገኙ ሶፍትዌር እና አፖችን በተመጣጣኝ ዋጋ</p>
+      <h3 id="s19Title">💽 Software Purchasing</h3>
+      <p class="desc" id="s19Desc">Hard-to-find software at good prices</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Hard-to-find software, premium apps, licensed programs. We can get what you need.</div>
+      <div class="more" id="s19More">Premium apps, licensed programs. We get what you need.</div>
     </div>
   </div>
   
   <div class="card" onclick="this.classList.toggle('open')">
     <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop" alt="More" class="card-img">
     <div class="card-body">
-      <h3>🧰 Plus More</h3>
-      <p class="desc">ተጨማሪ ካለ ከታች በቀረቡት ኮንታክቶች ያግኙኝ</p>
+      <h3 id="s20Title">🧰 Plus More</h3>
+      <p class="desc" id="s20Desc">Contact us for additional services</p>
       <span class="card-hint">+ More</span>
-      <div class="more">Have a different request? Contact us! We're flexible and ready to help.</div>
+      <div class="more" id="s20More">Have a different request? Contact us!</div>
     </div>
   </div>
   
   <div class="card" onclick="window.location.href='software services/index.html'">
     <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=200&fit=crop" alt="Software Services" class="card-img">
     <div class="card-body">
-      <h3>🚀 Software Services</h3>
-      <p class="desc">የሶፍትዌር መሳሪያዎች - Cloud storage, AI tools, messaging & more</p>
+      <h3 id="s21Title">🚀 Software Services</h3>
+      <p class="desc" id="s21Desc">Cloud storage, AI tools, messaging & more</p>
       <span class="card-hint">Explore →</span>
     </div>
   </div>
 </section>
 
 <section class="cta-section">
-  
   <div class="cta-box">
-    <h2>Interested in our <span>services</span>?</h2>
-    <p>Get in touch with us today. We're here to help!</p>
-    <a href="com.html" class="btn-large">Contact Us →</a>
+    <h2 id="ctaTitle">Interested in our <span>services</span>?</h2>
+    <p id="ctaDesc">Get in touch with us today. We're here to help!</p>
+    <a href="com.html" class="btn-large" id="ctaBtn">Contact Us →</a>
   </div>
 </section>
 
 <footer>
   <p>© <span id="yr"></span> BENAYAS LEULSEGED Software Company — Jimma, Ethiopia</p>
 </footer>
-<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script src="blsc-account.js"></script>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+const translations = {
+  en: {
+    home:'Home',about:'About',services:'Services',contact:'Contact',
+    pageTitle:'Our <span>Services</span>',pageSubtitle:'Services We Offer',pageDesc:'Quality work at affordable prices.',
+    ctaTitle:'Interested in our <span>services</span>?',ctaDesc:'Get in touch today!',ctaBtn:'Contact Us →',
+    s1Title:'🌐 Website Creation',s1Desc:'Quality websites built to your specifications',
+    s2Title:'💻 Software Development',s2Desc:'Custom software for businesses and education',
+    s3Title:'📱 App Development',s3Desc:'Apps designed exclusively for your device',
+    s4Title:'🕹️ Games Setup & Sales',s4Desc:'Any game at affordable prices',
+    s5Title:'🪛 OS Installation',s5Desc:'Any operating system at low prices',
+    s6Title:'🛡️ File Security',s6Desc:'File and account protection services',
+    s7Title:'👨‍🏫 Computer Basics',s7Desc:'Full course on basic computer skills',
+    s8Title:'🧑‍💻 Learn Programming',s8Desc:'Full programming courses available',
+    s9Title:'🔑 Password Recovery',s9Desc:'Any password can be recovered',
+    s10Title:'🎨 Photo & Video Editing',s10Desc:'Photo and video editing services',
+    s11Title:'🔧 Device Repair',s11Desc:'Fix broken devices',
+    s12Title:'💽 Bootable USB OS',s12Desc:'Any OS on bootable USB drive',
+    s13Title:'🔧 Device Formatting',s13Desc:'Any device can be formatted',
+    s14Title:'👨‍🏫 Learn Web Development',s14Desc:'Learn to create websites',
+    s15Title:'🛠️ Learn Software Dev',s15Desc:'Learn to create software',
+    s16Title:'🧾 Printable Documents',s16Desc:'Quality print-ready documents',
+    s17Title:'📱 Learn App Development',s17Desc:'Learn to create apps',
+    s18Title:'📡 School Club Projects',s18Desc:'Tech project help for clubs',
+    s19Title:'💽 Software Purchasing',s19Desc:'Hard-to-find software',
+    s20Title:'🧰 Plus More',s20Desc:'Contact us for more services',
+    s21Title:'🚀 Software Services',s21Desc:'Cloud, AI tools, messaging & more'
+  },
+  am: {
+    home:'መነሻ',about:'ስለ እኛ',services:'አገልግሎቶች',contact:'አግኙን',
+    pageTitle:'የእኛ <span>አገልግሎቶች</span>',pageSubtitle:'የሚሰጡት አገልግሎቶች',pageDesc:'ጥራት ባለው ስራ በተመጣጣኝ ዋጋ',
+    ctaTitle:'በአገልግሎቶቻችን <span>ፍላጎት</span> አለዎት?',ctaDesc:'ዛሬ ያግኙን!',ctaBtn:'አግኙን →',
+    s1Title:'🌐 ዌብሳይት መፍጠር',s1Desc:'ጥራት ያለው ዌብሳይት በፈለጉት መልክ',
+    s2Title:'💻 ሶፍትዌር ልማት',s2Desc:'ምርጥ ሶፍትዌር ለድርጅቶች፣ ለትምህርት',
+    s3Title:'📱 አፕ ልማት',s3Desc:'በእርስዎ ዲቫይስ ብቻ የሚሰራ አፕ',
+    s4Title:'🕹️ ጌም ማዘጋጀት እና መሸጥ',s4Desc:'የትኛውንም ጌም በተመጣጣኝ ዋጋ',
+    s5Title:'🪛 ኦፕሬቲንግ ሲስተም መጫን',s5Desc:'የትኛውንም ኦኤስ በርካሽ ዋጋ',
+    s6Title:'🛡️ ፋይል ደህንነት',s6Desc:'ፍይል እና አካካውንት ጥበቃ',
+    s7Title:'👨‍🏫 መሰረታዊ ኮምፒውተር',s7Desc:'ሙሉ ኮርስ ይሰጣል',
+    s8Title:'🧑‍💻 ፕሮግራሚንግ ይማሩ',s8Desc:'ሙሉ ፕሮግራሚንግ ኮርስ',
+    s9Title:'🔑 ፓስዎርድ ማስመለስ',s9Desc:'የትኛውም ፓስዎርድ ሪከቨር ይደረጋል',
+    s10Title:'🎨 ፎቶ እና ቪዲዮ ማቀናበር',s10Desc:'ፎቶ እና ቪዲዮ ኤዲቲንግ',
+    s11Title:'🔧 ዲቫይስ ጥገና',s11Desc:'የተበላሸ ዲቫይሶችን ማስተካከል',
+    s12Title:'💽 ቡታብል ዩኤስቢ ኦኤስ',s12Desc:'የትኛውንም ኦኤስ በድራይቭ',
+    s13Title:'🔧 ዲቫይስ ፎርማት',s13Desc:'የትኛውም ዲቫይስ ፎርማት ይደረጋል',
+    s14Title:'👨‍🏫 ዌብ ልማት ይማሩ',s14Desc:'ዌብሳይት መፍጠር ማስተማር',
+    s15Title:'🛠️ ሶፍትዌር ልማት ይማሩ',s15Desc:'ሶፍትዌር መፍጠር ማስተማር',
+    s16Title:'🧾 ለማተም የሚሆኑ ዶክመንቶች',s16Desc:'ጥራት ያለው ፕሪንት ዶክመንት',
+    s17Title:'📱 አፕ ልማት ይማሩ',s17Desc:'አፕ መፍጠር ማስተማር',
+    s18Title:'📡 የትምህርት ቤት ክለብ ፕሮጀክቶች',s18Desc:'የቴክኖሎጂ ፕሮጀክቶች እርዳታ',
+    s19Title:'💽 ሶፍትዌር ግዢ',s19Desc:'የማይገኙ ሶፍትዌር በተመጣጣኝ ዋጋ',
+    s20Title:'🧰 ተጨማሪ',s20Desc:'ለተጨማሪ አገልግሎቶች ያግኙን',
+    s21Title:'🚀 ሶፍትዌር አገልግሎቶች',s21Desc:'ክላውድ፣ AI መሳሪያዎች፣ መልእክት'
+  },
+  or: {
+    home:'Mana',about:'Waa\'ee',services:'Tajaajila',contact:'Nu Quunnamaa',
+    pageTitle:'<span>Tajaajila</span> Keenya',pageSubtitle:'Tajaajila Dhiyeessinu',pageDesc:'Hojii qulqullina qabu gatii madaalawaan',
+    ctaTitle:'Tajaajila keenyaan <span>fedhii</span> qabdaa?',ctaDesc:'Har\'a nu quunnamaa!',ctaBtn:'Nu Quunnamaa →',
+    s1Title:'🌐 Weebsaayitii Uumuu',s1Desc:'Weebsaayitii qulqullina qabu',
+    s2Title:'💻 Sooftiweerii Misoomuu',s2Desc:'Sooftiweerii dhaabbataaf',
+    s3Title:'📱 Appii Misoomuu',s3Desc:'Appii meeshaa keessaniif qofa',
+    s4Title:'🕹️ Geemii Qopheessuu',s4Desc:'Geemii kamiyyuu gatii madaalawaan',
+    s5Title:'🪛 OS Fe\'uu',s5Desc:'OS kamiyyuu gatii gadaanaan',
+    s6Title:'🛡️ Nageenya Faayilii',s6Desc:'Eegumsa faayilii fi herrega',
+    s7Title:'👨‍🏫 Bu\'uura Kompitaraa',s7Desc:'Koorsa guutuu',
+    s8Title:'🧑‍💻 Pirograamii Baraa',s8Desc:'Koorsa pirograamii guutuu',
+    s9Title:'🔑 Jecha Icciitii Deebisuu',s9Desc:'Jecha icciitii kamiyyuu',
+    s10Title:'🎨 Suuraa fi Viidiyoo Gulaaluu',s10Desc:'Tajaajila gulaaluu',
+    s11Title:'🔧 Meeshaa Supphuu',s11Desc:'Meeshaa cabsan supphuu',
+    s12Title:'💽 USB OS Bootable',s12Desc:'OS kamiyyuu USB irratti',
+    s13Title:'🔧 Meeshaa Format Gochuu',s13Desc:'Meeshaa kamiyyuu format',
+    s14Title:'👨‍🏫 Web Misoomuu Baraa',s14Desc:'Weebsaayitii uumuu baraa',
+    s15Title:'🛠️ Sooftiweerii Baraa',s15Desc:'Sooftiweerii uumuu baraa',
+    s16Title:'🧾 Dokumantii Maxxansaa',s16Desc:'Dokumantii qulqullina qabu',
+    s17Title:'📱 Appii Misoomuu Baraa',s17Desc:'Appii uumuu baraa',
+    s18Title:'📡 Pirojektii Kilabii',s18Desc:'Gargaarsa pirojektii teeknooloojii',
+    s19Title:'💽 Sooftiweerii Bitachuu',s19Desc:'Sooftiweerii argamuu hin dandeenye',
+    s20Title:'🧰 Dabalataan',s20Desc:'Tajaajila dabalataaf nu quunnamaa',
+    s21Title:'🚀 Tajaajila Sooftiweerii',s21Desc:'Kuusaa duumessaa, meeshaalee AI'
+  },
+  es: {
+    home:'Inicio',about:'Acerca de',services:'Servicios',contact:'Contacto',
+    pageTitle:'Nuestros <span>Servicios</span>',pageSubtitle:'Servicios que Ofrecemos',pageDesc:'Trabajo de calidad a precios asequibles',
+    ctaTitle:'¿Interesado en nuestros <span>servicios</span>?',ctaDesc:'¡Contáctenos hoy!',ctaBtn:'Contáctenos →',
+    s1Title:'🌐 Creación de Sitios Web',s1Desc:'Sitios web de calidad',
+    s2Title:'💻 Desarrollo de Software',s2Desc:'Software personalizado',
+    s3Title:'📱 Desarrollo de Apps',s3Desc:'Apps para su dispositivo',
+    s4Title:'🕹️ Juegos',s4Desc:'Cualquier juego a buen precio',
+    s5Title:'🪛 Instalación de SO',s5Desc:'Cualquier SO a bajo precio',
+    s6Title:'🛡️ Seguridad de Archivos',s6Desc:'Protección de archivos',
+    s7Title:'👨‍🏫 Computación Básica',s7Desc:'Curso completo',
+    s8Title:'🧑‍💻 Aprende Programación',s8Desc:'Cursos de programación',
+    s9Title:'🔑 Recuperación de Contraseñas',s9Desc:'Recuperamos cualquier contraseña',
+    s10Title:'🎨 Edición de Fotos y Videos',s10Desc:'Servicios de edición',
+    s11Title:'🔧 Reparación de Dispositivos',s11Desc:'Arreglamos dispositivos',
+    s12Title:'💽 USB Booteable',s12Desc:'Cualquier SO en USB',
+    s13Title:'🔧 Formateo de Dispositivos',s13Desc:'Formateamos cualquier dispositivo',
+    s14Title:'👨‍🏫 Aprende Desarrollo Web',s14Desc:'Aprende a crear sitios web',
+    s15Title:'🛠️ Aprende Desarrollo de Software',s15Desc:'Aprende a crear software',
+    s16Title:'🧾 Documentos Imprimibles',s16Desc:'Documentos de calidad',
+    s17Title:'📱 Aprende Desarrollo de Apps',s17Desc:'Aprende a crear apps',
+    s18Title:'📡 Proyectos Escolares',s18Desc:'Ayuda con proyectos tech',
+    s19Title:'💽 Compra de Software',s19Desc:'Software difícil de encontrar',
+    s20Title:'🧰 Y Más',s20Desc:'Contáctenos para más servicios',
+    s21Title:'🚀 Servicios de Software',s21Desc:'Almacenamiento, IA, mensajería'
+  },
+  fr: {
+    home:'Accueil',about:'À propos',services:'Services',contact:'Contact',
+    pageTitle:'Nos <span>Services</span>',pageSubtitle:'Services Offerts',pageDesc:'Travail de qualité à prix abordables',
+    ctaTitle:'Intéressé par nos <span>services</span>?',ctaDesc:'Contactez-nous!',ctaBtn:'Contactez-nous →',
+    s1Title:'🌐 Création de Sites Web',s1Desc:'Sites web de qualité',
+    s2Title:'💻 Développement Logiciel',s2Desc:'Logiciels personnalisés',
+    s3Title:'📱 Développement d\'Apps',s3Desc:'Apps pour votre appareil',
+    s4Title:'🕹️ Jeux',s4Desc:'Tous les jeux à bon prix',
+    s5Title:'🪛 Installation OS',s5Desc:'Tout OS à bas prix',
+    s6Title:'🛡️ Sécurité des Fichiers',s6Desc:'Protection des fichiers',
+    s7Title:'👨‍🏫 Informatique de Base',s7Desc:'Cours complet',
+    s8Title:'🧑‍💻 Apprendre la Programmation',s8Desc:'Cours de programmation',
+    s9Title:'🔑 Récupération de Mots de Passe',s9Desc:'Récupération de tout mot de passe',
+    s10Title:'🎨 Édition Photo et Vidéo',s10Desc:'Services d\'édition',
+    s11Title:'🔧 Réparation d\'Appareils',s11Desc:'Réparation d\'appareils',
+    s12Title:'💽 USB Bootable',s12Desc:'Tout OS sur USB',
+    s13Title:'🔧 Formatage d\'Appareils',s13Desc:'Formatage de tout appareil',
+    s14Title:'👨‍🏫 Apprendre le Développement Web',s14Desc:'Créer des sites web',
+    s15Title:'🛠️ Apprendre le Développement Logiciel',s15Desc:'Créer des logiciels',
+    s16Title:'🧾 Documents Imprimables',s16Desc:'Documents de qualité',
+    s17Title:'📱 Apprendre le Développement d\'Apps',s17Desc:'Créer des apps',
+    s18Title:'📡 Projets Scolaires',s18Desc:'Aide aux projets tech',
+    s19Title:'💽 Achat de Logiciels',s19Desc:'Logiciels rares',
+    s20Title:'🧰 Et Plus',s20Desc:'Contactez-nous pour plus',
+    s21Title:'🚀 Services Logiciels',s21Desc:'Stockage, IA, messagerie'
+  },
+  ar: {
+    home:'الرئيسية',about:'حول',services:'الخدمات',contact:'اتصل بنا',
+    pageTitle:'<span>خدماتنا</span>',pageSubtitle:'الخدمات التي نقدمها',pageDesc:'عمل عالي الجودة بأسعار معقولة',
+    ctaTitle:'مهتم <span>بخدماتنا</span>؟',ctaDesc:'تواصل معنا اليوم!',ctaBtn:'اتصل بنا →',
+    s1Title:'🌐 إنشاء المواقع',s1Desc:'مواقع عالية الجودة',
+    s2Title:'💻 تطوير البرمجيات',s2Desc:'برمجيات مخصصة',
+    s3Title:'📱 تطوير التطبيقات',s3Desc:'تطبيقات لجهازك',
+    s4Title:'🕹️ الألعاب',s4Desc:'أي لعبة بسعر جيد',
+    s5Title:'🪛 تثبيت نظام التشغيل',s5Desc:'أي نظام بسعر منخفض',
+    s6Title:'🛡️ أمان الملفات',s6Desc:'حماية الملفات',
+    s7Title:'👨‍🏫 أساسيات الكمبيوتر',s7Desc:'دورة كاملة',
+    s8Title:'🧑‍💻 تعلم البرمجة',s8Desc:'دورات برمجة',
+    s9Title:'🔑 استعادة كلمات المرور',s9Desc:'استعادة أي كلمة مرور',
+    s10Title:'🎨 تحرير الصور والفيديو',s10Desc:'خدمات التحرير',
+    s11Title:'🔧 إصلاح الأجهزة',s11Desc:'إصلاح الأجهزة',
+    s12Title:'💽 USB قابل للإقلاع',s12Desc:'أي نظام على USB',
+    s13Title:'🔧 تهيئة الأجهزة',s13Desc:'تهيئة أي جهاز',
+    s14Title:'👨‍🏫 تعلم تطوير الويب',s14Desc:'إنشاء المواقع',
+    s15Title:'🛠️ تعلم تطوير البرمجيات',s15Desc:'إنشاء البرمجيات',
+    s16Title:'🧾 مستندات قابلة للطباعة',s16Desc:'مستندات عالية الجودة',
+    s17Title:'📱 تعلم تطوير التطبيقات',s17Desc:'إنشاء التطبيقات',
+    s18Title:'📡 مشاريع النوادي المدرسية',s18Desc:'مساعدة في المشاريع',
+    s19Title:'💽 شراء البرمجيات',s19Desc:'برمجيات نادرة',
+    s20Title:'🧰 والمزيد',s20Desc:'اتصل بنا للمزيد',
+    s21Title:'🚀 خدمات البرمجيات',s21Desc:'تخزين، ذكاء اصطناعي، رسائل'
+  },
+  zh: {
+    home:'首页',about:'关于',services:'服务',contact:'联系',
+    pageTitle:'我们的<span>服务</span>',pageSubtitle:'我们提供的服务',pageDesc:'以实惠的价格提供优质工作',
+    ctaTitle:'对我们的<span>服务</span>感兴趣？',ctaDesc:'今天就联系我们！',ctaBtn:'联系我们 →',
+    s1Title:'🌐 网站创建',s1Desc:'高质量网站',
+    s2Title:'💻 软件开发',s2Desc:'定制软件',
+    s3Title:'📱 应用开发',s3Desc:'专属应用',
+    s4Title:'🕹️ 游戏',s4Desc:'任何游戏优惠价',
+    s5Title:'🪛 操作系统安装',s5Desc:'任何系统低价',
+    s6Title:'🛡️ 文件安全',s6Desc:'文件保护',
+    s7Title:'👨‍🏫 计算机基础',s7Desc:'完整课程',
+    s8Title:'🧑‍💻 学习编程',s8Desc:'编程课程',
+    s9Title:'🔑 密码恢复',s9Desc:'恢复任何密码',
+    s10Title:'🎨 照片和视频编辑',s10Desc:'编辑服务',
+    s11Title:'🔧 设备维修',s11Desc:'修复设备',
+    s12Title:'💽 可启动USB',s12Desc:'任何系统在USB上',
+    s13Title:'🔧 设备格式化',s13Desc:'格式化任何设备',
+    s14Title:'👨‍🏫 学习网页开发',s14Desc:'创建网站',
+    s15Title:'🛠️ 学习软件开发',s15Desc:'创建软件',
+    s16Title:'🧾 可打印文档',s16Desc:'高质量文档',
+    s17Title:'📱 学习应用开发',s17Desc:'创建应用',
+    s18Title:'📡 学校俱乐部项目',s18Desc:'技术项目帮助',
+    s19Title:'💽 软件购买',s19Desc:'稀有软件',
+    s20Title:'🧰 更多',s20Desc:'联系我们获取更多',
+    s21Title:'🚀 软件服务',s21Desc:'云存储、AI工具、消息'
+  }
+};
+
+function changeLanguage() {
+  const lang = document.getElementById('langSelect').value;
+  const t = translations[lang];
+  localStorage.setItem('blsc_lang', lang);
+  
+  document.getElementById('navHome').textContent = t.home;
+  document.getElementById('navAbout').textContent = t.about;
+  document.getElementById('navServices').textContent = t.services;
+  document.getElementById('navContact').textContent = t.contact;
+  document.getElementById('pageTitle').innerHTML = t.pageTitle;
+  document.getElementById('pageSubtitle').textContent = t.pageSubtitle;
+  document.getElementById('pageDesc').textContent = t.pageDesc;
+  document.getElementById('ctaTitle').innerHTML = t.ctaTitle;
+  document.getElementById('ctaDesc').textContent = t.ctaDesc;
+  document.getElementById('ctaBtn').textContent = t.ctaBtn;
+  
+  for(let i=1; i<=21; i++) {
+    if(document.getElementById('s'+i+'Title')) document.getElementById('s'+i+'Title').textContent = t['s'+i+'Title'];
+    if(document.getElementById('s'+i+'Desc')) document.getElementById('s'+i+'Desc').textContent = t['s'+i+'Desc'];
+  }
+  
+  document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+}
+
+document.getElementById('langSelect').addEventListener('change', changeLanguage);
+
+const savedLang = localStorage.getItem('blsc_lang');
+if (savedLang) {
+  document.getElementById('langSelect').value = savedLang;
+  changeLanguage();
+}
+</script>
 </body>
 </html>

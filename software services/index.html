@@ -110,6 +110,26 @@
             color: #fff;
         }
 
+        /* user icon styling - purple theme */
+        .user-icon{
+            position:relative;
+            display:flex;align-items:center;justify-content:center;
+            width:44px;height:44px;
+            background:transparent;
+            border-radius:12px;
+            color:#fff;
+            text-decoration:none;
+            transition:all 0.3s;
+            margin-left:20px;
+        }
+        .user-icon:hover{
+            transform:translateY(-2px);
+        }
+        .user-icon img{
+            width:44px;height:44px;
+            border-radius:12px;
+        }
+
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -373,6 +393,11 @@
                     <option value="zh">🇨🇳 中</option>
                 </select>
             </li>
+            <li>
+                <a href="../auth.html" class="user-icon" title="Login / Account">
+                    <img src="../user.png" alt="User">
+                </a>
+            </li>
         </ul>
     </nav>
 
@@ -404,8 +429,8 @@
             <div class="service-card" onclick="window.location.href='public/msg/msg.html'">
                 <img src="https://images.unsplash.com/photo-1611606063065-ee7946f0787a?w=400&h=200&fit=crop" alt="Message">
                 <div class="service-body">
-                    <h3 class="service-title">💬 BLSC-Message & File Sharing</h3>
-                    <p class="service-desc">Share messages and files instantly with our secure web application</p>
+                    <h3 class="service-title" id="sw1Title">💬 BLSC-Message & File Sharing</h3>
+                    <p class="service-desc" id="sw1Desc">Share messages and files instantly with our secure web application</p>
                     <span class="service-hint hint-coming">Coming Soon</span>
                 </div>
             </div>
@@ -413,8 +438,8 @@
             <div class="service-card" onclick="window.location.href='public/osc/osc.html'">
                 <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=200&fit=crop" alt="Courses">
                 <div class="service-body">
-                    <h3 class="service-title">🎓 BLSC-Online Software Courses</h3>
-                    <p class="service-desc">Learn programming and software development from expert instructors</p>
+                    <h3 class="service-title" id="sw2Title">🎓 BLSC-Online Software Courses</h3>
+                    <p class="service-desc" id="sw2Desc">Learn programming and software development from expert instructors</p>
                     <span class="service-hint hint-coming">Coming Soon</span>
                 </div>
             </div>
@@ -423,8 +448,8 @@
             <div class="service-card" onclick="window.location.href='public/choose.html?app=browser'">
                 <img src="https://images.unsplash.com/photo-1542744094-24638eff58bb?w=400&h=200&fit=crop" alt="Browser">
                 <div class="service-body">
-                    <h3 class="service-title">🌐 BLSC-Browser</h3>
-                    <p class="service-desc">Fast and secure web browsing experience tailored for developers</p>
+                    <h3 class="service-title" id="sw3Title">🌐 BLSC-Browser</h3>
+                    <p class="service-desc" id="sw3Desc">Fast and secure web browsing experience tailored for developers</p>
                     <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
@@ -432,8 +457,8 @@
             <div class="service-card" onclick="window.location.href='public/bla/bla.html'">
                 <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=200&fit=crop" alt="Apps">
                 <div class="service-body">
-                    <h3 class="service-title">📦 Developed by BLSC Applications</h3>
-                    <p class="service-desc">Explore our collection of powerful productivity applications</p>
+                    <h3 class="service-title" id="sw4Title">📦 Developed by BLSC Applications</h3>
+                    <p class="service-desc" id="sw4Desc">Explore our collection of powerful productivity applications</p>
                     <span class="service-hint hint-explore">Explore →</span>
                 </div>
             </div>
@@ -441,8 +466,8 @@
             <div class="service-card" onclick="window.location.href='public/bld/bld.html'">
                 <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=400&h=200&fit=crop" alt="Cloud">
                 <div class="service-body">
-                    <h3 class="service-title">☁️ BLCS-Drive</h3>
-                    <p class="service-desc">Store and access your files anywhere with our cloud storage solution</p>
+                    <h3 class="service-title" id="sw5Title">☁️ BLCS-Drive</h3>
+                    <p class="service-desc" id="sw5Desc">Store and access your files anywhere with our cloud storage solution</p>
                     <span class="service-hint hint-coming">Coming Soon</span>
                 </div>
             </div>
@@ -450,8 +475,8 @@
             <div class="service-card" onclick="window.location.href='public/choose.html?app=gallery'">
                 <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop" alt="Gallery">
                 <div class="service-body">
-                    <h3 class="service-title">🖼️ BLSC-Gallery</h3>
-                    <p class="service-desc">Manage and showcase your images with advanced editing tools</p>
+                    <h3 class="service-title" id="sw6Title">🖼️ BLSC-Gallery</h3>
+                    <p class="service-desc" id="sw6Desc">Manage and showcase your images with advanced editing tools</p>
                     <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
@@ -459,8 +484,8 @@
             <div class="service-card" onclick="window.location.href='public/choose.html?app=websites'">
                 <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop" alt="Websites">
                 <div class="service-body">
-                    <h3 class="service-title">⭐ Important Websites</h3>
-                    <p class="service-desc">Curated collection of essential web resources and tools</p>
+                    <h3 class="service-title" id="sw7Title">⭐ Important Websites</h3>
+                    <p class="service-desc" id="sw7Desc">Curated collection of essential web resources and tools</p>
                     <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
@@ -468,8 +493,8 @@
             <div class="service-card" onclick="window.location.href='public/choose.html?app=translator'">
                 <img src="https://images.unsplash.com/photo-1451226428352-cf66bf8a0317?w=400&h=200&fit=crop" alt="Translator">
                 <div class="service-body">
-                    <h3 class="service-title">🌍 BLSC-Language Translator</h3>
-                    <p class="service-desc">Break language barriers with our powerful translation tool</p>
+                    <h3 class="service-title" id="sw8Title">🌍 BLSC-Language Translator</h3>
+                    <p class="service-desc" id="sw8Desc">Break language barriers with our powerful translation tool</p>
                     <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
@@ -477,8 +502,8 @@
             <div class="service-card" onclick="window.location.href='public/meet/meet.html'">
                 <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400&h=200&fit=crop" alt="Meeting">
                 <div class="service-body">
-                    <h3 class="service-title">🤝 BLCS Meeting</h3>
-                    <p class="service-desc">Connect and collaborate with team members in real-time</p>
+                    <h3 class="service-title" id="sw9Title">🤝 BLCS Meeting</h3>
+                    <p class="service-desc" id="sw9Desc">Connect and collaborate with team members in real-time</p>
                     <span class="service-hint hint-coming">Coming Soon</span>
                 </div>
             </div>
@@ -486,8 +511,8 @@
             <div class="service-card" onclick="window.location.href='public/choose.html?app=images'">
                 <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&h=200&fit=crop" alt="Image Search">
                 <div class="service-body">
-                    <h3 class="service-title">🔍 BLSC-Image Stock</h3>
-                    <p class="service-desc">Search and download millions of free stock photos instantly</p>
+                    <h3 class="service-title" id="sw10Title">🔍 BLSC-Image Stock</h3>
+                    <p class="service-desc" id="sw10Desc">Search and download millions of free stock photos instantly</p>
                     <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
@@ -495,8 +520,8 @@
             <div class="service-card" onclick="window.location.href='public/choose.html?app=ai-image'">
                 <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=200&fit=crop" alt="AI Image">
                 <div class="service-body">
-                    <h3 class="service-title">🎨 BLSC-Image Generator</h3>
-                    <p class="service-desc">Create any image you imagine with AI - just describe it!</p>
+                    <h3 class="service-title" id="sw11Title">🎨 BLSC-Image Generator</h3>
+                    <p class="service-desc" id="sw11Desc">Create any image you imagine with AI - just describe it!</p>
                     <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
@@ -504,8 +529,8 @@
             <div class="service-card" onclick="window.location.href='public/choose.html?app=ai-video'">
                 <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400&h=200&fit=crop" alt="AI Video">
                 <div class="service-body">
-                    <h3 class="service-title">🎬 BLSC-Video Generator</h3>
-                    <p class="service-desc">Turn your ideas into stunning videos with AI technology</p>
+                    <h3 class="service-title" id="sw12Title">🎬 BLSC-Video Generator</h3>
+                    <p class="service-desc" id="sw12Desc">Turn your ideas into stunning videos with AI technology</p>
                     <span class="service-hint hint-choose">Choose →</span>
                 </div>
             </div>
@@ -517,18 +542,152 @@
         <p>© <span id="yr"></span> BENAYAS LEULSEGED Software Company — Jimma, Ethiopia</p>
     </footer>
 
+    <script src="../blsc-account.js"></script>
     <script>
         document.getElementById('yr').textContent = new Date().getFullYear();
         
-        // Translations
+        // Translations with software cards
         const translations = {
-            en: {home:'Home',about:'About',services:'Services',software:'Software',contact:'Contact',heroTitle1:'Quality',heroTitle2:'Software',heroTitle3:'Services',heroDesc:'We provide premium software solutions at affordable prices. Cloud storage, AI tools, messaging apps and more.',goBack:'← Go Back',viewSoftwares:'View Softwares →',contactUs:'Contact Us',sectionTitle:'Software',sectionTitle2:'Services',sectionSubtitle:'Explore our collection of powerful tools and applications',comingSoon:'Coming Soon',choose:'Choose →',explore:'Explore →'},
-            am: {home:'መነሻ',about:'ስለ እኛ',services:'አገልግሎቶች',software:'ሶፍትዌር',contact:'አግኙን',heroTitle1:'ጥራት ያለው',heroTitle2:'ሶፍትዌር',heroTitle3:'አገልግሎቶች',heroDesc:'በተመጣጣኝ ዋጋ ከፍተኛ ጥራት ያላቸው የሶፍትዌር መፍትሄዎችን እናቀርባለን።',goBack:'← ተመለስ',viewSoftwares:'ሶፍትዌሮችን ይመልከቱ →',contactUs:'አግኙን',sectionTitle:'ሶፍትዌር',sectionTitle2:'አገልግሎቶች',sectionSubtitle:'ኃይለኛ መሳሪያዎችን እና መተግበሪያዎችን ያስሱ',comingSoon:'በቅርቡ',choose:'ይምረጡ →',explore:'ያስሱ →'},
-            or: {home:'Mana',about:'Waa\'ee',services:'Tajaajila',software:'Sooftiweerii',contact:'Nu Quunnamaa',heroTitle1:'Qulqullina',heroTitle2:'Sooftiweerii',heroTitle3:'Tajaajila',heroDesc:'Gatii madaalawaa ta\'een furmaata sooftiweerii olaanaa dhiyeessina.',goBack:'← Deebi',viewSoftwares:'Sooftiweerii Ilaali →',contactUs:'Nu Quunnamaa',sectionTitle:'Sooftiweerii',sectionTitle2:'Tajaajila',sectionSubtitle:'Meeshaalee fi aplikeeshinoota jabaa sakatta\'i',comingSoon:'Dhiyootti',choose:'Filadhu →',explore:'Sakatta\'i →'},
-            es: {home:'Inicio',about:'Acerca de',services:'Servicios',software:'Software',contact:'Contacto',heroTitle1:'Calidad',heroTitle2:'Software',heroTitle3:'Servicios',heroDesc:'Proporcionamos soluciones de software premium a precios asequibles.',goBack:'← Volver',viewSoftwares:'Ver Software →',contactUs:'Contáctenos',sectionTitle:'Software',sectionTitle2:'Servicios',sectionSubtitle:'Explore nuestra colección de herramientas y aplicaciones',comingSoon:'Próximamente',choose:'Elegir →',explore:'Explorar →'},
-            fr: {home:'Accueil',about:'À propos',services:'Services',software:'Logiciel',contact:'Contact',heroTitle1:'Qualité',heroTitle2:'Logiciel',heroTitle3:'Services',heroDesc:'Nous fournissons des solutions logicielles premium à des prix abordables.',goBack:'← Retour',viewSoftwares:'Voir les Logiciels →',contactUs:'Contactez-nous',sectionTitle:'Logiciel',sectionTitle2:'Services',sectionSubtitle:'Explorez notre collection d\'outils et d\'applications',comingSoon:'Bientôt',choose:'Choisir →',explore:'Explorer →'},
-            ar: {home:'الرئيسية',about:'حول',services:'الخدمات',software:'البرمجيات',contact:'اتصل بنا',heroTitle1:'جودة',heroTitle2:'برمجيات',heroTitle3:'خدمات',heroDesc:'نقدم حلول برمجية متميزة بأسعار معقولة.',goBack:'← رجوع',viewSoftwares:'عرض البرمجيات →',contactUs:'اتصل بنا',sectionTitle:'برمجيات',sectionTitle2:'خدمات',sectionSubtitle:'استكشف مجموعتنا من الأدوات والتطبيقات',comingSoon:'قريباً',choose:'اختر →',explore:'استكشف →'},
-            zh: {home:'首页',about:'关于',services:'服务',software:'软件',contact:'联系',heroTitle1:'优质',heroTitle2:'软件',heroTitle3:'服务',heroDesc:'我们以实惠的价格提供优质的软件解决方案。',goBack:'← 返回',viewSoftwares:'查看软件 →',contactUs:'联系我们',sectionTitle:'软件',sectionTitle2:'服务',sectionSubtitle:'探索我们强大的工具和应用程序',comingSoon:'即将推出',choose:'选择 →',explore:'探索 →'}
+            en: {
+                home:'Home',about:'About',services:'Services',software:'Software',contact:'Contact',
+                heroTitle1:'Quality',heroTitle2:'Software',heroTitle3:'Services',
+                heroDesc:'We provide premium software solutions at affordable prices. Cloud storage, AI tools, messaging apps and more.',
+                goBack:'← Go Back',viewSoftwares:'View Softwares →',contactUs:'Contact Us',
+                sectionTitle:'Software',sectionTitle2:'Services',sectionSubtitle:'Explore our collection of powerful tools and applications',
+                comingSoon:'Coming Soon',choose:'Choose →',explore:'Explore →',
+                sw1Title:'💬 BLSC-Message & File Sharing',sw1Desc:'Share messages and files instantly with our secure web application',
+                sw2Title:'🎓 BLSC-Online Software Courses',sw2Desc:'Learn programming and software development from expert instructors',
+                sw3Title:'🌐 BLSC-Browser',sw3Desc:'Fast and secure web browsing experience tailored for developers',
+                sw4Title:'📦 Developed by BLSC Applications',sw4Desc:'Explore our collection of powerful productivity applications',
+                sw5Title:'☁️ BLCS-Drive',sw5Desc:'Store and access your files anywhere with our cloud storage solution',
+                sw6Title:'🖼️ BLSC-Gallery',sw6Desc:'Manage and showcase your images with advanced editing tools',
+                sw7Title:'⭐ Important Websites',sw7Desc:'Curated collection of essential web resources and tools',
+                sw8Title:'🌍 BLSC-Language Translator',sw8Desc:'Break language barriers with our powerful translation tool',
+                sw9Title:'🤝 BLCS Meeting',sw9Desc:'Connect and collaborate with team members in real-time',
+                sw10Title:'🔍 BLSC-Image Stock',sw10Desc:'Search and download millions of free stock photos instantly',
+                sw11Title:'🎨 BLSC-Image Generator',sw11Desc:'Create any image you imagine with AI - just describe it!',
+                sw12Title:'🎬 BLSC-Video Generator',sw12Desc:'Turn your ideas into stunning videos with AI technology'
+            },
+            am: {
+                home:'መነሻ',about:'ስለ እኛ',services:'አገልግሎቶች',software:'ሶፍትዌር',contact:'አግኙን',
+                heroTitle1:'ጥራት ያለው',heroTitle2:'ሶፍትዌር',heroTitle3:'አገልግሎቶች',
+                heroDesc:'በተመጣጣኝ ዋጋ ከፍተኛ ጥራት ያላቸው የሶፍትዌር መፍትሄዎችን እናቀርባለን።',
+                goBack:'← ተመለስ',viewSoftwares:'ሶፍትዌሮችን ይመልከቱ →',contactUs:'አግኙን',
+                sectionTitle:'ሶፍትዌር',sectionTitle2:'አገልግሎቶች',sectionSubtitle:'ኃይለኛ መሳሪያዎችን እና መተግበሪያዎችን ያስሱ',
+                comingSoon:'በቅርቡ',choose:'ይምረጡ →',explore:'ያስሱ →',
+                sw1Title:'💬 BLSC-መልእክት እና ፋይል ማጋራት',sw1Desc:'መልእክቶችን እና ፋይሎችን በፍጥነት ያጋሩ',
+                sw2Title:'🎓 BLSC-የመስመር ላይ ሶፍትዌር ኮርሶች',sw2Desc:'ፕሮግራሚንግ እና ሶፍትዌር ልማት ይማሩ',
+                sw3Title:'🌐 BLSC-ብራውዘር',sw3Desc:'ፈጣን እና ደህንነቱ የተጠበቀ የድር አሰሳ',
+                sw4Title:'📦 በBLSC የተሰሩ መተግበሪያዎች',sw4Desc:'ኃይለኛ የምርታማነት መተግበሪያዎችን ያስሱ',
+                sw5Title:'☁️ BLCS-ድራይቭ',sw5Desc:'ፋይሎችዎን በየትኛውም ቦታ ያከማቹ እና ይድረሱ',
+                sw6Title:'🖼️ BLSC-ጋለሪ',sw6Desc:'ምስሎችዎን ያስተዳድሩ እና ያሳዩ',
+                sw7Title:'⭐ አስፈላጊ ድረ-ገጾች',sw7Desc:'የተመረጡ አስፈላጊ የድር ሀብቶች',
+                sw8Title:'🌍 BLSC-ቋንቋ ተርጓሚ',sw8Desc:'የቋንቋ እንቅፋቶችን ይስበሩ',
+                sw9Title:'🤝 BLCS ስብሰባ',sw9Desc:'ከቡድን አባላት ጋር ይገናኙ እና ይተባበሩ',
+                sw10Title:'🔍 BLSC-ምስል ስቶክ',sw10Desc:'በሚሊዮኖች የሚቆጠሩ ነጻ ፎቶዎችን ይፈልጉ',
+                sw11Title:'🎨 BLSC-ምስል ጀነሬተር',sw11Desc:'በAI የሚፈልጉትን ምስል ይፍጠሩ',
+                sw12Title:'🎬 BLSC-ቪዲዮ ጀነሬተር',sw12Desc:'ሀሳቦችዎን በAI ወደ ቪዲዮ ይቀይሩ'
+            },
+            or: {
+                home:'Mana',about:'Waa\'ee',services:'Tajaajila',software:'Sooftiweerii',contact:'Nu Quunnamaa',
+                heroTitle1:'Qulqullina',heroTitle2:'Sooftiweerii',heroTitle3:'Tajaajila',
+                heroDesc:'Gatii madaalawaa ta\'een furmaata sooftiweerii olaanaa dhiyeessina.',
+                goBack:'← Deebi',viewSoftwares:'Sooftiweerii Ilaali →',contactUs:'Nu Quunnamaa',
+                sectionTitle:'Sooftiweerii',sectionTitle2:'Tajaajila',sectionSubtitle:'Meeshaalee fi aplikeeshinoota jabaa sakatta\'i',
+                comingSoon:'Dhiyootti',choose:'Filadhu →',explore:'Sakatta\'i →',
+                sw1Title:'💬 BLSC-Ergaa fi Faayilii Qooduu',sw1Desc:'Ergaa fi faayilii hatattamaan qoodaa',
+                sw2Title:'🎓 BLSC-Koorsa Sooftiweerii Toora Interneetii',sw2Desc:'Pirograamii fi misoomaa sooftiweerii baraa',
+                sw3Title:'🌐 BLSC-Biraawzarii',sw3Desc:'Muuxannoo weebii saffisaa fi nageenya qabu',
+                sw4Title:'📦 Aplikeeshinoota BLSC\'n Hojjetaman',sw4Desc:'Aplikeeshinoota omishummaa jabaa sakatta\'i',
+                sw5Title:'☁️ BLCS-Draayivii',sw5Desc:'Faayiloota keessan bakka kamiyyuu kuusaa fi argadhaa',
+                sw6Title:'🖼️ BLSC-Gaalarii',sw6Desc:'Suuraalee keessan bulchaa fi agarsiisaa',
+                sw7Title:'⭐ Weebsaayitoota Barbaachisoo',sw7Desc:'Kuusaa qabeenya weebii barbaachisoo',
+                sw8Title:'🌍 BLSC-Hiikkaa Afaanii',sw8Desc:'Danqaa afaanii cabsaa',
+                sw9Title:'🤝 BLCS Wal-ga\'ii',sw9Desc:'Miseensota garee waliin wal-qunnamaa',
+                sw10Title:'🔍 BLSC-Kuusaa Suuraa',sw10Desc:'Suuraalee miliyoonaan lakkaa\'aman barbaadaa',
+                sw11Title:'🎨 BLSC-Uumaa Suuraa',sw11Desc:'AI\'n suuraa barbaaddan uumaa',
+                sw12Title:'🎬 BLSC-Uumaa Viidiyoo',sw12Desc:'Yaada keessan AI\'n gara viidiyootti jijjiiraa'
+            },
+            es: {
+                home:'Inicio',about:'Acerca de',services:'Servicios',software:'Software',contact:'Contacto',
+                heroTitle1:'Calidad',heroTitle2:'Software',heroTitle3:'Servicios',
+                heroDesc:'Proporcionamos soluciones de software premium a precios asequibles.',
+                goBack:'← Volver',viewSoftwares:'Ver Software →',contactUs:'Contáctenos',
+                sectionTitle:'Software',sectionTitle2:'Servicios',sectionSubtitle:'Explore nuestra colección de herramientas y aplicaciones',
+                comingSoon:'Próximamente',choose:'Elegir →',explore:'Explorar →',
+                sw1Title:'💬 BLSC-Mensajes y Compartir Archivos',sw1Desc:'Comparta mensajes y archivos al instante',
+                sw2Title:'🎓 BLSC-Cursos de Software en Línea',sw2Desc:'Aprenda programación y desarrollo de software',
+                sw3Title:'🌐 BLSC-Navegador',sw3Desc:'Navegación web rápida y segura',
+                sw4Title:'📦 Aplicaciones Desarrolladas por BLSC',sw4Desc:'Explore nuestra colección de aplicaciones',
+                sw5Title:'☁️ BLCS-Drive',sw5Desc:'Almacene y acceda a sus archivos en cualquier lugar',
+                sw6Title:'🖼️ BLSC-Galería',sw6Desc:'Administre y muestre sus imágenes',
+                sw7Title:'⭐ Sitios Web Importantes',sw7Desc:'Colección de recursos web esenciales',
+                sw8Title:'🌍 BLSC-Traductor de Idiomas',sw8Desc:'Rompa las barreras del idioma',
+                sw9Title:'🤝 BLCS Reunión',sw9Desc:'Conéctese y colabore con miembros del equipo',
+                sw10Title:'🔍 BLSC-Banco de Imágenes',sw10Desc:'Busque y descargue millones de fotos gratis',
+                sw11Title:'🎨 BLSC-Generador de Imágenes',sw11Desc:'Cree cualquier imagen con IA',
+                sw12Title:'🎬 BLSC-Generador de Videos',sw12Desc:'Convierta sus ideas en videos con IA'
+            },
+            fr: {
+                home:'Accueil',about:'À propos',services:'Services',software:'Logiciel',contact:'Contact',
+                heroTitle1:'Qualité',heroTitle2:'Logiciel',heroTitle3:'Services',
+                heroDesc:'Nous fournissons des solutions logicielles premium à des prix abordables.',
+                goBack:'← Retour',viewSoftwares:'Voir les Logiciels →',contactUs:'Contactez-nous',
+                sectionTitle:'Logiciel',sectionTitle2:'Services',sectionSubtitle:'Explorez notre collection d\'outils et d\'applications',
+                comingSoon:'Bientôt',choose:'Choisir →',explore:'Explorer →',
+                sw1Title:'💬 BLSC-Messages et Partage de Fichiers',sw1Desc:'Partagez messages et fichiers instantanément',
+                sw2Title:'🎓 BLSC-Cours de Logiciels en Ligne',sw2Desc:'Apprenez la programmation et le développement',
+                sw3Title:'🌐 BLSC-Navigateur',sw3Desc:'Navigation web rapide et sécurisée',
+                sw4Title:'📦 Applications Développées par BLSC',sw4Desc:'Explorez notre collection d\'applications',
+                sw5Title:'☁️ BLCS-Drive',sw5Desc:'Stockez et accédez à vos fichiers partout',
+                sw6Title:'🖼️ BLSC-Galerie',sw6Desc:'Gérez et présentez vos images',
+                sw7Title:'⭐ Sites Web Importants',sw7Desc:'Collection de ressources web essentielles',
+                sw8Title:'🌍 BLSC-Traducteur de Langues',sw8Desc:'Brisez les barrières linguistiques',
+                sw9Title:'🤝 BLCS Réunion',sw9Desc:'Connectez-vous et collaborez avec votre équipe',
+                sw10Title:'🔍 BLSC-Banque d\'Images',sw10Desc:'Recherchez et téléchargez des millions de photos',
+                sw11Title:'🎨 BLSC-Générateur d\'Images',sw11Desc:'Créez n\'importe quelle image avec l\'IA',
+                sw12Title:'🎬 BLSC-Générateur de Vidéos',sw12Desc:'Transformez vos idées en vidéos avec l\'IA'
+            },
+            ar: {
+                home:'الرئيسية',about:'حول',services:'الخدمات',software:'البرمجيات',contact:'اتصل بنا',
+                heroTitle1:'جودة',heroTitle2:'برمجيات',heroTitle3:'خدمات',
+                heroDesc:'نقدم حلول برمجية متميزة بأسعار معقولة.',
+                goBack:'← رجوع',viewSoftwares:'عرض البرمجيات →',contactUs:'اتصل بنا',
+                sectionTitle:'برمجيات',sectionTitle2:'خدمات',sectionSubtitle:'استكشف مجموعتنا من الأدوات والتطبيقات',
+                comingSoon:'قريباً',choose:'اختر →',explore:'استكشف →',
+                sw1Title:'💬 BLSC-الرسائل ومشاركة الملفات',sw1Desc:'شارك الرسائل والملفات فوراً',
+                sw2Title:'🎓 BLSC-دورات البرمجيات عبر الإنترنت',sw2Desc:'تعلم البرمجة وتطوير البرمجيات',
+                sw3Title:'🌐 BLSC-المتصفح',sw3Desc:'تصفح ويب سريع وآمن',
+                sw4Title:'📦 تطبيقات طورتها BLSC',sw4Desc:'استكشف مجموعتنا من التطبيقات',
+                sw5Title:'☁️ BLCS-درايف',sw5Desc:'خزن وصل إلى ملفاتك في أي مكان',
+                sw6Title:'🖼️ BLSC-المعرض',sw6Desc:'أدر واعرض صورك',
+                sw7Title:'⭐ مواقع ويب مهمة',sw7Desc:'مجموعة من موارد الويب الأساسية',
+                sw8Title:'🌍 BLSC-مترجم اللغات',sw8Desc:'اكسر حواجز اللغة',
+                sw9Title:'🤝 BLCS اجتماع',sw9Desc:'تواصل وتعاون مع أعضاء الفريق',
+                sw10Title:'🔍 BLSC-مخزون الصور',sw10Desc:'ابحث وحمل ملايين الصور المجانية',
+                sw11Title:'🎨 BLSC-مولد الصور',sw11Desc:'أنشئ أي صورة بالذكاء الاصطناعي',
+                sw12Title:'🎬 BLSC-مولد الفيديو',sw12Desc:'حول أفكارك إلى فيديوهات بالذكاء الاصطناعي'
+            },
+            zh: {
+                home:'首页',about:'关于',services:'服务',software:'软件',contact:'联系',
+                heroTitle1:'优质',heroTitle2:'软件',heroTitle3:'服务',
+                heroDesc:'我们以实惠的价格提供优质的软件解决方案。',
+                goBack:'← 返回',viewSoftwares:'查看软件 →',contactUs:'联系我们',
+                sectionTitle:'软件',sectionTitle2:'服务',sectionSubtitle:'探索我们强大的工具和应用程序',
+                comingSoon:'即将推出',choose:'选择 →',explore:'探索 →',
+                sw1Title:'💬 BLSC-消息和文件共享',sw1Desc:'即时分享消息和文件',
+                sw2Title:'🎓 BLSC-在线软件课程',sw2Desc:'学习编程和软件开发',
+                sw3Title:'🌐 BLSC-浏览器',sw3Desc:'快速安全的网页浏览',
+                sw4Title:'📦 BLSC开发的应用程序',sw4Desc:'探索我们的应用程序集合',
+                sw5Title:'☁️ BLCS-云盘',sw5Desc:'随时随地存储和访问您的文件',
+                sw6Title:'🖼️ BLSC-图库',sw6Desc:'管理和展示您的图片',
+                sw7Title:'⭐ 重要网站',sw7Desc:'精选的重要网络资源',
+                sw8Title:'🌍 BLSC-语言翻译器',sw8Desc:'打破语言障碍',
+                sw9Title:'🤝 BLCS会议',sw9Desc:'与团队成员连接和协作',
+                sw10Title:'🔍 BLSC-图片库',sw10Desc:'搜索和下载数百万张免费照片',
+                sw11Title:'🎨 BLSC-图像生成器',sw11Desc:'用AI创建任何您想象的图像',
+                sw12Title:'🎬 BLSC-视频生成器',sw12Desc:'用AI将您的想法转化为视频'
+            }
         };
         
         function changeLanguage() {
@@ -561,6 +720,12 @@
             document.querySelectorAll('.hint-coming').forEach(el => el.textContent = t.comingSoon);
             document.querySelectorAll('.hint-choose').forEach(el => el.textContent = t.choose);
             document.querySelectorAll('.hint-explore').forEach(el => el.textContent = t.explore);
+            
+            // Update software cards
+            for(let i=1; i<=12; i++) {
+                if(document.getElementById('sw'+i+'Title')) document.getElementById('sw'+i+'Title').textContent = t['sw'+i+'Title'];
+                if(document.getElementById('sw'+i+'Desc')) document.getElementById('sw'+i+'Desc').textContent = t['sw'+i+'Desc'];
+            }
             
             // RTL for Arabic
             document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
