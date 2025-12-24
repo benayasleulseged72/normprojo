@@ -38,6 +38,8 @@
         .logo-section h1 span{color:#3fb950}
         .lang-select{padding:8px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;font-size:14px;cursor:pointer}
         .lang-select option{background:#1a1a1a}
+        .user-icon{margin-left:15px;transition:all 0.3s}
+        .user-icon:hover{transform:translateY(-2px)}
         .platform-tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
         .platform-tab{padding:10px 24px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:100px;color:rgba(255,255,255,0.7);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:8px}
         .platform-tab:hover{border-color:rgba(255,255,255,0.3);color:#fff}
@@ -104,6 +106,9 @@
                 <option value="ar">🇸🇦 العربية</option>
                 <option value="zh">🇨🇳 中文</option>
             </select>
+            <a href="../../../auth.html" class="user-icon" title="Login / Account" style="background:rgba(255,255,255,0.1);padding:4px;border-radius:12px;border:1px solid rgba(255,255,255,0.2);">
+                <img src="../../../user.png" alt="👤" style="width:36px;height:36px;border-radius:8px;" onerror="this.style.display='none';this.parentElement.innerHTML='👤';">
+            </a>
         </div>
         <div class="platform-tabs">
             <button class="platform-tab active" data-platform="all"><i class="fas fa-th-large"></i> <span data-translate="all">All</span></button>
@@ -133,6 +138,7 @@
             <button class="modal-btn" onclick="closeModal()" id="modalBtn">Got it!</button>
         </div>
     </div>
+    <script src="../../../blsc-account.js"></script>
     <script>
         document.getElementById('yr').textContent = new Date().getFullYear();
         const translations = {

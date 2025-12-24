@@ -3,41 +3,41 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Thanks & Comment — BENAYAS LEULSEGED</title>
+<title>Thanks & Feedback - BLSC | Benayas Leulseged Software Company</title>
+<meta name="description" content="Thank you for visiting BLSC. Leave your feedback or comments.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://benio.vercel.app/thanks.html">
 <style>
-  :root{
-    --bg: radial-gradient(1200px 700px at 10% -10%, #00e5ff22, transparent 60%),
-          radial-gradient(1200px 700px at 110% 10%, #ff00e522, transparent 55%),
-          radial-gradient(900px 600px at 50% 120%, #00ff8a11, transparent 60%),
-          linear-gradient(180deg, #02010a 0%, #050818 40%, #02010a 100%);
-    --surface: #050816;
-    --surface-soft: #070f1f;
-    --surface-alt: #050310;
-    --border-soft: #1b2845;
-    --accent: #37f3ff;
-    --accent-pink: #ff007a;
-    --text: #f5f7ff;
-    --muted: #7f8bb3;
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background:#0a0a0a;
+    color:#ffffff;
+    min-height:100vh;
   }
-  *{box-sizing:border-box;}
-  html,body{
-    margin:0;
-    height:100%;
-    font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
-    color:var(--text);
-    background:var(--bg);
-    background-attachment:fixed;
-  }
-  body{position:relative;overflow-x:hidden;}
-  .grid-bg{
-    position: fixed; inset:0; pointer-events:none;
-    opacity:.22; mix-blend-mode:screen;
-    background-image:linear-gradient(#151b33 1px, transparent 1px),linear-gradient(90deg,#151b33 1px, transparent 1px);
-    background-size:36px 36px,36px 36px;
-    filter:drop-shadow(0 0 10px #00f6ff55);
+  
+  .bg-gradient{
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(63,185,80,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(88,166,255,0.1) 0%, transparent 50%),
+      #0a0a0a;
     z-index:-1;
-    /* static grid for calmer background */
   }
+  
+  header{
+    background:rgba(10,10,10,0.8);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    position:sticky;top:0;z-index:100;
+  }
+  nav{
+    max-width:1200px;margin:auto;
+    display:flex;align-items:center
   header{
     position:sticky;top:0;
     background:linear-gradient(90deg,#050816f5,#050310f5);

@@ -355,15 +355,17 @@ function loginWith(provider) {
     alert('🔐 ' + provider + ' login coming soon!\n\nThis feature requires backend integration with ' + provider + ' OAuth.');
 }
 
-// Form handlers
-function handleLogin(e) {
+// Form handlers - NOW ASYNC FOR CLOUD!
+async function handleLogin(e) {
     e.preventDefault();
     const form = e.target;
     const email = form.querySelector('input[type="email"]').value;
     const password = form.querySelector('input[type="password"]').value;
     const remember = form.querySelector('input[type="checkbox"]').checked;
     
-    const result = BLSC_ACCOUNT.login(email, password, remember);
+    showMessage('⏳ Logging in...');
+    
+    const result = await BLSC_ACCOUNT.login(email, password, remember);
     
     if (result.success) {
         showMessage('✅ Login successful! Redirecting...');
@@ -373,7 +375,7 @@ function handleLogin(e) {
     }
 }
 
-function handleSignup(e) {
+async function handleSignup(e) {
     e.preventDefault();
     const form = e.target;
     const name = form.querySelectorAll('input')[0].value;
@@ -391,7 +393,9 @@ function handleSignup(e) {
         return;
     }
     
-    const result = BLSC_ACCOUNT.signup(name, email, password);
+    showMessage('⏳ Creating account...');
+    
+    const result = await BLSC_ACCOUNT.signup(name, email, password);
     
     if (result.success) {
         showMessage('✅ Account created! Redirecting...');

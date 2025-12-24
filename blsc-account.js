@@ -1,23 +1,77 @@
 /**
  * BLSC Account Management System
- * Handles user authentication, session management, and account dropdown
+ * Cloud-based storage using JSONBin.io (FREE!)
+ * Users can register/login from ANYWHERE in the world!
  * by Benayas Leulseged - Dec 2024
+ * 
+ * HOW IT WORKS:
+ * - User data is stored in the cloud (JSONBin.io)
+ * - Anyone can register from any device/location
+ * - Anyone can login from any device/location
+ * - Just like Google accounts!
  */
 
 const BLSC_ACCOUNT = {
-    // Storage keys
-    USERS_KEY: 'blsc_users',
+    // JSONBin.io Configuration - FREE cloud storage!
+    // Your BLSC Account Database
+    JSONBIN_API_KEY: '$2a$10$alAKaJjGMdAZjjCDPcI2ZujZg5oZC0kTXmO7ZAuHxna8.L1XLQfTu',
+    JSONBIN_BIN_ID: '694c53cc43b1c97be9033a9b',
+    
+    // Local session key
     SESSION_KEY: 'blsc_session',
     
-    // Get all registered users
-    getUsers() {
-        const users = localStorage.getItem(this.USERS_KEY);
-        return users ? JSON.parse(users) : {};
+    // Cache for users (to reduce API calls)
+    _usersCache: null,
+    _cacheTime: null,
+    
+    // Get all users from cloud
+    async getUsers() {
+        // Use cache if less than 30 seconds old
+        if (this._usersCache && this._cacheTime && (Date.now() - this._cacheTime < 30000)) {
+            return this._usersCache;
+        }
+        
+        try {
+            const response = await fetch(`https://api.jsonbin.io/v3/b/${this.JSONBIN_BIN_ID}/latest`, {
+                headers: {
+                    'X-Access-Key': this.JSONBIN_API_KEY
+                }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                this._usersCache = data.record.users || {};
+                this._cacheTime = Date.now();
+                return this._usersCache;
+            }
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+        
+        return {};
     },
     
-    // Save users to storage
-    saveUsers(users) {
-        localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
+    // Save users to cloud
+    async saveUsers(users) {
+        try {
+            const response = await fetch(`https://api.jsonbin.io/v3/b/${this.JSONBIN_BIN_ID}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Access-Key': this.JSONBIN_API_KEY
+                },
+                body: JSON.stringify({ users: users })
+            });
+            
+            if (response.ok) {
+                this._usersCache = users;
+                this._cacheTime = Date.now();
+                return true;
+            }
+        } catch (error) {
+            console.error('Error saving users:', error);
+        }
+        return false;
     },
     
     // Get current session
@@ -35,58 +89,82 @@ const BLSC_ACCOUNT = {
     getCurrentUser() {
         const session = this.getSession();
         if (!session) return null;
-        const users = this.getUsers();
-        return users[session.email] || null;
+        return session.user || null;
     },
     
-    // Register new user
-    signup(name, email, password) {
-        const users = this.getUsers();
-        
-        if (users[email]) {
-            return { success: false, message: 'Email already registered' };
+    // Register new user - saves to CLOUD!
+    async signup(name, email, password) {
+        try {
+            const users = await this.getUsers();
+            
+            if (users[email]) {
+                return { success: false, message: 'Email already registered' };
+            }
+            
+            const userId = 'user_' + Date.now();
+            const folderName = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '') + '_' + userId.split('_')[1];
+            
+            const user = {
+                id: userId,
+                name: name,
+                email: email,
+                password: password,
+                avatar: null,
+                createdAt: new Date().toISOString(),
+                folder: 'useraccountssave/' + folderName,
+                lastLogin: new Date().toISOString()
+            };
+            
+            users[email] = user;
+            
+            const saved = await this.saveUsers(users);
+            if (!saved) {
+                return { success: false, message: 'Error saving to cloud. Please try again.' };
+            }
+            
+            // Auto login after signup
+            this.createSession(user);
+            
+            return { success: true, message: 'Account created successfully!', user };
+            
+        } catch (error) {
+            console.error('Signup error:', error);
+            return { success: false, message: 'Error: ' + error.message };
         }
-        
-        const userId = 'user_' + Date.now();
-        const user = {
-            id: userId,
-            name: name,
-            email: email,
-            password: password, // In real app, this would be hashed
-            avatar: null,
-            createdAt: new Date().toISOString(),
-            folder: 'useraccountssave/' + userId // Simulated folder path
-        };
-        
-        users[email] = user;
-        this.saveUsers(users);
-        
-        // Auto login after signup
-        this.createSession(user);
-        
-        return { success: true, message: 'Account created successfully', user };
     },
     
-    // Login user
-    login(email, password, remember = false) {
-        const users = this.getUsers();
-        const user = users[email];
-        
-        if (!user) {
-            return { success: false, message: 'Email not found' };
+    // Login user - checks CLOUD database!
+    async login(email, password, remember = false) {
+        try {
+            const users = await this.getUsers();
+            const user = users[email];
+            
+            if (!user) {
+                return { success: false, message: 'Email not found' };
+            }
+            
+            if (user.password !== password) {
+                return { success: false, message: 'Incorrect password' };
+            }
+            
+            // Update last login
+            user.lastLogin = new Date().toISOString();
+            users[email] = user;
+            await this.saveUsers(users);
+            
+            this.createSession(user, remember);
+            return { success: true, message: 'Login successful!', user };
+            
+        } catch (error) {
+            console.error('Login error:', error);
+            return { success: false, message: 'Error: ' + error.message };
         }
-        
-        if (user.password !== password) {
-            return { success: false, message: 'Incorrect password' };
-        }
-        
-        this.createSession(user, remember);
-        return { success: true, message: 'Login successful', user };
     },
 
     // Create session
     createSession(user, remember = false) {
         const session = {
+            user: user,
             email: user.email,
             name: user.name,
             loginTime: new Date().toISOString(),
@@ -131,10 +209,31 @@ function createAccountDropdown() {
     const userIcon = document.querySelector('.user-icon');
     if (!userIcon) return;
     
-    // Create dropdown container
+    // Get the base path from the existing user icon's href
+    let basePath = '';
+    const existingHref = userIcon.getAttribute('href') || '';
+    if (existingHref.includes('auth.html')) {
+        basePath = existingHref.replace('auth.html', '');
+    }
+    
+    // Get user image path
+    const existingImg = userIcon.querySelector('img');
+    let userImgPath = basePath + 'user.png';
+    if (existingImg && existingImg.src) {
+        userImgPath = existingImg.src;
+    }
+    
+    // Create dropdown container - copy position styles from original
     const dropdownContainer = document.createElement('div');
     dropdownContainer.className = 'account-dropdown-container';
-    dropdownContainer.style.cssText = 'position:relative;display:inline-block;margin-left:20px;';
+    
+    // Check if original has fixed positioning
+    const originalStyle = userIcon.getAttribute('style') || '';
+    if (originalStyle.includes('fixed')) {
+        dropdownContainer.style.cssText = originalStyle + 'display:inline-block;';
+    } else {
+        dropdownContainer.style.cssText = 'position:relative;display:inline-block;margin-left:15px;';
+    }
     
     // Create trigger button
     const trigger = document.createElement('button');
@@ -146,7 +245,7 @@ function createAccountDropdown() {
         const color = BLSC_ACCOUNT.getAvatarColor(user.name);
         trigger.innerHTML = `<div class="user-avatar" style="width:40px;height:40px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:14px;">${initials}</div>`;
     } else {
-        trigger.innerHTML = `<img src="user.png" alt="User" style="width:40px;height:40px;border-radius:12px;">`;
+        trigger.innerHTML = `<img src="${userImgPath}" alt="User" style="width:40px;height:40px;border-radius:12px;">`;
     }
     
     trigger.style.cssText = 'background:none;border:none;cursor:pointer;padding:4px;border-radius:50%;transition:all 0.3s;';
@@ -178,7 +277,7 @@ function createAccountDropdown() {
                 <div style="font-size:13px;color:rgba(255,255,255,0.5);">${user.email}</div>
             </div>
             <div style="padding:8px;">
-                <a href="auth.html" class="dropdown-item" style="display:flex;align-items:center;gap:12px;padding:12px 16px;color:rgba(255,255,255,0.8);text-decoration:none;border-radius:10px;transition:all 0.2s;">
+                <a href="${basePath}auth.html" class="dropdown-item" style="display:flex;align-items:center;gap:12px;padding:12px 16px;color:rgba(255,255,255,0.8);text-decoration:none;border-radius:10px;transition:all 0.2s;">
                     <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     Manage Account
                 </a>
@@ -188,7 +287,7 @@ function createAccountDropdown() {
                 </a>
             </div>
             <div style="padding:12px 20px;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.1);text-align:center;">
-                <span style="font-size:12px;color:rgba(255,255,255,0.4);">BLSC Account</span>
+                <span style="font-size:12px;color:rgba(255,255,255,0.4);">BLSC Account • Cloud Synced ☁️</span>
             </div>
         `;
     } else {
@@ -200,9 +299,9 @@ function createAccountDropdown() {
                 </div>
                 <div style="font-size:16px;font-weight:600;color:#fff;margin-bottom:8px;">Welcome to BLSC</div>
                 <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:20px;">Sign in to access all features</div>
-                <a href="auth.html" style="display:block;padding:14px;background:linear-gradient(135deg,#3fb950,#2ea043);color:#fff;text-decoration:none;border-radius:12px;font-weight:600;font-size:15px;transition:all 0.3s;">Sign In</a>
+                <a href="${basePath}auth.html" style="display:block;padding:14px;background:linear-gradient(135deg,#3fb950,#2ea043);color:#fff;text-decoration:none;border-radius:12px;font-weight:600;font-size:15px;transition:all 0.3s;">Sign In</a>
                 <div style="margin-top:16px;font-size:13px;color:rgba(255,255,255,0.5);">
-                    New here? <a href="auth.html" style="color:#3fb950;text-decoration:none;">Create account</a>
+                    New here? <a href="${basePath}auth.html" style="color:#3fb950;text-decoration:none;">Create account</a>
                 </div>
             </div>
         `;
