@@ -177,6 +177,116 @@ const BLSC_ACCOUNT = {
             hash = name.charCodeAt(i) + ((hash << 5) - hash);
         }
         return colors[Math.abs(hash) % colors.length];
+    },
+    
+    // ========== SUBSCRIPTION MANAGEMENT (CLOUD) ==========
+    
+    // Get user's subscription for a service
+    async getSubscription(service) {
+        if (!this.isLoggedIn()) return null;
+        const user = this.getCurrentUser();
+        const users = await this.getUsers();
+        const userData = users[user.email];
+        if (!userData || !userData.subscriptions) return null;
+        return userData.subscriptions[service] || null;
+    },
+    
+    // Check if user has active subscription
+    async hasActiveSubscription(service) {
+        const sub = await this.getSubscription(service);
+        if (!sub) return false;
+        if (sub.type === 'unlimited') return true;
+        return new Date() < new Date(sub.endDate);
+    },
+    
+    // Activate free trial (30 days) - saves to CLOUD
+    async activateTrial(service) {
+        if (!this.isLoggedIn()) {
+            return { success: false, message: 'Please login first' };
+        }
+        
+        const user = this.getCurrentUser();
+        const users = await this.getUsers();
+        const userData = users[user.email];
+        
+        if (!userData) {
+            return { success: false, message: 'User not found' };
+        }
+        
+        // Initialize subscriptions if not exists
+        if (!userData.subscriptions) {
+            userData.subscriptions = {};
+        }
+        
+        // Check if already has subscription for this service
+        const existing = userData.subscriptions[service];
+        if (existing) {
+            if (existing.type === 'unlimited') {
+                return { success: true, message: 'You have unlimited access!', active: true };
+            }
+            if (new Date() < new Date(existing.endDate)) {
+                const daysLeft = Math.ceil((new Date(existing.endDate) - new Date()) / (1000*60*60*24));
+                return { success: true, message: 'Active! ' + daysLeft + ' days left', active: true, daysLeft: daysLeft };
+            }
+            // Expired
+            return { success: false, message: 'Your subscription has expired', expired: true };
+        }
+        
+        // Create new 30-day trial
+        const startDate = new Date();
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + 30);
+        
+        userData.subscriptions[service] = {
+            type: 'free_trial',
+            service: service,
+            startDate: startDate.toISOString(),
+            endDate: endDate.toISOString(),
+            activatedAt: startDate.toISOString()
+        };
+        
+        users[user.email] = userData;
+        const saved = await this.saveUsers(users);
+        
+        if (saved) {
+            // Update local session
+            this.createSession(userData);
+            return { success: true, message: '30-day trial activated!', endDate: endDate.toLocaleDateString() };
+        }
+        return { success: false, message: 'Error saving. Try again.' };
+    },
+    
+    // Activate paid subscription (admin use)
+    async activateSubscription(email, service, type, days) {
+        const users = await this.getUsers();
+        const userData = users[email];
+        
+        if (!userData) {
+            return { success: false, message: 'User not found' };
+        }
+        
+        if (!userData.subscriptions) {
+            userData.subscriptions = {};
+        }
+        
+        const startDate = new Date();
+        let endDate = null;
+        
+        if (type !== 'unlimited') {
+            endDate = new Date();
+            endDate.setDate(endDate.getDate() + days);
+        }
+        
+        userData.subscriptions[service] = {
+            type: type,
+            service: service,
+            startDate: startDate.toISOString(),
+            endDate: endDate ? endDate.toISOString() : null,
+            activatedAt: startDate.toISOString()
+        };
+        
+        users[email] = userData;
+        return await this.saveUsers(users);
     }
 };
 

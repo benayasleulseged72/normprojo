@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - BLSC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#0a0a0a;min-height:100vh;color:#fff}
+        .bg-gradient{position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 20%,rgba(63,185,80,0.15) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(88,166,255,0.1) 0%,transparent 50%),#0a0a0a;z-index:-1}
+        
+        header{background:rgba(10,10,10,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);position:fixed;top:0;left:0;right:0;z-index:100}
+        nav{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:16px 24px}
+        .nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff}
+        .nav-brand img{width:42px;height:42px;border-radius:50%;border:2px solid #3fb950}
+        .nav-brand span{font-size:18px;font-weight:700}
+        .back-btn{padding:10px 20px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:100px;color:#fff;text-decoration:none;font-size:14px;transition:all 0.3s}
+        .back-btn:hover{background:rgba(255,255,255,0.2)}
+        
+        .container{max-width:900px;margin:0 auto;padding:100px 24px 60px}
+        
+        .payment-grid{display:grid;grid-template-columns:1fr 380px;gap:30px}
+        @media(max-width:800px){.payment-grid{grid-template-columns:1fr}}
+        
+        /* Order Summary Card */
+        .order-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:28px;height:fit-content;position:sticky;top:100px}
+        .order-card h3{font-size:18px;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+        .order-item{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08)}
+        .order-item:last-child{border:none}
+        .order-item .label{color:rgba(255,255,255,0.6);font-size:14px}
+        .order-item .value{font-weight:600}
+        .order-item.total{padding-top:20px;margin-top:10px;border-top:2px solid rgba(63,185,80,0.3)}
+        .order-item.total .value{font-size:24px;color:#3fb950}
+        .order-item .old-price{text-decoration:line-through;color:rgba(255,255,255,0.4);font-size:14px;margin-right:8px}
+        .discount-badge{background:rgba(239,68,68,0.2);color:#ef4444;padding:4px 10px;border-radius:100px;font-size:12px;font-weight:600}
+        
+        /* Payment Methods */
+        .payment-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:28px}
+        .payment-card h2{font-size:22px;margin-bottom:8px}
+        .payment-card>p{color:rgba(255,255,255,0.5);font-size:14px;margin-bottom:24px}
+        
+        .step-indicator{display:flex;gap:12px;margin-bottom:28px}
+        .step{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(255,255,255,0.05);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.5)}
+        .step.active{background:rgba(63,185,80,0.15);color:#3fb950}
+        .step .num{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px}
+        .step.active .num{background:#3fb950;color:#000}
+        
+        .methods-section h4{font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px}
+        
+        .method-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+        .method-btn{padding:20px 16px;background:rgba(255,255,255,0.03);border:2px solid rgba(255,255,255,0.1);border-radius:16px;cursor:pointer;transition:all 0.3s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+        .method-btn:hover{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.05)}
+        .method-btn.selected{border-color:#3fb950;background:rgba(63,185,80,0.1)}
+        .method-btn img{height:40px;object-fit:contain}
+        .method-btn .name{font-size:14px;font-weight:600;color:#fff}
+        .method-btn .desc{font-size:11px;color:rgba(255,255,255,0.5)}
+        
+        /* Payment Details */
+        .payment-details{background:linear-gradient(135deg,rgba(63,185,80,0.1),rgba(88,166,255,0.05));border:1px solid rgba(63,185,80,0.2);border-radius:16px;padding:24px;margin-bottom:24px}
+        .payment-details h4{color:#3fb950;font-size:16px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        .payment-details .info-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.08)}
+        .payment-details .info-row:last-child{border:none}
+        .payment-details .info-label{color:rgba(255,255,255,0.6);font-size:14px}
+        .payment-details .info-value{font-weight:600;font-size:15px;display:flex;align-items:center;gap:8px}
+        .copy-btn{background:rgba(255,255,255,0.1);border:none;padding:6px 12px;border-radius:6px;color:#fff;font-size:12px;cursor:pointer;transition:all 0.2s}
+        .copy-btn:hover{background:#3fb950;color:#000}
+        
+        .amount-highlight{background:rgba(63,185,80,0.2);border:2px solid #3fb950;border-radius:12px;padding:16px;text-align:center;margin:16px 0}
+        .amount-highlight .label{font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:4px}
+        .amount-highlight .amount{font-size:32px;font-weight:800;color:#3fb950}
+        
+        /* Form */
+        .form-section{margin-top:24px}
+        .form-group{margin-bottom:20px}
+        .form-group label{display:block;color:rgba(255,255,255,0.7);font-size:14px;margin-bottom:8px;font-weight:500}
+        .form-group input{width:100%;padding:14px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:#fff;font-size:15px;transition:all 0.3s}
+        .form-group input:focus{outline:none;border-color:#3fb950;background:rgba(63,185,80,0.05)}
+        .form-group input::placeholder{color:rgba(255,255,255,0.3)}
+        
+        .upload-area{border:2px dashed rgba(255,255,255,0.2);border-radius:16px;padding:30px;text-align:center;cursor:pointer;transition:all 0.3s;background:rgba(255,255,255,0.02)}
+        .upload-area:hover{border-color:#3fb950;background:rgba(63,185,80,0.05)}
+        .upload-area.has-file{border-color:#3fb950;border-style:solid}
+        .upload-area input{display:none}
+        .upload-area .icon{font-size:48px;margin-bottom:12px}
+        .upload-area p{color:rgba(255,255,255,0.5);font-size:14px}
+        .upload-area .filename{color:#3fb950;font-weight:600;margin-top:8px}
+        .upload-preview{max-width:150px;max-height:150px;margin:16px auto;border-radius:12px;border:2px solid #3fb950}
+        
+        .pay-btn{width:100%;padding:18px;background:linear-gradient(135deg,#3fb950,#2ea043);border:none;border-radius:14px;color:#fff;font-size:18px;font-weight:700;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:24px}
+        .pay-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(63,185,80,0.4)}
+        .pay-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+        .pay-btn .spinner{width:20px;height:20px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;display:none}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        
+        .secure-badge{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;color:rgba(255,255,255,0.4);font-size:13px}
+        
+        /* Instructions */
+        .instructions{background:rgba(88,166,255,0.1);border:1px solid rgba(88,166,255,0.2);border-radius:12px;padding:16px;margin-bottom:20px}
+        .instructions h5{color:#58a6ff;font-size:14px;margin-bottom:10px}
+        .instructions ol{margin-left:20px;color:rgba(255,255,255,0.7);font-size:13px;line-height:1.8}
+        
+        /* Result Screens */
+        .result-screen{display:none;text-align:center;padding:60px 20px}
+        .result-screen .icon{font-size:80px;margin-bottom:24px}
+        .result-screen h2{font-size:28px;margin-bottom:12px}
+        .result-screen p{color:rgba(255,255,255,0.6);font-size:16px;margin-bottom:32px;max-width:400px;margin-left:auto;margin-right:auto}
+        .result-btn{display:inline-block;padding:16px 40px;background:#3fb950;color:#000;text-decoration:none;border-radius:100px;font-weight:700;font-size:16px;transition:all 0.3s}
+        .result-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(63,185,80,0.3)}
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <header>
+        <nav>
+            <a href="../../index.html" class="nav-brand">
+                <img src="../../1.png" alt="BLSC" onerror="this.style.display='none'">
+                <span>BLSC</span>
+            </a>
+            <a href="subscribe.html" class="back-btn">← Back to Plans</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <div id="paymentForm">
+            <div class="payment-grid">
+                <!-- Payment Methods -->
+                <div class="payment-card">
+                    <h2>💳 Complete Payment</h2>
+                    <p>Choose your preferred payment method</p>
+                    
+                    <div class="step-indicator">
+                        <div class="step active"><span class="num">1</span> Select Method</div>
+                        <div class="step" id="step2"><span class="num">2</span> Send Payment</div>
+                        <div class="step" id="step3"><span class="num">3</span> Confirm</div>
+                    </div>
+                    
+                    <div class="methods-section">
+                        <h4>Mobile Money</h4>
+                        <div class="method-grid">
+                            <div class="method-btn selected" onclick="selectMethod('telebirr')">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Telebirr.png/220px-Telebirr.png" alt="TeleBirr" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 40%22><rect fill=%22%230066b3%22 width=%22100%22 height=%2240%22 rx=%228%22/><text x=%2250%22 y=%2226%22 fill=%22white%22 font-size=%2214%22 text-anchor=%22middle%22 font-weight=%22bold%22>TeleBirr</text></svg>'">
+                                <span class="name">TeleBirr</span>
+                                <span class="desc">Ethio Telecom</span>
+                            </div>
+                            <div class="method-btn" onclick="selectMethod('cbe')">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Commercial_Bank_of_Ethiopia_Logo.svg/200px-Commercial_Bank_of_Ethiopia_Logo.svg.png" alt="CBE Birr" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 40%22><rect fill=%22%23512da8%22 width=%22100%22 height=%2240%22 rx=%228%22/><text x=%2250%22 y=%2226%22 fill=%22white%22 font-size=%2214%22 text-anchor=%22middle%22 font-weight=%22bold%22>CBE Birr</text></svg>'">
+                                <span class="name">CBE Birr</span>
+                                <span class="desc">Commercial Bank</span>
+                            </div>
+                        </div>
+                        
+                        <h4>Bank Transfer</h4>
+                        <div class="method-grid">
+                            <div class="method-btn" onclick="selectMethod('cbe_bank')">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Commercial_Bank_of_Ethiopia_Logo.svg/200px-Commercial_Bank_of_Ethiopia_Logo.svg.png" alt="CBE" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 40%22><rect fill=%22%23512da8%22 width=%22100%22 height=%2240%22 rx=%228%22/><text x=%2250%22 y=%2226%22 fill=%22white%22 font-size=%2212%22 text-anchor=%22middle%22 font-weight=%22bold%22>CBE Bank</text></svg>'">
+                                <span class="name">CBE Bank</span>
+                                <span class="desc">Bank Transfer</span>
+                            </div>
+                            <div class="method-btn" onclick="selectMethod('awash')">
+                                <img src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 40%22><rect fill=%22%23e65100%22 width=%22100%22 height=%2240%22 rx=%228%22/><text x=%2250%22 y=%2226%22 fill=%22white%22 font-size=%2212%22 text-anchor=%22middle%22 font-weight=%22bold%22>Awash</text></svg>" alt="Awash">
+                                <span class="name">Awash Bank</span>
+                                <span class="desc">Bank Transfer</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Details -->
+                    <div class="payment-details" id="paymentDetails">
+                        <h4>📱 <span id="methodTitle">TeleBirr</span> Payment</h4>
+                        
+                        <div class="instructions">
+                            <h5>📋 How to Pay:</h5>
+                            <ol id="paymentSteps">
+                                <li>Open TeleBirr app on your phone</li>
+                                <li>Select "Send Money"</li>
+                                <li>Enter the number below</li>
+                                <li>Enter the exact amount shown</li>
+                                <li>Complete the transfer</li>
+                                <li>Take a screenshot of the confirmation</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="info-row">
+                            <span class="info-label" id="accountLabel">Phone Number</span>
+                            <span class="info-value">
+                                <span id="accountNumber">0912191892</span>
+                                <button class="copy-btn" onclick="copyToClipboard('accountNumber')">📋 Copy</button>
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Account Name</span>
+                            <span class="info-value">Benayas Leulseged</span>
+                        </div>
+                        
+                        <div class="amount-highlight">
+                            <div class="label">Send Exactly</div>
+                            <div class="amount" id="exactAmount">1,000 Birr</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Confirmation Form -->
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label>📱 Your Phone Number</label>
+                            <input type="tel" id="senderPhone" placeholder="09xxxxxxxx" maxlength="10">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>📷 Payment Screenshot (Required)</label>
+                            <div class="upload-area" id="uploadArea" onclick="document.getElementById('screenshot').click()">
+                                <input type="file" id="screenshot" accept="image/*" onchange="handleFileSelect(this)">
+                                <div class="icon">📤</div>
+                                <p>Click to upload payment confirmation screenshot</p>
+                                <p style="font-size:12px;margin-top:8px;color:rgba(255,255,255,0.3)">Supports: JPG, PNG (Max 5MB)</p>
+                            </div>
+                        </div>
+                        
+                        <button class="pay-btn" id="submitBtn" onclick="submitPayment()">
+                            <span class="spinner" id="spinner"></span>
+                            <span id="btnText">✅ I've Completed Payment</span>
+                        </button>
+                        
+                        <div class="secure-badge">
+                            🔒 Secure & Encrypted Payment
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Order Summary -->
+                <div class="order-card">
+                    <h3>📦 Order Summary</h3>
+                    
+                    <div class="order-item">
+                        <span class="label">Service</span>
+                        <span class="value" id="serviceName">BLSC Image Stock</span>
+                    </div>
+                    <div class="order-item">
+                        <span class="label">Plan</span>
+                        <span class="value" id="planName">Monthly</span>
+                    </div>
+                    <div class="order-item">
+                        <span class="label">Duration</span>
+                        <span class="value" id="duration">30 Days</span>
+                    </div>
+                    <div class="order-item">
+                        <span class="label">Original Price</span>
+                        <span class="value">
+                            <span class="old-price" id="originalPrice">1,700 Birr</span>
+                            <span class="discount-badge">-41%</span>
+                        </span>
+                    </div>
+                    <div class="order-item total">
+                        <span class="label">Total</span>
+                        <span class="value" id="totalPrice">1,000 Birr</span>
+                    </div>
+                    
+                    <div style="margin-top:20px;padding:16px;background:rgba(63,185,80,0.1);border-radius:12px;font-size:13px;color:rgba(255,255,255,0.7)">
+                        <strong style="color:#3fb950">✨ What you get:</strong>
+                        <ul style="margin-top:10px;margin-left:16px;line-height:1.8">
+                            <li>Full access to all features</li>
+                            <li>Unlimited downloads</li>
+                            <li>AI-powered tools</li>
+                            <li>Priority support</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Success Screen -->
+        <div class="result-screen" id="successScreen">
+            <div class="icon">🎉</div>
+            <h2>Payment Submitted!</h2>
+            <p>Your payment is being verified by our team. You'll receive access within 1-24 hours. We'll notify you via Telegram.</p>
+            <a href="../../index.html" class="result-btn">← Back to Home</a>
+        </div>
+    </div>
+
+    <script src="../../../blsc-account.js"></script>
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const service = urlParams.get('service') || 'images';
+        const plan = urlParams.get('plan') || 'monthly';
+        const price = parseInt(urlParams.get('price')) || 1000;
+        const originalPrice = parseInt(urlParams.get('original')) || 1700;
+        
+        const serviceNames = {
+            'images': '🔍 BLSC Image Stock',
+            'ai-image': '🎨 BLSC Image Generator',
+            'ai-video': '🎬 BLSC Video Generator'
+        };
+        
+        const planInfo = {
+            'monthly': { name: 'Monthly', duration: '30 Days' },
+            'yearly': { name: '1 Year', duration: '365 Days' },
+            'unlimited': { name: 'Unlimited', duration: 'Lifetime' }
+        };
+        
+        const paymentMethods = {
+            'telebirr': {
+                title: 'TeleBirr',
+                accountLabel: 'Phone Number',
+                account: '0912191892',
+                steps: [
+                    'Open TeleBirr app on your phone',
+                    'Select "Send Money" / "ገንዘብ ላክ"',
+                    'Enter the phone number below',
+                    'Enter the exact amount shown',
+                    'Complete the transfer',
+                    'Take a screenshot of confirmation'
+                ]
+            },
+            'cbe': {
+                title: 'CBE Birr',
+                accountLabel: 'Phone Number',
+                account: '0912191892',
+                steps: [
+                    'Open CBE Birr app',
+                    'Select "Transfer" / "ማስተላለፍ"',
+                    'Choose "To Mobile"',
+                    'Enter the phone number below',
+                    'Enter the exact amount',
+                    'Take a screenshot of confirmation'
+                ]
+            },
+            'cbe_bank': {
+                title: 'CBE Bank Transfer',
+                accountLabel: 'Account Number',
+                account: '1000456789012',
+                steps: [
+                    'Go to any CBE branch or use CBE app',
+                    'Select "Transfer to Account"',
+                    'Enter the account number below',
+                    'Enter the exact amount',
+                    'Complete the transfer',
+                    'Keep the receipt/screenshot'
+                ]
+            },
+            'awash': {
+                title: 'Awash Bank Transfer',
+                accountLabel: 'Account Number',
+                account: '01234567890123',
+                steps: [
+                    'Go to any Awash branch or use mobile app',
+                    'Select "Transfer"',
+                    'Enter the account number below',
+                    'Enter the exact amount',
+                    'Complete the transfer',
+                    'Keep the receipt/screenshot'
+                ]
+            }
+        };
+        
+        let selectedMethod = 'telebirr';
+        let uploadedFile = null;
+        
+        // Initialize page
+        function init() {
+            document.getElementById('serviceName').textContent = serviceNames[service] || service;
+            document.getElementById('planName').textContent = planInfo[plan]?.name || plan;
+            document.getElementById('duration').textContent = planInfo[plan]?.duration || '30 Days';
+            document.getElementById('originalPrice').textContent = originalPrice.toLocaleString() + ' Birr';
+            document.getElementById('totalPrice').textContent = price.toLocaleString() + ' Birr';
+            document.getElementById('exactAmount').textContent = price.toLocaleString() + ' Birr';
+            
+            // Calculate discount
+            const discount = Math.round((1 - price/originalPrice) * 100);
+            document.querySelector('.discount-badge').textContent = '-' + discount + '%';
+            
+            updatePaymentMethod();
+        }
+        init();
+        
+        // Select payment method
+        function selectMethod(method) {
+            selectedMethod = method;
+            document.querySelectorAll('.method-btn').forEach(btn => btn.classList.remove('selected'));
+            event.target.closest('.method-btn').classList.add('selected');
+            updatePaymentMethod();
+        }
+        
+        // Update payment details based on selected method
+        function updatePaymentMethod() {
+            const method = paymentMethods[selectedMethod];
+            document.getElementById('methodTitle').textContent = method.title;
+            document.getElementById('accountLabel').textContent = method.accountLabel;
+            document.getElementById('accountNumber').textContent = method.account;
+            
+            const stepsList = document.getElementById('paymentSteps');
+            stepsList.innerHTML = method.steps.map(step => `<li>${step}</li>`).join('');
+            
+            // Update step indicator
+            document.getElementById('step2').classList.add('active');
+        }
+        
+        // Copy to clipboard
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                btn.textContent = '✓ Copied!';
+                setTimeout(() => btn.textContent = '📋 Copy', 2000);
+            });
+        }
+        
+        // Handle file selection
+        function handleFileSelect(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                // Validate file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File too large. Maximum size is 5MB.');
+                    return;
+                }
+                
+                uploadedFile = file;
+                const uploadArea = document.getElementById('uploadArea');
+                uploadArea.classList.add('has-file');
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadArea.innerHTML = `
+                        <input type="file" id="screenshot" accept="image/*" onchange="handleFileSelect(this)">
+                        <img src="${e.target.result}" class="upload-preview">
+                        <p class="filename">✅ ${file.name}</p>
+                        <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:8px">Click to change</p>
+                    `;
+                };
+                reader.readAsDataURL(file);
+                
+                // Update step indicator
+                document.getElementById('step3').classList.add('active');
+            }
+        }
+        
+        // Submit payment
+        async function submitPayment() {
+            const phone = document.getElementById('senderPhone').value;
+            
+            if (!phone || phone.length < 10) {
+                alert('Please enter a valid phone number');
+                return;
+            }
+            
+            if (!uploadedFile) {
+                alert('Please upload your payment screenshot');
+                return;
+            }
+            
+            if (!BLSC_ACCOUNT.isLoggedIn()) {
+                alert('Please login first');
+                window.location.href = '../../../auth.html';
+                return;
+            }
+            
+            // Show loading
+            const btn = document.getElementById('submitBtn');
+            const spinner = document.getElementById('spinner');
+            const btnText = document.getElementById('btnText');
+            btn.disabled = true;
+            spinner.style.display = 'block';
+            btnText.textContent = 'Submitting...';
+            
+            try {
+                // Convert image to base64
+                const base64 = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(uploadedFile);
+                });
+                
+                const user = BLSC_ACCOUNT.getCurrentUser();
+                
+                // Create payment request
+                const paymentRequest = {
+                    id: 'pay_' + Date.now(),
+                    userEmail: user.email,
+                    userName: user.name,
+                    service: service,
+                    plan: plan,
+                    amount: price,
+                    method: selectedMethod,
+                    methodName: paymentMethods[selectedMethod].title,
+                    senderPhone: phone,
+                    screenshotUrl: base64,
+                    status: 'pending',
+                    createdAt: new Date().toISOString()
+                };
+                
+                // Save to cloud
+                const users = await BLSC_ACCOUNT.getUsers();
+                if (!users[user.email].pendingPayments) {
+                    users[user.email].pendingPayments = [];
+                }
+                users[user.email].pendingPayments.push(paymentRequest);
+                await BLSC_ACCOUNT.saveUsers(users);
+                
+                // Show success
+                document.getElementById('paymentForm').style.display = 'none';
+                document.getElementById('successScreen').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error submitting payment. Please try again.');
+                btn.disabled = false;
+                spinner.style.display = 'none';
+                btnText.textContent = '✅ I\'ve Completed Payment';
+            }
+        }
+    </script>
+</body>
+</html>
