@@ -2,7 +2,7 @@
 """
 BLSC Chrome-Like Browser - Real browser with full Chrome rendering engine
 Uses CEF (Chromium Embedded Framework) for perfect web compatibility
-Created by: Benayas Leulseged Software Community
+Created by: Benayas Leulseged Software Company
 """
 
 import sys
@@ -611,7 +611,7 @@ class ChromeLikeBrowser:
         """Show about dialog"""
         about_text = """🌐 BLSC Chrome Browser
 
-Created by: Benayas Leulseged Software Community
+Created by: Benayas Leulseged Software Company
 
 Features:
 • Real Chromium rendering engine

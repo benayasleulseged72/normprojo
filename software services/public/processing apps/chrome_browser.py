@@ -2,7 +2,7 @@
 """
 BLSC Chrome Browser - Full Chrome-like browser with real web rendering
 Uses CEF (Chromium Embedded Framework) for perfect web compatibility
-Created by: Benayas Leulseged Software Community
+Created by: Benayas Leulseged Software Company
 """
 
 import sys

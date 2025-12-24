@@ -4,17 +4,32 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="google-site-verification" content="CvaeFMWxsIWnvjwGoErskfnMeKQSygjX-hKccMuS5_A" />
-<title>BLSC - Benayas Leulseged Software Community | Web & Software Services Ethiopia</title>
-<meta name="description" content="BLSC - Benayas Leulseged Software Community. Quality web development, software, app development, and tech services in Jimma, Ethiopia.">
-<meta name="keywords" content="BLSC, blsc web, blsc adv, Benayas Leulseged, software community, web development Ethiopia">
+<title>BLSC - Benayas Leulseged Software Company | Web & Software Services Ethiopia</title>
+<meta name="description" content="BLSC - Benayas Leulseged Software Company. Quality web development, software, app development, and tech services in Jimma, Ethiopia.">
+<meta name="keywords" content="BLSC, blsc web, blsc adv, Benayas Leulseged, Software Company, web development Ethiopia">
 <meta name="author" content="Benayas Leulseged">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://benio.vercel.app/">
+
+<!-- 
+    BLSC Website - Main Homepage
+    Created by: Benayas Leulseged
+    Started: 2024
+    Last updated: Dec 2024
+    
+    This is my personal project for BLSC Software Company
+    Feel free to learn from this code but please dont copy directly :)
+-->
+
 <style>
+  /* importing google fonts - inter looks clean */
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
   
+  /* reset styles - i always start with this */
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
+  
+  /* main body styling */
   body{
     font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background:#0a0a0a;
@@ -23,7 +38,7 @@
     overflow-x:hidden;
   }
   
-  /* Animated gradient background */
+  /* cool gradient bg effect i made */
   .bg-gradient{
     position:fixed;
     top:0;left:0;right:0;bottom:0;
@@ -34,17 +49,22 @@
     z-index:-1;
   }
   
+  /* header with blur effect */
   header{
     background:rgba(10,10,10,0.8);
     backdrop-filter:blur(20px);
     border-bottom:1px solid rgba(255,255,255,0.1);
     position:sticky;top:0;z-index:100;
   }
+  
+  /* navigation bar */
   nav{
     max-width:1200px;margin:auto;
     display:flex;align-items:center;justify-content:space-between;
     padding:16px 24px;flex-wrap:wrap;gap:16px;
   }
+  
+  /* logo styles */
   .logo{
     font-size:20px;font-weight:700;
     color:#fff;
@@ -263,7 +283,7 @@
   <nav>
     <div class="logo">
       <img src="1.png" alt="Logo">
-      <span>Benayas Leulseged Software Community</span>
+      <span>Benayas Leulseged Software Company</span>
     </div>
     <div class="nav-links">
       <a href="index.html" class="active" id="navHome">Home</a>
@@ -348,7 +368,7 @@
 </section>
 
 <footer>
-  <p>© <span id="yr"></span> <a href="#">BENAYAS LEULSEGED SOFTWARE COMMUNITY</a> — Jimma, Ethiopia</p>
+  <p>© <span id="yr"></span> <a href="#">BENAYAS LEULSEGED Software Company</a> — Jimma, Ethiopia</p>
 </footer>
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();

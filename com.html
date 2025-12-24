@@ -3,15 +3,29 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Contact - BLSC | Benayas Leulseged Software Community</title>
+<title>Contact - BLSC | Benayas Leulseged Software Company</title>
 <meta name="description" content="Contact BLSC - Get in touch for web development, software, apps, and tech services.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://benio.vercel.app/com.html">
+
+<!-- 
+    Contact Page - BLSC
+    coded by Benayas
+    
+    contact form uses formspree for backend
+    social links and contact info here
+    
+    last edit: dec 2024
+-->
+
 <style>
+  /* fonts */
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
   
+  /* reset */
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
+  
   body{
     font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background:#0a0a0a;
@@ -19,6 +33,7 @@
     min-height:100vh;
   }
   
+  /* bg gradient */
   .bg-gradient{
     position:fixed;
     top:0;left:0;right:0;bottom:0;
@@ -29,22 +44,26 @@
     z-index:-1;
   }
   
+  /* header */
   header{
     background:rgba(10,10,10,0.8);
     backdrop-filter:blur(20px);
     border-bottom:1px solid rgba(255,255,255,0.1);
     position:sticky;top:0;z-index:100;
   }
+  
   nav{
     max-width:1200px;margin:auto;
     display:flex;align-items:center;justify-content:space-between;
     padding:16px 24px;flex-wrap:wrap;gap:16px;
   }
+  
   .logo{
     font-size:20px;font-weight:700;color:#fff;
     display:flex;align-items:center;gap:12px;
   }
   .logo img{width:42px;height:42px;border-radius:50%;border:2px solid #3fb950;}
+  
   .nav-links{display:flex;gap:6px;flex-wrap:wrap;}
   .nav-links a{
     text-decoration:none;color:rgba(255,255,255,0.7);padding:10px 20px;
@@ -52,6 +71,8 @@
   }
   .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.1);}
   .nav-links a.active{color:#0a0a0a;background:#3fb950;}
+  
+  /* lang selector */
   .lang-select{padding:8px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;font-size:13px;cursor:pointer;}
   .lang-select option{background:#1a1a1a;}
   
@@ -283,7 +304,7 @@
 </section>
 
 <footer>
-  <p>© <span id="yr"></span> BENAYAS LEULSEGED SOFTWARE COMMUNITY — Jimma, Ethiopia</p>
+  <p>© <span id="yr"></span> BENAYAS LEULSEGED Software Company — Jimma, Ethiopia</p>
 </footer>
 
 <script>

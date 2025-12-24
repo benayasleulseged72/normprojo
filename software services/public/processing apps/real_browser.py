@@ -2,7 +2,7 @@
 """
 BLSC Real Web Browser - A full-featured web browser with real web rendering
 Uses webview library for actual web rendering like Chrome/Firefox
-Created by: Benayas Leulseged Software Community
+Created by: Benayas Leulseged Software Company
 """
 
 import threading
@@ -145,7 +145,7 @@ class BLSCRealBrowser:
     def run(self):
         """Start the browser"""
         print("🌐 Starting BLSC Real Web Browser...")
-        print("📍 Created by: Benayas Leulseged Software Community")
+        print("📍 Created by: Benayas Leulseged Software Company")
         print("🚀 Loading browser with real web rendering...")
         
         # Create and start the browser

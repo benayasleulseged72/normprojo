@@ -3,15 +3,27 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>About BLSC - Benayas Leulseged Software Community</title>
+<title>About BLSC - Benayas Leulseged Software Company</title>
 <meta name="description" content="About BLSC - Software developer company in Ethiopia founded in 2026.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://benio.vercel.app/about.html">
+
+<!-- 
+    About Page - BLSC
+    by Benayas Leulseged
+    
+    this page tells our story and mission
+    updated dec 2024
+-->
+
 <style>
+  /* google fonts */
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
   
+  /* basic reset */
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
+  
   body{
     font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background:#0a0a0a;
@@ -19,6 +31,7 @@
     min-height:100vh;
   }
   
+  /* background gradient - same as homepage for consistency */
   .bg-gradient{
     position:fixed;
     top:0;left:0;right:0;bottom:0;
@@ -29,22 +42,27 @@
     z-index:-1;
   }
   
+  /* sticky header */
   header{
     background:rgba(10,10,10,0.8);
     backdrop-filter:blur(20px);
     border-bottom:1px solid rgba(255,255,255,0.1);
     position:sticky;top:0;z-index:100;
   }
+  
   nav{
     max-width:1200px;margin:auto;
     display:flex;align-items:center;justify-content:space-between;
     padding:16px 24px;flex-wrap:wrap;gap:16px;
   }
+  
   .logo{
     font-size:20px;font-weight:700;color:#fff;
     display:flex;align-items:center;gap:12px;
   }
   .logo img{width:42px;height:42px;border-radius:50%;border:2px solid #3fb950;}
+  
+  /* nav links */
   .nav-links{display:flex;gap:6px;flex-wrap:wrap;}
   .nav-links a{
     text-decoration:none;color:rgba(255,255,255,0.7);padding:10px 20px;
@@ -52,6 +70,8 @@
   }
   .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.1);}
   .nav-links a.active{color:#0a0a0a;background:#3fb950;}
+  
+  /* language dropdown */
   .lang-select{padding:8px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;font-size:13px;cursor:pointer;}
   .lang-select option{background:#1a1a1a;}
   
@@ -154,7 +174,7 @@
 <section class="about-section">
   <div class="about-text">
     <span class="founded" id="founded">Founded in 2026 • Ethiopia</span>
-    <h1 id="aboutTitle">About <span>Benayas Leulseged</span> Software Community</h1>
+    <h1 id="aboutTitle">About <span>Benayas Leulseged</span> Software Company</h1>
     <p id="aboutDesc1">BLSC is a software developer company in Ethiopia, dedicated to helping individuals and organizations build their digital presence and solve technology challenges.</p>
     <p id="aboutDesc2">We provide quality technology services including web development, software solutions, app development, and tech support. Our goal is to deliver excellent work at affordable prices while teaching and helping others learn.</p>
   </div>
@@ -169,13 +189,13 @@
 </section>
 
 <footer>
-  <p>© <span id="yr"></span> BENAYAS LEULSEGED SOFTWARE COMMUNITY — Jimma, Ethiopia</p>
+  <p>© <span id="yr"></span> BENAYAS LEULSEGED Software Company — Jimma, Ethiopia</p>
 </footer>
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
 
 const translations = {
-  en: {home:'Home',about:'About',services:'Services',contact:'Contact',founded:'Founded in 2026 • Ethiopia',aboutTitle:'About <span>Benayas Leulseged</span> Software Community',aboutDesc1:'BLSC is a software developer company in Ethiopia, dedicated to helping individuals and organizations build their digital presence and solve technology challenges.',aboutDesc2:'We provide quality technology services including web development, software solutions, app development, and tech support. Our goal is to deliver excellent work at affordable prices while teaching and helping others learn.',missionTitle:'Our Mission',missionDesc:'To provide high-quality technology services at affordable prices, making software development accessible to everyone in Ethiopia with unwavering commitment to our clients\' success.'},
+  en: {home:'Home',about:'About',services:'Services',contact:'Contact',founded:'Founded in 2026 • Ethiopia',aboutTitle:'About <span>Benayas Leulseged</span> Software Company',aboutDesc1:'BLSC is a software developer company in Ethiopia, dedicated to helping individuals and organizations build their digital presence and solve technology challenges.',aboutDesc2:'We provide quality technology services including web development, software solutions, app development, and tech support. Our goal is to deliver excellent work at affordable prices while teaching and helping others learn.',missionTitle:'Our Mission',missionDesc:'To provide high-quality technology services at affordable prices, making software development accessible to everyone in Ethiopia with unwavering commitment to our clients\' success.'},
   am: {home:'መነሻ',about:'ስለ እኛ',services:'አገልግሎቶች',contact:'አግኙን',founded:'በ2026 የተመሰረተ • ኢትዮጵያ',aboutTitle:'ስለ <span>ቤናያስ ለውልሰገድ</span> ሶፍትዌር ማህበረሰብ',aboutDesc1:'BLSC በኢትዮጵያ ውስጥ የሶፍትዌር ገንቢ ኩባንያ ነው፣ ግለሰቦች እና ድርጅቶች ዲጂታል መገኘታቸውን እንዲገነቡ እና የቴክኖሎጂ ችግሮችን እንዲፈቱ ለመርዳት የተሰጠ።',aboutDesc2:'የድር ልማት፣ የሶፍትዌር መፍትሄዎች፣ የመተግበሪያ ልማት እና የቴክኖሎጂ ድጋፍን ጨምሮ ጥራት ያለው የቴክኖሎጂ አገልግሎቶችን እናቀርባለን።',missionTitle:'ተልዕኮአችን',missionDesc:'በተመጣጣኝ ዋጋ ከፍተኛ ጥራት ያለው የቴክኖሎጂ አገልግሎቶችን ማቅረብ፣ የሶፍትዌር ልማትን ለሁሉም በኢትዮጵያ ተደራሽ ማድረግ።'},
   or: {home:'Mana',about:'Waa\'ee',services:'Tajaajila',contact:'Nu Quunnamaa',founded:'Bara 2026 Hundeeffame • Itoophiyaa',aboutTitle:'Waa\'ee Hawaasa Sooftiweerii <span>Benayas Leulseged</span>',aboutDesc1:'BLSC Itoophiyaa keessatti kompanii sooftiweerii hojjetu yoo ta\'u, namoota dhuunfaa fi dhaabbilee argama dijitaalaa isaanii ijaaruu fi rakkoo teeknooloojii furuuf gargaaruuf of kenne.',aboutDesc2:'Tajaajila teeknooloojii qulqullina qabu kan misoomaa weebii, furmaata sooftiweerii, misoomaa appii, fi deeggarsa teeknooloojii dabalatee dhiyeessina.',missionTitle:'Ergama Keenya',missionDesc:'Gatii madaalawaa ta\'een tajaajila teeknooloojii qulqullina olaanaa qabu dhiyeessuu, misoomaa sooftiweerii Itoophiyaa keessatti hundaaf argamsiisuu.'},
   es: {home:'Inicio',about:'Acerca de',services:'Servicios',contact:'Contacto',founded:'Fundada en 2026 • Etiopía',aboutTitle:'Acerca de la Comunidad de Software <span>Benayas Leulseged</span>',aboutDesc1:'BLSC es una empresa desarrolladora de software en Etiopía, dedicada a ayudar a individuos y organizaciones a construir su presencia digital y resolver desafíos tecnológicos.',aboutDesc2:'Proporcionamos servicios tecnológicos de calidad incluyendo desarrollo web, soluciones de software, desarrollo de aplicaciones y soporte técnico.',missionTitle:'Nuestra Misión',missionDesc:'Proporcionar servicios tecnológicos de alta calidad a precios asequibles, haciendo el desarrollo de software accesible para todos en Etiopía.'},

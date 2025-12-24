@@ -19,7 +19,7 @@ const BLSC_LANG = {
             selectLang: 'Select Language', darkMode: 'Dark Mode', lightMode: 'Light Mode',
             settings: 'Settings', help: 'Help', logout: 'Logout', login: 'Login', register: 'Register',
             welcome: 'Welcome', goodbye: 'Goodbye', yes: 'Yes', no: 'No', ok: 'OK',
-            footer: '© BENAYAS LEULSEGED SOFTWARE COMMUNITY — Jimma, Ethiopia'
+            footer: '© BENAYAS LEULSEGED Software Company — Jimma, Ethiopia'
         },
         am: {
             back: '← ተመለስ', backHome: '← ወደ መነሻ ተመለስ', apps: 'መተግበሪያዎች', title: 'በ BLSC የተሰራ',
@@ -60,7 +60,7 @@ const BLSC_LANG = {
             selectLang: 'Afaan Filadhu', darkMode: 'Haala Dukkanaa', lightMode: 'Haala Ifaa',
             settings: 'Qindaa\'inoota', help: 'Gargaarsa', logout: 'Ba\'i', login: 'Seeni', register: 'Galmaa\'i',
             welcome: 'Baga Nagaan Dhuftan', goodbye: 'Nagaatti', yes: 'Eeyyee', no: 'Lakki', ok: 'OK',
-            footer: '© BENAYAS LEULSEGED SOFTWARE COMMUNITY — Jimmaa, Itoophiyaa'
+            footer: '© BENAYAS LEULSEGED Software Company — Jimmaa, Itoophiyaa'
         },
         es: {
             back: '← Volver', backHome: '← Volver al Inicio', apps: 'Aplicaciones', title: 'Desarrollado por',
@@ -80,7 +80,7 @@ const BLSC_LANG = {
             selectLang: 'Seleccionar Idioma', darkMode: 'Modo Oscuro', lightMode: 'Modo Claro',
             settings: 'Configuración', help: 'Ayuda', logout: 'Cerrar Sesión', login: 'Iniciar Sesión', register: 'Registrarse',
             welcome: 'Bienvenido', goodbye: 'Adiós', yes: 'Sí', no: 'No', ok: 'OK',
-            footer: '© BENAYAS LEULSEGED SOFTWARE COMMUNITY — Jimma, Etiopía'
+            footer: '© BENAYAS LEULSEGED Software Company — Jimma, Etiopía'
         },
      
    fr: {
@@ -101,7 +101,7 @@ const BLSC_LANG = {
             selectLang: 'Sélectionner la Langue', darkMode: 'Mode Sombre', lightMode: 'Mode Clair',
             settings: 'Paramètres', help: 'Aide', logout: 'Déconnexion', login: 'Connexion', register: 'S\'inscrire',
             welcome: 'Bienvenue', goodbye: 'Au Revoir', yes: 'Oui', no: 'Non', ok: 'OK',
-            footer: '© BENAYAS LEULSEGED SOFTWARE COMMUNITY — Jimma, Éthiopie'
+            footer: '© BENAYAS LEULSEGED Software Company — Jimma, Éthiopie'
         },
         ar: {
             back: '← رجوع', backHome: '← العودة للرئيسية', apps: 'التطبيقات', title: 'تم تطويره بواسطة',

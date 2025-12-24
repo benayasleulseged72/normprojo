@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 BLSC Ultimate Web Browser - Complete browser with embedded web rendering
-Created by: Benayas Leulseged Software Community
+Created by: Benayas Leulseged Software Company
 """
 
 import tkinter as tk
@@ -730,7 +730,7 @@ class BLSCUltimateBrowser:
     def run(self):
         """Run browser"""
         print("🌐 Starting BLSC Ultimate Browser...")
-        print("📍 Created by: Benayas Leulseged Software Community")
+        print("📍 Created by: Benayas Leulseged Software Company")
         print("🚀 Features: Embedded web rendering, multiple tabs, bookmarks!")
         print("✨ Websites render INSIDE the browser window!")
         

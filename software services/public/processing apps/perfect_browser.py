@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 BLSC Perfect Web Browser - Complete browser with tabs, bookmarks, and real web rendering
-Created by: Benayas Leulseged Software Community
+Created by: Benayas Leulseged Software Company
 """
 
 import tkinter as tk
@@ -635,7 +635,7 @@ class BLSCPerfectBrowser:
     def run(self):
         """Start the browser"""
         print("🌐 Starting BLSC Perfect Browser...")
-        print("📍 Created by: Benayas Leulseged Software Community")
+        print("📍 Created by: Benayas Leulseged Software Company")
         print("🚀 Full-featured browser with tabs, bookmarks, and real web rendering!")
         print("✨ Features: Multiple tabs, bookmarks, history, settings, and more!")
         

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 BLSC Web Browser - A full-featured web browser built with Python Tkinter
-Created by: Benayas Leulseged Software Community
+Created by: Benayas Leulseged Software Company
 """
 
 import tkinter as tk
@@ -563,7 +563,7 @@ class BLSCBrowser:
 def main():
     """Main function to run the browser"""
     print("🌐 Starting BLSC Web Browser...")
-    print("📍 Created by: Benayas Leulseged Software Community")
+    print("📍 Created by: Benayas Leulseged Software Company")
     print("🚀 Loading browser interface...")
     
     browser = BLSCBrowser()
