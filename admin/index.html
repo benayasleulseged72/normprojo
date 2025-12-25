@@ -7,526 +7,219 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:#0a0a0a;min-height:100vh;color:#fff}
-        .bg-gradient{position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 20%,rgba(63,185,80,0.15) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(88,166,255,0.1) 0%,transparent 50%),#0a0a0a;z-index:-1}
-        .login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
-        .login-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:40px;width:100%;max-width:400px;text-align:center}
-        .login-box h1{font-size:28px;margin-bottom:8px}
-        .login-box h1 span{color:#3fb950}
-        .login-box p{color:rgba(255,255,255,0.5);margin-bottom:30px;font-size:14px}
-        .login-box .icon{font-size:60px;margin-bottom:20px}
-        .form-group{margin-bottom:20px;text-align:left}
-        .form-group label{display:block;color:rgba(255,255,255,0.7);font-size:14px;margin-bottom:8px}
-        .form-group input{width:100%;padding:14px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:#fff;font-size:15px}
-        .form-group input:focus{outline:none;border-color:#3fb950}
-        .login-btn{width:100%;padding:16px;background:linear-gradient(135deg,#3fb950,#2ea043);border:none;border-radius:12px;color:#fff;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s}
-        .login-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(63,185,80,0.3)}
-        .error-msg{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#ef4444;padding:12px;border-radius:10px;margin-bottom:20px;font-size:14px;display:none}
+        body{font-family:'Inter',sans-serif;background:#1f242d;min-height:100vh;color:#fff}
+        .login-container{display:flex;justify-content:center;align-items:center;min-height:100vh;position:relative;overflow:hidden}
+        .login-container span{position:absolute;width:60px;height:60px;background:#3fb950;border-radius:50%;animation:animate 10s linear infinite;animation-duration:calc(20s / var(--i))}
+        @keyframes animate{0%{transform:translateY(100vh) scale(0)}100%{transform:translateY(-10vh) scale(1)}}
+        .login-box{position:relative;width:400px;background:rgba(0,0,0,0.5);border-radius:20px;padding:40px;box-shadow:0 0 30px rgba(63,185,80,0.3);border:1px solid rgba(63,185,80,0.2);backdrop-filter:blur(10px);z-index:10}
+        .login-box h2{font-size:2em;color:#3fb950;text-align:center;margin-bottom:10px}
+        .admin-subtitle{text-align:center;color:#3fb950;font-size:0.9em;margin-bottom:30px;opacity:0.8;letter-spacing:2px}
+        .input-box{position:relative;margin:30px 0}
+        .input-box input{width:100%;height:50px;background:transparent;border:none;outline:none;border-bottom:2px solid #3fb950;font-size:1em;color:#fff;font-weight:500}
+        .input-box input:focus~label,.input-box input:valid~label{top:-5px;color:#3fb950;font-size:0.8em}
+        .input-box label{position:absolute;top:50%;left:0;transform:translateY(-50%);font-size:1em;color:#fff;pointer-events:none;transition:0.5s}
+        .btn{width:100%;height:50px;background:#3fb950;border:none;border-radius:40px;cursor:pointer;font-size:1em;color:#1f242d;font-weight:700;transition:0.3s;margin-top:20px}
+        .btn:hover{background:#2ea043;box-shadow:0 0 20px rgba(63,185,80,0.6);transform:translateY(-3px)}
+        .error{color:#ff006e;text-align:center;margin-top:15px;font-weight:600;display:none;animation:shake 0.5s ease}
+        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
         .admin-panel{display:none;padding:20px;max-width:1400px;margin:0 auto}
         .admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;flex-wrap:wrap;gap:20px}
-        .admin-header h1{font-size:28px}
-        .admin-header h1 span{color:#3fb950}
-        .logout-btn{padding:12px 24px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:100px;color:#ef4444;font-size:14px;cursor:pointer;transition:all 0.3s}
-        .logout-btn:hover{background:rgba(239,68,68,0.2)}
-        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:30px}
-        .stat-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;text-align:center}
-        .stat-card .number{font-size:42px;font-weight:800;color:#3fb950}
+        .admin-header h1{font-size:28px}.admin-header h1 span{color:#3fb950}
+        .logout-btn{padding:12px 24px;background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.5);border-radius:100px;color:#ef4444;font-size:14px;cursor:pointer}
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-bottom:30px}
+        .stat-card{background:rgba(0,0,0,0.3);border:1px solid rgba(63,185,80,0.2);border-radius:16px;padding:24px;text-align:center}
+        .stat-card .number{font-size:36px;font-weight:800;color:#3fb950}
         .stat-card .label{color:rgba(255,255,255,0.5);font-size:14px;margin-top:8px}
         .tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-        .tab{padding:12px 24px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:100px;color:rgba(255,255,255,0.7);font-size:14px;cursor:pointer;transition:all 0.3s}
-        .tab:hover{background:rgba(255,255,255,0.1)}
-        .tab.active{background:#3fb950;color:#000;border-color:#3fb950}
-        .content-panel{display:none}
-        .content-panel.active{display:block}
-        .users-table{width:100%;border-collapse:collapse;background:rgba(255,255,255,0.03);border-radius:16px;overflow:hidden}
-        .users-table th,.users-table td{padding:16px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.05)}
-        .users-table th{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.7);font-weight:600;font-size:13px;text-transform:uppercase}
+        .tab{padding:12px 24px;background:rgba(0,0,0,0.3);border:1px solid rgba(63,185,80,0.2);border-radius:100px;color:rgba(255,255,255,0.7);font-size:14px;cursor:pointer}
+        .tab.active{background:#3fb950;color:#1f242d;border-color:#3fb950;font-weight:600}
+        .content-panel{display:none}.content-panel.active{display:block}
+        .users-table{width:100%;border-collapse:collapse;background:rgba(0,0,0,0.3);border-radius:16px;overflow:hidden}
+        .users-table th,.users-table td{padding:16px;text-align:left;border-bottom:1px solid rgba(63,185,80,0.1)}
+        .users-table th{background:rgba(63,185,80,0.1);color:#3fb950;font-weight:600;font-size:13px}
         .users-table td{font-size:14px}
-        .users-table tr:hover{background:rgba(255,255,255,0.02)}
-        .user-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:14px}
+        .user-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600}
         .user-info{display:flex;align-items:center;gap:12px}
-        .user-name{font-weight:600}
-        .user-email{color:rgba(255,255,255,0.5);font-size:13px}
+        .user-name{font-weight:600}.user-email{color:rgba(255,255,255,0.5);font-size:13px}
         .badge{padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600}
-        .badge.active{background:rgba(63,185,80,0.15);color:#3fb950}
-        .badge.expired{background:rgba(239,68,68,0.15);color:#ef4444}
-        .badge.none{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)}
-        .action-btn{padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;transition:all 0.3s;margin-right:8px;border:none}
-        .action-btn.primary{background:#3fb950;color:#000}
-        .action-btn.danger{background:rgba(239,68,68,0.2);color:#ef4444}
-        .action-btn:hover{transform:scale(1.05)}
-        .sub-form{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;margin-bottom:24px}
-        .sub-form h3{margin-bottom:20px;font-size:18px}
-        .sub-form .form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:16px}
-        .sub-form select{width:100%;padding:14px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:#fff;font-size:15px}
-        .sub-form select option{background:#1a1a1a}
-        .search-box{margin-bottom:20px}
-        .search-box input{width:100%;max-width:400px;padding:14px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:100px;color:#fff;font-size:15px}
-        .search-box input:focus{outline:none;border-color:#3fb950}
-        @media(max-width:768px){.users-table{display:block;overflow-x:auto}.admin-header{flex-direction:column;text-align:center}}
+        .badge.active{background:rgba(63,185,80,0.2);color:#3fb950}
+        .badge.expired{background:rgba(239,68,68,0.2);color:#ef4444}
+        .action-btn{padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;margin-right:8px;border:none}
+        .action-btn.primary{background:#3fb950;color:#1f242d}
+        .action-btn.danger{background:rgba(239,68,68,0.3);color:#ef4444}
     </style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
-    <div class="login-screen" id="loginScreen">
-        <div class="login-box">
-            <div class="icon">🔐</div>
-            <h1>BLSC <span>Admin</span></h1>
-            <p>Enter admin credentials to access the control panel</p>
-            <div class="error-msg" id="errorMsg">Invalid credentials</div>
-            <form onsubmit="adminLogin(event)">
-                <div class="form-group">
-                    <label>Username / Email</label>
-                    <input type="text" id="adminUser" placeholder="Enter username" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="adminPass" placeholder="Enter password" required>
-                </div>
-                <button type="submit" class="login-btn">🔓 Login to Admin Panel</button>
-            </form>
-        </div>
-    </div>
-</body>
-</html>
-<!--
- This is a redirect file - the full admin panel continues below -->
-<script>
-// Redirect to main admin or load inline
-</script>
+<style>
 
-<!-- Admin Panel HTML inserted before closing body -->
+.sub-form{background:rgba(0,0,0,0.3);border:1px solid rgba(63,185,80,0.2);border-radius:16px;padding:24px;margin-bottom:24px}
+.sub-form h3{margin-bottom:20px;font-size:18px;color:#3fb950}
+.sub-form .form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:16px}
+.sub-form label{display:block;color:rgba(255,255,255,0.7);font-size:14px;margin-bottom:8px}
+.sub-form input,.sub-form select{width:100%;padding:14px;background:rgba(0,0,0,0.3);border:1px solid rgba(63,185,80,0.3);border-radius:12px;color:#fff;font-size:15px}
+.sub-form select option{background:#1f242d}
+.search-box{margin-bottom:20px}
+.search-box input{width:100%;max-width:400px;padding:14px 20px;background:rgba(0,0,0,0.3);border:1px solid rgba(63,185,80,0.3);border-radius:100px;color:#fff}
+#systemStatus{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(63,185,80,0.1);border:1px solid rgba(63,185,80,0.3);border-radius:12px;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+@media(max-width:768px){.users-table{display:block;overflow-x:auto}.login-box{width:90%;margin:20px}}
+</style>
+
+<!-- Login Screen -->
+<div class="login-container" id="loginScreen">
+    <div class="login-box">
+        <div style="text-align:center;margin-bottom:20px">
+            <div style="width:100px;height:100px;border-radius:50%;border:3px solid #3fb950;box-shadow:0 0 30px rgba(63,185,80,0.6);display:flex;align-items:center;justify-content:center;margin:0 auto;background:rgba(63,185,80,0.1);font-size:50px">🛡️</div>
+        </div>
+        <h2>BLSC ADMIN</h2>
+        <p class="admin-subtitle">CONTROL PANEL</p>
+        <form onsubmit="adminLogin(event)">
+            <div class="input-box"><input type="text" id="adminUser" required autocomplete="off"><label>Username</label></div>
+            <div class="input-box"><input type="password" id="adminPass" required><label>Password</label></div>
+            <button type="submit" class="btn">🔓 Access System</button>
+            <p class="error" id="errorMsg">Invalid credentials</p>
+        </form>
+    </div>
+    <span style="--i:1"></span><span style="--i:2"></span><span style="--i:3"></span><span style="--i:4"></span><span style="--i:5"></span>
+    <span style="--i:6"></span><span style="--i:7"></span><span style="--i:8"></span><span style="--i:9"></span><span style="--i:10"></span>
+    <span style="--i:11"></span><span style="--i:12"></span><span style="--i:13"></span><span style="--i:14"></span><span style="--i:15"></span>
+</div>
+
+<!-- Admin Panel -->
 <div class="admin-panel" id="adminPanel">
-    <!-- System Status Bar -->
-    <div id="systemStatus" style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(63,185,80,0.1);border:1px solid rgba(63,185,80,0.3);border-radius:12px;margin-bottom:20px">
+    <div id="systemStatus">
         <div style="display:flex;align-items:center;gap:10px">
-            <div id="statusDot" style="width:12px;height:12px;border-radius:50%;background:#3fb950;animation:pulse 2s infinite"></div>
-            <span id="statusText" style="color:#3fb950;font-weight:600">🟢 SYSTEM ONLINE</span>
+            <div style="width:12px;height:12px;border-radius:50%;background:#3fb950;animation:pulse 2s infinite"></div>
+            <span id="statusText" style="color:#3fb950;font-weight:600">🟢 ONLINE</span>
         </div>
-        <div style="display:flex;align-items:center;gap:20px;font-size:13px;color:rgba(255,255,255,0.6)">
-            <span>☁️ Cloud: <span id="cloudStatus" style="color:#3fb950">Connected</span></span>
-            <span>🕐 Last Sync: <span id="lastSync">--:--</span></span>
-            <span>📡 Ping: <span id="pingTime" style="color:#3fb950">--ms</span></span>
-        </div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.6)">☁️ <span id="cloudStatus" style="color:#3fb950">Connected</span> | 📡 <span id="pingTime">--ms</span></div>
     </div>
-    <style>
-        @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.2)}}
-        .status-offline{background:rgba(239,68,68,0.1)!important;border-color:rgba(239,68,68,0.3)!important}
-        .status-offline #statusDot{background:#ef4444!important}
-        .status-offline #statusText{color:#ef4444!important}
-    </style>
     
-    <div class="admin-header">
-        <h1>🛡️ BLSC <span>Admin Panel</span></h1>
-        <button class="logout-btn" onclick="adminLogout()">🚪 Logout</button>
-    </div>
+    <div class="admin-header"><h1>🛡️ BLSC <span>Admin</span></h1><button class="logout-btn" onclick="adminLogout()">🚪 Logout</button></div>
+    
     <div class="stats-grid">
-        <div class="stat-card"><div class="number" id="totalUsers">0</div><div class="label">Total Users</div></div>
-        <div class="stat-card"><div class="number" id="activeTrials">0</div><div class="label">Active Trials</div></div>
-        <div class="stat-card"><div class="number" id="paidSubs">0</div><div class="label">Paid Subscriptions</div></div>
-        <div class="stat-card"><div class="number" id="pendingPay">0</div><div class="label">Pending Payments</div></div>
-        <div class="stat-card" style="border-color:rgba(239,68,68,0.3)"><div class="number" id="bannedUsers" style="color:#ef4444">0</div><div class="label">Banned Users</div></div>
+        <div class="stat-card"><div class="number" id="totalUsers">0</div><div class="label">Users</div></div>
+        <div class="stat-card"><div class="number" id="activeTrials">0</div><div class="label">Trials</div></div>
+        <div class="stat-card"><div class="number" id="paidSubs">0</div><div class="label">Paid</div></div>
+        <div class="stat-card"><div class="number" id="pendingPay">0</div><div class="label">Pending</div></div>
+        <div class="stat-card" style="border-color:rgba(239,68,68,0.3)"><div class="number" id="bannedUsers" style="color:#ef4444">0</div><div class="label">Banned</div></div>
     </div>
-    <div class="tabs">
-        <button class="tab active" onclick="showTab('users')">👥 All Users</button>
-        <button class="tab" onclick="showTab('payments')">💰 Pending Payments</button>
-        <button class="tab" onclick="showTab('subscriptions')">💳 Manage Subscriptions</button>
-        <button class="tab" onclick="showTab('coupons')">🎟️ Coupon Codes</button>
-        <button class="tab" onclick="showTab('banned')">🚫 Banned Users</button>
+   
+ <div class="tabs">
+        <button class="tab active" onclick="showTab('users')">👥 Users</button>
+        <button class="tab" onclick="showTab('payments')">💰 Payments</button>
+        <button class="tab" onclick="showTab('subscriptions')">💳 Subs</button>
+        <button class="tab" onclick="showTab('coupons')">🎟️ Coupons</button>
+        <button class="tab" onclick="showTab('banned')">🚫 Banned</button>
         <button class="tab" onclick="showTab('settings')">⚙️ Settings</button>
     </div>
+    
     <div class="content-panel active" id="usersPanel">
-        <div class="search-box"><input type="text" id="searchUsers" placeholder="🔍 Search users..." oninput="filterUsers()"></div>
-        <table class="users-table">
-            <thead><tr><th>User</th><th>Created</th><th>Last Login</th><th>Subscriptions</th><th>Actions</th></tr></thead>
-            <tbody id="usersTableBody"><tr><td colspan="5" style="text-align:center;padding:40px">Loading...</td></tr></tbody>
-        </table>
+        <div class="search-box"><input type="text" id="searchUsers" placeholder="🔍 Search..." oninput="filterUsers()"></div>
+        <table class="users-table"><thead><tr><th>User</th><th>Created</th><th>Login</th><th>Subs</th><th>Actions</th></tr></thead>
+        <tbody id="usersTableBody"><tr><td colspan="5" style="text-align:center;padding:40px">Loading...</td></tr></tbody></table>
     </div>
+    
     <div class="content-panel" id="paymentsPanel">
-        <h3 style="margin-bottom:20px">💰 Pending Payment Requests</h3>
-        <table class="users-table">
-            <thead><tr><th>User</th><th>Service</th><th>Plan</th><th>Amount</th><th>Method</th><th>Screenshot</th><th>Date</th><th>Actions</th></tr></thead>
-            <tbody id="paymentsTableBody"><tr><td colspan="8" style="text-align:center;padding:40px">Loading...</td></tr></tbody>
-        </table>
+        <h3 style="margin-bottom:20px;color:#3fb950">💰 Pending Payments</h3>
+        <table class="users-table"><thead><tr><th>User</th><th>Service</th><th>Plan</th><th>Amount</th><th>Method</th><th>Screenshot</th><th>Date</th><th>Actions</th></tr></thead>
+        <tbody id="paymentsTableBody"><tr><td colspan="8" style="text-align:center;padding:40px">Loading...</td></tr></tbody></table>
     </div>
-    <div id="screenshotModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);z-index:9999;align-items:center;justify-content:center">
-        <div style="max-width:90%;max-height:90%;position:relative">
-            <button onclick="closeScreenshot()" style="position:absolute;top:-40px;right:0;background:#ef4444;border:none;color:#fff;padding:10px 20px;border-radius:8px;cursor:pointer">✕ Close</button>
-            <img id="modalScreenshot" style="max-width:100%;max-height:80vh;border-radius:12px;border:2px solid #3fb950">
-        </div>
+    
+    <div id="screenshotModal" onclick="if(event.target===this)closeScreenshot()" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);z-index:9999;align-items:center;justify-content:center">
+        <div style="position:relative"><button onclick="closeScreenshot()" style="position:absolute;top:-40px;right:0;background:#ef4444;border:none;color:#fff;padding:10px 20px;border-radius:8px;cursor:pointer">✕</button>
+        <img id="modalScreenshot" style="max-width:90vw;max-height:80vh;border-radius:12px;border:2px solid #3fb950"></div>
     </div>
+    
     <div class="content-panel" id="subscriptionsPanel">
-        <div class="sub-form">
-            <h3>➕ Add/Update Subscription</h3>
-            <div class="form-row">
-                <div class="form-group"><label>User Email</label><input type="email" id="subEmail" placeholder="user@email.com"></div>
-                <div class="form-group"><label>Service</label><select id="subService"><option value="images">🔍 Image Stock</option><option value="ai-image">🎨 Image Generator</option><option value="ai-video">🎬 Video Generator</option></select></div>
-            </div>
-            <div class="form-row">
-                <div class="form-group"><label>Plan Type</label><select id="subType"><option value="free_trial">Free Trial (30 days)</option><option value="monthly">Monthly (30 days)</option><option value="yearly">Yearly (365 days)</option><option value="unlimited">Unlimited (Forever)</option></select></div>
-                <div class="form-group"><label>&nbsp;</label><button class="action-btn primary" style="width:100%;padding:14px" onclick="addSubscription()">✅ Activate Subscription</button></div>
-            </div>
+        <div class="sub-form"><h3>➕ Add Subscription</h3>
+            <div class="form-row"><div><label>Email</label><input type="email" id="subEmail" placeholder="user@email.com"></div>
+            <div><label>Service</label><select id="subService"><option value="images">🔍 Images</option><option value="ai-image">🎨 AI Image</option><option value="ai-video">🎬 AI Video</option></select></div></div>
+            <div class="form-row"><div><label>Plan</label><select id="subType"><option value="free_trial">Trial 30d</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="unlimited">Unlimited</option></select></div>
+            <div><label>&nbsp;</label><button class="action-btn primary" style="width:100%;padding:14px" onclick="addSubscription()">✅ Activate</button></div></div>
         </div>
-        <h3 style="margin-bottom:16px">📋 All Subscriptions</h3>
-        <table class="users-table">
-            <thead><tr><th>User</th><th>Service</th><th>Type</th><th>Status</th><th>Expires</th><th>Actions</th></tr></thead>
-            <tbody id="subsTableBody"><tr><td colspan="6" style="text-align:center;padding:40px">Loading...</td></tr></tbody>
-        </table>
+        <table class="users-table"><thead><tr><th>User</th><th>Service</th><th>Type</th><th>Status</th><th>Expires</th><th>Actions</th></tr></thead>
+        <tbody id="subsTableBody"><tr><td colspan="6" style="text-align:center;padding:40px">Loading...</td></tr></tbody></table>
     </div>
+    
     <div class="content-panel" id="couponsPanel">
-        <div class="sub-form">
-            <h3>🎟️ Generate Coupon Code</h3>
-            <div class="form-row">
-                <div class="form-group"><label>Service</label><select id="couponService"><option value="images">🔍 Image Stock</option><option value="ai-image">🎨 Image Generator</option><option value="ai-video">🎬 Video Generator</option></select></div>
-                <div class="form-group"><label>Plan Type</label><select id="couponType"><option value="monthly">Monthly (30 days)</option><option value="yearly">Yearly (365 days)</option><option value="unlimited">Unlimited (Forever)</option></select></div>
-            </div>
-            <button class="action-btn primary" style="padding:14px 30px" onclick="generateCoupon()">🎫 Generate New Coupon</button>
+        <div class="sub-form"><h3>🎟️ Generate Coupon</h3>
+            <div class="form-row"><div><label>Service</label><select id="couponService"><option value="images">🔍 Images</option><option value="ai-image">🎨 AI Image</option><option value="ai-video">🎬 AI Video</option></select></div>
+            <div><label>Plan</label><select id="couponType"><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="unlimited">Unlimited</option></select></div></div>
+            <button class="action-btn primary" style="padding:14px 30px" onclick="generateCoupon()">🎫 Generate</button>
         </div>
-        <h3 style="margin-bottom:16px">📋 Active Coupons</h3>
-        <table class="users-table">
-            <thead><tr><th>Code</th><th>Service</th><th>Plan</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
-            <tbody id="couponsTableBody"><tr><td colspan="6" style="text-align:center;padding:40px">Loading...</td></tr></tbody>
-        </table>
+        <table class="users-table"><thead><tr><th>Code</th><th>Service</th><th>Plan</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+        <tbody id="couponsTableBody"><tr><td colspan="6" style="text-align:center;padding:40px">No coupons</td></tr></tbody></table>
     </div>
+    
     <div class="content-panel" id="bannedPanel">
         <h3 style="margin-bottom:20px;color:#ef4444">🚫 Banned Users</h3>
-        <table class="users-table">
-            <thead><tr><th>User</th><th>Email</th><th>Banned Date</th><th>Reason</th><th>Actions</th></tr></thead>
-            <tbody id="bannedTableBody"><tr><td colspan="5" style="text-align:center;padding:40px">No banned users</td></tr></tbody>
-        </table>
+        <table class="users-table"><thead><tr><th>User</th><th>Email</th><th>Banned</th><th>Reason</th><th>Actions</th></tr></thead>
+        <tbody id="bannedTableBody"><tr><td colspan="5" style="text-align:center;padding:40px">No banned</td></tr></tbody></table>
     </div>
+    
     <div class="content-panel" id="settingsPanel">
-        <div class="sub-form">
-            <h3>⚙️ Admin Settings</h3>
-            <p style="color:rgba(255,255,255,0.5);margin-bottom:20px">Manage admin account and system settings</p>
-            <div class="form-group"><label>JSONBin.io Bin ID</label><input type="text" id="binId" value="" disabled style="opacity:0.5"></div>
-            <button class="action-btn primary" onclick="refreshData()" style="margin-top:10px">🔄 Refresh All Data</button>
-            <button class="action-btn danger" onclick="exportAllData()" style="margin-top:10px">📥 Export All Data</button>
+        <div class="sub-form"><h3>⚙️ Settings</h3>
+            <div><label>JSONBin ID</label><input type="text" id="binId" disabled style="opacity:0.5"></div>
+            <div style="margin-top:20px"><button class="action-btn primary" onclick="refreshData()">🔄 Refresh</button><button class="action-btn danger" onclick="exportAllData()">📥 Export</button></div>
         </div>
     </div>
 </div>
 
 <script src="../blsc-account.js"></script>
-
 <script>
-const ADMIN_USER = 'support@blsc.com';
-const ADMIN_PASS = '1xvbeni72';
-const ADMIN_SESSION_KEY = 'blsc_admin_session';
-let allUsers = {};
+const ADMIN_USER='support@blsc.com',ADMIN_PASS='1xvbeni72',ADMIN_KEY='blsc_admin_session';
+let allUsers={};
+if(localStorage.getItem(ADMIN_KEY)==='logged_in')showAdminPanel();
 
-function checkAdminSession() {
-    if (localStorage.getItem(ADMIN_SESSION_KEY) === 'logged_in') showAdminPanel();
-}
-checkAdminSession();
+function adminLogin(e){e.preventDefault();const u=document.getElementById('adminUser').value,p=document.getElementById('adminPass').value;
+if((u===ADMIN_USER||u==='admin')&&p===ADMIN_PASS){localStorage.setItem(ADMIN_KEY,'logged_in');showAdminPanel();}
+else{document.getElementById('errorMsg').style.display='block';setTimeout(()=>document.getElementById('errorMsg').style.display='none',3000);}}
 
-function adminLogin(e) {
-    e.preventDefault();
-    const user = document.getElementById('adminUser').value;
-    const pass = document.getElementById('adminPass').value;
-    if ((user === ADMIN_USER || user === 'admin') && pass === ADMIN_PASS) {
-        localStorage.setItem(ADMIN_SESSION_KEY, 'logged_in');
-        showAdminPanel();
-    } else {
-        document.getElementById('errorMsg').style.display = 'block';
-        setTimeout(() => document.getElementById('errorMsg').style.display = 'none', 3000);
-    }
-}
+function adminLogout(){localStorage.removeItem(ADMIN_KEY);document.getElementById('loginScreen').style.display='flex';document.getElementById('adminPanel').style.display='none';}
 
-function adminLogout() {
-    localStorage.removeItem(ADMIN_SESSION_KEY);
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('adminPanel').style.display = 'none';
-}
+function showAdminPanel(){document.getElementById('loginScreen').style.display='none';document.getElementById('adminPanel').style.display='block';document.getElementById('binId').value=BLSC_ACCOUNT.JSONBIN_BIN_ID;loadAllData();checkSystemStatus();}
 
-async function showAdminPanel() {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminPanel').style.display = 'block';
-    document.getElementById('binId').value = BLSC_ACCOUNT.JSONBIN_BIN_ID;
-    await loadAllData();
-}
+async function loadAllData(){try{allUsers=await BLSC_ACCOUNT.getUsers();updateStats();renderUsersTable();renderSubscriptionsTable();renderPaymentsTable();renderCouponsTable();renderBannedTable();}catch(e){console.error(e);}}
 
-async function loadAllData() {
-    try {
-        allUsers = await BLSC_ACCOUNT.getUsers();
-        updateStats();
-        renderUsersTable();
-        renderSubscriptionsTable();
-        renderPaymentsTable();
-        renderCouponsTable();
-        renderBannedTable();
-    } catch (error) { console.error('Error:', error); }
-}
+function updateStats(){const list=Object.values(allUsers).filter(u=>typeof u==='object'&&u.email);let trials=0,paid=0,pending=0,banned=0;
+list.forEach(u=>{if(u.banned){banned++;return;}if(u.subscriptions)Object.values(u.subscriptions).forEach(s=>{if(s.type==='unlimited'||new Date()<new Date(s.endDate)){s.type==='free_trial'?trials++:paid++;}});if(u.pendingPayments)pending+=u.pendingPayments.filter(p=>p.status==='pending').length;});
+document.getElementById('totalUsers').textContent=list.filter(u=>!u.banned).length;document.getElementById('activeTrials').textContent=trials;document.getElementById('paidSubs').textContent=paid;document.getElementById('pendingPay').textContent=pending;document.getElementById('bannedUsers').textContent=banned;}
 
-function updateStats() {
-    const userList = Object.values(allUsers).filter(u => typeof u === 'object' && u.email);
-    let activeTrials = 0, paidSubs = 0, pendingPay = 0, bannedCount = 0;
-    userList.forEach(user => {
-        if (user.banned) { bannedCount++; return; }
-        if (user.subscriptions) {
-            Object.values(user.subscriptions).forEach(sub => {
-                if (sub.type === 'unlimited' || new Date() < new Date(sub.endDate)) {
-                    if (sub.type === 'free_trial') activeTrials++;
-                    else paidSubs++;
-                }
-            });
-        }
-        if (user.pendingPayments) pendingPay += user.pendingPayments.filter(p => p.status === 'pending').length;
-    });
-    document.getElementById('totalUsers').textContent = userList.filter(u => !u.banned).length;
-    document.getElementById('activeTrials').textContent = activeTrials;
-    document.getElementById('paidSubs').textContent = paidSubs;
-    document.getElementById('pendingPay').textContent = pendingPay;
-    document.getElementById('bannedUsers').textContent = bannedCount;
-}
+function renderUsersTable(f=''){const tbody=document.getElementById('usersTableBody'),list=Object.values(allUsers).filter(u=>u.email&&!u.banned);
+if(!list.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:40px">No users</td></tr>';return;}
+const filtered=f?list.filter(u=>(u.name||'').toLowerCase().includes(f.toLowerCase())||u.email.toLowerCase().includes(f.toLowerCase())):list;
+tbody.innerHTML=filtered.map(u=>{const c=BLSC_ACCOUNT.getAvatarColor(u.name||'U'),i=BLSC_ACCOUNT.getInitials(u.name||'User'),s=u.subscriptions?Object.keys(u.subscriptions).length:0;
+return `<tr><td><div class="user-info"><div class="user-avatar" style="background:${c}">${i}</div><div><div class="user-name">${u.name||'Unknown'}</div><div class="user-email">${u.email}</div></div></div></td><td>${new Date(u.createdAt).toLocaleDateString()}</td><td>${u.lastLogin?new Date(u.lastLogin).toLocaleDateString():'-'}</td><td><span class="badge ${s>0?'active':'none'}">${s}</span></td><td><button class="action-btn primary" onclick="editUser('${u.email}')">✏️</button><button class="action-btn" style="background:#ff6b00;color:#fff" onclick="banUser('${u.email}')">🔨</button><button class="action-btn danger" onclick="deleteUser('${u.email}')">🗑️</button></td></tr>`;}).join('');}
 
-function renderUsersTable(filter = '') {
-    const tbody = document.getElementById('usersTableBody');
-    const userList = Object.values(allUsers).filter(u => !u.banned);
-    if (userList.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px">No users</td></tr>'; return; }
-    const filtered = filter ? userList.filter(u => u.name.toLowerCase().includes(filter.toLowerCase()) || u.email.toLowerCase().includes(filter.toLowerCase())) : userList;
-    tbody.innerHTML = filtered.map(user => {
-        const color = BLSC_ACCOUNT.getAvatarColor(user.name);
-        const initials = BLSC_ACCOUNT.getInitials(user.name);
-        const subs = user.subscriptions ? Object.keys(user.subscriptions).length : 0;
-        return `<tr><td><div class="user-info"><div class="user-avatar" style="background:${color}">${initials}</div><div><div class="user-name">${user.name}</div><div class="user-email">${user.email}</div></div></div></td><td>${new Date(user.createdAt).toLocaleDateString()}</td><td>${user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : 'Never'}</td><td><span class="badge ${subs > 0 ? 'active' : 'none'}">${subs} service(s)</span></td><td><button class="action-btn primary" onclick="editUser('${user.email}')">✏️</button><button class="action-btn" style="background:#ff6b00;color:#fff" onclick="banUser('${user.email}')">🔨 BAN</button><button class="action-btn danger" onclick="deleteUser('${user.email}')">🗑️</button></td></tr>`;
-    }).join('');
-}
+function renderSubscriptionsTable(){const tbody=document.getElementById('subsTableBody'),rows=[],n={'images':'🔍','ai-image':'🎨','ai-video':'🎬'};
+Object.values(allUsers).forEach(u=>{if(u.subscriptions)Object.entries(u.subscriptions).forEach(([s,sub])=>{const a=sub.type==='unlimited'||new Date()<new Date(sub.endDate);rows.push(`<tr><td>${u.email}</td><td>${n[s]||s}</td><td>${sub.type}</td><td><span class="badge ${a?'active':'expired'}">${a?'Active':'Expired'}</span></td><td>${sub.endDate?new Date(sub.endDate).toLocaleDateString():'Never'}</td><td><button class="action-btn danger" onclick="removeSub('${u.email}','${s}')">🗑️</button></td></tr>`);});});
+tbody.innerHTML=rows.length?rows.join(''):'<tr><td colspan="6" style="text-align:center;padding:40px">No subs</td></tr>';}
 
-function renderSubscriptionsTable() {
-    const tbody = document.getElementById('subsTableBody');
-    const rows = [];
-    const serviceNames = {'images':'🔍 Image Stock','ai-image':'🎨 Image Generator','ai-video':'🎬 Video Generator'};
-    Object.values(allUsers).forEach(user => {
-        if (user.subscriptions) {
-            Object.entries(user.subscriptions).forEach(([service, sub]) => {
-                const isActive = sub.type === 'unlimited' || new Date() < new Date(sub.endDate);
-                rows.push(`<tr><td>${user.email}</td><td>${serviceNames[service] || service}</td><td>${sub.type}</td><td><span class="badge ${isActive ? 'active' : 'expired'}">${isActive ? 'Active' : 'Expired'}</span></td><td>${sub.endDate ? new Date(sub.endDate).toLocaleDateString() : 'Never'}</td><td><button class="action-btn danger" onclick="removeSub('${user.email}','${service}')">🗑️</button></td></tr>`);
-            });
-        }
-    });
-    tbody.innerHTML = rows.length > 0 ? rows.join('') : '<tr><td colspan="6" style="text-align:center;padding:40px">No subscriptions</td></tr>';
-}
+function renderPaymentsTable(){const tbody=document.getElementById('paymentsTableBody'),rows=[],n={'images':'🔍','ai-image':'🎨','ai-video':'🎬'};
+Object.values(allUsers).forEach(u=>{if(u.pendingPayments)u.pendingPayments.forEach((p,i)=>{if(p.status==='pending')rows.push(`<tr><td>${u.email}</td><td>${n[p.service]||p.service}</td><td>${p.plan}</td><td><strong>${p.amount}Br</strong></td><td>${p.method}</td><td><button class="action-btn" style="background:#58a6ff;color:#fff" onclick="viewScreenshotFull('${u.email}',${i})">📷</button></td><td>${new Date(p.createdAt).toLocaleDateString()}</td><td><button class="action-btn primary" onclick="approvePayment('${u.email}',${i})">✅</button><button class="action-btn danger" onclick="rejectPayment('${u.email}',${i})">❌</button></td></tr>`);});});
+tbody.innerHTML=rows.length?rows.join(''):'<tr><td colspan="8" style="text-align:center;padding:40px">No pending</td></tr>';}
 
-function renderPaymentsTable() {
-    const tbody = document.getElementById('paymentsTableBody');
-    const rows = [];
-    const serviceNames = {'images':'🔍 Image Stock','ai-image':'🎨 Image Generator','ai-video':'🎬 Video Generator'};
-    Object.values(allUsers).forEach(user => {
-        if (user.pendingPayments) {
-            user.pendingPayments.forEach((payment, index) => {
-                if (payment.status === 'pending') {
-                    const screenshot = payment.screenshotUrl ? `<button class="action-btn" style="background:#58a6ff;color:#fff" onclick="viewScreenshot('${payment.screenshotUrl.substring(0,100)}...')">📷 View</button>` : 'No image';
-                    rows.push(`<tr><td>${user.email}</td><td>${serviceNames[payment.service] || payment.service}</td><td>${payment.plan}</td><td><strong>${payment.amount} Birr</strong></td><td>${payment.method}</td><td><button class="action-btn" style="background:#58a6ff;color:#fff" onclick="viewScreenshotFull('${user.email}',${index})">📷 View</button></td><td>${new Date(payment.createdAt).toLocaleDateString()}</td><td><button class="action-btn primary" onclick="approvePayment('${user.email}',${index})">✅</button><button class="action-btn danger" onclick="rejectPayment('${user.email}',${index})">❌</button></td></tr>`);
-                }
-            });
-        }
-    });
-    tbody.innerHTML = rows.length > 0 ? rows.join('') : '<tr><td colspan="8" style="text-align:center;padding:40px">No pending payments</td></tr>';
-}
-
-function viewScreenshotFull(email, index) {
-    const user = allUsers[email];
-    if (user && user.pendingPayments && user.pendingPayments[index]) {
-        const url = user.pendingPayments[index].screenshotUrl;
-        if (url) {
-            document.getElementById('modalScreenshot').src = url;
-            document.getElementById('screenshotModal').style.display = 'flex';
-        }
-    }
-}
-
-function closeScreenshot() { document.getElementById('screenshotModal').style.display = 'none'; }
-document.getElementById('screenshotModal')?.addEventListener('click', function(e) { if (e.target === this) closeScreenshot(); });
-
-function filterUsers() { renderUsersTable(document.getElementById('searchUsers').value); }
-function showTab(tab) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
-    event.target.classList.add('active');
-    document.getElementById(tab + 'Panel').classList.add('active');
-}
-
-async function addSubscription() {
-    const email = document.getElementById('subEmail').value;
-    const service = document.getElementById('subService').value;
-    const type = document.getElementById('subType').value;
-    if (!email) { alert('Enter user email'); return; }
-    if (!allUsers[email]) { alert('User not found: ' + email); return; }
-    const days = {'free_trial':30,'monthly':30,'yearly':365,'unlimited':0};
-    const result = await BLSC_ACCOUNT.activateSubscription(email, service, type, days[type]);
-    if (result) { alert('✅ Subscription activated!'); await loadAllData(); }
-}
-
-async function removeSub(email, service) {
-    if (!confirm('Remove subscription?')) return;
-    const users = await BLSC_ACCOUNT.getUsers();
-    if (users[email]?.subscriptions) { delete users[email].subscriptions[service]; await BLSC_ACCOUNT.saveUsers(users); alert('✅ Removed'); await loadAllData(); }
-}
-
-async function deleteUser(email) {
-    if (!confirm('Delete user ' + email + '?')) return;
-    const users = await BLSC_ACCOUNT.getUsers();
-    delete users[email];
-    await BLSC_ACCOUNT.saveUsers(users);
-    alert('✅ Deleted');
-    await loadAllData();
-}
-
-function editUser(email) {
-    document.getElementById('subEmail').value = email;
-    showTab('subscriptions');
-}
-
-async function approvePayment(email, index) {
-    const users = await BLSC_ACCOUNT.getUsers();
-    const payment = users[email].pendingPayments[index];
-    if (!confirm(`Approve ${payment.amount} Birr from ${email}?`)) return;
-    const days = {'monthly':30,'yearly':365,'unlimited':0};
-    await BLSC_ACCOUNT.activateSubscription(email, payment.service, payment.plan, days[payment.plan]);
-    users[email].pendingPayments[index].status = 'approved';
-    users[email].pendingPayments[index].approvedAt = new Date().toISOString();
-    await BLSC_ACCOUNT.saveUsers(users);
-    alert('✅ Approved!');
-    await loadAllData();
-}
-
-async function rejectPayment(email, index) {
-    if (!confirm('Reject payment?')) return;
-    const users = await BLSC_ACCOUNT.getUsers();
-    users[email].pendingPayments[index].status = 'rejected';
-    await BLSC_ACCOUNT.saveUsers(users);
-    alert('❌ Rejected');
-    await loadAllData();
-}
-
-// Coupon system
-async function generateCoupon() {
-    const service = document.getElementById('couponService').value;
-    const type = document.getElementById('couponType').value;
-    const code = 'BLSC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    const users = await BLSC_ACCOUNT.getUsers();
-    if (!users._coupons) users._coupons = [];
-    users._coupons.push({ code, service, type, status: 'active', createdAt: new Date().toISOString() });
-    await BLSC_ACCOUNT.saveUsers(users);
-    alert('✅ Coupon created: ' + code);
-    await loadAllData();
-}
-
-function renderCouponsTable() {
-    const tbody = document.getElementById('couponsTableBody');
-    const coupons = allUsers._coupons || [];
-    const serviceNames = {'images':'🔍 Image Stock','ai-image':'🎨 Image Generator','ai-video':'🎬 Video Generator'};
-    if (coupons.length === 0) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px">No coupons</td></tr>'; return; }
-    tbody.innerHTML = coupons.map((c, i) => `<tr><td><strong style="color:#3fb950">${c.code}</strong></td><td>${serviceNames[c.service]}</td><td>${c.type}</td><td><span class="badge ${c.status === 'active' ? 'active' : 'expired'}">${c.status}</span></td><td>${new Date(c.createdAt).toLocaleDateString()}</td><td><button class="action-btn danger" onclick="deleteCoupon(${i})">🗑️</button></td></tr>`).join('');
-}
-
-async function deleteCoupon(index) {
-    if (!confirm('Delete coupon?')) return;
-    const users = await BLSC_ACCOUNT.getUsers();
-    users._coupons.splice(index, 1);
-    await BLSC_ACCOUNT.saveUsers(users);
-    await loadAllData();
-}
-
-async function refreshData() { BLSC_ACCOUNT._usersCache = null; await loadAllData(); alert('✅ Refreshed'); }
-
-// Ban system
-async function banUser(email) {
-    const reason = prompt('Enter ban reason (optional):') || 'Violation of terms';
-    if (!confirm(`🔨 BAN user ${email}?\nReason: ${reason}`)) return;
-    const users = await BLSC_ACCOUNT.getUsers();
-    users[email].banned = true;
-    users[email].banReason = reason;
-    users[email].bannedAt = new Date().toISOString();
-    // Clear their subscriptions
-    users[email].subscriptions = {};
-    await BLSC_ACCOUNT.saveUsers(users);
-    alert('🚫 User BANNED: ' + email);
-    await loadAllData();
-}
-
-async function unbanUser(email) {
-    if (!confirm(`Unban user ${email}?`)) return;
-    const users = await BLSC_ACCOUNT.getUsers();
-    users[email].banned = false;
-    delete users[email].banReason;
-    delete users[email].bannedAt;
-    await BLSC_ACCOUNT.saveUsers(users);
-    alert('✅ User unbanned: ' + email);
-    await loadAllData();
-}
-
-function renderBannedTable() {
-    const tbody = document.getElementById('bannedTableBody');
-    const bannedList = Object.values(allUsers).filter(u => u.banned);
-    if (bannedList.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:rgba(255,255,255,0.5)">No banned users</td></tr>'; return; }
-    tbody.innerHTML = bannedList.map(user => {
-        const color = '#ef4444';
-        const initials = BLSC_ACCOUNT.getInitials(user.name);
-        return `<tr style="background:rgba(239,68,68,0.05)"><td><div class="user-info"><div class="user-avatar" style="background:${color}">${initials}</div><div><div class="user-name" style="color:#ef4444">${user.name}</div></div></div></td><td>${user.email}</td><td>${user.bannedAt ? new Date(user.bannedAt).toLocaleDateString() : 'Unknown'}</td><td style="color:#ef4444">${user.banReason || 'No reason'}</td><td><button class="action-btn primary" onclick="unbanUser('${user.email}')">✅ Unban</button><button class="action-btn danger" onclick="deleteUser('${user.email}')">🗑️ Delete</button></td></tr>`;
-    }).join('');
-}
-
-function exportAllData() {
-    const data = JSON.stringify(allUsers, null, 2);
-    const blob = new Blob([data], {type: 'application/json'});
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-    a.download = 'blsc_backup_' + new Date().toISOString().split('T')[0] + '.json'; a.click();
-}
-
-// ========== SYSTEM STATUS MONITOR ==========
-let systemOnline = false;
-
-async function checkSystemStatus() {
-    const startTime = Date.now();
-    try {
-        const response = await fetch(`https://api.jsonbin.io/v3/b/${BLSC_ACCOUNT.JSONBIN_BIN_ID}/latest`, {
-            headers: { 'X-Access-Key': BLSC_ACCOUNT.JSONBIN_API_KEY }
-        });
-        const pingTime = Date.now() - startTime;
-        
-        if (response.ok) {
-            setSystemOnline(true, pingTime);
-        } else {
-            setSystemOnline(false);
-        }
-    } catch (error) {
-        setSystemOnline(false);
-    }
-}
-
-function setSystemOnline(online, ping = 0) {
-    systemOnline = online;
-    const statusBar = document.getElementById('systemStatus');
-    const statusText = document.getElementById('statusText');
-    const cloudStatus = document.getElementById('cloudStatus');
-    const lastSync = document.getElementById('lastSync');
-    const pingTime = document.getElementById('pingTime');
-    
-    if (!statusBar) return;
-    
-    if (online) {
-        statusBar.classList.remove('status-offline');
-        statusText.innerHTML = '🟢 SYSTEM ONLINE';
-        cloudStatus.textContent = 'Connected';
-        cloudStatus.style.color = '#3fb950';
-        pingTime.textContent = ping + 'ms';
-        pingTime.style.color = ping < 500 ? '#3fb950' : ping < 1000 ? '#eab308' : '#ef4444';
-    } else {
-        statusBar.classList.add('status-offline');
-        statusText.innerHTML = '🔴 SYSTEM OFFLINE';
-        cloudStatus.textContent = 'Disconnected';
-        cloudStatus.style.color = '#ef4444';
-        pingTime.textContent = '--ms';
-        pingTime.style.color = '#ef4444';
-    }
-    
-    lastSync.textContent = new Date().toLocaleTimeString();
-}
-
-// Check status every 30 seconds
-setInterval(checkSystemStatus, 30000);
-
-// Initial check when admin panel loads
-setTimeout(checkSystemStatus, 1000);
+function viewScreenshotFull(e,i){const u=allUsers[e];if(u?.pendingPayments?.[i]?.screenshotUrl){document.getElementById('modalScreenshot').src=u.pendingPayments[i].screenshotUrl;document.getElementById('screenshotModal').style.display='flex';}}
+function closeScreenshot(){document.getElementById('screenshotModal').style.display='none';}
+function filterUsers(){renderUsersTable(document.getElementById('searchUsers').value);}
+function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.content-panel').forEach(x=>x.classList.remove('active'));event.target.classList.add('active');document.getElementById(t+'Panel').classList.add('active');}
+async function addSubscription(){const e=document.getElementById('subEmail').value,s=document.getElementById('subService').value,t=document.getElementById('subType').value;if(!e||!allUsers[e]){alert('User not found');return;}const d={'free_trial':30,'monthly':30,'yearly':365,'unlimited':0};await BLSC_ACCOUNT.activateSubscription(e,s,t,d[t]);alert('✅ Done');await loadAllData();}
+async function removeSub(e,s){if(!confirm('Remove?'))return;const u=await BLSC_ACCOUNT.getUsers();if(u[e]?.subscriptions){delete u[e].subscriptions[s];await BLSC_ACCOUNT.saveUsers(u);await loadAllData();}}
+async function deleteUser(e){if(!confirm('Delete '+e+'?'))return;const u=await BLSC_ACCOUNT.getUsers();delete u[e];await BLSC_ACCOUNT.saveUsers(u);await loadAllData();}
+function editUser(e){document.getElementById('subEmail').value=e;showTab('subscriptions');}
+async function approvePayment(e,i){const u=await BLSC_ACCOUNT.getUsers(),p=u[e].pendingPayments[i];if(!confirm('Approve '+p.amount+'Br?'))return;const d={'monthly':30,'yearly':365,'unlimited':0};await BLSC_ACCOUNT.activateSubscription(e,p.service,p.plan,d[p.plan]);u[e].pendingPayments[i].status='approved';await BLSC_ACCOUNT.saveUsers(u);alert('✅');await loadAllData();}
+async function rejectPayment(e,i){if(!confirm('Reject?'))return;const u=await BLSC_ACCOUNT.getUsers();u[e].pendingPayments[i].status='rejected';await BLSC_ACCOUNT.saveUsers(u);await loadAllData();}
+async function generateCoupon(){const s=document.getElementById('couponService').value,t=document.getElementById('couponType').value,c='BLSC-'+Math.random().toString(36).substring(2,8).toUpperCase();const u=await BLSC_ACCOUNT.getUsers();if(!u._coupons)u._coupons=[];u._coupons.push({code:c,service:s,type:t,status:'active',createdAt:new Date().toISOString()});await BLSC_ACCOUNT.saveUsers(u);alert('✅ '+c);await loadAllData();}
+function renderCouponsTable(){const tbody=document.getElementById('couponsTableBody'),c=allUsers._coupons||[],n={'images':'🔍','ai-image':'🎨','ai-video':'🎬'};if(!c.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:40px">No coupons</td></tr>';return;}tbody.innerHTML=c.map((x,i)=>`<tr><td><strong style="color:#3fb950">${x.code}</strong></td><td>${n[x.service]}</td><td>${x.type}</td><td><span class="badge ${x.status==='active'?'active':'expired'}">${x.status}</span></td><td>${new Date(x.createdAt).toLocaleDateString()}</td><td><button class="action-btn danger" onclick="deleteCoupon(${i})">🗑️</button></td></tr>`).join('');}
+async function deleteCoupon(i){if(!confirm('Delete?'))return;const u=await BLSC_ACCOUNT.getUsers();u._coupons.splice(i,1);await BLSC_ACCOUNT.saveUsers(u);await loadAllData();}
+async function banUser(e){const r=prompt('Reason:')||'Violation';if(!confirm('🔨 BAN '+e+'?'))return;const u=await BLSC_ACCOUNT.getUsers();u[e].banned=true;u[e].banReason=r;u[e].bannedAt=new Date().toISOString();u[e].subscriptions={};await BLSC_ACCOUNT.saveUsers(u);alert('🚫 BANNED');await loadAllData();}
+async function unbanUser(e){if(!confirm('Unban?'))return;const u=await BLSC_ACCOUNT.getUsers();u[e].banned=false;delete u[e].banReason;delete u[e].bannedAt;await BLSC_ACCOUNT.saveUsers(u);await loadAllData();}
+function renderBannedTable(){const tbody=document.getElementById('bannedTableBody'),b=Object.values(allUsers).filter(u=>u.banned);if(!b.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:40px">No banned</td></tr>';return;}tbody.innerHTML=b.map(u=>`<tr style="background:rgba(239,68,68,0.05)"><td><div class="user-info"><div class="user-avatar" style="background:#ef4444">${BLSC_ACCOUNT.getInitials(u.name||'U')}</div><div class="user-name" style="color:#ef4444">${u.name||'?'}</div></div></td><td>${u.email}</td><td>${u.bannedAt?new Date(u.bannedAt).toLocaleDateString():'-'}</td><td style="color:#ef4444">${u.banReason||'-'}</td><td><button class="action-btn primary" onclick="unbanUser('${u.email}')">✅</button><button class="action-btn danger" onclick="deleteUser('${u.email}')">🗑️</button></td></tr>`).join('');}
+async function refreshData(){BLSC_ACCOUNT._usersCache=null;await loadAllData();checkSystemStatus();alert('✅');}
+function exportAllData(){const b=new Blob([JSON.stringify(allUsers,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='blsc_'+new Date().toISOString().split('T')[0]+'.json';a.click();}
+async function checkSystemStatus(){const s=Date.now();try{const r=await fetch(`https://api.jsonbin.io/v3/b/${BLSC_ACCOUNT.JSONBIN_BIN_ID}/latest`,{headers:{'X-Access-Key':BLSC_ACCOUNT.JSONBIN_API_KEY}});const p=Date.now()-s;if(r.ok){document.getElementById('statusText').innerHTML='🟢 ONLINE';document.getElementById('cloudStatus').textContent='Connected';document.getElementById('cloudStatus').style.color='#3fb950';document.getElementById('pingTime').textContent=p+'ms';document.getElementById('pingTime').style.color=p<500?'#3fb950':'#eab308';}else throw new Error();}catch{document.getElementById('statusText').innerHTML='🔴 OFFLINE';document.getElementById('cloudStatus').textContent='Disconnected';document.getElementById('cloudStatus').style.color='#ef4444';}}
+setInterval(checkSystemStatus,30000);
 </script>
+</body>
+</html>
