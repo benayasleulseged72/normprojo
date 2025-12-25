@@ -120,9 +120,9 @@
                 <div class="chat-input-box">
                     <button class="attach-btn" onclick="document.getElementById('fileInput').click()">📎</button>
                     <input type="file" id="fileInput" style="display:none" onchange="handleFileSelect(this)">
-                    <textarea id="messageInput" placeholder="Type a message..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"></textarea>
+                    <textarea id="messageInput" placeholder="Type a message..." rows="1" oninput="toggleSendBtn()" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"></textarea>
                 </div>
-                <button class="send-btn" onclick="sendMessage()">➤</button>
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
             </div>
         </div>
     </div>
@@ -163,12 +163,12 @@
         await loadConversations();
         renderConversations();
         
-        // Auto-refresh every 10 seconds
+        // Auto-refresh every 2 seconds (fast sync)
         setInterval(async () => {
             await loadConversations();
             renderConversations();
             if (activeConversation) renderMessages();
-        }, 10000);
+        }, 2000);
     }
     init();
 
@@ -348,6 +348,7 @@
                 data: e.target.result
             };
             document.getElementById('messageInput').value = '📎 ' + file.name;
+            toggleSendBtn();
         };
         reader.readAsDataURL(file);
     }
