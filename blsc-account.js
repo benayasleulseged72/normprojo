@@ -375,3 +375,281 @@ function createAccountDropdown() {
 }
 
 document.addEventListener('DOMContentLoaded', createAccountDropdown);
+
+// ========== BANNED USER CHECK ==========
+// Shows hacker-style BANNED screen if user is banned
+async function checkIfBanned() {
+    if (!BLSC_ACCOUNT.isLoggedIn()) return false;
+    
+    const user = BLSC_ACCOUNT.getCurrentUser();
+    if (!user) return false;
+    
+    try {
+        const users = await BLSC_ACCOUNT.getUsers();
+        const userData = users[user.email];
+        
+        if (userData && userData.banned) {
+            showBannedScreen(userData);
+            return true;
+        }
+    } catch (e) {
+        console.error('Ban check error:', e);
+    }
+    return false;
+}
+
+function showBannedScreen(userData) {
+    // Create fullscreen hacker-style banned overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'banned-overlay';
+    overlay.innerHTML = `
+        <style>
+            #banned-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: #000;
+                z-index: 999999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                font-family: 'Courier New', monospace;
+                overflow: hidden;
+            }
+            #banned-overlay::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 255, 0, 0.03) 0px,
+                    rgba(0, 255, 0, 0.03) 1px,
+                    transparent 1px,
+                    transparent 2px
+                );
+                pointer-events: none;
+                animation: scanlines 0.1s linear infinite;
+            }
+            @keyframes scanlines {
+                0% { transform: translateY(0); }
+                100% { transform: translateY(2px); }
+            }
+            @keyframes glitch {
+                0%, 100% { transform: translate(0); }
+                20% { transform: translate(-2px, 2px); }
+                40% { transform: translate(-2px, -2px); }
+                60% { transform: translate(2px, 2px); }
+                80% { transform: translate(2px, -2px); }
+            }
+            @keyframes flicker {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.8; }
+                75% { opacity: 0.9; }
+            }
+            @keyframes typing {
+                from { width: 0; }
+                to { width: 100%; }
+            }
+            .banned-title {
+                font-size: clamp(60px, 15vw, 150px);
+                font-weight: bold;
+                color: #ff0000;
+                text-shadow: 
+                    0 0 10px #ff0000,
+                    0 0 20px #ff0000,
+                    0 0 40px #ff0000,
+                    0 0 80px #ff0000,
+                    4px 4px 0 #000,
+                    -4px -4px 0 #000;
+                animation: glitch 0.3s infinite, flicker 0.5s infinite;
+                letter-spacing: 20px;
+                margin-bottom: 30px;
+            }
+            .banned-skull {
+                font-size: 100px;
+                animation: glitch 0.5s infinite;
+                margin-bottom: 20px;
+            }
+            .banned-info {
+                color: #00ff00;
+                font-size: 16px;
+                text-align: center;
+                max-width: 600px;
+                line-height: 1.8;
+                text-shadow: 0 0 10px #00ff00;
+            }
+            .banned-info .label {
+                color: #ff0000;
+                font-weight: bold;
+            }
+            .banned-reason {
+                margin-top: 30px;
+                padding: 20px;
+                border: 2px solid #ff0000;
+                background: rgba(255, 0, 0, 0.1);
+                color: #ff0000;
+                font-size: 18px;
+                animation: flicker 1s infinite;
+            }
+            .banned-code {
+                margin-top: 40px;
+                color: #00ff00;
+                font-size: 12px;
+                opacity: 0.7;
+            }
+            .matrix-bg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                overflow: hidden;
+                opacity: 0.1;
+                pointer-events: none;
+            }
+            .matrix-char {
+                position: absolute;
+                color: #00ff00;
+                font-size: 14px;
+                animation: fall linear infinite;
+            }
+            @keyframes fall {
+                0% { transform: translateY(-100vh); opacity: 1; }
+                100% { transform: translateY(100vh); opacity: 0; }
+            }
+        </style>
+        <div class="matrix-bg" id="matrix"></div>
+        <div class="banned-skull">💀</div>
+        <div class="banned-title">BANNED</div>
+        <div class="banned-info">
+            <p><span class="label">USER:</span> ${userData.email}</p>
+            <p><span class="label">STATUS:</span> PERMANENTLY BLOCKED</p>
+            <p><span class="label">DATE:</span> ${userData.bannedAt ? new Date(userData.bannedAt).toLocaleString() : 'Unknown'}</p>
+        </div>
+        <div class="banned-reason">
+            ⚠️ REASON: ${userData.banReason || 'Violation of Terms of Service'}
+        </div>
+        <div class="banned-code">
+            [ACCESS_DENIED] [ERROR_CODE: 0x8007045D] [SYSTEM_LOCKOUT]<br>
+            Your account has been terminated. All services revoked.<br>
+            Contact support if you believe this is an error.
+        </div>
+    `;
+    
+    document.body.innerHTML = '';
+    document.body.appendChild(overlay);
+    
+    // Add matrix rain effect
+    const matrix = document.getElementById('matrix');
+    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+    for (let i = 0; i < 50; i++) {
+        const char = document.createElement('div');
+        char.className = 'matrix-char';
+        char.style.left = Math.random() * 100 + 'vw';
+        char.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        char.style.animationDelay = Math.random() * 5 + 's';
+        char.textContent = chars[Math.floor(Math.random() * chars.length)];
+        matrix.appendChild(char);
+    }
+    
+    // Clear session
+    localStorage.removeItem(BLSC_ACCOUNT.SESSION_KEY);
+}
+
+// Auto-check on page load
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(checkIfBanned, 500);
+    createSystemStatusIndicator();
+});
+
+// ========== SYSTEM ONLINE STATUS INDICATOR ==========
+function createSystemStatusIndicator() {
+    // Create floating status indicator
+    const indicator = document.createElement('div');
+    indicator.id = 'blsc-system-status';
+    indicator.innerHTML = `
+        <style>
+            #blsc-system-status {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 16px;
+                background: rgba(10, 10, 10, 0.9);
+                border: 1px solid rgba(63, 185, 80, 0.3);
+                border-radius: 100px;
+                font-family: 'Inter', sans-serif;
+                font-size: 12px;
+                color: #fff;
+                z-index: 9998;
+                backdrop-filter: blur(10px);
+                transition: all 0.3s;
+                cursor: pointer;
+            }
+            #blsc-system-status:hover {
+                transform: scale(1.05);
+            }
+            #blsc-system-status.offline {
+                border-color: rgba(239, 68, 68, 0.3);
+            }
+            #blsc-system-status .dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #3fb950;
+                animation: statusPulse 2s infinite;
+            }
+            #blsc-system-status.offline .dot {
+                background: #ef4444;
+            }
+            @keyframes statusPulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.4; }
+            }
+            #blsc-system-status .text {
+                color: #3fb950;
+                font-weight: 600;
+            }
+            #blsc-system-status.offline .text {
+                color: #ef4444;
+            }
+        </style>
+        <div class="dot"></div>
+        <span class="text">System Online</span>
+    `;
+    document.body.appendChild(indicator);
+    
+    // Check system status
+    checkCloudStatus();
+    setInterval(checkCloudStatus, 60000); // Check every minute
+}
+
+async function checkCloudStatus() {
+    const indicator = document.getElementById('blsc-system-status');
+    if (!indicator) return;
+    
+    try {
+        const response = await fetch(`https://api.jsonbin.io/v3/b/${BLSC_ACCOUNT.JSONBIN_BIN_ID}/latest`, {
+            headers: { 'X-Access-Key': BLSC_ACCOUNT.JSONBIN_API_KEY }
+        });
+        
+        if (response.ok) {
+            indicator.classList.remove('offline');
+            indicator.querySelector('.text').textContent = 'System Online';
+        } else {
+            indicator.classList.add('offline');
+            indicator.querySelector('.text').textContent = 'System Offline';
+        }
+    } catch (error) {
+        indicator.classList.add('offline');
+        indicator.querySelector('.text').textContent = 'System Offline';
+    }
+}
