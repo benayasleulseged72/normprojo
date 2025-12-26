@@ -210,11 +210,18 @@
             <button class="modal-close" onclick="closeUploadModal()">×</button>
         </div>
         <div class="modal-body">
-            <div class="upload-area" id="uploadArea" onclick="document.getElementById('videoFile').click()">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <h3>Select video to upload</h3>
-                <p>Or drag and drop a file</p>
-                <input type="file" id="videoFile" accept="video/*" style="display:none" onchange="handleVideoSelect(this)">
+            <div class="upload-area" id="uploadArea">
+                <div onclick="document.getElementById('videoFile').click()" style="cursor:pointer;margin-bottom:20px">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Select video to upload</h3>
+                    <p>Small videos only (under 1MB for cloud sync)</p>
+                    <input type="file" id="videoFile" accept="video/*" style="display:none" onchange="handleVideoSelect(this)">
+                </div>
+                <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:20px;margin-top:10px">
+                    <p style="color:#3fb950;margin-bottom:12px"><i class="fas fa-link"></i> Or paste a video URL (YouTube, etc.)</p>
+                    <input type="text" id="externalVideoUrl" placeholder="https://www.youtube.com/watch?v=..." style="width:100%;padding:12px;background:#272727;border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff">
+                    <button onclick="useExternalUrl()" style="margin-top:10px;padding:10px 20px;background:#3fb950;color:#000;border:none;border-radius:8px;cursor:pointer;font-weight:600">Use This URL</button>
+                </div>
             </div>
             <div id="uploadForm" style="display:none">
                 <div id="uploadProgress" style="margin-bottom:20px">
@@ -366,8 +373,30 @@ function playVideo(videoId) {
     document.getElementById('mainContent').style.display = 'none';
     document.getElementById('videoPlayerPage').classList.add('show');
     
-    // Set video data
-    document.getElementById('videoPlayer').src = video.videoUrl;
+    // Get video URL
+    let videoSrc = video.videoUrl;
+    
+    // Handle YouTube embeds
+    const playerContainer = document.querySelector('.video-player');
+    if (video.isYouTube || videoSrc.includes('youtube.com/embed')) {
+        // Use iframe for YouTube
+        playerContainer.innerHTML = `<iframe src="${videoSrc}?autoplay=1" style="width:100%;height:100%;border:none" allowfullscreen allow="autoplay"></iframe>`;
+    } else if (video.isLocal && videoSrc.startsWith('LOCAL:')) {
+        // Local video
+        const localId = videoSrc.replace('LOCAL:', '');
+        videoSrc = localStorage.getItem('blsc_video_' + localId);
+        if (!videoSrc) {
+            alert('This video is stored locally on another device.');
+            showHome();
+            return;
+        }
+        playerContainer.innerHTML = `<video id="videoPlayer" controls autoplay style="width:100%;height:100%"><source src="${videoSrc}"></video>`;
+    } else {
+        // Regular video
+        playerContainer.innerHTML = `<video id="videoPlayer" controls autoplay style="width:100%;height:100%"><source src="${videoSrc}"></video>`;
+    }
+    
+    // Set video info
     document.getElementById('videoTitle').textContent = video.title;
     document.getElementById('videoViews').textContent = formatViews(video.views);
     document.getElementById('videoDate').textContent = formatDate(video.uploadedAt);
@@ -376,15 +405,13 @@ function playVideo(videoId) {
     document.getElementById('channelAvatar').textContent = BLSC_ACCOUNT.getInitials(video.channelName);
     document.getElementById('channelAvatar').style.background = BLSC_ACCOUNT.getAvatarColor(video.channelName);
     document.getElementById('videoDescription').textContent = video.description || 'No description';
-    
-    // Auto play
-    document.getElementById('videoPlayer').play();
 }
 
 function showHome() {
     document.getElementById('mainContent').style.display = 'block';
     document.getElementById('videoPlayerPage').classList.remove('show');
-    document.getElementById('videoPlayer').pause();
+    // Restore video player element
+    document.querySelector('.video-player').innerHTML = '<video id="videoPlayer" controls></video>';
     renderVideos();
 }
 
@@ -440,8 +467,13 @@ function searchVideos() {
     renderVideos(query);
 }
 // ========== UPLOAD SYSTEM ==========
+// Using Cloudinary for FREE video hosting (25GB free!)
+const CLOUDINARY_CLOUD_NAME = 'democloud'; // You'll need to create your own
+const CLOUDINARY_UPLOAD_PRESET = 'blsc_videos'; // Unsigned upload preset
+
 let selectedVideoFile = null;
 let selectedVideoUrl = null;
+let isExternalUrl = false;
 
 function showUploadModal() {
     if (!BLSC_ACCOUNT.isLoggedIn()) {
@@ -457,6 +489,42 @@ function closeUploadModal() {
     document.getElementById('uploadForm').style.display = 'none';
     selectedVideoFile = null;
     selectedVideoUrl = null;
+    isExternalUrl = false;
+    document.getElementById('publishBtn').textContent = 'Publish Video';
+    document.getElementById('externalVideoUrl').value = '';
+}
+
+// Use external URL (YouTube, etc.)
+function useExternalUrl() {
+    const url = document.getElementById('externalVideoUrl').value.trim();
+    if (!url) {
+        alert('Please enter a video URL');
+        return;
+    }
+    
+    // Convert YouTube URL to embed format
+    let embedUrl = url;
+    if (url.includes('youtube.com/watch')) {
+        const videoId = url.split('v=')[1]?.split('&')[0];
+        if (videoId) {
+            embedUrl = 'https://www.youtube.com/embed/' + videoId;
+        }
+    } else if (url.includes('youtu.be/')) {
+        const videoId = url.split('youtu.be/')[1]?.split('?')[0];
+        if (videoId) {
+            embedUrl = 'https://www.youtube.com/embed/' + videoId;
+        }
+    }
+    
+    selectedVideoUrl = embedUrl;
+    isExternalUrl = true;
+    
+    // Show upload form
+    document.getElementById('uploadArea').style.display = 'none';
+    document.getElementById('uploadForm').style.display = 'block';
+    document.getElementById('uploadPercent').textContent = 'External URL ready ✓';
+    document.getElementById('uploadBar').style.width = '100%';
+    document.getElementById('publishBtn').disabled = false;
 }
 
 function handleVideoSelect(input) {
@@ -464,38 +532,25 @@ function handleVideoSelect(input) {
     
     const file = input.files[0];
     
-    // Check file size (max 50MB for base64 storage)
-    if (file.size > 50 * 1024 * 1024) {
-        alert('Video must be under 50MB. For larger videos, use external hosting.');
+    // Check file size (max 1MB for cloud sync)
+    if (file.size > 1 * 1024 * 1024) {
+        alert('Video must be under 1MB for cloud sync.\n\nFor larger videos, please use YouTube or another video host and paste the link instead.');
         return;
     }
     
     selectedVideoFile = file;
+    isExternalUrl = false;
     
     // Show upload form
     document.getElementById('uploadArea').style.display = 'none';
     document.getElementById('uploadForm').style.display = 'block';
-    
-    // Convert to base64 (for small videos)
-    const reader = new FileReader();
-    reader.onprogress = (e) => {
-        if (e.lengthComputable) {
-            const percent = Math.round((e.loaded / e.total) * 100);
-            document.getElementById('uploadPercent').textContent = percent + '%';
-            document.getElementById('uploadBar').style.width = percent + '%';
-        }
-    };
-    reader.onload = (e) => {
-        selectedVideoUrl = e.target.result;
-        document.getElementById('uploadPercent').textContent = '100% - Ready!';
-        document.getElementById('uploadBar').style.width = '100%';
-        document.getElementById('publishBtn').disabled = false;
-    };
-    reader.readAsDataURL(file);
+    document.getElementById('uploadPercent').textContent = 'Video selected - Fill details below';
+    document.getElementById('uploadBar').style.width = '100%';
+    document.getElementById('publishBtn').disabled = false;
 }
 
 async function publishVideo() {
-    if (!selectedVideoUrl || !currentUser) return;
+    if ((!selectedVideoFile && !selectedVideoUrl) || !currentUser) return;
     
     const title = document.getElementById('videoTitleInput').value.trim();
     if (!title) {
@@ -506,44 +561,94 @@ async function publishVideo() {
     document.getElementById('publishBtn').textContent = 'Publishing...';
     document.getElementById('publishBtn').disabled = true;
     
-    // Get video duration
-    const tempVideo = document.createElement('video');
-    tempVideo.src = selectedVideoUrl;
-    await new Promise(resolve => tempVideo.onloadedmetadata = resolve);
-    const duration = formatDuration(tempVideo.duration);
-    
-    // Create video object
-    const newVideo = {
-        id: 'vid_' + Date.now(),
-        title: title,
-        description: document.getElementById('videoDescInput').value,
-        category: document.getElementById('videoCategoryInput').value,
-        videoUrl: selectedVideoUrl,
-        thumbnail: null,
-        duration: duration,
-        views: 0,
-        likes: 0,
-        uploaderId: currentUser.email,
-        channelName: currentUser.name,
-        uploadedAt: new Date().toISOString()
-    };
-    
-    // Handle thumbnail
-    const thumbFile = document.getElementById('thumbnailFile').files[0];
-    if (thumbFile) {
-        const thumbReader = new FileReader();
-        thumbReader.onload = (e) => { newVideo.thumbnail = e.target.result; };
-        thumbReader.readAsDataURL(thumbFile);
-        await new Promise(resolve => setTimeout(resolve, 500));
+    try {
+        let videoUrl = selectedVideoUrl;
+        let duration = '0:00';
+        let isYouTube = false;
+        
+        if (isExternalUrl) {
+            // External URL (YouTube, etc.)
+            isYouTube = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
+            duration = 'External';
+        } else {
+            // Upload file - convert to base64
+            document.getElementById('uploadPercent').textContent = 'Processing video...';
+            
+            videoUrl = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(selectedVideoFile);
+            });
+            
+            // Get video duration
+            const tempVideo = document.createElement('video');
+            tempVideo.src = videoUrl;
+            await new Promise(resolve => {
+                tempVideo.onloadedmetadata = resolve;
+                tempVideo.onerror = resolve;
+            });
+            duration = tempVideo.duration ? formatDuration(tempVideo.duration) : '0:00';
+        }
+        
+        // Create video object
+        const videoId = 'vid_' + Date.now();
+        
+        const newVideo = {
+            id: videoId,
+            title: title,
+            description: document.getElementById('videoDescInput').value,
+            category: document.getElementById('videoCategoryInput').value,
+            videoUrl: videoUrl,
+            thumbnail: null,
+            duration: duration,
+            views: 0,
+            likes: 0,
+            uploaderId: currentUser.email,
+            channelName: currentUser.name,
+            uploadedAt: new Date().toISOString(),
+            isYouTube: isYouTube,
+            isExternal: isExternalUrl
+        };
+        
+        // Handle thumbnail
+        const thumbFile = document.getElementById('thumbnailFile').files[0];
+        if (thumbFile && thumbFile.size < 100000) { // Max 100KB thumbnail
+            const thumbBase64 = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.readAsDataURL(thumbFile);
+            });
+            newVideo.thumbnail = thumbBase64;
+        }
+        
+        // For YouTube videos, try to get thumbnail
+        if (isYouTube && !newVideo.thumbnail) {
+            const ytId = videoUrl.split('/embed/')[1]?.split('?')[0];
+            if (ytId) {
+                newVideo.thumbnail = `https://img.youtube.com/vi/${ytId}/mqdefault.jpg`;
+            }
+        }
+        
+        // Save to cloud
+        document.getElementById('uploadPercent').textContent = 'Saving to cloud...';
+        allVideos.unshift(newVideo);
+        const saved = await BLSC_VIDEOS.saveVideos(allVideos);
+        
+        if (saved) {
+            alert('✅ Video published successfully!\n\nIt will now appear for all users worldwide.');
+            closeUploadModal();
+            renderVideos();
+        } else {
+            throw new Error('Failed to save to cloud. Video might be too large.');
+        }
+        
+    } catch (error) {
+        console.error('Upload error:', error);
+        alert('❌ Upload failed: ' + error.message + '\n\nTry using a YouTube link instead for larger videos.');
+        document.getElementById('publishBtn').textContent = 'Publish Video';
+        document.getElementById('publishBtn').disabled = false;
     }
-    
-    // Save
-    allVideos.unshift(newVideo);
-    await saveVideos();
-    
-    alert('✅ Video published!');
-    closeUploadModal();
-    renderVideos();
 }
 
 // Utility functions
