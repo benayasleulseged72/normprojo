@@ -139,91 +139,20 @@
                     </div>
                     
                     <div class="methods-section">
-                        <h4>Mobile Money</h4>
+                        <h4>Choose Payment Method</h4>
                         <div class="method-grid">
+                            <!-- TeleBirr with Real Logo -->
                             <div class="method-btn selected" onclick="selectMethod('telebirr')">
-                                <div class="bank-logo telebirr-logo">
-                                    <svg viewBox="0 0 120 50" width="100" height="40">
-                                        <defs>
-                                            <linearGradient id="telebirrGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                <stop offset="0%" style="stop-color:#00a651"/>
-                                                <stop offset="50%" style="stop-color:#ffc20e"/>
-                                                <stop offset="100%" style="stop-color:#ed1c24"/>
-                                            </linearGradient>
-                                        </defs>
-                                        <rect x="2" y="5" width="40" height="40" rx="8" fill="url(#telebirrGrad)"/>
-                                        <text x="22" y="32" fill="white" font-size="20" font-weight="bold" text-anchor="middle">t</text>
-                                        <text x="80" y="25" fill="#00a651" font-size="14" font-weight="bold" text-anchor="middle">tele</text>
-                                        <text x="80" y="40" fill="#ffc20e" font-size="14" font-weight="bold" text-anchor="middle">birr</text>
-                                    </svg>
-                                </div>
+                                <img src="https://play-lh.googleusercontent.com/Oy-0Oj8qGtVRvzYBrcRJh-1pXZJxS8vXhfjl0bCCqIGVBmKxqjXBsHGhjMdT-RMWFQ=w240-h480-rw" alt="TeleBirr" style="height:50px;border-radius:12px">
                                 <span class="name">TeleBirr</span>
-                                <span class="desc">Ethio Telecom</span>
+                                <span class="desc">Ethio Telecom Mobile Money</span>
                             </div>
-                            <div class="method-btn" onclick="selectMethod('cbe')">
-                                <div class="bank-logo cbe-logo">
-                                    <svg viewBox="0 0 120 50" width="100" height="40">
-                                        <circle cx="25" cy="25" r="20" fill="#512da8"/>
-                                        <text x="25" y="32" fill="white" font-size="16" font-weight="bold" text-anchor="middle">CBE</text>
-                                        <text x="80" y="22" fill="#512da8" font-size="11" font-weight="bold" text-anchor="middle">CBE</text>
-                                        <text x="80" y="36" fill="#7c4dff" font-size="13" font-weight="bold" text-anchor="middle">Birr</text>
-                                    </svg>
-                                </div>
-                                <span class="name">CBE Birr</span>
-                                <span class="desc">Commercial Bank</span>
-                            </div>
-                        </div>
-                        
-                        <h4>Bank Transfer</h4>
-                        <div class="method-grid">
-                            <div class="method-btn" onclick="selectMethod('cbe_bank')">
-                                <div class="bank-logo cbe-bank-logo">
-                                    <svg viewBox="0 0 120 50" width="100" height="40">
-                                        <rect x="5" y="5" width="40" height="40" rx="6" fill="#512da8"/>
-                                        <text x="25" y="30" fill="white" font-size="12" font-weight="bold" text-anchor="middle">CBE</text>
-                                        <text x="80" y="20" fill="#512da8" font-size="9" text-anchor="middle">Commercial Bank</text>
-                                        <text x="80" y="32" fill="#512da8" font-size="9" text-anchor="middle">of Ethiopia</text>
-                                        <rect x="55" y="38" width="50" height="3" fill="#ffc107"/>
-                                    </svg>
-                                </div>
-                                <span class="name">CBE Bank</span>
-                                <span class="desc">Bank Transfer</span>
-                            </div>
-                            <div class="method-btn" onclick="selectMethod('awash')">
-                                <div class="bank-logo awash-logo">
-                                    <svg viewBox="0 0 120 50" width="100" height="40">
-                                        <rect x="5" y="5" width="40" height="40" rx="6" fill="#e65100"/>
-                                        <text x="25" y="30" fill="white" font-size="11" font-weight="bold" text-anchor="middle">AWB</text>
-                                        <text x="80" y="22" fill="#e65100" font-size="12" font-weight="bold" text-anchor="middle">AWASH</text>
-                                        <text x="80" y="36" fill="#ff9800" font-size="10" text-anchor="middle">BANK</text>
-                                    </svg>
-                                </div>
-                                <span class="name">Awash Bank</span>
-                                <span class="desc">Bank Transfer</span>
-                            </div>
-                            <div class="method-btn" onclick="selectMethod('abyssinia')">
-                                <div class="bank-logo abyssinia-logo">
-                                    <svg viewBox="0 0 120 50" width="100" height="40">
-                                        <rect x="5" y="5" width="40" height="40" rx="6" fill="#1a237e"/>
-                                        <text x="25" y="30" fill="#ffd700" font-size="11" font-weight="bold" text-anchor="middle">BOA</text>
-                                        <text x="80" y="20" fill="#1a237e" font-size="9" font-weight="bold" text-anchor="middle">Bank of</text>
-                                        <text x="80" y="34" fill="#1a237e" font-size="11" font-weight="bold" text-anchor="middle">Abyssinia</text>
-                                    </svg>
-                                </div>
-                                <span class="name">Abyssinia</span>
-                                <span class="desc">Bank Transfer</span>
-                            </div>
-                            <div class="method-btn" onclick="selectMethod('dashen')">
-                                <div class="bank-logo dashen-logo">
-                                    <svg viewBox="0 0 120 50" width="100" height="40">
-                                        <rect x="5" y="5" width="40" height="40" rx="6" fill="#006633"/>
-                                        <text x="25" y="30" fill="white" font-size="11" font-weight="bold" text-anchor="middle">DB</text>
-                                        <text x="80" y="22" fill="#006633" font-size="12" font-weight="bold" text-anchor="middle">DASHEN</text>
-                                        <text x="80" y="36" fill="#4caf50" font-size="10" text-anchor="middle">BANK</text>
-                                    </svg>
-                                </div>
-                                <span class="name">Dashen Bank</span>
-                                <span class="desc">Bank Transfer</span>
+                            
+                            <!-- Binance with Real Logo -->
+                            <div class="method-btn" onclick="selectMethod('binance')">
+                                <img src="https://public.bnbstatic.com/static/images/common/favicon.ico" alt="Binance" style="height:50px" onerror="this.src='https://cryptologos.cc/logos/binance-coin-bnb-logo.png'">
+                                <span class="name">Binance</span>
+                                <span class="desc">Crypto Payment (USDT)</span>
                             </div>
                         </div>
                     </div>
@@ -367,6 +296,7 @@
                 accountLabel: 'Phone Number',
                 account: '0912191892',
                 name: 'Benayas Leulseged',
+                currency: 'ETB',
                 steps: [
                     'Open TeleBirr app on your phone',
                     'Select "Send Money" / "ገንዘብ ላክ"',
@@ -376,75 +306,22 @@
                     'Take a screenshot of confirmation'
                 ]
             },
-            'cbe': {
-                title: 'CBE Birr',
-                accountLabel: 'Phone Number',
-                account: '0912191892',
-                name: 'Benayas Leulseged',
+            'binance': {
+                title: 'Binance (USDT)',
+                accountLabel: 'Binance Pay ID / USDT Address',
+                account: '231589764',
+                name: 'Benayas L.',
+                currency: 'USDT',
                 steps: [
-                    'Open CBE Birr app',
-                    'Select "Transfer" / "ማስተላለፍ"',
-                    'Choose "To Mobile"',
-                    'Enter the phone number below',
-                    'Enter the exact amount',
+                    'Open Binance app',
+                    'Go to "Pay" or "Send"',
+                    'Enter the Binance Pay ID below',
+                    'Or send USDT (TRC20) to the address',
+                    'Enter the exact USDT amount',
                     'Take a screenshot of confirmation'
-                ]
-            },
-            'cbe_bank': {
-                title: 'CBE Bank Transfer',
-                accountLabel: 'Account Number',
-                account: '1000456789012',
-                name: 'Benayas Leulseged',
-                steps: [
-                    'Go to any CBE branch or use CBE app',
-                    'Select "Transfer to Account"',
-                    'Enter the account number below',
-                    'Enter the exact amount',
-                    'Complete the transfer',
-                    'Keep the receipt/screenshot'
-                ]
-            },
-            'awash': {
-                title: 'Awash Bank Transfer',
-                accountLabel: 'Account Number',
-                account: '01320400481500',
-                name: 'Benayas Leulseged',
-                steps: [
-                    'Go to any Awash branch or use mobile app',
-                    'Select "Transfer"',
-                    'Enter the account number below',
-                    'Enter the exact amount',
-                    'Complete the transfer',
-                    'Keep the receipt/screenshot'
-                ]
-            },
-            'abyssinia': {
-                title: 'Bank of Abyssinia',
-                accountLabel: 'Account Number',
-                account: '90012345678',
-                name: 'Benayas Leulseged',
-                steps: [
-                    'Go to any BOA branch or use mobile app',
-                    'Select "Transfer"',
-                    'Enter the account number below',
-                    'Enter the exact amount',
-                    'Complete the transfer',
-                    'Keep the receipt/screenshot'
-                ]
-            },
-            'dashen': {
-                title: 'Dashen Bank',
-                accountLabel: 'Account Number',
-                account: '0012345678901',
-                name: 'Benayas Leulseged',
-                steps: [
-                    'Go to any Dashen branch or use Amole app',
-                    'Select "Transfer"',
-                    'Enter the account number below',
-                    'Enter the exact amount',
-                    'Complete the transfer',
-                    'Keep the receipt/screenshot'
-                ]
+                ],
+                usdtAddress: 'TYourTRC20AddressHere',
+                note: '💡 1 USDT ≈ 57 ETB (rate may vary)'
             }
         };
         
@@ -485,6 +362,14 @@
             
             const stepsList = document.getElementById('paymentSteps');
             stepsList.innerHTML = method.steps.map(step => `<li>${step}</li>`).join('');
+            
+            // Handle Binance USDT conversion
+            if (selectedMethod === 'binance') {
+                const usdtAmount = (price / 57).toFixed(2); // Approximate ETB to USDT rate
+                document.getElementById('exactAmount').innerHTML = `${usdtAmount} USDT<br><small style="font-size:14px;color:rgba(255,255,255,0.5)">(≈ ${price.toLocaleString()} Birr)</small>`;
+            } else {
+                document.getElementById('exactAmount').textContent = price.toLocaleString() + ' Birr';
+            }
             
             // Update step indicator
             document.getElementById('step2').classList.add('active');
