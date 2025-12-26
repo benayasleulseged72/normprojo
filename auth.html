@@ -241,24 +241,6 @@ body{
         <button class="auth-tab" onclick="showSignup()">Sign Up</button>
     </div>
     
-    <!-- Social Login Buttons -->
-    <div class="social-btns">
-        <button class="social-btn google" onclick="loginWith('Google')">
-            <i class="fab fa-google"></i>
-            Continue with Google
-        </button>
-        <button class="social-btn github" onclick="loginWith('GitHub')">
-            <i class="fab fa-github"></i>
-            Continue with GitHub
-        </button>
-        <button class="social-btn microsoft" onclick="loginWith('Microsoft')">
-            <i class="fab fa-microsoft"></i>
-            Continue with Microsoft
-        </button>
-    </div>
-    
-    <div class="divider">or continue with email</div>
-    
     <!-- Login Form -->
     <form class="auth-form login-form" id="loginForm" onsubmit="handleLogin(event)">
         <div class="form-group">
@@ -298,6 +280,24 @@ body{
         </div>
         <button type="submit" class="submit-btn">Create Account</button>
     </form>
+    
+    <div class="divider">or continue with</div>
+    
+    <!-- Social Login Buttons -->
+    <div class="social-btns">
+        <button class="social-btn google" onclick="loginWith('Google')">
+            <i class="fab fa-google"></i>
+            Continue with Google
+        </button>
+        <button class="social-btn github" onclick="loginWith('GitHub')">
+            <i class="fab fa-github"></i>
+            Continue with GitHub
+        </button>
+        <button class="social-btn microsoft" onclick="loginWith('Microsoft')">
+            <i class="fab fa-microsoft"></i>
+            Continue with Microsoft
+        </button>
+    </div>
     
     <div class="auth-footer" id="authFooter">
         Don't have an account? <a href="#" onclick="showSignup()">Sign up</a>
