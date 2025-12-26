@@ -323,19 +323,23 @@ body{
     <form class="auth-form signup-form" id="signupForm" onsubmit="handleSignup(event)">
         <div class="form-group">
             <label>Full Name</label>
-            <input type="text" placeholder="Enter your full name" required>
+            <input type="text" id="signupName" placeholder="Enter your full name" required>
         </div>
         <div class="form-group">
             <label>Email Address</label>
-            <input type="email" placeholder="Enter your email" required>
+            <input type="email" id="signupEmail" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="signupPhone" placeholder="+251 9XX XXX XXX" required>
         </div>
         <div class="form-group">
             <label>Password</label>
-            <input type="password" placeholder="Create a password" required>
+            <input type="password" id="signupPassword" placeholder="Create a password" required>
         </div>
         <div class="form-group signup-extras">
             <label>Confirm Password</label>
-            <input type="password" placeholder="Confirm your password" required>
+            <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required>
         </div>
         <button type="submit" class="submit-btn">Create Account</button>
     </form>
@@ -365,14 +369,22 @@ body{
 
 <!-- Forgot Password Modal -->
 <div class="forgot-modal" id="forgotModal">
-    <!-- Step 1: Enter Email -->
+    <!-- Step 1: Choose Method -->
     <div class="forgot-box" id="forgotStep1">
         <h2>🔐 Forgot Password</h2>
-        <p>Enter your email to receive a verification code</p>
+        <p>How would you like to receive your verification code?</p>
         <div id="step1Status"></div>
         <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" id="forgotEmail" placeholder="Enter your email">
+            <label>Email or Phone Number</label>
+            <input type="text" id="forgotContact" placeholder="Email or phone number">
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:15px">
+            <label style="flex:1;display:flex;align-items:center;gap:8px;padding:12px;background:rgba(255,255,255,0.05);border:2px solid rgba(63,185,80,0.3);border-radius:10px;cursor:pointer;color:#fff;font-size:14px">
+                <input type="radio" name="sendMethod" value="email" checked style="accent-color:#3fb950"> 📧 Email
+            </label>
+            <label style="flex:1;display:flex;align-items:center;gap:8px;padding:12px;background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.1);border-radius:10px;cursor:pointer;color:#fff;font-size:14px">
+                <input type="radio" name="sendMethod" value="sms" style="accent-color:#3fb950"> 📱 SMS
+            </label>
         </div>
         <div class="forgot-btns">
             <button class="cancel" onclick="closeForgotModal()">Cancel</button>
@@ -382,8 +394,8 @@ body{
     
     <!-- Step 2: Enter Code -->
     <div class="forgot-box" id="forgotStep2" style="display:none">
-        <h2>📧 Enter Code</h2>
-        <p>We sent a 6-digit code to <span id="sentToEmail"></span></p>
+        <h2 id="step2Title">📧 Enter Code</h2>
+        <p>We sent a 6-digit code to <span id="sentToContact"></span></p>
         <div id="step2Status"></div>
         <div class="code-inputs" id="codeInputs">
             <input type="text" maxlength="1" id="code1" oninput="handleCodeInput(1)" onpaste="handlePaste(event)" onkeydown="handleKeyDown(event, 1)">
@@ -434,14 +446,16 @@ const EMAILJS_PUBLIC_KEY = 'CLG4xb8dURhFEgeMa';
 
 // ========== FORGOT PASSWORD SYSTEM ==========
 let forgotEmail = '';
+let forgotPhone = '';
 let verificationCode = '';
+let sendMethod = 'email';
 
 function showForgotPassword() {
     document.getElementById('forgotModal').classList.add('show');
     document.getElementById('forgotStep1').style.display = 'block';
     document.getElementById('forgotStep2').style.display = 'none';
     document.getElementById('forgotStep3').style.display = 'none';
-    document.getElementById('forgotEmail').value = '';
+    document.getElementById('forgotContact').value = '';
     document.getElementById('step1Status').innerHTML = '';
 }
 
@@ -450,12 +464,13 @@ function closeForgotModal() {
 }
 
 async function sendVerificationCode() {
-    forgotEmail = document.getElementById('forgotEmail').value.trim();
+    const contact = document.getElementById('forgotContact').value.trim();
+    sendMethod = document.querySelector('input[name="sendMethod"]:checked').value;
     const btn = document.getElementById('sendCodeBtn');
     const statusDiv = document.getElementById('step1Status');
     
-    if (!forgotEmail || !forgotEmail.includes('@')) {
-        statusDiv.innerHTML = '<div class="status-msg error">Please enter a valid email</div>';
+    if (!contact) {
+        statusDiv.innerHTML = '<div class="status-msg error">Please enter email or phone number</div>';
         return;
     }
     
@@ -464,14 +479,32 @@ async function sendVerificationCode() {
     btn.textContent = 'Sending...';
     statusDiv.innerHTML = '<div class="status-msg loading">⏳ Sending verification code...</div>';
     
-    // Check if user exists
+    // Check if user exists by email or phone
     const users = await BLSC_ACCOUNT.getUsers();
-    if (!users[forgotEmail]) {
-        statusDiv.innerHTML = '<div class="status-msg error">❌ Email not found</div>';
+    
+    // Find user by email or phone
+    let foundUser = null;
+    let foundEmail = null;
+    
+    for (const [email, user] of Object.entries(users)) {
+        if (typeof user === 'object' && user.email) {
+            if (user.email === contact || user.phone === contact) {
+                foundUser = user;
+                foundEmail = email;
+                break;
+            }
+        }
+    }
+    
+    if (!foundUser) {
+        statusDiv.innerHTML = '<div class="status-msg error">❌ Account not found</div>';
         btn.disabled = false;
         btn.textContent = 'Send Code';
         return;
     }
+    
+    forgotEmail = foundEmail;
+    forgotPhone = foundUser.phone || '';
     
     // Generate 6-digit code
     verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -481,38 +514,45 @@ async function sendVerificationCode() {
     users[forgotEmail].resetCodeExpiry = new Date(Date.now() + 10 * 60 * 1000).toISOString();
     await BLSC_ACCOUNT.saveUsers(users);
     
-    // Send email via EmailJS
-    try {
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-            to_email: forgotEmail,
-            to_name: users[forgotEmail].name || 'User',
-            verification_code: verificationCode,
-            from_name: 'BLSC Account'
-        });
-        
-        // Wait 5 seconds to show sending message
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
-        statusDiv.innerHTML = '<div class="status-msg success">✅ Code sent!</div>';
-        
-        setTimeout(() => {
-            // Move to step 2
-            document.getElementById('forgotStep1').style.display = 'none';
-            document.getElementById('forgotStep2').style.display = 'block';
-            document.getElementById('sentToEmail').textContent = forgotEmail;
-            document.getElementById('step2Status').innerHTML = '';
-            clearCodeInputs();
-            document.getElementById('code1').focus();
+    if (sendMethod === 'email') {
+        // Send email via EmailJS
+        try {
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                to_email: forgotEmail,
+                to_name: foundUser.name || 'User',
+                verification_code: verificationCode,
+                from_name: 'BLSC Account'
+            });
+            
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            statusDiv.innerHTML = '<div class="status-msg success">✅ Code sent to email!</div>';
+            
+        } catch (error) {
+            console.error('EmailJS error:', error);
+            statusDiv.innerHTML = '<div class="status-msg error">❌ Failed to send email</div>';
             btn.disabled = false;
             btn.textContent = 'Send Code';
-        }, 500);
-        
-    } catch (error) {
-        console.error('EmailJS error:', error);
-        statusDiv.innerHTML = '<div class="status-msg error">❌ Failed to send email</div>';
+            return;
+        }
+    } else {
+        // SMS - Show code (integrate Twilio for real SMS)
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        alert('📱 SMS Code: ' + verificationCode + '\n\n(To send real SMS, integrate Twilio)');
+        statusDiv.innerHTML = '<div class="status-msg success">✅ Code sent to phone!</div>';
+    }
+    
+    setTimeout(() => {
+        // Move to step 2
+        document.getElementById('forgotStep1').style.display = 'none';
+        document.getElementById('forgotStep2').style.display = 'block';
+        document.getElementById('step2Title').textContent = sendMethod === 'email' ? '📧 Enter Code' : '📱 Enter Code';
+        document.getElementById('sentToContact').textContent = sendMethod === 'email' ? forgotEmail : forgotPhone;
+        document.getElementById('step2Status').innerHTML = '';
+        clearCodeInputs();
+        document.getElementById('code1').focus();
         btn.disabled = false;
         btn.textContent = 'Send Code';
-    }
+    }, 500);
 }
 
 // Handle paste - fill all 6 boxes
@@ -834,11 +874,11 @@ async function handleLogin(e) {
 
 async function handleSignup(e) {
     e.preventDefault();
-    const form = e.target;
-    const name = form.querySelectorAll('input')[0].value;
-    const email = form.querySelectorAll('input')[1].value;
-    const password = form.querySelectorAll('input')[2].value;
-    const confirmPassword = form.querySelectorAll('input')[3].value;
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const phone = document.getElementById('signupPhone').value;
+    const password = document.getElementById('signupPassword').value;
+    const confirmPassword = document.getElementById('signupConfirmPassword').value;
     
     if (password !== confirmPassword) {
         showMessage('❌ Passwords do not match', true);
@@ -850,9 +890,14 @@ async function handleSignup(e) {
         return;
     }
     
+    if (!phone || phone.length < 9) {
+        showMessage('❌ Please enter a valid phone number', true);
+        return;
+    }
+    
     showMessage('⏳ Creating account...');
     
-    const result = await BLSC_ACCOUNT.signup(name, email, password);
+    const result = await BLSC_ACCOUNT.signup(name, email, password, phone);
     
     if (result.success) {
         showMessage('✅ Account created! Redirecting...');

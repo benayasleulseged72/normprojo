@@ -80,7 +80,7 @@ const BLSC_ACCOUNT = {
     },
     
     // Register new user
-    async signup(name, email, password) {
+    async signup(name, email, password, phone = '') {
         try {
             const users = await this.getUsers();
             
@@ -95,6 +95,7 @@ const BLSC_ACCOUNT = {
                 id: userId,
                 name: name,
                 email: email,
+                phone: phone,
                 password: password,
                 avatar: null,
                 createdAt: new Date().toISOString(),
