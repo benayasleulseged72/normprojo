@@ -202,8 +202,7 @@
         </div>
     </main>
 </div>
-<!
--- Upload Modal -->
+<!-- Upload Modal -->
 <div class="modal" id="uploadModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -263,8 +262,7 @@
         <a href="../../../auth.html">Sign In</a>
     </div>
 </div>
-<scrip
-t src="../../../blsc-account.js"></script>
+<script src="../../../blsc-account.js"></script>
 <script>
 // ========== CLOUD STORAGE CONFIG ==========
 // Using JSONBin for video metadata (same as account system)
@@ -348,8 +346,7 @@ function renderVideos(filter = '') {
         </div>
     `).join('');
 }
-//
- Play video
+// Play video
 function playVideo(videoId) {
     const video = allVideos.find(v => v.id === videoId);
     if (!video) return;
@@ -437,8 +434,7 @@ function searchVideos() {
     const query = document.getElementById('searchInput').value;
     renderVideos(query);
 }
-//
- ========== UPLOAD SYSTEM ==========
+// ========== UPLOAD SYSTEM ==========
 let selectedVideoFile = null;
 let selectedVideoUrl = null;
 
