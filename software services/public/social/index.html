@@ -181,10 +181,10 @@
                 <h1 id="videoTitle">Video Title</h1>
                 <p style="color:rgba(255,255,255,0.6);margin-bottom:16px"><span id="videoViews">0</span> views • <span id="videoDate">Jan 1, 2024</span></p>
                 <div class="video-actions">
-                    <button class="action-btn" onclick="likeVideo()"><i class="fas fa-thumbs-up"></i> <span id="likeCount">0</span></button>
+                    <button class="action-btn" id="likeBtn" onclick="likeVideo()"><i class="fas fa-thumbs-up"></i> <span id="likeCount">0</span></button>
                     <button class="action-btn"><i class="fas fa-thumbs-down"></i></button>
-                    <button class="action-btn"><i class="fas fa-share"></i> Share</button>
-                    <button class="action-btn"><i class="fas fa-download"></i> Download</button>
+                    <button class="action-btn" onclick="shareVideo()"><i class="fas fa-share"></i> Share</button>
+                    <button class="action-btn" onclick="downloadVideo()"><i class="fas fa-download"></i> Download</button>
                 </div>
             </div>
             <div style="display:flex;align-items:center;gap:16px;padding:16px;background:#1a1a1a;border-radius:12px;margin-top:16px">
@@ -405,6 +405,51 @@ function playVideo(videoId) {
     document.getElementById('channelAvatar').textContent = BLSC_ACCOUNT.getInitials(video.channelName);
     document.getElementById('channelAvatar').style.background = BLSC_ACCOUNT.getAvatarColor(video.channelName);
     document.getElementById('videoDescription').textContent = video.description || 'No description';
+    
+    // Update subscriber count for this channel
+    const channelSubs = getChannelSubscribers(video.uploaderId);
+    document.getElementById('channelSubs').textContent = formatViews(channelSubs);
+    
+    // Update subscribe button state
+    updateSubscribeButton(video.uploaderId);
+    
+    // Check if user already liked this video
+    updateLikeButton(video);
+}
+
+// Get channel subscriber count
+function getChannelSubscribers(uploaderId) {
+    // Count from all videos by this uploader
+    const channelVideos = allVideos.filter(v => v.uploaderId === uploaderId);
+    // Get unique subscribers from localStorage
+    const subs = JSON.parse(localStorage.getItem('blsc_subscriptions') || '{}');
+    return subs[uploaderId]?.length || 0;
+}
+
+// Update subscribe button
+function updateSubscribeButton(uploaderId) {
+    const subs = JSON.parse(localStorage.getItem('blsc_subscriptions') || '{}');
+    const btn = document.querySelector('.video-player-container .upload-btn');
+    if (currentUser && subs[uploaderId]?.includes(currentUser.email)) {
+        btn.textContent = 'Subscribed ✓';
+        btn.style.background = '#272727';
+        btn.style.color = '#fff';
+    } else {
+        btn.textContent = 'Subscribe';
+        btn.style.background = '#3fb950';
+        btn.style.color = '#000';
+    }
+}
+
+// Update like button
+function updateLikeButton(video) {
+    const likedVideos = JSON.parse(localStorage.getItem('blsc_liked_videos') || '[]');
+    const btn = document.getElementById('likeBtn');
+    if (likedVideos.includes(video.id)) {
+        btn.classList.add('liked');
+    } else {
+        btn.classList.remove('liked');
+    }
 }
 
 function showHome() {
@@ -454,12 +499,28 @@ function likeVideo() {
         document.getElementById('loginOverlay').classList.add('show');
         return;
     }
+    
     const video = allVideos.find(v => v.id === currentVideoId);
-    if (video) {
+    if (!video) return;
+    
+    // Check if already liked
+    let likedVideos = JSON.parse(localStorage.getItem('blsc_liked_videos') || '[]');
+    
+    if (likedVideos.includes(video.id)) {
+        // Unlike
+        likedVideos = likedVideos.filter(id => id !== video.id);
+        video.likes = Math.max(0, (video.likes || 0) - 1);
+        document.getElementById('likeBtn').classList.remove('liked');
+    } else {
+        // Like
+        likedVideos.push(video.id);
         video.likes = (video.likes || 0) + 1;
-        document.getElementById('likeCount').textContent = video.likes;
-        saveVideos();
+        document.getElementById('likeBtn').classList.add('liked');
     }
+    
+    localStorage.setItem('blsc_liked_videos', JSON.stringify(likedVideos));
+    document.getElementById('likeCount').textContent = video.likes;
+    saveVideos();
 }
 
 function searchVideos() {
@@ -684,7 +745,76 @@ function subscribeChannel() {
         document.getElementById('loginOverlay').classList.add('show');
         return;
     }
-    alert('Subscribed!');
+    
+    const video = allVideos.find(v => v.id === currentVideoId);
+    if (!video) return;
+    
+    const uploaderId = video.uploaderId;
+    let subs = JSON.parse(localStorage.getItem('blsc_subscriptions') || '{}');
+    
+    if (!subs[uploaderId]) {
+        subs[uploaderId] = [];
+    }
+    
+    const btn = document.querySelector('.video-player-container .upload-btn');
+    
+    if (subs[uploaderId].includes(currentUser.email)) {
+        // Unsubscribe
+        subs[uploaderId] = subs[uploaderId].filter(e => e !== currentUser.email);
+        btn.textContent = 'Subscribe';
+        btn.style.background = '#3fb950';
+        btn.style.color = '#000';
+    } else {
+        // Subscribe
+        subs[uploaderId].push(currentUser.email);
+        btn.textContent = 'Subscribed ✓';
+        btn.style.background = '#272727';
+        btn.style.color = '#fff';
+    }
+    
+    localStorage.setItem('blsc_subscriptions', JSON.stringify(subs));
+    document.getElementById('channelSubs').textContent = formatViews(subs[uploaderId].length);
+}
+
+// Download video
+function downloadVideo() {
+    const video = allVideos.find(v => v.id === currentVideoId);
+    if (!video) return;
+    
+    if (video.isYouTube || video.isExternal) {
+        // Can't download YouTube videos directly
+        alert('⚠️ External videos (YouTube) cannot be downloaded directly.\n\nPlease use a YouTube downloader website or the YouTube app.');
+        return;
+    }
+    
+    // Download base64 video
+    const link = document.createElement('a');
+    link.href = video.videoUrl;
+    link.download = video.title.replace(/[^a-z0-9]/gi, '_') + '.mp4';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Share video
+function shareVideo() {
+    const video = allVideos.find(v => v.id === currentVideoId);
+    if (!video) return;
+    
+    const shareUrl = window.location.href.split('?')[0] + '?v=' + video.id;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: video.title,
+            text: 'Check out this video on BLSC Social!',
+            url: shareUrl
+        });
+    } else {
+        // Copy to clipboard
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            alert('✅ Link copied to clipboard!');
+        });
+    }
 }
 
 // Category filter
@@ -712,6 +842,23 @@ document.getElementById('loginOverlay').addEventListener('click', (e) => {
 
 // Initialize
 init();
+
+// Auto-refresh videos every 5 seconds to sync with cloud
+setInterval(async () => {
+    if (document.getElementById('mainContent').style.display !== 'none') {
+        await loadVideos();
+        renderVideos();
+    }
+}, 5000);
+
+// Check for video ID in URL (for sharing)
+const urlParams = new URLSearchParams(window.location.search);
+const sharedVideoId = urlParams.get('v');
+if (sharedVideoId) {
+    setTimeout(() => {
+        playVideo(sharedVideoId);
+    }, 1000);
+}
 </script>
 </body>
 </html>
