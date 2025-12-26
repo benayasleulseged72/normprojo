@@ -190,7 +190,7 @@ body{
     cursor:pointer;
 }
 .remember input{width:auto}
-.forgot{color:#3fb950;text-decoration:none}
+.forgot{color:#3fb950;text-decoration:none;cursor:pointer}
 .forgot:hover{text-decoration:underline}
 
 .submit-btn{
@@ -222,6 +222,53 @@ body{
 /* Hide signup form by default */
 .signup-form{display:none}
 .signup-extras{display:none}
+
+/* Forgot Password Modal */
+.forgot-modal{
+    position:fixed;top:0;left:0;right:0;bottom:0;
+    background:rgba(0,0,0,0.9);
+    display:none;align-items:center;justify-content:center;
+    z-index:10000;
+}
+.forgot-modal.show{display:flex}
+.forgot-box{
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:24px;
+    padding:40px;
+    width:100%;max-width:400px;
+    animation:modalIn 0.3s;
+}
+@keyframes modalIn{from{transform:scale(0.9);opacity:0}}
+.forgot-box h2{color:#fff;font-size:22px;margin-bottom:10px;text-align:center}
+.forgot-box p{color:rgba(255,255,255,0.5);font-size:14px;text-align:center;margin-bottom:25px}
+.forgot-box .form-group{margin-bottom:18px}
+.forgot-box .form-group label{display:block;color:rgba(255,255,255,0.7);font-size:14px;margin-bottom:8px}
+.forgot-box .form-group input{
+    width:100%;padding:14px 16px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:12px;color:#fff;font-size:15px;
+}
+.forgot-box .form-group input:focus{outline:none;border-color:#3fb950}
+.code-inputs{display:flex;gap:10px;justify-content:center;margin:20px 0}
+.code-inputs input{
+    width:50px;height:60px;
+    text-align:center;font-size:24px;font-weight:700;
+    background:rgba(255,255,255,0.05);
+    border:2px solid rgba(255,255,255,0.1);
+    border-radius:12px;color:#3fb950;
+}
+.code-inputs input:focus{outline:none;border-color:#3fb950}
+.forgot-btns{display:flex;gap:12px;margin-top:20px}
+.forgot-btns button{
+    flex:1;padding:14px;border-radius:12px;
+    font-size:14px;font-weight:600;cursor:pointer;border:none;
+}
+.forgot-btns .cancel{background:rgba(255,255,255,0.1);color:#fff}
+.forgot-btns .primary{background:#3fb950;color:#000}
+.resend-link{text-align:center;margin-top:15px;font-size:13px;color:rgba(255,255,255,0.5)}
+.resend-link a{color:#3fb950;cursor:pointer}
 </style>
 </head>
 <body>
@@ -255,7 +302,7 @@ body{
             <label class="remember">
                 <input type="checkbox"> Remember me
             </label>
-            <a href="#" class="forgot">Forgot password?</a>
+            <a class="forgot" onclick="showForgotPassword()">Forgot password?</a>
         </div>
         <button type="submit" class="submit-btn">Login</button>
     </form>
@@ -303,8 +350,200 @@ body{
         Don't have an account? <a href="#" onclick="showSignup()">Sign up</a>
     </div>
 </div>
+
+<!-- Forgot Password Modal -->
+<div class="forgot-modal" id="forgotModal">
+    <!-- Step 1: Enter Email -->
+    <div class="forgot-box" id="forgotStep1">
+        <h2>🔐 Forgot Password</h2>
+        <p>Enter your email to receive a verification code</p>
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="forgotEmail" placeholder="Enter your email">
+        </div>
+        <div class="forgot-btns">
+            <button class="cancel" onclick="closeForgotModal()">Cancel</button>
+            <button class="primary" onclick="sendVerificationCode()">Send Code</button>
+        </div>
+    </div>
+    
+    <!-- Step 2: Enter Code -->
+    <div class="forgot-box" id="forgotStep2" style="display:none">
+        <h2>📧 Enter Code</h2>
+        <p>We sent a 6-digit code to <span id="sentToEmail"></span></p>
+        <div class="code-inputs">
+            <input type="text" maxlength="1" id="code1" oninput="moveToNext(1)">
+            <input type="text" maxlength="1" id="code2" oninput="moveToNext(2)">
+            <input type="text" maxlength="1" id="code3" oninput="moveToNext(3)">
+            <input type="text" maxlength="1" id="code4" oninput="moveToNext(4)">
+            <input type="text" maxlength="1" id="code5" oninput="moveToNext(5)">
+            <input type="text" maxlength="1" id="code6" oninput="moveToNext(6)">
+        </div>
+        <div class="forgot-btns">
+            <button class="cancel" onclick="backToStep1()">Back</button>
+            <button class="primary" onclick="verifyCode()">Verify</button>
+        </div>
+        <div class="resend-link">Didn't receive? <a onclick="resendCode()">Resend code</a></div>
+    </div>
+    
+    <!-- Step 3: New Password -->
+    <div class="forgot-box" id="forgotStep3" style="display:none">
+        <h2>🔑 New Password</h2>
+        <p>Create a new password for your account</p>
+        <div class="form-group">
+            <label>New Password</label>
+            <input type="password" id="newPassword" placeholder="Enter new password">
+        </div>
+        <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" id="confirmNewPassword" placeholder="Confirm new password">
+        </div>
+        <div class="forgot-btns">
+            <button class="cancel" onclick="closeForgotModal()">Cancel</button>
+            <button class="primary" onclick="resetPassword()">Reset Password</button>
+        </div>
+    </div>
+</div>
+
 <script src="blsc-account.js"></script>
 <script>
+// ========== FORGOT PASSWORD SYSTEM ==========
+let forgotEmail = '';
+let verificationCode = '';
+
+function showForgotPassword() {
+    document.getElementById('forgotModal').classList.add('show');
+    document.getElementById('forgotStep1').style.display = 'block';
+    document.getElementById('forgotStep2').style.display = 'none';
+    document.getElementById('forgotStep3').style.display = 'none';
+    document.getElementById('forgotEmail').value = '';
+}
+
+function closeForgotModal() {
+    document.getElementById('forgotModal').classList.remove('show');
+}
+
+async function sendVerificationCode() {
+    forgotEmail = document.getElementById('forgotEmail').value.trim();
+    
+    if (!forgotEmail || !forgotEmail.includes('@')) {
+        alert('Please enter a valid email');
+        return;
+    }
+    
+    // Check if user exists
+    const users = await BLSC_ACCOUNT.getUsers();
+    if (!users[forgotEmail]) {
+        alert('Email not found. Please check and try again.');
+        return;
+    }
+    
+    // Generate 6-digit code
+    verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    // Save code to user's data (with expiry)
+    users[forgotEmail].resetCode = verificationCode;
+    users[forgotEmail].resetCodeExpiry = new Date(Date.now() + 10 * 60 * 1000).toISOString(); // 10 min expiry
+    await BLSC_ACCOUNT.saveUsers(users);
+    
+    // Show the code (in production, this would be sent via email)
+    alert('📧 Verification Code: ' + verificationCode + '\n\n(In production, this would be sent to your email)');
+    
+    // Move to step 2
+    document.getElementById('forgotStep1').style.display = 'none';
+    document.getElementById('forgotStep2').style.display = 'block';
+    document.getElementById('sentToEmail').textContent = forgotEmail;
+    document.getElementById('code1').focus();
+}
+
+function moveToNext(current) {
+    const input = document.getElementById('code' + current);
+    if (input.value.length === 1 && current < 6) {
+        document.getElementById('code' + (current + 1)).focus();
+    }
+}
+
+function backToStep1() {
+    document.getElementById('forgotStep1').style.display = 'block';
+    document.getElementById('forgotStep2').style.display = 'none';
+}
+
+async function verifyCode() {
+    const enteredCode = 
+        document.getElementById('code1').value +
+        document.getElementById('code2').value +
+        document.getElementById('code3').value +
+        document.getElementById('code4').value +
+        document.getElementById('code5').value +
+        document.getElementById('code6').value;
+    
+    if (enteredCode.length !== 6) {
+        alert('Please enter all 6 digits');
+        return;
+    }
+    
+    // Verify code
+    const users = await BLSC_ACCOUNT.getUsers();
+    const user = users[forgotEmail];
+    
+    if (!user || user.resetCode !== enteredCode) {
+        alert('❌ Invalid code. Please try again.');
+        return;
+    }
+    
+    // Check expiry
+    if (new Date() > new Date(user.resetCodeExpiry)) {
+        alert('❌ Code expired. Please request a new one.');
+        return;
+    }
+    
+    // Move to step 3
+    document.getElementById('forgotStep2').style.display = 'none';
+    document.getElementById('forgotStep3').style.display = 'block';
+}
+
+async function resendCode() {
+    verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    const users = await BLSC_ACCOUNT.getUsers();
+    users[forgotEmail].resetCode = verificationCode;
+    users[forgotEmail].resetCodeExpiry = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+    await BLSC_ACCOUNT.saveUsers(users);
+    
+    alert('📧 New Code: ' + verificationCode);
+    
+    // Clear inputs
+    for (let i = 1; i <= 6; i++) {
+        document.getElementById('code' + i).value = '';
+    }
+    document.getElementById('code1').focus();
+}
+
+async function resetPassword() {
+    const newPass = document.getElementById('newPassword').value;
+    const confirmPass = document.getElementById('confirmNewPassword').value;
+    
+    if (newPass.length < 6) {
+        alert('Password must be at least 6 characters');
+        return;
+    }
+    
+    if (newPass !== confirmPass) {
+        alert('Passwords do not match');
+        return;
+    }
+    
+    // Update password
+    const users = await BLSC_ACCOUNT.getUsers();
+    users[forgotEmail].password = newPass;
+    delete users[forgotEmail].resetCode;
+    delete users[forgotEmail].resetCodeExpiry;
+    await BLSC_ACCOUNT.saveUsers(users);
+    
+    alert('✅ Password reset successful! You can now login.');
+    closeForgotModal();
+}
+
 // ========== FIREBASE CONFIG FOR REAL OAUTH ==========
 const firebaseConfig = {
     apiKey: "AIzaSyCI4bWExD_X0PmANwnYPr67i45Tlw3feDk",
