@@ -178,9 +178,28 @@ else{document.getElementById('errorMsg').style.display='block';setTimeout(()=>do
 
 function adminLogout(){localStorage.removeItem(ADMIN_KEY);document.getElementById('loginScreen').style.display='flex';document.getElementById('adminPanel').style.display='none';}
 
-function showAdminPanel(){document.getElementById('loginScreen').style.display='none';document.getElementById('adminPanel').style.display='block';document.getElementById('binId').value=BLSC_ACCOUNT.JSONBIN_BIN_ID;loadAllData();checkSystemStatus();}
+async function showAdminPanel(){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminPanel').style.display='block';
+    document.getElementById('binId').value=BLSC_ACCOUNT.JSONBIN_BIN_ID;
+    await loadAllData();
+    checkSystemStatus();
+    // Auto-refresh every 5 seconds
+    setInterval(async()=>{await loadAllData();},5000);
+}
 
-async function loadAllData(){try{allUsers=await BLSC_ACCOUNT.getUsers();updateStats();renderUsersTable();renderSubscriptionsTable();renderPaymentsTable();renderCouponsTable();renderBannedTable();}catch(e){console.error(e);}}
+async function loadAllData(){
+    try{
+        BLSC_ACCOUNT._usersCache=null; // Clear cache to get fresh data
+        allUsers=await BLSC_ACCOUNT.getUsers();
+        updateStats();
+        renderUsersTable();
+        renderSubscriptionsTable();
+        renderPaymentsTable();
+        renderCouponsTable();
+        renderBannedTable();
+    }catch(e){console.error(e);}
+}
 
 function updateStats(){const list=Object.values(allUsers).filter(u=>typeof u==='object'&&u.email);let trials=0,paid=0,pending=0,banned=0;
 list.forEach(u=>{if(u.banned){banned++;return;}if(u.subscriptions)Object.values(u.subscriptions).forEach(s=>{if(s.type==='unlimited'||new Date()<new Date(s.endDate)){s.type==='free_trial'?trials++:paid++;}});if(u.pendingPayments)pending+=u.pendingPayments.filter(p=>p.status==='pending').length;});
