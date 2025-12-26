@@ -10,6 +10,9 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
+<!-- EmailJS for sending real emails -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
 <!--
     BLSC Auth Page - Login & Sign Up
     by Benayas Leulseged
@@ -407,6 +410,18 @@ body{
 
 <script src="blsc-account.js"></script>
 <script>
+// ========== EMAILJS CONFIG ==========
+const EMAILJS_SERVICE_ID = 'service_1e6lgks';
+const EMAILJS_TEMPLATE_ID = 'template_ql99a2o';
+const EMAILJS_PUBLIC_KEY = 'CLG4xb8dURhFEgeMa';
+
+// Initialize EmailJS
+(function() {
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+    }
+})();
+
 // ========== FORGOT PASSWORD SYSTEM ==========
 let forgotEmail = '';
 let verificationCode = '';
@@ -446,8 +461,24 @@ async function sendVerificationCode() {
     users[forgotEmail].resetCodeExpiry = new Date(Date.now() + 10 * 60 * 1000).toISOString(); // 10 min expiry
     await BLSC_ACCOUNT.saveUsers(users);
     
-    // Show the code (in production, this would be sent via email)
-    alert('📧 Verification Code: ' + verificationCode + '\n\n(In production, this would be sent to your email)');
+    // Send email via EmailJS
+    if (EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY' && typeof emailjs !== 'undefined') {
+        try {
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                to_email: forgotEmail,
+                to_name: users[forgotEmail].name || 'User',
+                verification_code: verificationCode,
+                from_name: 'BLSC Account'
+            });
+            alert('📧 Verification code sent to ' + forgotEmail + '\nCheck your inbox (and spam folder)');
+        } catch (error) {
+            console.error('EmailJS error:', error);
+            alert('📧 Code: ' + verificationCode + '\n\n(Email sending failed - showing code directly)');
+        }
+    } else {
+        // EmailJS not configured - show code directly
+        alert('📧 Verification Code: ' + verificationCode + '\n\n⚠️ To send real emails, configure EmailJS (see EMAILJS-SETUP.md)');
+    }
     
     // Move to step 2
     document.getElementById('forgotStep1').style.display = 'none';
