@@ -9,8 +9,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Inter',sans-serif;background:#0a0a0a;min-height:100vh;color:#fff}
-        
-        /* Landing Page */
         .landing-page{min-height:100vh;display:flex;flex-direction:column}
         .header{padding:20px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1)}
         .logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff}
@@ -21,542 +19,605 @@
         .back-btn{padding:10px 20px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:100px;color:#fff;text-decoration:none;font-size:14px;transition:all 0.3s}
         .back-btn:hover{background:rgba(255,255,255,0.2)}
         .user-avatar{width:40px;height:40px;border-radius:50%;background:#3fb950;display:flex;align-items:center;justify-content:center;font-weight:600;cursor:pointer}
-        
         .main-content{flex:1;display:flex;align-items:center;justify-content:center;padding:40px}
-        .hero{display:grid;grid-template-columns:1fr 1fr;gap:80px;max-width:1200px;align-items:center}
-        .hero-text h1{font-size:52px;font-weight:800;line-height:1.2;margin-bottom:20px}
-        .hero-text h1 span{color:#3fb950}
-        .hero-text p{font-size:18px;color:rgba(255,255,255,0.6);margin-bottom:40px;line-height:1.6}
-        
-        .action-buttons{display:flex;gap:16px;margin-bottom:30px}
+        .hero{max-width:600px;text-align:center}
+        .hero h1{font-size:48px;font-weight:800;line-height:1.2;margin-bottom:20px}
+        .hero h1 span{color:#3fb950}
+        .hero p{font-size:18px;color:rgba(255,255,255,0.6);margin-bottom:40px;line-height:1.6}
+        .action-buttons{display:flex;gap:16px;justify-content:center;margin-bottom:30px;flex-wrap:wrap}
         .btn-primary{padding:16px 32px;background:#3fb950;color:#000;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all 0.3s}
         .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(63,185,80,0.3)}
         .btn-secondary{padding:16px 32px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all 0.3s}
         .btn-secondary:hover{background:rgba(255,255,255,0.15)}
-        
-        .join-input{display:flex;gap:12px}
-        .join-input input{flex:1;padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:12px;color:#fff;font-size:16px}
+        .join-input{display:flex;gap:12px;justify-content:center;margin-top:20px}
+        .join-input input{padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:12px;color:#fff;font-size:16px;width:250px}
         .join-input input:focus{outline:none;border-color:#3fb950}
-        .join-input input::placeholder{color:rgba(255,255,255,0.4)}
         .join-input button{padding:16px 24px;background:#3fb950;color:#000;border:none;border-radius:12px;font-weight:600;cursor:pointer}
-        
-        .hero-visual{position:relative}
-        .preview-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-        .preview-box{aspect-ratio:16/10;background:linear-gradient(135deg,rgba(63,185,80,0.2),rgba(88,166,255,0.1));border:1px solid rgba(255,255,255,0.1);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:40px}
-        .preview-box:first-child{grid-column:span 2;aspect-ratio:16/9}
-        
-        .features{display:flex;gap:40px;margin-top:40px}
+        .features{display:flex;gap:40px;justify-content:center;margin-top:40px;flex-wrap:wrap}
         .feature{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,0.7)}
         .feature i{color:#3fb950;font-size:20px}
-</style>
+    </style>
 </head>
 <body>
 <style>
-        /* Meeting Room */
-        .meeting-room{display:none;height:100vh;flex-direction:column;background:#0a0a0a}
-        .meeting-room.active{display:flex}
-        
-        .meeting-header{padding:12px 24px;background:rgba(0,0,0,0.5);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1)}
-        .meeting-info{display:flex;align-items:center;gap:16px}
-        .meeting-id{background:rgba(255,255,255,0.1);padding:8px 16px;border-radius:8px;font-size:14px;display:flex;align-items:center;gap:8px}
-        .meeting-id button{background:none;border:none;color:#3fb950;cursor:pointer}
-        .meeting-time{color:rgba(255,255,255,0.6);font-size:14px}
-        
-        .video-grid{flex:1;padding:20px;display:grid;gap:16px;overflow:auto}
-        .video-grid.grid-1{grid-template-columns:1fr}
-        .video-grid.grid-2{grid-template-columns:repeat(2,1fr)}
-        .video-grid.grid-3,.video-grid.grid-4{grid-template-columns:repeat(2,1fr)}
-        .video-grid.grid-5,.video-grid.grid-6{grid-template-columns:repeat(3,1fr)}
-        
-        .video-tile{position:relative;background:#1a1a1a;border-radius:16px;overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
-        .video-tile video{width:100%;height:100%;object-fit:cover}
-        .video-tile.local{border:2px solid #3fb950}
-        .video-tile .avatar{width:100px;height:100px;border-radius:50%;background:#3fb950;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:700}
-        .video-tile .name-tag{position:absolute;bottom:12px;left:12px;background:rgba(0,0,0,0.7);padding:6px 12px;border-radius:6px;font-size:13px;display:flex;align-items:center;gap:8px}
-        .video-tile .name-tag i{color:#3fb950}
-        .video-tile .muted-icon{position:absolute;top:12px;right:12px;background:rgba(239,68,68,0.8);padding:6px;border-radius:50%;font-size:12px}
-        
-        .controls-bar{padding:16px 24px;background:rgba(0,0,0,0.8);display:flex;justify-content:center;align-items:center;gap:12px}
-        .control-btn{width:56px;height:56px;border-radius:50%;border:none;font-size:20px;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center}
-        .control-btn.on{background:rgba(255,255,255,0.1);color:#fff}
-        .control-btn.off{background:#ef4444;color:#fff}
-        .control-btn:hover{transform:scale(1.1)}
-        .control-btn.end-call{background:#ef4444;width:70px;border-radius:28px}
-        .control-btn.end-call:hover{background:#dc2626}
-        
-        .side-panel{position:fixed;top:0;right:-400px;width:400px;height:100%;background:#1a1a1a;border-left:1px solid rgba(255,255,255,0.1);transition:right 0.3s;z-index:100;display:flex;flex-direction:column}
-        .side-panel.open{right:0}
-        .panel-header{padding:20px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;align-items:center}
-        .panel-header h3{font-size:18px}
-        .panel-close{background:none;border:none;color:#fff;font-size:20px;cursor:pointer}
-        .panel-content{flex:1;overflow-y:auto;padding:20px}
-        
-        /* Chat */
-        .chat-messages{display:flex;flex-direction:column;gap:16px}
-        .chat-message{display:flex;gap:12px}
-        .chat-message .avatar{width:36px;height:36px;border-radius:50%;background:#3fb950;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;flex-shrink:0}
-        .chat-message .content{flex:1}
-        .chat-message .name{font-size:13px;font-weight:600;margin-bottom:4px}
-        .chat-message .text{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.5}
-        .chat-message .time{font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px}
-        .chat-input{padding:20px;border-top:1px solid rgba(255,255,255,0.1);display:flex;gap:12px}
-        .chat-input input{flex:1;padding:12px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:24px;color:#fff;font-size:14px}
-        .chat-input input:focus{outline:none;border-color:#3fb950}
-        .chat-input button{width:44px;height:44px;border-radius:50%;background:#3fb950;border:none;color:#000;cursor:pointer}
-        
-        /* Participants */
-        .participant-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;transition:background 0.2s}
-        .participant-item:hover{background:rgba(255,255,255,0.05)}
-        .participant-item .avatar{width:40px;height:40px;border-radius:50%;background:#3fb950;display:flex;align-items:center;justify-content:center;font-weight:600}
-        .participant-item .info{flex:1}
-        .participant-item .name{font-size:14px;font-weight:500}
-        .participant-item .status{font-size:12px;color:rgba(255,255,255,0.5)}
-        .participant-item .icons{display:flex;gap:8px;color:rgba(255,255,255,0.4)}
-        
-        /* Modal */
-        .modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:200;align-items:center;justify-content:center}
-        .modal.show{display:flex}
-        .modal-content{background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:40px;max-width:500px;width:90%;text-align:center}
-        .modal-content h2{font-size:24px;margin-bottom:12px}
-        .modal-content p{color:rgba(255,255,255,0.6);margin-bottom:24px}
-        .modal-content .meeting-code{font-size:32px;font-weight:700;color:#3fb950;background:rgba(63,185,80,0.1);padding:16px 32px;border-radius:12px;margin-bottom:24px;letter-spacing:4px}
-        .modal-content .btn-row{display:flex;gap:12px;justify-content:center}
-        
-        @media(max-width:900px){
-            .hero{grid-template-columns:1fr;text-align:center}
-            .hero-visual{display:none}
-            .features{flex-direction:column;align-items:center}
-            .action-buttons{flex-direction:column}
-        }
-    </style>
+    .meeting-room{display:none;height:100vh;flex-direction:column;background:#0a0a0a}
+    .meeting-room.active{display:flex}
+    .meeting-header{padding:12px 24px;background:rgba(0,0,0,0.5);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1)}
+    .meeting-info{display:flex;align-items:center;gap:16px}
+    .meeting-id{background:rgba(255,255,255,0.1);padding:8px 16px;border-radius:8px;font-size:14px;display:flex;align-items:center;gap:8px}
+    .meeting-id button{background:none;border:none;color:#3fb950;cursor:pointer;font-size:14px}
+    .meeting-time{color:rgba(255,255,255,0.6);font-size:14px}
+    .participant-badge{background:rgba(63,185,80,0.2);color:#3fb950;padding:4px 12px;border-radius:20px;font-size:13px}
+    .video-grid{flex:1;padding:20px;display:grid;gap:16px;overflow:auto;align-content:center}
+    .video-grid.grid-1{grid-template-columns:1fr;max-width:900px;margin:0 auto}
+    .video-grid.grid-2{grid-template-columns:repeat(2,1fr)}
+    .video-grid.grid-3,.video-grid.grid-4{grid-template-columns:repeat(2,1fr)}
+    .video-tile{position:relative;background:#1a1a1a;border-radius:16px;overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
+    .video-tile video{width:100%;height:100%;object-fit:cover}
+    .video-tile.local{border:2px solid #3fb950}
+    .video-tile .avatar{width:100px;height:100px;border-radius:50%;background:#3fb950;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:700}
+    .video-tile .name-tag{position:absolute;bottom:12px;left:12px;background:rgba(0,0,0,0.7);padding:6px 12px;border-radius:6px;font-size:13px;display:flex;align-items:center;gap:8px}
+    .video-tile .name-tag i{color:#3fb950}
+    .controls-bar{padding:16px 24px;background:rgba(0,0,0,0.8);display:flex;justify-content:center;align-items:center;gap:12px}
+    .control-btn{width:56px;height:56px;border-radius:50%;border:none;font-size:20px;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center}
+    .control-btn.on{background:rgba(255,255,255,0.1);color:#fff}
+    .control-btn.off{background:#ef4444;color:#fff}
+    .control-btn:hover{transform:scale(1.1)}
+    .control-btn.end-call{background:#ef4444;width:70px;border-radius:28px}
+    .side-panel{position:fixed;top:0;right:-400px;width:400px;height:100%;background:#1a1a1a;border-left:1px solid rgba(255,255,255,0.1);transition:right 0.3s;z-index:100;display:flex;flex-direction:column}
+    .side-panel.open{right:0}
+    .panel-header{padding:20px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;align-items:center}
+    .panel-header h3{font-size:18px}
+    .panel-close{background:none;border:none;color:#fff;font-size:20px;cursor:pointer}
+    .panel-content{flex:1;overflow-y:auto;padding:20px}
+    .chat-messages{display:flex;flex-direction:column;gap:16px}
+    .chat-message{display:flex;gap:12px}
+    .chat-message .msg-avatar{width:36px;height:36px;border-radius:50%;background:#3fb950;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;flex-shrink:0}
+    .chat-message .content{flex:1}
+    .chat-message .name{font-size:13px;font-weight:600;margin-bottom:4px}
+    .chat-message .text{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.5}
+    .chat-message .time{font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px}
+    .chat-input{padding:20px;border-top:1px solid rgba(255,255,255,0.1);display:flex;gap:12px}
+    .chat-input input{flex:1;padding:12px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:24px;color:#fff;font-size:14px}
+    .chat-input button{width:44px;height:44px;border-radius:50%;background:#3fb950;border:none;color:#000;cursor:pointer}
+    .participant-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px}
+    .participant-item .p-avatar{width:40px;height:40px;border-radius:50%;background:#3fb950;display:flex;align-items:center;justify-content:center;font-weight:600}
+    .participant-item .info{flex:1}
+    .participant-item .name{font-size:14px;font-weight:500}
+    .participant-item .status{font-size:12px;color:rgba(255,255,255,0.5)}
+    .modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:200;align-items:center;justify-content:center}
+    .modal.show{display:flex}
+    .modal-content{background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:40px;max-width:500px;width:90%;text-align:center}
+    .modal-content h2{font-size:24px;margin-bottom:12px}
+    .modal-content p{color:rgba(255,255,255,0.6);margin-bottom:24px}
+    .modal-content .meeting-code{font-size:28px;font-weight:700;color:#3fb950;background:rgba(63,185,80,0.1);padding:16px 32px;border-radius:12px;margin-bottom:24px;letter-spacing:2px}
+    .modal-content .btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .status-dot{width:8px;height:8px;border-radius:50%;background:#3fb950;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+    @media(max-width:768px){.hero h1{font-size:32px}.action-buttons{flex-direction:column}.side-panel{width:100%}}
+</style>
 
-    <!-- Landing Page -->
-    <div class="landing-page" id="landingPage">
-        <header class="header">
-            <a href="#" class="logo">
-                <i class="fas fa-video"></i>
-                <span>BLSC <b>Meet</b></span>
-            </a>
-            <div class="header-right">
-                <a href="../bla/bla.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
-                <div class="user-avatar" id="userAvatar">?</div>
+<!-- Landing Page -->
+<div class="landing-page" id="landingPage">
+    <header class="header">
+        <a href="#" class="logo"><i class="fas fa-video"></i><span>BLSC <b>Meet</b></span></a>
+        <div class="header-right">
+            <a href="../bla/bla.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+            <div class="user-avatar" id="userAvatar">?</div>
+        </div>
+    </header>
+    <div class="main-content">
+        <div class="hero">
+            <h1>Video calls for <span>everyone</span></h1>
+            <p>Connect, collaborate, and celebrate from anywhere with BLSC Meet. Free, secure video conferencing with cloud sync.</p>
+            <div class="action-buttons">
+                <button class="btn-primary" onclick="createMeeting()"><i class="fas fa-plus"></i> New Meeting</button>
+                <button class="btn-secondary" onclick="showJoinInput()"><i class="fas fa-keyboard"></i> Join Meeting</button>
             </div>
-        </header>
-        
-        <div class="main-content">
-            <div class="hero">
-                <div class="hero-text">
-                    <h1>Video calls for <span>everyone</span></h1>
-                    <p>Connect, collaborate, and celebrate from anywhere with BLSC Meet. Free, secure video conferencing for teams and friends.</p>
-                    
-                    <div class="action-buttons">
-                        <button class="btn-primary" onclick="createMeeting()">
-                            <i class="fas fa-plus"></i> New Meeting
-                        </button>
-                        <button class="btn-secondary" onclick="showJoinInput()">
-                            <i class="fas fa-keyboard"></i> Enter Code
-                        </button>
-                    </div>
-                    
-                    <div class="join-input" id="joinInput" style="display:none">
-                        <input type="text" id="meetingCodeInput" placeholder="Enter meeting code" maxlength="12">
-                        <button onclick="joinMeeting()">Join</button>
-                    </div>
-                    
-                    <div class="features">
-                        <div class="feature"><i class="fas fa-shield-halved"></i> Secure</div>
-                        <div class="feature"><i class="fas fa-bolt"></i> Fast</div>
-                        <div class="feature"><i class="fas fa-infinity"></i> Free</div>
-                    </div>
-                </div>
-                
-                <div class="hero-visual">
-                    <div class="preview-grid">
-                        <div class="preview-box">👤</div>
-                        <div class="preview-box">👤</div>
-                        <div class="preview-box">👤</div>
-                    </div>
-                </div>
+            <div class="join-input" id="joinInput" style="display:none">
+                <input type="text" id="meetingCodeInput" placeholder="Enter meeting code (abc-defg-hij)" maxlength="12">
+                <button onclick="joinMeeting()">Join</button>
+            </div>
+            <div class="features">
+                <div class="feature"><i class="fas fa-cloud"></i> Cloud Sync</div>
+                <div class="feature"><i class="fas fa-shield-halved"></i> Secure</div>
+                <div class="feature"><i class="fas fa-infinity"></i> Free</div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Meeting Room -->
+<div class="meeting-room" id="meetingRoom">
+    <div class="meeting-header">
+        <div class="meeting-info">
+            <div class="meeting-id">
+                <span id="displayMeetingId">abc-defg-hij</span>
+                <button onclick="copyMeetingId()" title="Copy"><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="meeting-time"><span class="status-dot"></span> <span id="meetingTime">00:00</span></div>
+            <div class="participant-badge"><i class="fas fa-users"></i> <span id="participantCount">1</span> in meeting</div>
+        </div>
+        <div style="display:flex;gap:12px">
+            <button class="back-btn" onclick="toggleParticipants()"><i class="fas fa-users"></i></button>
+            <button class="back-btn" onclick="toggleChat()"><i class="fas fa-comment"></i></button>
+        </div>
+    </div>
+    <div class="video-grid grid-1" id="videoGrid"></div>
+    <div class="controls-bar">
+        <button class="control-btn on" id="micBtn" onclick="toggleMic()"><i class="fas fa-microphone"></i></button>
+        <button class="control-btn on" id="camBtn" onclick="toggleCamera()"><i class="fas fa-video"></i></button>
+        <button class="control-btn on" onclick="toggleScreenShare()"><i class="fas fa-display"></i></button>
+        <button class="control-btn on" onclick="toggleChat()"><i class="fas fa-comment"></i></button>
+        <button class="control-btn end-call" onclick="endCall()"><i class="fas fa-phone-slash"></i></button>
+    </div>
+</div>
+
+<!-- Chat Panel -->
+<div class="side-panel" id="chatPanel">
+    <div class="panel-header"><h3>Chat</h3><button class="panel-close" onclick="toggleChat()"><i class="fas fa-times"></i></button></div>
+    <div class="panel-content" id="chatMessages"><p style="text-align:center;color:rgba(255,255,255,0.4);padding:40px">No messages yet</p></div>
+    <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Send a message..." onkeypress="if(event.key==='Enter')sendMessage()">
+        <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<!-- Participants Panel -->
+<div class="side-panel" id="participantsPanel">
+    <div class="panel-header"><h3>Participants</h3><button class="panel-close" onclick="toggleParticipants()"><i class="fas fa-times"></i></button></div>
+    <div class="panel-content" id="participantsList"></div>
+</div>
+
+<!-- New Meeting Modal -->
+<div class="modal" id="newMeetingModal">
+    <div class="modal-content">
+        <h2>🎉 Meeting Created!</h2>
+        <p>Share this code with others to join</p>
+        <div class="meeting-code" id="newMeetingCode">ABC-DEFG-HIJ</div>
+        <div class="btn-row">
+            <button class="btn-secondary" onclick="copyNewMeetingCode()"><i class="fas fa-copy"></i> Copy</button>
+            <button class="btn-primary" onclick="startMeeting()"><i class="fas fa-video"></i> Start</button>
+        </div>
+    </div>
+</div>
+
+<script src="../../../blsc-account.js"></script>
+<script>
+// ========== BLSC MEET - CLOUD VIDEO CONFERENCING ==========
+// Uses JSONBin for meeting room signaling and participant sync
+
+const MEET_API_KEY = BLSC_ACCOUNT.JSONBIN_API_KEY;
+const MEET_BIN_ID = '694ee67343b1c97be906cde4'; // Reuse videos bin for meetings
+
+let currentUser = null;
+let meetingId = null;
+let localStream = null;
+let isMicOn = true;
+let isCamOn = true;
+let meetingStartTime = null;
+let syncInterval = null;
+let currentMeeting = null;
+
+// Initialize
+function init() {
+    if (typeof BLSC_ACCOUNT !== 'undefined' && BLSC_ACCOUNT.isLoggedIn()) {
+        currentUser = BLSC_ACCOUNT.getCurrentUser();
+        document.getElementById('userAvatar').textContent = BLSC_ACCOUNT.getInitials(currentUser.name);
+        document.getElementById('userAvatar').style.background = BLSC_ACCOUNT.getAvatarColor(currentUser.name);
+    } else {
+        currentUser = { name: 'Guest ' + Math.floor(Math.random() * 1000), email: 'guest@blsc.com' };
+    }
+}
+init();
+
+// Generate meeting code
+function generateMeetingCode() {
+    const chars = 'abcdefghijklmnopqrstuvwxyz';
+    let code = '';
+    for (let i = 0; i < 3; i++) code += chars[Math.floor(Math.random() * chars.length)];
+    code += '-';
+    for (let i = 0; i < 4; i++) code += chars[Math.floor(Math.random() * chars.length)];
+    code += '-';
+    for (let i = 0; i < 3; i++) code += chars[Math.floor(Math.random() * chars.length)];
+    return code;
+}
+
+// Get meetings from cloud
+async function getMeetings() {
+    try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${MEET_BIN_ID}/latest`, {
+            headers: { 'X-Access-Key': MEET_API_KEY }
+        });
+        const data = await res.json();
+        return data.record.meetings || {};
+    } catch (e) { return {}; }
+}
+
+// Save meetings to cloud
+async function saveMeetings(meetings) {
+    try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${MEET_BIN_ID}/latest`, {
+            headers: { 'X-Access-Key': MEET_API_KEY }
+        });
+        const data = await res.json();
+        data.record.meetings = meetings;
+        await fetch(`https://api.jsonbin.io/v3/b/${MEET_BIN_ID}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'X-Access-Key': MEET_API_KEY },
+            body: JSON.stringify(data.record)
+        });
+        return true;
+    } catch (e) { return false; }
+}
+
+// Create new meeting
+async function createMeeting() {
+    meetingId = generateMeetingCode();
+    document.getElementById('newMeetingCode').textContent = meetingId.toUpperCase();
+    document.getElementById('newMeetingModal').classList.add('show');
+    
+    // Create meeting in cloud
+    const meetings = await getMeetings();
+    meetings[meetingId] = {
+        id: meetingId,
+        host: currentUser.email,
+        hostName: currentUser.name,
+        createdAt: new Date().toISOString(),
+        participants: [],
+        chat: []
+    };
+    await saveMeetings(meetings);
+}
+
+function copyNewMeetingCode() {
+    navigator.clipboard.writeText(meetingId);
+    alert('Meeting code copied!');
+}
+
+function showJoinInput() {
+    const el = document.getElementById('joinInput');
+    el.style.display = el.style.display === 'none' ? 'flex' : 'none';
+}
+
+// Join meeting
+async function joinMeeting() {
+    const code = document.getElementById('meetingCodeInput').value.trim().toLowerCase().replace(/\s/g, '');
+    if (!code || code.length < 10) {
+        alert('Please enter a valid meeting code (e.g., abc-defg-hij)');
+        return;
+    }
+    
+    meetingId = code;
+    const meetings = await getMeetings();
+    
+    if (!meetings[meetingId]) {
+        // Create meeting if doesn't exist
+        meetings[meetingId] = {
+            id: meetingId,
+            host: currentUser.email,
+            hostName: currentUser.name,
+            createdAt: new Date().toISOString(),
+            participants: [],
+            chat: []
+        };
+        await saveMeetings(meetings);
+    }
+    
+    await startMeeting();
+}
+
+// Start meeting
+async function startMeeting() {
+    document.getElementById('newMeetingModal').classList.remove('show');
+    document.getElementById('landingPage').style.display = 'none';
+    document.getElementById('meetingRoom').classList.add('active');
+    document.getElementById('displayMeetingId').textContent = meetingId;
+    
+    meetingStartTime = Date.now();
+    setInterval(updateMeetingTime, 1000);
+    
+    // Join meeting in cloud
+    await joinMeetingCloud();
+    
+    // Start media
+    await startMedia();
+    
+    // Start sync
+    syncInterval = setInterval(syncMeeting, 3000);
+    syncMeeting();
+}
+</script>
+<script>
+// Join meeting in cloud
+async function joinMeetingCloud() {
+    const meetings = await getMeetings();
+    if (!meetings[meetingId]) return;
+    
+    const participant = {
+        id: 'p_' + Date.now(),
+        email: currentUser.email,
+        name: currentUser.name,
+        joinedAt: new Date().toISOString(),
+        micOn: isMicOn,
+        camOn: isCamOn
+    };
+    
+    // Remove old entry if exists
+    meetings[meetingId].participants = meetings[meetingId].participants.filter(p => p.email !== currentUser.email);
+    meetings[meetingId].participants.push(participant);
+    await saveMeetings(meetings);
+    currentMeeting = meetings[meetingId];
+}
+
+// Sync meeting data
+async function syncMeeting() {
+    if (!meetingId) return;
+    
+    const meetings = await getMeetings();
+    if (!meetings[meetingId]) return;
+    
+    currentMeeting = meetings[meetingId];
+    
+    // Update participant count
+    const count = currentMeeting.participants.length;
+    document.getElementById('participantCount').textContent = count;
+    
+    // Render participants
+    renderParticipants();
+    
+    // Render video grid
+    renderVideoGrid();
+    
+    // Render chat
+    renderChat();
+    
+    // Update my status
+    const myIndex = currentMeeting.participants.findIndex(p => p.email === currentUser.email);
+    if (myIndex >= 0) {
+        currentMeeting.participants[myIndex].micOn = isMicOn;
+        currentMeeting.participants[myIndex].camOn = isCamOn;
+        currentMeeting.participants[myIndex].lastSeen = new Date().toISOString();
+        meetings[meetingId] = currentMeeting;
+        await saveMeetings(meetings);
+    }
+    
+    // Remove inactive participants (not seen in 30 seconds)
+    const now = Date.now();
+    currentMeeting.participants = currentMeeting.participants.filter(p => {
+        if (!p.lastSeen) return true;
+        return (now - new Date(p.lastSeen).getTime()) < 30000;
+    });
+}
+
+// Render video grid
+function renderVideoGrid() {
+    const grid = document.getElementById('videoGrid');
+    const participants = currentMeeting?.participants || [];
+    
+    // Update grid class
+    const count = Math.max(1, participants.length);
+    grid.className = 'video-grid grid-' + Math.min(count, 6);
+    
+    let html = '';
+    
+    // Add local video first
+    html += `
+        <div class="video-tile local">
+            <video id="localVideo" autoplay muted playsinline style="${isCamOn ? '' : 'display:none'}"></video>
+            <div class="avatar" id="localAvatar" style="${isCamOn ? 'display:none' : ''}">${getInitials(currentUser.name)}</div>
+            <div class="name-tag"><i class="fas fa-user"></i> You ${!isMicOn ? '<i class="fas fa-microphone-slash" style="color:#ef4444"></i>' : ''}</div>
+        </div>
+    `;
+    
+    // Add other participants
+    participants.forEach(p => {
+        if (p.email === currentUser.email) return;
+        html += `
+            <div class="video-tile">
+                <div class="avatar" style="background:${getAvatarColor(p.name)}">${getInitials(p.name)}</div>
+                <div class="name-tag">
+                    <i class="fas fa-user"></i> ${p.name}
+                    ${!p.micOn ? '<i class="fas fa-microphone-slash" style="color:#ef4444;margin-left:8px"></i>' : ''}
+                </div>
+            </div>
+        `;
+    });
+    
+    grid.innerHTML = html;
+    
+    // Reattach local stream
+    if (localStream) {
+        const video = document.getElementById('localVideo');
+        if (video) video.srcObject = localStream;
+    }
+}
+
+// Render participants list
+function renderParticipants() {
+    const list = document.getElementById('participantsList');
+    const participants = currentMeeting?.participants || [];
+    
+    list.innerHTML = participants.map(p => `
+        <div class="participant-item">
+            <div class="p-avatar" style="background:${getAvatarColor(p.name)}">${getInitials(p.name)}</div>
+            <div class="info">
+                <div class="name">${p.name} ${p.email === currentMeeting?.host ? '(Host)' : ''}</div>
+                <div class="status">${p.email === currentUser.email ? 'You' : 'In meeting'}</div>
+            </div>
+            <div style="display:flex;gap:8px;color:rgba(255,255,255,0.5)">
+                <i class="fas fa-${p.micOn ? 'microphone' : 'microphone-slash'}" style="color:${p.micOn ? '#3fb950' : '#ef4444'}"></i>
+                <i class="fas fa-${p.camOn ? 'video' : 'video-slash'}" style="color:${p.camOn ? '#3fb950' : '#ef4444'}"></i>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Render chat
+function renderChat() {
+    const container = document.getElementById('chatMessages');
+    const messages = currentMeeting?.chat || [];
+    
+    if (!messages.length) {
+        container.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.4);padding:40px">No messages yet</p>';
+        return;
+    }
+    
+    container.innerHTML = '<div class="chat-messages">' + messages.map(msg => `
+        <div class="chat-message">
+            <div class="msg-avatar" style="background:${getAvatarColor(msg.sender)}">${getInitials(msg.sender)}</div>
+            <div class="content">
+                <div class="name">${msg.sender}</div>
+                <div class="text">${msg.text}</div>
+                <div class="time">${msg.time}</div>
+            </div>
+        </div>
+    `).join('') + '</div>';
+}
+
+// Send chat message
+async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text || !meetingId) return;
+    
+    const meetings = await getMeetings();
+    if (!meetings[meetingId]) return;
+    
+    meetings[meetingId].chat.push({
+        sender: currentUser.name,
+        text: text,
+        time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+    });
+    
+    await saveMeetings(meetings);
+    input.value = '';
+    syncMeeting();
+}
+
+// Helper functions
+function getInitials(name) {
+    if (!name) return '?';
+    const parts = name.trim().split(' ');
+    return parts.length >= 2 ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase() : name.substring(0,2).toUpperCase();
+}
+
+function getAvatarColor(name) {
+    const colors = ['#3fb950','#58a6ff','#8b5cf6','#f97316','#ec4899','#14b8a6','#eab308'];
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    return colors[Math.abs(hash) % colors.length];
+}
+</script>
+<script>
+// Start camera/mic
+async function startMedia() {
+    try {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        const video = document.getElementById('localVideo');
+        if (video) {
+            video.srcObject = localStream;
+            video.style.display = 'block';
+        }
+        const avatar = document.getElementById('localAvatar');
+        if (avatar) avatar.style.display = 'none';
+    } catch (error) {
+        console.error('Media error:', error);
+        const avatar = document.getElementById('localAvatar');
+        if (avatar) avatar.style.display = 'flex';
+        try {
+            localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        } catch (e) {}
+    }
+}
+
+// Toggle microphone
+function toggleMic() {
+    isMicOn = !isMicOn;
+    const btn = document.getElementById('micBtn');
+    if (localStream) localStream.getAudioTracks().forEach(t => t.enabled = isMicOn);
+    btn.className = 'control-btn ' + (isMicOn ? 'on' : 'off');
+    btn.innerHTML = '<i class="fas fa-microphone' + (isMicOn ? '' : '-slash') + '"></i>';
+    renderVideoGrid();
+}
+
+// Toggle camera
+function toggleCamera() {
+    isCamOn = !isCamOn;
+    const btn = document.getElementById('camBtn');
+    if (localStream) localStream.getVideoTracks().forEach(t => t.enabled = isCamOn);
+    btn.className = 'control-btn ' + (isCamOn ? 'on' : 'off');
+    btn.innerHTML = '<i class="fas fa-video' + (isCamOn ? '' : '-slash') + '"></i>';
+    renderVideoGrid();
+}
+
+// Screen share
+async function toggleScreenShare() {
+    try {
+        const screen = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        const video = document.getElementById('localVideo');
+        if (video) video.srcObject = screen;
+        screen.getVideoTracks()[0].onended = () => {
+            if (localStream && video) video.srcObject = localStream;
+        };
+    } catch (e) {}
+}
+
+// Toggle panels
+function toggleChat() {
+    document.getElementById('chatPanel').classList.toggle('open');
+    document.getElementById('participantsPanel').classList.remove('open');
+}
+
+function toggleParticipants() {
+    document.getElementById('participantsPanel').classList.toggle('open');
+    document.getElementById('chatPanel').classList.remove('open');
+}
+
+// Copy meeting ID
+function copyMeetingId() {
+    navigator.clipboard.writeText(meetingId);
+    alert('Meeting code copied: ' + meetingId);
+}
+
+// Update meeting time
+function updateMeetingTime() {
+    if (!meetingStartTime) return;
+    const elapsed = Math.floor((Date.now() - meetingStartTime) / 1000);
+    const mins = Math.floor(elapsed / 60).toString().padStart(2, '0');
+    const secs = (elapsed % 60).toString().padStart(2, '0');
+    document.getElementById('meetingTime').textContent = mins + ':' + secs;
+}
+
+// End call
+async function endCall() {
+    // Remove from meeting
+    if (meetingId) {
+        const meetings = await getMeetings();
+        if (meetings[meetingId]) {
+            meetings[meetingId].participants = meetings[meetingId].participants.filter(p => p.email !== currentUser.email);
+            await saveMeetings(meetings);
+        }
+    }
+    
+    if (localStream) localStream.getTracks().forEach(t => t.stop());
+    if (syncInterval) clearInterval(syncInterval);
+    
+    document.getElementById('meetingRoom').classList.remove('active');
+    document.getElementById('landingPage').style.display = 'flex';
+    document.getElementById('chatPanel').classList.remove('open');
+    document.getElementById('participantsPanel').classList.remove('open');
+    
+    meetingId = null;
+    meetingStartTime = null;
+    currentMeeting = null;
+    localStream = null;
+}
+
+// Close modal
+document.getElementById('newMeetingModal').addEventListener('click', e => {
+    if (e.target.id === 'newMeetingModal') document.getElementById('newMeetingModal').classList.remove('show');
+});
+</script>
 </body>
 </html>
-
-    <!-- Meeting Room -->
-    <div class="meeting-room" id="meetingRoom">
-        <div class="meeting-header">
-            <div class="meeting-info">
-                <div class="meeting-id">
-                    <span id="displayMeetingId">abc-defg-hij</span>
-                    <button onclick="copyMeetingId()"><i class="fas fa-copy"></i></button>
-                </div>
-                <div class="meeting-time" id="meetingTime">00:00</div>
-            </div>
-            <div style="display:flex;gap:12px">
-                <button class="back-btn" onclick="toggleParticipants()"><i class="fas fa-users"></i> <span id="participantCount">1</span></button>
-                <button class="back-btn" onclick="toggleChat()"><i class="fas fa-comment"></i></button>
-            </div>
-        </div>
-        
-        <div class="video-grid grid-1" id="videoGrid">
-            <div class="video-tile local" id="localVideoTile">
-                <video id="localVideo" autoplay muted playsinline></video>
-                <div class="avatar" id="localAvatar" style="display:none">?</div>
-                <div class="name-tag"><i class="fas fa-user"></i> You</div>
-            </div>
-        </div>
-        
-        <div class="controls-bar">
-            <button class="control-btn on" id="micBtn" onclick="toggleMic()">
-                <i class="fas fa-microphone"></i>
-            </button>
-            <button class="control-btn on" id="camBtn" onclick="toggleCamera()">
-                <i class="fas fa-video"></i>
-            </button>
-            <button class="control-btn on" onclick="toggleScreenShare()">
-                <i class="fas fa-display"></i>
-            </button>
-            <button class="control-btn on" onclick="toggleChat()">
-                <i class="fas fa-comment"></i>
-            </button>
-            <button class="control-btn end-call" onclick="endCall()">
-                <i class="fas fa-phone-slash"></i>
-            </button>
-        </div>
-    </div>
-    
-    <!-- Chat Panel -->
-    <div class="side-panel" id="chatPanel">
-        <div class="panel-header">
-            <h3>Chat</h3>
-            <button class="panel-close" onclick="toggleChat()"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="panel-content" id="chatMessages">
-            <div class="chat-messages">
-                <p style="text-align:center;color:rgba(255,255,255,0.4);padding:40px">No messages yet</p>
-            </div>
-        </div>
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Send a message..." onkeypress="if(event.key==='Enter')sendMessage()">
-            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
-    
-    <!-- Participants Panel -->
-    <div class="side-panel" id="participantsPanel">
-        <div class="panel-header">
-            <h3>Participants (<span id="participantCountPanel">1</span>)</h3>
-            <button class="panel-close" onclick="toggleParticipants()"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="panel-content" id="participantsList">
-            <div class="participant-item">
-                <div class="avatar" id="participantAvatar">?</div>
-                <div class="info">
-                    <div class="name" id="participantName">You (Host)</div>
-                    <div class="status">In this meeting</div>
-                </div>
-                <div class="icons">
-                    <i class="fas fa-microphone" id="participantMic"></i>
-                    <i class="fas fa-video" id="participantCam"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- New Meeting Modal -->
-    <div class="modal" id="newMeetingModal">
-        <div class="modal-content">
-            <h2>🎉 Meeting Created!</h2>
-            <p>Share this code with others to invite them</p>
-            <div class="meeting-code" id="newMeetingCode">ABC-DEFG-HIJ</div>
-            <div class="btn-row">
-                <button class="btn-secondary" onclick="copyNewMeetingCode()">
-                    <i class="fas fa-copy"></i> Copy Code
-                </button>
-                <button class="btn-primary" onclick="startMeeting()">
-                    <i class="fas fa-video"></i> Start Now
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script src="../../../blsc-account.js"></script>
-    <script>
-    // ========== BLSC MEET ==========
-    // Video conferencing using WebRTC
-    
-    let currentUser = null;
-    let meetingId = null;
-    let localStream = null;
-    let isMicOn = true;
-    let isCamOn = true;
-    let meetingStartTime = null;
-    let chatMessages = [];
-    
-    // Initialize
-    function init() {
-        if (typeof BLSC_ACCOUNT !== 'undefined' && BLSC_ACCOUNT.isLoggedIn()) {
-            currentUser = BLSC_ACCOUNT.getCurrentUser();
-            document.getElementById('userAvatar').textContent = BLSC_ACCOUNT.getInitials(currentUser.name);
-            document.getElementById('userAvatar').style.background = BLSC_ACCOUNT.getAvatarColor(currentUser.name);
-            document.getElementById('localAvatar').textContent = BLSC_ACCOUNT.getInitials(currentUser.name);
-            document.getElementById('participantAvatar').textContent = BLSC_ACCOUNT.getInitials(currentUser.name);
-            document.getElementById('participantName').textContent = currentUser.name + ' (Host)';
-        }
-    }
-    init();
-    
-    // Generate meeting code
-    function generateMeetingCode() {
-        const chars = 'abcdefghijklmnopqrstuvwxyz';
-        let code = '';
-        for (let i = 0; i < 3; i++) code += chars[Math.floor(Math.random() * chars.length)];
-        code += '-';
-        for (let i = 0; i < 4; i++) code += chars[Math.floor(Math.random() * chars.length)];
-        code += '-';
-        for (let i = 0; i < 3; i++) code += chars[Math.floor(Math.random() * chars.length)];
-        return code;
-    }
-    
-    // Create new meeting
-    function createMeeting() {
-        meetingId = generateMeetingCode();
-        document.getElementById('newMeetingCode').textContent = meetingId.toUpperCase();
-        document.getElementById('newMeetingModal').classList.add('show');
-    }
-    
-    // Copy meeting code
-    function copyNewMeetingCode() {
-        navigator.clipboard.writeText(meetingId).then(() => {
-            alert('Meeting code copied!');
-        });
-    }
-    
-    // Start meeting
-    async function startMeeting() {
-        document.getElementById('newMeetingModal').classList.remove('show');
-        document.getElementById('landingPage').style.display = 'none';
-        document.getElementById('meetingRoom').classList.add('active');
-        document.getElementById('displayMeetingId').textContent = meetingId;
-        
-        // Start timer
-        meetingStartTime = Date.now();
-        updateMeetingTime();
-        setInterval(updateMeetingTime, 1000);
-        
-        // Get camera/mic
-        await startMedia();
-    }
-    
-    // Show join input
-    function showJoinInput() {
-        const joinInput = document.getElementById('joinInput');
-        joinInput.style.display = joinInput.style.display === 'none' ? 'flex' : 'none';
-    }
-    
-    // Join meeting
-    async function joinMeeting() {
-        const code = document.getElementById('meetingCodeInput').value.trim().toLowerCase();
-        if (!code || code.length < 10) {
-            alert('Please enter a valid meeting code');
-            return;
-        }
-        
-        meetingId = code;
-        document.getElementById('landingPage').style.display = 'none';
-        document.getElementById('meetingRoom').classList.add('active');
-        document.getElementById('displayMeetingId').textContent = meetingId;
-        
-        meetingStartTime = Date.now();
-        updateMeetingTime();
-        setInterval(updateMeetingTime, 1000);
-        
-        await startMedia();
-    }
-    
-    // Start camera/mic
-    async function startMedia() {
-        try {
-            localStream = await navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: true
-            });
-            
-            const videoElement = document.getElementById('localVideo');
-            videoElement.srcObject = localStream;
-            document.getElementById('localAvatar').style.display = 'none';
-            videoElement.style.display = 'block';
-            
-        } catch (error) {
-            console.error('Error accessing media:', error);
-            document.getElementById('localAvatar').style.display = 'flex';
-            document.getElementById('localVideo').style.display = 'none';
-            
-            // Try audio only
-            try {
-                localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            } catch (e) {
-                console.error('No media access');
-            }
-        }
-    }
-    
-    // Toggle microphone
-    function toggleMic() {
-        isMicOn = !isMicOn;
-        const btn = document.getElementById('micBtn');
-        
-        if (localStream) {
-            localStream.getAudioTracks().forEach(track => {
-                track.enabled = isMicOn;
-            });
-        }
-        
-        if (isMicOn) {
-            btn.classList.remove('off');
-            btn.classList.add('on');
-            btn.innerHTML = '<i class="fas fa-microphone"></i>';
-        } else {
-            btn.classList.remove('on');
-            btn.classList.add('off');
-            btn.innerHTML = '<i class="fas fa-microphone-slash"></i>';
-        }
-    }
-    
-    // Toggle camera
-    function toggleCamera() {
-        isCamOn = !isCamOn;
-        const btn = document.getElementById('camBtn');
-        
-        if (localStream) {
-            localStream.getVideoTracks().forEach(track => {
-                track.enabled = isCamOn;
-            });
-        }
-        
-        if (isCamOn) {
-            btn.classList.remove('off');
-            btn.classList.add('on');
-            btn.innerHTML = '<i class="fas fa-video"></i>';
-            document.getElementById('localVideo').style.display = 'block';
-            document.getElementById('localAvatar').style.display = 'none';
-        } else {
-            btn.classList.remove('on');
-            btn.classList.add('off');
-            btn.innerHTML = '<i class="fas fa-video-slash"></i>';
-            document.getElementById('localVideo').style.display = 'none';
-            document.getElementById('localAvatar').style.display = 'flex';
-        }
-    }
-    
-    // Toggle screen share
-    async function toggleScreenShare() {
-        try {
-            const screenStream = await navigator.mediaDevices.getDisplayMedia({
-                video: true
-            });
-            
-            const videoElement = document.getElementById('localVideo');
-            videoElement.srcObject = screenStream;
-            
-            screenStream.getVideoTracks()[0].onended = () => {
-                if (localStream) {
-                    videoElement.srcObject = localStream;
-                }
-            };
-        } catch (error) {
-            console.error('Screen share error:', error);
-        }
-    }
-    
-    // Toggle chat panel
-    function toggleChat() {
-        document.getElementById('chatPanel').classList.toggle('open');
-        document.getElementById('participantsPanel').classList.remove('open');
-    }
-    
-    // Toggle participants panel
-    function toggleParticipants() {
-        document.getElementById('participantsPanel').classList.toggle('open');
-        document.getElementById('chatPanel').classList.remove('open');
-    }
-    
-    // Send chat message
-    function sendMessage() {
-        const input = document.getElementById('chatInput');
-        const text = input.value.trim();
-        if (!text) return;
-        
-        const message = {
-            sender: currentUser ? currentUser.name : 'You',
-            text: text,
-            time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-        };
-        
-        chatMessages.push(message);
-        renderChat();
-        input.value = '';
-    }
-    
-    // Render chat messages
-    function renderChat() {
-        const container = document.getElementById('chatMessages');
-        if (chatMessages.length === 0) {
-            container.innerHTML = '<div class="chat-messages"><p style="text-align:center;color:rgba(255,255,255,0.4);padding:40px">No messages yet</p></div>';
-            return;
-        }
-        
-        container.innerHTML = '<div class="chat-messages">' + chatMessages.map(msg => `
-            <div class="chat-message">
-                <div class="avatar">${msg.sender.substring(0,2).toUpperCase()}</div>
-                <div class="content">
-                    <div class="name">${msg.sender}</div>
-                    <div class="text">${msg.text}</div>
-                    <div class="time">${msg.time}</div>
-                </div>
-            </div>
-        `).join('') + '</div>';
-        
-        container.scrollTop = container.scrollHeight;
-    }
-    
-    // Copy meeting ID
-    function copyMeetingId() {
-        navigator.clipboard.writeText(meetingId).then(() => {
-            alert('Meeting code copied!');
-        });
-    }
-    
-    // Update meeting time
-    function updateMeetingTime() {
-        if (!meetingStartTime) return;
-        const elapsed = Math.floor((Date.now() - meetingStartTime) / 1000);
-        const mins = Math.floor(elapsed / 60).toString().padStart(2, '0');
-        const secs = (elapsed % 60).toString().padStart(2, '0');
-        document.getElementById('meetingTime').textContent = mins + ':' + secs;
-    }
-    
-    // End call
-    function endCall() {
-        if (localStream) {
-            localStream.getTracks().forEach(track => track.stop());
-        }
-        
-        document.getElementById('meetingRoom').classList.remove('active');
-        document.getElementById('landingPage').style.display = 'flex';
-        document.getElementById('chatPanel').classList.remove('open');
-        document.getElementById('participantsPanel').classList.remove('open');
-        
-        meetingId = null;
-        meetingStartTime = null;
-        chatMessages = [];
-    }
-    
-    // Close modal on outside click
-    document.getElementById('newMeetingModal').addEventListener('click', (e) => {
-        if (e.target.id === 'newMeetingModal') {
-            document.getElementById('newMeetingModal').classList.remove('show');
-        }
-    });
-    </script>
