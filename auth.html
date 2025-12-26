@@ -229,21 +229,21 @@ body{
 /* Forgot Password Modal */
 .forgot-modal{
     position:fixed;top:0;left:0;right:0;bottom:0;
-    background:rgba(0,0,0,0.9);
+    background:#000;
     display:none;align-items:center;justify-content:center;
     z-index:10000;
 }
 .forgot-modal.show{display:flex}
 .forgot-box{
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.1);
+    background:#0a0a0a;
+    border:1px solid rgba(63,185,80,0.3);
     border-radius:24px;
     padding:40px;
-    width:100%;max-width:400px;
+    width:100%;max-width:420px;
     animation:modalIn 0.3s;
 }
 @keyframes modalIn{from{transform:scale(0.9);opacity:0}}
-.forgot-box h2{color:#fff;font-size:22px;margin-bottom:10px;text-align:center}
+.forgot-box h2{color:#fff;font-size:24px;margin-bottom:10px;text-align:center}
 .forgot-box p{color:rgba(255,255,255,0.5);font-size:14px;text-align:center;margin-bottom:25px}
 .forgot-box .form-group{margin-bottom:18px}
 .forgot-box .form-group label{display:block;color:rgba(255,255,255,0.7);font-size:14px;margin-bottom:8px}
@@ -263,15 +263,24 @@ body{
     border-radius:12px;color:#3fb950;
 }
 .code-inputs input:focus{outline:none;border-color:#3fb950}
+.code-inputs input.error{border-color:#ef4444;animation:shake 0.5s}
+.code-inputs input.success{border-color:#3fb950;background:rgba(63,185,80,0.1)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .forgot-btns{display:flex;gap:12px;margin-top:20px}
 .forgot-btns button{
     flex:1;padding:14px;border-radius:12px;
     font-size:14px;font-weight:600;cursor:pointer;border:none;
+    transition:all 0.3s;
 }
+.forgot-btns button:disabled{opacity:0.6;cursor:not-allowed}
 .forgot-btns .cancel{background:rgba(255,255,255,0.1);color:#fff}
 .forgot-btns .primary{background:#3fb950;color:#000}
 .resend-link{text-align:center;margin-top:15px;font-size:13px;color:rgba(255,255,255,0.5)}
 .resend-link a{color:#3fb950;cursor:pointer}
+.status-msg{text-align:center;padding:12px;border-radius:10px;margin-bottom:15px;font-size:14px}
+.status-msg.loading{background:rgba(63,185,80,0.1);color:#3fb950}
+.status-msg.error{background:rgba(239,68,68,0.1);color:#ef4444}
+.status-msg.success{background:rgba(63,185,80,0.1);color:#3fb950}
 </style>
 </head>
 <body>
@@ -360,13 +369,14 @@ body{
     <div class="forgot-box" id="forgotStep1">
         <h2>🔐 Forgot Password</h2>
         <p>Enter your email to receive a verification code</p>
+        <div id="step1Status"></div>
         <div class="form-group">
             <label>Email Address</label>
             <input type="email" id="forgotEmail" placeholder="Enter your email">
         </div>
         <div class="forgot-btns">
             <button class="cancel" onclick="closeForgotModal()">Cancel</button>
-            <button class="primary" onclick="sendVerificationCode()">Send Code</button>
+            <button class="primary" id="sendCodeBtn" onclick="sendVerificationCode()">Send Code</button>
         </div>
     </div>
     
@@ -374,17 +384,17 @@ body{
     <div class="forgot-box" id="forgotStep2" style="display:none">
         <h2>📧 Enter Code</h2>
         <p>We sent a 6-digit code to <span id="sentToEmail"></span></p>
-        <div class="code-inputs">
-            <input type="text" maxlength="1" id="code1" oninput="moveToNext(1)">
-            <input type="text" maxlength="1" id="code2" oninput="moveToNext(2)">
-            <input type="text" maxlength="1" id="code3" oninput="moveToNext(3)">
-            <input type="text" maxlength="1" id="code4" oninput="moveToNext(4)">
-            <input type="text" maxlength="1" id="code5" oninput="moveToNext(5)">
-            <input type="text" maxlength="1" id="code6" oninput="moveToNext(6)">
+        <div id="step2Status"></div>
+        <div class="code-inputs" id="codeInputs">
+            <input type="text" maxlength="1" id="code1" oninput="handleCodeInput(1)" onpaste="handlePaste(event)" onkeydown="handleKeyDown(event, 1)">
+            <input type="text" maxlength="1" id="code2" oninput="handleCodeInput(2)" onkeydown="handleKeyDown(event, 2)">
+            <input type="text" maxlength="1" id="code3" oninput="handleCodeInput(3)" onkeydown="handleKeyDown(event, 3)">
+            <input type="text" maxlength="1" id="code4" oninput="handleCodeInput(4)" onkeydown="handleKeyDown(event, 4)">
+            <input type="text" maxlength="1" id="code5" oninput="handleCodeInput(5)" onkeydown="handleKeyDown(event, 5)">
+            <input type="text" maxlength="1" id="code6" oninput="handleCodeInput(6)" onkeydown="handleKeyDown(event, 6)">
         </div>
         <div class="forgot-btns">
             <button class="cancel" onclick="backToStep1()">Back</button>
-            <button class="primary" onclick="verifyCode()">Verify</button>
         </div>
         <div class="resend-link">Didn't receive? <a onclick="resendCode()">Resend code</a></div>
     </div>
@@ -432,6 +442,7 @@ function showForgotPassword() {
     document.getElementById('forgotStep2').style.display = 'none';
     document.getElementById('forgotStep3').style.display = 'none';
     document.getElementById('forgotEmail').value = '';
+    document.getElementById('step1Status').innerHTML = '';
 }
 
 function closeForgotModal() {
@@ -440,16 +451,25 @@ function closeForgotModal() {
 
 async function sendVerificationCode() {
     forgotEmail = document.getElementById('forgotEmail').value.trim();
+    const btn = document.getElementById('sendCodeBtn');
+    const statusDiv = document.getElementById('step1Status');
     
     if (!forgotEmail || !forgotEmail.includes('@')) {
-        alert('Please enter a valid email');
+        statusDiv.innerHTML = '<div class="status-msg error">Please enter a valid email</div>';
         return;
     }
+    
+    // Show sending status
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    statusDiv.innerHTML = '<div class="status-msg loading">⏳ Sending verification code...</div>';
     
     // Check if user exists
     const users = await BLSC_ACCOUNT.getUsers();
     if (!users[forgotEmail]) {
-        alert('Email not found. Please check and try again.');
+        statusDiv.innerHTML = '<div class="status-msg error">❌ Email not found</div>';
+        btn.disabled = false;
+        btn.textContent = 'Send Code';
         return;
     }
     
@@ -458,82 +478,158 @@ async function sendVerificationCode() {
     
     // Save code to user's data (with expiry)
     users[forgotEmail].resetCode = verificationCode;
-    users[forgotEmail].resetCodeExpiry = new Date(Date.now() + 10 * 60 * 1000).toISOString(); // 10 min expiry
+    users[forgotEmail].resetCodeExpiry = new Date(Date.now() + 10 * 60 * 1000).toISOString();
     await BLSC_ACCOUNT.saveUsers(users);
     
     // Send email via EmailJS
-    if (EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY' && typeof emailjs !== 'undefined') {
-        try {
-            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-                to_email: forgotEmail,
-                to_name: users[forgotEmail].name || 'User',
-                verification_code: verificationCode,
-                from_name: 'BLSC Account'
-            });
-            alert('📧 Verification code sent to ' + forgotEmail + '\nCheck your inbox (and spam folder)');
-        } catch (error) {
-            console.error('EmailJS error:', error);
-            alert('📧 Code: ' + verificationCode + '\n\n(Email sending failed - showing code directly)');
-        }
-    } else {
-        // EmailJS not configured - show code directly
-        alert('📧 Verification Code: ' + verificationCode + '\n\n⚠️ To send real emails, configure EmailJS (see EMAILJS-SETUP.md)');
+    try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            to_email: forgotEmail,
+            to_name: users[forgotEmail].name || 'User',
+            verification_code: verificationCode,
+            from_name: 'BLSC Account'
+        });
+        
+        // Wait 5 seconds to show sending message
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        statusDiv.innerHTML = '<div class="status-msg success">✅ Code sent!</div>';
+        
+        setTimeout(() => {
+            // Move to step 2
+            document.getElementById('forgotStep1').style.display = 'none';
+            document.getElementById('forgotStep2').style.display = 'block';
+            document.getElementById('sentToEmail').textContent = forgotEmail;
+            document.getElementById('step2Status').innerHTML = '';
+            clearCodeInputs();
+            document.getElementById('code1').focus();
+            btn.disabled = false;
+            btn.textContent = 'Send Code';
+        }, 500);
+        
+    } catch (error) {
+        console.error('EmailJS error:', error);
+        statusDiv.innerHTML = '<div class="status-msg error">❌ Failed to send email</div>';
+        btn.disabled = false;
+        btn.textContent = 'Send Code';
     }
-    
-    // Move to step 2
-    document.getElementById('forgotStep1').style.display = 'none';
-    document.getElementById('forgotStep2').style.display = 'block';
-    document.getElementById('sentToEmail').textContent = forgotEmail;
-    document.getElementById('code1').focus();
 }
 
-function moveToNext(current) {
+// Handle paste - fill all 6 boxes
+function handlePaste(e) {
+    e.preventDefault();
+    const pastedData = (e.clipboardData || window.clipboardData).getData('text').trim();
+    const digits = pastedData.replace(/\D/g, '').substring(0, 6);
+    
+    for (let i = 0; i < 6; i++) {
+        document.getElementById('code' + (i + 1)).value = digits[i] || '';
+    }
+    
+    if (digits.length === 6) {
+        document.getElementById('code6').focus();
+        // Auto verify after paste
+        setTimeout(() => autoVerifyCode(), 300);
+    }
+}
+
+// Handle code input
+function handleCodeInput(current) {
     const input = document.getElementById('code' + current);
+    input.value = input.value.replace(/\D/g, ''); // Only digits
+    
     if (input.value.length === 1 && current < 6) {
         document.getElementById('code' + (current + 1)).focus();
     }
-}
-
-function backToStep1() {
-    document.getElementById('forgotStep1').style.display = 'block';
-    document.getElementById('forgotStep2').style.display = 'none';
-}
-
-async function verifyCode() {
-    const enteredCode = 
-        document.getElementById('code1').value +
-        document.getElementById('code2').value +
-        document.getElementById('code3').value +
-        document.getElementById('code4').value +
-        document.getElementById('code5').value +
-        document.getElementById('code6').value;
     
-    if (enteredCode.length !== 6) {
-        alert('Please enter all 6 digits');
-        return;
+    // Check if all 6 digits entered
+    const fullCode = getEnteredCode();
+    if (fullCode.length === 6) {
+        setTimeout(() => autoVerifyCode(), 300);
     }
+}
+
+// Handle backspace
+function handleKeyDown(e, current) {
+    if (e.key === 'Backspace' && current > 1 && !document.getElementById('code' + current).value) {
+        document.getElementById('code' + (current - 1)).focus();
+    }
+}
+
+function getEnteredCode() {
+    let code = '';
+    for (let i = 1; i <= 6; i++) {
+        code += document.getElementById('code' + i).value;
+    }
+    return code;
+}
+
+function clearCodeInputs() {
+    for (let i = 1; i <= 6; i++) {
+        const input = document.getElementById('code' + i);
+        input.value = '';
+        input.classList.remove('error', 'success');
+    }
+}
+
+function setCodeInputsState(state) {
+    for (let i = 1; i <= 6; i++) {
+        const input = document.getElementById('code' + i);
+        input.classList.remove('error', 'success');
+        if (state) input.classList.add(state);
+    }
+}
+
+// Auto verify when 6 digits entered
+async function autoVerifyCode() {
+    const enteredCode = getEnteredCode();
+    const statusDiv = document.getElementById('step2Status');
+    
+    if (enteredCode.length !== 6) return;
+    
+    statusDiv.innerHTML = '<div class="status-msg loading">⏳ Verifying...</div>';
     
     // Verify code
     const users = await BLSC_ACCOUNT.getUsers();
     const user = users[forgotEmail];
     
     if (!user || user.resetCode !== enteredCode) {
-        alert('❌ Invalid code. Please try again.');
+        setCodeInputsState('error');
+        statusDiv.innerHTML = '<div class="status-msg error">❌ Invalid code</div>';
+        setTimeout(() => {
+            clearCodeInputs();
+            document.getElementById('code1').focus();
+            statusDiv.innerHTML = '';
+        }, 1500);
         return;
     }
     
     // Check expiry
     if (new Date() > new Date(user.resetCodeExpiry)) {
-        alert('❌ Code expired. Please request a new one.');
+        setCodeInputsState('error');
+        statusDiv.innerHTML = '<div class="status-msg error">❌ Code expired</div>';
         return;
     }
     
-    // Move to step 3
+    // Success!
+    setCodeInputsState('success');
+    statusDiv.innerHTML = '<div class="status-msg success">✅ Code verified!</div>';
+    
+    setTimeout(() => {
+        document.getElementById('forgotStep2').style.display = 'none';
+        document.getElementById('forgotStep3').style.display = 'block';
+    }, 1000);
+}
+
+function backToStep1() {
+    document.getElementById('forgotStep1').style.display = 'block';
     document.getElementById('forgotStep2').style.display = 'none';
-    document.getElementById('forgotStep3').style.display = 'block';
+    document.getElementById('step1Status').innerHTML = '';
 }
 
 async function resendCode() {
+    const statusDiv = document.getElementById('step2Status');
+    statusDiv.innerHTML = '<div class="status-msg loading">⏳ Sending new code...</div>';
+    
     verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
     
     const users = await BLSC_ACCOUNT.getUsers();
@@ -541,13 +637,24 @@ async function resendCode() {
     users[forgotEmail].resetCodeExpiry = new Date(Date.now() + 10 * 60 * 1000).toISOString();
     await BLSC_ACCOUNT.saveUsers(users);
     
-    alert('📧 New Code: ' + verificationCode);
-    
-    // Clear inputs
-    for (let i = 1; i <= 6; i++) {
-        document.getElementById('code' + i).value = '';
+    try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            to_email: forgotEmail,
+            to_name: users[forgotEmail].name || 'User',
+            verification_code: verificationCode,
+            from_name: 'BLSC Account'
+        });
+        statusDiv.innerHTML = '<div class="status-msg success">✅ New code sent!</div>';
+    } catch (error) {
+        statusDiv.innerHTML = '<div class="status-msg error">❌ Failed to send</div>';
     }
+    
+    clearCodeInputs();
     document.getElementById('code1').focus();
+    
+    setTimeout(() => {
+        statusDiv.innerHTML = '';
+    }, 3000);
 }
 
 async function resetPassword() {
