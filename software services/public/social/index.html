@@ -265,8 +265,8 @@
 <script src="../../../blsc-account.js"></script>
 <script>
 // ========== CLOUD STORAGE CONFIG ==========
-// Using JSONBin for video metadata (same as account system)
-// Videos stored as base64 or external links
+// Using BLSC_VIDEOS for dedicated video cloud storage
+// Videos stored as base64 or external links - works globally!
 
 let currentUser = null;
 let allVideos = [];
@@ -290,23 +290,28 @@ function updateUserUI() {
     }
 }
 
-// Load videos from cloud
+// Load videos from cloud (using dedicated BLSC_VIDEOS storage)
 async function loadVideos() {
     try {
-        const users = await BLSC_ACCOUNT.getUsers();
-        allVideos = users._videos || [];
+        // Clear cache to get fresh data
+        BLSC_VIDEOS.clearCache();
+        allVideos = await BLSC_VIDEOS.getVideos();
+        console.log('Loaded ' + allVideos.length + ' videos from cloud');
     } catch (e) {
         console.error('Error loading videos:', e);
         allVideos = [];
     }
 }
 
-// Save videos to cloud
+// Save videos to cloud (using dedicated BLSC_VIDEOS storage)
 async function saveVideos() {
     try {
-        const users = await BLSC_ACCOUNT.getUsers();
-        users._videos = allVideos;
-        await BLSC_ACCOUNT.saveUsers(users);
+        const saved = await BLSC_VIDEOS.saveVideos(allVideos);
+        if (saved) {
+            console.log('Videos saved to cloud successfully');
+        } else {
+            console.error('Failed to save videos');
+        }
     } catch (e) {
         console.error('Error saving videos:', e);
     }
