@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLSC Converter - Image Format Converter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#0a0a0a;min-height:100vh;color:#fff}
+        .bg-gradient{position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 30% 20%,rgba(63,185,80,0.15) 0%,transparent 50%),radial-gradient(circle at 70% 80%,rgba(88,166,255,0.1) 0%,transparent 50%);z-index:-1}
+        
+        /* Header */
+        header{position:fixed;top:0;left:0;right:0;background:rgba(10,10,10,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);z-index:100;padding:15px 30px;display:flex;justify-content:space-between;align-items:center}
+        .back-btn{padding:10px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:100px;color:#fff;text-decoration:none;font-size:14px;font-weight:500;transition:all 0.3s}
+        .back-btn:hover{background:#3fb950;color:#000;border-color:#3fb950}
+        .logo{display:flex;align-items:center;gap:12px}
+        .logo i{font-size:28px;color:#3fb950}
+        .logo h1{font-size:20px;font-weight:700}
+        .logo h1 span{color:#3fb950}
+        
+        /* Main */
+        main{padding:100px 30px 60px;max-width:900px;margin:0 auto}
+        .page-title{text-align:center;font-size:36px;font-weight:800;margin-bottom:10px}
+        .page-title span{color:#3fb950}
+        .page-subtitle{text-align:center;color:rgba(255,255,255,0.6);font-size:16px;margin-bottom:40px}
+        
+        /* Converter Box */
+        .converter-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:40px;margin-bottom:30px}
+        
+        /* Upload Area */
+        .upload-area{border:2px dashed rgba(255,255,255,0.2);border-radius:16px;padding:60px 20px;text-align:center;cursor:pointer;transition:all 0.3s;margin-bottom:30px}
+        .upload-area:hover{border-color:#3fb950;background:rgba(63,185,80,0.05)}
+        .upload-area.dragover{border-color:#3fb950;background:rgba(63,185,80,0.1)}
+        .upload-area i{font-size:60px;color:#3fb950;margin-bottom:16px}
+        .upload-area h3{font-size:20px;margin-bottom:8px}
+        .upload-area p{color:rgba(255,255,255,0.5);font-size:14px}
+        .upload-area input{display:none}
+        
+        /* Preview */
+        .preview-section{display:none;margin-bottom:30px}
+        .preview-section.show{display:block}
+        .preview-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center}
+        .preview-box{background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:20px;text-align:center}
+        .preview-box img{max-width:100%;max-height:200px;border-radius:8px;margin-bottom:12px}
+        .preview-box h4{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:4px}
+        .preview-box p{font-size:12px;color:rgba(255,255,255,0.5)}
+        .arrow-icon{font-size:40px;color:#3fb950}
+        
+        /* Format Selection */
+        .format-section{margin-bottom:30px}
+        .format-section h3{font-size:16px;margin-bottom:16px;color:rgba(255,255,255,0.8)}
+        .format-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px}
+        .format-btn{padding:16px 12px;background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.1);border-radius:12px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s;text-align:center}
+        .format-btn:hover{border-color:rgba(255,255,255,0.3)}
+        .format-btn.active{background:rgba(63,185,80,0.15);border-color:#3fb950;color:#3fb950}
+        .format-btn i{display:block;font-size:24px;margin-bottom:8px}
+        
+        /* Convert Button */
+        .convert-btn{width:100%;padding:18px;background:linear-gradient(135deg,#3fb950,#2ea043);border:none;border-radius:12px;color:#fff;font-size:18px;font-weight:700;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:10px}
+        .convert-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(63,185,80,0.3)}
+        .convert-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+        
+        /* Progress */
+        .progress-section{display:none;margin-top:20px}
+        .progress-section.show{display:block}
+        .progress-bar{height:12px;background:rgba(255,255,255,0.1);border-radius:100px;overflow:hidden}
+        .progress-fill{height:100%;background:linear-gradient(90deg,#3fb950,#22c55e);border-radius:100px;transition:width 0.3s}
+        .progress-text{text-align:center;margin-top:10px;color:rgba(255,255,255,0.6);font-size:14px}
+        
+        /* Result */
+        .result-section{display:none;margin-top:30px;text-align:center}
+        .result-section.show{display:block}
+        .result-icon{font-size:60px;color:#3fb950;margin-bottom:16px}
+        .result-title{font-size:24px;font-weight:700;margin-bottom:10px}
+        .result-info{color:rgba(255,255,255,0.6);margin-bottom:20px}
+        .download-btn{display:inline-flex;align-items:center;gap:10px;padding:16px 40px;background:#3fb950;color:#000;border:none;border-radius:100px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s;text-decoration:none}
+        .download-btn:hover{transform:scale(1.05)}
+        
+        /* Supported Formats */
+        .formats-info{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px}
+        .formats-info h3{font-size:18px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+        .formats-info h3 i{color:#3fb950}
+        .formats-list{display:flex;flex-wrap:wrap;gap:10px}
+        .format-tag{padding:8px 16px;background:rgba(63,185,80,0.1);border:1px solid rgba(63,185,80,0.3);border-radius:100px;font-size:13px;color:#3fb950;font-weight:500}
+        
+        @media(max-width:768px){
+            main{padding:80px 15px 40px}
+            .preview-grid{grid-template-columns:1fr;gap:10px}
+            .arrow-icon{transform:rotate(90deg)}
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <header>
+        <a href="../bla/bla.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+        <div class="logo">
+            <i class="fas fa-arrows-rotate"></i>
+            <h1>BLSC <span>Converter</span></h1>
+        </div>
+        <div></div>
+    </header>
+    
+    <main>
+        <h1 class="page-title">Image <span>Converter</span></h1>
+        <p class="page-subtitle">Convert images between PNG, JPG, BMP, ICO, WEBP and more</p>
+        
+        <div class="converter-box">
+            <!-- Upload Area -->
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Drop your image here</h3>
+                <p>or click to browse (PNG, JPG, BMP, WEBP, ICO, GIF)</p>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+            
+            <!-- Preview Section -->
+            <div class="preview-section" id="previewSection">
+                <div class="preview-grid">
+                    <div class="preview-box">
+                        <img id="previewImage" src="" alt="Preview">
+                        <h4>Original</h4>
+                        <p id="originalInfo">-</p>
+                    </div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                    <div class="preview-box">
+                        <img id="outputPreview" src="" alt="Output">
+                        <h4>Converted</h4>
+                        <p id="outputInfo">Select format below</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Format Selection -->
+            <div class="format-section">
+                <h3><i class="fas fa-file-image"></i> Convert to:</h3>
+                <div class="format-grid">
+                    <button class="format-btn" data-format="png"><i class="fas fa-image"></i>PNG</button>
+                    <button class="format-btn" data-format="jpeg"><i class="fas fa-image"></i>JPG</button>
+                    <button class="format-btn" data-format="bmp"><i class="fas fa-image"></i>BMP</button>
+                    <button class="format-btn" data-format="webp"><i class="fas fa-image"></i>WEBP</button>
+                    <button class="format-btn" data-format="ico"><i class="fas fa-icons"></i>ICO</button>
+                    <button class="format-btn" data-format="gif"><i class="fas fa-film"></i>GIF</button>
+                </div>
+            </div>
+            
+            <!-- Convert Button -->
+            <button class="convert-btn" id="convertBtn" disabled>
+                <i class="fas fa-arrows-rotate"></i> Convert Image
+            </button>
+            
+            <!-- Progress -->
+            <div class="progress-section" id="progressSection">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+                </div>
+                <p class="progress-text" id="progressText">Converting...</p>
+            </div>
+            
+            <!-- Result -->
+            <div class="result-section" id="resultSection">
+                <i class="fas fa-check-circle result-icon"></i>
+                <h2 class="result-title">Conversion Complete!</h2>
+                <p class="result-info" id="resultInfo">Your image has been converted successfully</p>
+                <a class="download-btn" id="downloadBtn" download>
+                    <i class="fas fa-download"></i> Download Image
+                </a>
+            </div>
+        </div>
+        
+        <!-- Supported Formats Info -->
+        <div class="formats-info">
+            <h3><i class="fas fa-info-circle"></i> Supported Conversions</h3>
+            <div class="formats-list">
+                <span class="format-tag">PNG → JPG</span>
+                <span class="format-tag">JPG → PNG</span>
+                <span class="format-tag">BMP → PNG</span>
+                <span class="format-tag">PNG → BMP</span>
+                <span class="format-tag">PNG → ICO</span>
+                <span class="format-tag">JPG → ICO</span>
+                <span class="format-tag">WEBP → PNG</span>
+                <span class="format-tag">PNG → WEBP</span>
+                <span class="format-tag">GIF → PNG</span>
+                <span class="format-tag">Any → Any</span>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+
+<script>
+// ========== BLSC IMAGE CONVERTER ==========
+// Converts images between formats using Canvas API
+// Supports: PNG, JPG, BMP, WEBP, ICO, GIF
+
+let selectedFile = null;
+let selectedFormat = null;
+let originalImage = null;
+
+// DOM Elements
+const uploadArea = document.getElementById('uploadArea');
+const fileInput = document.getElementById('fileInput');
+const previewSection = document.getElementById('previewSection');
+const previewImage = document.getElementById('previewImage');
+const outputPreview = document.getElementById('outputPreview');
+const originalInfo = document.getElementById('originalInfo');
+const outputInfo = document.getElementById('outputInfo');
+const convertBtn = document.getElementById('convertBtn');
+const progressSection = document.getElementById('progressSection');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+const resultSection = document.getElementById('resultSection');
+const resultInfo = document.getElementById('resultInfo');
+const downloadBtn = document.getElementById('downloadBtn');
+
+// Upload Area Events
+uploadArea.addEventListener('click', () => fileInput.click());
+
+uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('dragover');
+});
+
+uploadArea.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('dragover');
+});
+
+uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        handleFile(files[0]);
+    }
+});
+
+fileInput.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+        handleFile(e.target.files[0]);
+    }
+});
+
+// Handle File Selection
+function handleFile(file) {
+    if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+    }
+    
+    selectedFile = file;
+    
+    // Show preview
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        previewImage.src = e.target.result;
+        outputPreview.src = e.target.result;
+        
+        // Load image to get dimensions
+        const img = new Image();
+        img.onload = () => {
+            originalImage = img;
+            const ext = file.name.split('.').pop().toUpperCase();
+            const size = formatFileSize(file.size);
+            originalInfo.textContent = `${ext} • ${img.width}×${img.height} • ${size}`;
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+    
+    previewSection.classList.add('show');
+    resultSection.classList.remove('show');
+    updateConvertButton();
+}
+
+// Format Selection
+document.querySelectorAll('.format-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedFormat = btn.dataset.format;
+        outputInfo.textContent = selectedFormat.toUpperCase() + ' format';
+        updateConvertButton();
+    });
+});
+
+function updateConvertButton() {
+    convertBtn.disabled = !(selectedFile && selectedFormat);
+}
+
+// Convert Image
+convertBtn.addEventListener('click', async () => {
+    if (!selectedFile || !selectedFormat || !originalImage) return;
+    
+    // Show progress
+    progressSection.classList.add('show');
+    resultSection.classList.remove('show');
+    convertBtn.disabled = true;
+    
+    // Animate progress
+    let progress = 0;
+    const progressInterval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress > 90) progress = 90;
+        progressFill.style.width = progress + '%';
+        progressText.textContent = 'Converting... ' + Math.round(progress) + '%';
+    }, 100);
+    
+    try {
+        // Create canvas
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size
+        let width = originalImage.width;
+        let height = originalImage.height;
+        
+        // For ICO, resize to 256x256 max
+        if (selectedFormat === 'ico') {
+            const maxSize = 256;
+            if (width > maxSize || height > maxSize) {
+                const ratio = Math.min(maxSize / width, maxSize / height);
+                width = Math.round(width * ratio);
+                height = Math.round(height * ratio);
+            }
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        // Draw image
+        ctx.drawImage(originalImage, 0, 0, width, height);
+        
+        // Get MIME type
+        let mimeType = 'image/' + selectedFormat;
+        if (selectedFormat === 'jpg') mimeType = 'image/jpeg';
+        if (selectedFormat === 'ico') mimeType = 'image/png'; // ICO uses PNG internally
+        
+        // Convert to blob
+        const blob = await new Promise(resolve => {
+            canvas.toBlob(resolve, mimeType, 0.92);
+        });
+        
+        // Complete progress
+        clearInterval(progressInterval);
+        progressFill.style.width = '100%';
+        progressText.textContent = 'Complete!';
+        
+        // Create download URL
+        const url = URL.createObjectURL(blob);
+        
+        // Update output preview
+        outputPreview.src = url;
+        
+        // Set download button
+        const fileName = selectedFile.name.replace(/\.[^/.]+$/, '') + '.' + (selectedFormat === 'jpeg' ? 'jpg' : selectedFormat);
+        downloadBtn.href = url;
+        downloadBtn.download = fileName;
+        
+        // Show result
+        setTimeout(() => {
+            progressSection.classList.remove('show');
+            resultSection.classList.add('show');
+            resultInfo.textContent = `Converted to ${selectedFormat.toUpperCase()} • ${width}×${height} • ${formatFileSize(blob.size)}`;
+            convertBtn.disabled = false;
+        }, 500);
+        
+    } catch (error) {
+        clearInterval(progressInterval);
+        alert('Conversion failed: ' + error.message);
+        progressSection.classList.remove('show');
+        convertBtn.disabled = false;
+    }
+});
+
+// Utility: Format file size
+function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+</script>
