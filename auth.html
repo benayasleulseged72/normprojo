@@ -437,6 +437,36 @@ const EMAILJS_SERVICE_ID = 'service_1e6lgks';
 const EMAILJS_TEMPLATE_ID = 'template_ql99a2o';
 const EMAILJS_PUBLIC_KEY = 'CLG4xb8dURhFEgeMa';
 
+// ========== SMS API CONFIG (RapidAPI - SMS77) ==========
+const RAPIDAPI_KEY = 'ba4ed473d6msh8e79540cd38072cp112da9jsnd9bb4419fffa';
+const RAPIDAPI_HOST = 'sms77io.p.rapidapi.com';
+
+// Send SMS function
+async function sendSMS(phoneNumber, message) {
+    try {
+        const response = await fetch('https://sms77io.p.rapidapi.com/sms', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-RapidAPI-Key': RAPIDAPI_KEY,
+                'X-RapidAPI-Host': RAPIDAPI_HOST
+            },
+            body: new URLSearchParams({
+                to: phoneNumber,
+                text: message,
+                from: 'BLSC'
+            })
+        });
+        
+        const result = await response.text();
+        console.log('SMS Result:', result);
+        return result.includes('100') || response.ok;
+    } catch (error) {
+        console.error('SMS Error:', error);
+        return false;
+    }
+}
+
 // Initialize EmailJS
 (function() {
     if (typeof emailjs !== 'undefined') {
@@ -535,10 +565,24 @@ async function sendVerificationCode() {
             return;
         }
     } else {
-        // SMS - Show code (integrate Twilio for real SMS)
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        alert('📱 SMS Code: ' + verificationCode + '\n\n(To send real SMS, integrate Twilio)');
-        statusDiv.innerHTML = '<div class="status-msg success">✅ Code sent to phone!</div>';
+        // SMS - Send via RapidAPI SMS77
+        if (!forgotPhone) {
+            statusDiv.innerHTML = '<div class="status-msg error">❌ No phone number found for this account</div>';
+            btn.disabled = false;
+            btn.textContent = 'Send Code';
+            return;
+        }
+        
+        const smsMessage = 'Your BLSC verification code is: ' + verificationCode + '. Valid for 10 minutes.';
+        const smsSent = await sendSMS(forgotPhone, smsMessage);
+        
+        if (smsSent) {
+            statusDiv.innerHTML = '<div class="status-msg success">✅ Code sent to phone!</div>';
+        } else {
+            // Fallback - show code if SMS fails
+            alert('📱 SMS Code: ' + verificationCode + '\n\n(SMS service unavailable)');
+            statusDiv.innerHTML = '<div class="status-msg success">✅ Code ready!</div>';
+        }
     }
     
     setTimeout(() => {
