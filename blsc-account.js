@@ -614,3 +614,68 @@ function showBannedScreen(userData) {
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(checkIfBanned, 500);
 });
+
+// ========== BLSC SOCIAL MEDIA VIDEO STORAGE ==========
+// Separate storage for videos to avoid conflicts with user data
+
+const BLSC_VIDEOS = {
+    // Separate JSONBin for videos (create new bin for videos)
+    JSONBIN_API_KEY: BLSC_ACCOUNT.JSONBIN_API_KEY,
+    VIDEOS_BIN_ID: '694ee67343b1c97be906cde4', // Dedicated bin for videos
+    
+    _videosCache: null,
+    _cacheTime: null,
+    
+    // Get all videos from cloud
+    async getVideos() {
+        // Use cache if fresh (5 seconds for faster updates)
+        if (this._videosCache && this._cacheTime && (Date.now() - this._cacheTime < 5000)) {
+            return this._videosCache;
+        }
+        
+        try {
+            const response = await fetch(`https://api.jsonbin.io/v3/b/${this.VIDEOS_BIN_ID}/latest`, {
+                headers: { 'X-Access-Key': this.JSONBIN_API_KEY }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                this._videosCache = data.record.videos || [];
+                this._cacheTime = Date.now();
+                return this._videosCache;
+            }
+        } catch (error) {
+            console.error('Error fetching videos:', error);
+        }
+        return [];
+    },
+    
+    // Save videos to cloud
+    async saveVideos(videos) {
+        try {
+            const response = await fetch(`https://api.jsonbin.io/v3/b/${this.VIDEOS_BIN_ID}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Access-Key': this.JSONBIN_API_KEY
+                },
+                body: JSON.stringify({ videos: videos })
+            });
+            
+            if (response.ok) {
+                this._videosCache = videos;
+                this._cacheTime = Date.now();
+                return true;
+            }
+        } catch (error) {
+            console.error('Error saving videos:', error);
+        }
+        return false;
+    },
+    
+    // Clear cache to force fresh load
+    clearCache() {
+        this._videosCache = null;
+        this._cacheTime = null;
+    }
+};
