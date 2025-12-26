@@ -6,6 +6,10 @@
 <title>Login / Sign Up - BLSC</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+<!-- Firebase SDK for Real OAuth -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
 <!--
     BLSC Auth Page - Login & Sign Up
     by Benayas Leulseged
@@ -309,6 +313,31 @@ body{
 </div>
 <script src="blsc-account.js"></script>
 <script>
+// ========== FIREBASE CONFIG FOR REAL OAUTH ==========
+// You need to create a Firebase project and enable Google/GitHub auth
+// Go to: https://console.firebase.google.com/
+const firebaseConfig = {
+    apiKey: "AIzaSyDemo-REPLACE-WITH-YOUR-KEY",
+    authDomain: "your-project.firebaseapp.com",
+    projectId: "your-project-id",
+    storageBucket: "your-project.appspot.com",
+    messagingSenderId: "123456789",
+    appId: "1:123456789:web:abcdef"
+};
+
+// Initialize Firebase
+let firebaseApp = null;
+let firebaseAuth = null;
+
+function initFirebaseAuth() {
+    if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+        firebaseApp = firebase.initializeApp(firebaseConfig);
+        firebaseAuth = firebase.auth();
+        console.log('✅ Firebase Auth initialized');
+    }
+}
+initFirebaseAuth();
+
 // Tab switching
 function showLogin() {
     document.querySelectorAll('.auth-tab')[0].classList.add('active');
@@ -350,9 +379,69 @@ function hideMessage() {
     if (msgEl) msgEl.remove();
 }
 
-// Social login - shows alert for demo
-function loginWith(provider) {
-    alert('🔐 ' + provider + ' login coming soon!\n\nThis feature requires backend integration with ' + provider + ' OAuth.');
+// ========== REAL OAUTH LOGIN ==========
+async function loginWith(provider) {
+    if (!firebaseAuth) {
+        showMessage('❌ Firebase not configured. Please set up Firebase first.', true);
+        return;
+    }
+    
+    showMessage('⏳ Connecting to ' + provider + '...');
+    
+    let authProvider;
+    
+    if (provider === 'Google') {
+        authProvider = new firebase.auth.GoogleAuthProvider();
+        authProvider.addScope('email');
+        authProvider.addScope('profile');
+    } else if (provider === 'GitHub') {
+        authProvider = new firebase.auth.GithubAuthProvider();
+        authProvider.addScope('user:email');
+    } else if (provider === 'Microsoft') {
+        authProvider = new firebase.auth.OAuthProvider('microsoft.com');
+    } else if (provider === 'Facebook') {
+        authProvider = new firebase.auth.FacebookAuthProvider();
+    } else if (provider === 'Apple') {
+        authProvider = new firebase.auth.OAuthProvider('apple.com');
+    } else {
+        showMessage('❌ Provider not supported', true);
+        return;
+    }
+    
+    try {
+        // Real OAuth popup
+        const result = await firebaseAuth.signInWithPopup(authProvider);
+        const user = result.user;
+        
+        console.log('✅ OAuth Success:', user);
+        
+        // Save to our system
+        const saveResult = await BLSC_ACCOUNT.socialLogin(
+            provider.toLowerCase(),
+            user.email,
+            user.displayName || user.email.split('@')[0]
+        );
+        
+        if (saveResult.success) {
+            showMessage('✅ Signed in with ' + provider + '! Redirecting...');
+            setTimeout(() => window.location.href = 'index.html', 1500);
+        } else {
+            showMessage('❌ ' + saveResult.message, true);
+        }
+        
+    } catch (error) {
+        console.error('OAuth Error:', error);
+        
+        if (error.code === 'auth/popup-closed-by-user') {
+            showMessage('Login cancelled', true);
+        } else if (error.code === 'auth/unauthorized-domain') {
+            showMessage('❌ This domain is not authorized. Add it in Firebase Console > Authentication > Settings > Authorized domains', true);
+        } else if (error.code === 'auth/operation-not-allowed') {
+            showMessage('❌ ' + provider + ' login not enabled. Enable it in Firebase Console > Authentication > Sign-in method', true);
+        } else {
+            showMessage('❌ ' + (error.message || 'Login failed'), true);
+        }
+    }
 }
 
 // Form handlers - NOW ASYNC FOR CLOUD!

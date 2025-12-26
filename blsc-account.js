@@ -145,6 +145,53 @@ const BLSC_ACCOUNT = {
         }
     },
 
+    // Social Login (Google, GitHub, etc.)
+    async socialLogin(provider, email, name) {
+        try {
+            const users = await this.getUsers();
+            let user = users[email];
+            
+            if (user) {
+                // User exists - log them in
+                user.lastLogin = new Date().toISOString();
+                user.provider = provider;
+                users[email] = user;
+                await this.saveUsers(users);
+                this.createSession(user, true);
+                return { success: true, message: 'Welcome back!', user };
+            } else {
+                // Create new user with social login
+                const userId = 'user_' + Date.now();
+                const folderName = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '') + '_' + userId.split('_')[1];
+                
+                user = {
+                    id: userId,
+                    name: name,
+                    email: email,
+                    password: null, // No password for social login
+                    provider: provider,
+                    avatar: null,
+                    createdAt: new Date().toISOString(),
+                    folder: 'useraccountssave/' + folderName,
+                    lastLogin: new Date().toISOString()
+                };
+                
+                users[email] = user;
+                const saved = await this.saveUsers(users);
+                
+                if (!saved) {
+                    return { success: false, message: 'Error saving to cloud. Please try again.' };
+                }
+                
+                this.createSession(user, true);
+                return { success: true, message: 'Account created!', user };
+            }
+        } catch (error) {
+            console.error('Social login error:', error);
+            return { success: false, message: 'Error: ' + error.message };
+        }
+    },
+
     createSession(user, remember = false) {
         const session = {
             user: user,
