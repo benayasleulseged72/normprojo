@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLSC Social - Video Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#0f0f0f;min-height:100vh;color:#fff}
+        
+        /* Header */
+        .header{position:fixed;top:0;left:0;right:0;height:60px;background:#0f0f0f;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+        .header-left{display:flex;align-items:center;gap:20px}
+        .menu-btn{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;padding:8px}
+        .logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:#fff}
+        .logo i{color:#3fb950;font-size:28px}
+        .logo span{font-size:20px;font-weight:700}
+        .logo span b{color:#3fb950}
+        
+        /* Search */
+        .search-box{display:flex;flex:1;max-width:600px;margin:0 40px}
+        .search-box input{flex:1;padding:10px 16px;background:#121212;border:1px solid rgba(255,255,255,0.2);border-radius:20px 0 0 20px;color:#fff;font-size:14px}
+        .search-box input:focus{outline:none;border-color:#3fb950}
+        .search-box button{padding:0 20px;background:#222;border:1px solid rgba(255,255,255,0.2);border-left:none;border-radius:0 20px 20px 0;color:#fff;cursor:pointer}
+        
+        /* Header Right */
+        .header-right{display:flex;align-items:center;gap:15px}
+        .icon-btn{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;padding:8px;border-radius:50%}
+        .icon-btn:hover{background:rgba(255,255,255,0.1)}
+        .upload-btn{background:#3fb950;color:#000;border:none;padding:10px 16px;border-radius:20px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px}
+        .user-avatar{width:36px;height:36px;border-radius:50%;cursor:pointer}
+</style>
+</head>
+<body>
+
+<style>
+        /* Sidebar */
+        .sidebar{position:fixed;top:60px;left:0;width:240px;height:calc(100vh - 60px);background:#0f0f0f;border-right:1px solid rgba(255,255,255,0.1);overflow-y:auto;padding:12px 0}
+        .sidebar-item{display:flex;align-items:center;gap:20px;padding:10px 24px;color:rgba(255,255,255,0.9);text-decoration:none;font-size:14px;transition:background 0.2s}
+        .sidebar-item:hover{background:rgba(255,255,255,0.1)}
+        .sidebar-item.active{background:rgba(63,185,80,0.15);color:#3fb950}
+        .sidebar-item i{width:24px;font-size:18px}
+        .sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:12px 0}
+        .sidebar-title{padding:8px 24px;color:rgba(255,255,255,0.5);font-size:12px;font-weight:600;text-transform:uppercase}
+        
+        /* Main Content */
+        .main{margin-left:240px;margin-top:60px;padding:24px}
+        
+        /* Video Grid */
+        .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+        .video-card{cursor:pointer;transition:transform 0.2s}
+        .video-card:hover{transform:translateY(-4px)}
+        .video-thumbnail{position:relative;width:100%;aspect-ratio:16/9;background:#1a1a1a;border-radius:12px;overflow:hidden}
+        .video-thumbnail img{width:100%;height:100%;object-fit:cover}
+        .video-duration{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.8);padding:2px 6px;border-radius:4px;font-size:12px;font-weight:500}
+        .video-info{display:flex;gap:12px;padding:12px 0}
+        .channel-avatar{width:36px;height:36px;border-radius:50%;background:#3fb950;display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0}
+        .video-details h3{font-size:14px;font-weight:600;line-height:1.4;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .video-details .channel-name{color:rgba(255,255,255,0.6);font-size:13px}
+        .video-details .video-stats{color:rgba(255,255,255,0.6);font-size:13px}
+        
+        /* Categories */
+        .categories{display:flex;gap:12px;margin-bottom:24px;overflow-x:auto;padding-bottom:8px}
+        .category-btn{padding:8px 16px;background:#272727;border:none;border-radius:8px;color:#fff;font-size:14px;cursor:pointer;white-space:nowrap}
+        .category-btn:hover{background:#3a3a3a}
+        .category-btn.active{background:#fff;color:#000}
+</style>
+
+<style>
+        /* Upload Modal */
+        .modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:200;align-items:center;justify-content:center}
+        .modal.show{display:flex}
+        .modal-content{background:#1a1a1a;border-radius:16px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto}
+        .modal-header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid rgba(255,255,255,0.1)}
+        .modal-header h2{font-size:20px}
+        .modal-close{background:none;border:none;color:#fff;font-size:24px;cursor:pointer}
+        .modal-body{padding:24px}
+        
+        /* Upload Area */
+        .upload-area{border:2px dashed rgba(255,255,255,0.2);border-radius:12px;padding:60px 20px;text-align:center;cursor:pointer;transition:all 0.3s}
+        .upload-area:hover{border-color:#3fb950;background:rgba(63,185,80,0.05)}
+        .upload-area i{font-size:60px;color:#3fb950;margin-bottom:16px}
+        .upload-area h3{margin-bottom:8px}
+        .upload-area p{color:rgba(255,255,255,0.5);font-size:14px}
+        
+        /* Form */
+        .form-group{margin-bottom:20px}
+        .form-group label{display:block;margin-bottom:8px;font-weight:500}
+        .form-group input,.form-group textarea,.form-group select{width:100%;padding:12px;background:#272727;border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-size:14px}
+        .form-group input:focus,.form-group textarea:focus{outline:none;border-color:#3fb950}
+        .form-group textarea{min-height:100px;resize:vertical}
+        .submit-btn{width:100%;padding:14px;background:#3fb950;color:#000;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer}
+        .submit-btn:disabled{opacity:0.5;cursor:not-allowed}
+        
+        /* Video Player Page */
+        .video-player-page{display:none}
+        .video-player-page.show{display:block}
+        .video-player-container{max-width:1200px;margin:0 auto}
+        .video-player{width:100%;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden}
+        .video-player video{width:100%;height:100%}
+        .video-title-section{padding:16px 0}
+        .video-title-section h1{font-size:20px;margin-bottom:12px}
+        .video-actions{display:flex;gap:8px;flex-wrap:wrap}
+        .action-btn{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#272727;border:none;border-radius:20px;color:#fff;cursor:pointer;font-size:14px}
+        .action-btn:hover{background:#3a3a3a}
+        .action-btn.liked{background:rgba(63,185,80,0.2);color:#3fb950}
+        
+        /* Login Required */
+        .login-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);z-index:300;align-items:center;justify-content:center}
+        .login-overlay.show{display:flex}
+        .login-box{background:#1a1a1a;border:1px solid rgba(63,185,80,0.3);border-radius:20px;padding:40px;text-align:center;max-width:400px}
+        .login-box i{font-size:60px;color:#3fb950;margin-bottom:20px}
+        .login-box h2{margin-bottom:10px}
+        .login-box p{color:rgba(255,255,255,0.5);margin-bottom:24px}
+        .login-box a{display:inline-block;background:#3fb950;color:#000;padding:14px 40px;border-radius:25px;text-decoration:none;font-weight:600}
+        
+        @media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.search-box{display:none}}
+</style>
+
+<!-- Header -->
+<header class="header">
+    <div class="header-left">
+        <button class="menu-btn"><i class="fas fa-bars"></i></button>
+        <a href="#" class="logo"><i class="fab fa-youtube"></i><span>BLSC <b>Social</b></span></a>
+    </div>
+    <div class="search-box">
+        <input type="text" placeholder="Search videos..." id="searchInput">
+        <button onclick="searchVideos()"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="header-right">
+        <button class="upload-btn" onclick="showUploadModal()"><i class="fas fa-plus"></i> Upload</button>
+        <button class="icon-btn"><i class="fas fa-bell"></i></button>
+        <div class="user-avatar" id="userAvatar" onclick="window.location.href='../../../auth.html'" style="background:#3fb950;display:flex;align-items:center;justify-content:center;font-weight:600">?</div>
+    </div>
+</header>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+    <a href="#" class="sidebar-item active" onclick="showHome()"><i class="fas fa-home"></i> Home</a>
+    <a href="#" class="sidebar-item"><i class="fas fa-fire"></i> Trending</a>
+    <a href="#" class="sidebar-item"><i class="fas fa-music"></i> Music</a>
+    <a href="#" class="sidebar-item"><i class="fas fa-gamepad"></i> Gaming</a>
+    <a href="#" class="sidebar-item"><i class="fas fa-newspaper"></i> News</a>
+    <div class="sidebar-divider"></div>
+    <a href="#" class="sidebar-item" onclick="showMyVideos()"><i class="fas fa-video"></i> My Videos</a>
+    <a href="#" class="sidebar-item"><i class="fas fa-clock"></i> Watch Later</a>
+    <a href="#" class="sidebar-item"><i class="fas fa-thumbs-up"></i> Liked Videos</a>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-title">Subscriptions</div>
+    <div id="subscriptionsList"></div>
+</nav>
+
+<!-- Main Content -->
+<main class="main" id="mainContent">
+    <div class="categories">
+        <button class="category-btn active">All</button>
+        <button class="category-btn">Music</button>
+        <button class="category-btn">Gaming</button>
+        <button class="category-btn">News</button>
+        <button class="category-btn">Sports</button>
+        <button class="category-btn">Education</button>
+        <button class="category-btn">Entertainment</button>
+        <button class="category-btn">Technology</button>
+    </div>
+    <div class="video-grid" id="videoGrid">
+        <p style="color:rgba(255,255,255,0.5);text-align:center;padding:40px">Loading videos...</p>
+    </div>
+</main>
+
+<!-- Video Player Page -->
+<div class="video-player-page" id="videoPlayerPage">
+    <main class="main">
+        <button onclick="showHome()" style="background:none;border:none;color:#fff;font-size:16px;cursor:pointer;margin-bottom:16px"><i class="fas fa-arrow-left"></i> Back</button>
+        <div class="video-player-container">
+            <div class="video-player">
+                <video id="videoPlayer" controls></video>
+            </div>
+            <div class="video-title-section">
+                <h1 id="videoTitle">Video Title</h1>
+                <p style="color:rgba(255,255,255,0.6);margin-bottom:16px"><span id="videoViews">0</span> views • <span id="videoDate">Jan 1, 2024</span></p>
+                <div class="video-actions">
+                    <button class="action-btn" onclick="likeVideo()"><i class="fas fa-thumbs-up"></i> <span id="likeCount">0</span></button>
+                    <button class="action-btn"><i class="fas fa-thumbs-down"></i></button>
+                    <button class="action-btn"><i class="fas fa-share"></i> Share</button>
+                    <button class="action-btn"><i class="fas fa-download"></i> Download</button>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;padding:16px;background:#1a1a1a;border-radius:12px;margin-top:16px">
+                <div class="channel-avatar" id="channelAvatar" style="width:48px;height:48px;font-size:18px">B</div>
+                <div style="flex:1">
+                    <h3 id="channelName" style="font-size:16px;margin-bottom:4px">Channel Name</h3>
+                    <p style="color:rgba(255,255,255,0.5);font-size:14px"><span id="channelSubs">0</span> subscribers</p>
+                </div>
+                <button class="upload-btn" onclick="subscribeChannel()">Subscribe</button>
+            </div>
+            <div style="background:#1a1a1a;border-radius:12px;padding:16px;margin-top:16px">
+                <h3 style="margin-bottom:12px">Description</h3>
+                <p id="videoDescription" style="color:rgba(255,255,255,0.7);line-height:1.6">Video description...</p>
+            </div>
+        </div>
+    </main>
+</div>
+<!
+-- Upload Modal -->
+<div class="modal" id="uploadModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Upload Video</h2>
+            <button class="modal-close" onclick="closeUploadModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="upload-area" id="uploadArea" onclick="document.getElementById('videoFile').click()">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Select video to upload</h3>
+                <p>Or drag and drop a file</p>
+                <input type="file" id="videoFile" accept="video/*" style="display:none" onchange="handleVideoSelect(this)">
+            </div>
+            <div id="uploadForm" style="display:none">
+                <div id="uploadProgress" style="margin-bottom:20px">
+                    <p style="margin-bottom:8px">Uploading: <span id="uploadPercent">0%</span></p>
+                    <div style="height:8px;background:#272727;border-radius:4px;overflow:hidden">
+                        <div id="uploadBar" style="height:100%;background:#3fb950;width:0%;transition:width 0.3s"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" id="videoTitleInput" placeholder="Enter video title" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="videoDescInput" placeholder="Tell viewers about your video"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="videoCategoryInput">
+                        <option value="entertainment">Entertainment</option>
+                        <option value="music">Music</option>
+                        <option value="gaming">Gaming</option>
+                        <option value="education">Education</option>
+                        <option value="news">News</option>
+                        <option value="sports">Sports</option>
+                        <option value="technology">Technology</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Thumbnail (optional)</label>
+                    <input type="file" id="thumbnailFile" accept="image/*">
+                </div>
+                <button class="submit-btn" id="publishBtn" onclick="publishVideo()" disabled>Publish Video</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Login Required -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+        <i class="fas fa-play-circle"></i>
+        <h2>BLSC Social</h2>
+        <p>Sign in to upload videos and interact</p>
+        <a href="../../../auth.html">Sign In</a>
+    </div>
+</div>
+<scrip
+t src="../../../blsc-account.js"></script>
+<script>
+// ========== CLOUD STORAGE CONFIG ==========
+// Using JSONBin for video metadata (same as account system)
+// Videos stored as base64 or external links
+
+let currentUser = null;
+let allVideos = [];
+let currentVideoId = null;
+
+// Initialize
+async function init() {
+    if (BLSC_ACCOUNT.isLoggedIn()) {
+        currentUser = BLSC_ACCOUNT.getCurrentUser();
+        updateUserUI();
+    }
+    await loadVideos();
+    renderVideos();
+}
+
+function updateUserUI() {
+    if (currentUser) {
+        const avatar = document.getElementById('userAvatar');
+        avatar.textContent = BLSC_ACCOUNT.getInitials(currentUser.name);
+        avatar.style.background = BLSC_ACCOUNT.getAvatarColor(currentUser.name);
+    }
+}
+
+// Load videos from cloud
+async function loadVideos() {
+    try {
+        const users = await BLSC_ACCOUNT.getUsers();
+        allVideos = users._videos || [];
+    } catch (e) {
+        console.error('Error loading videos:', e);
+        allVideos = [];
+    }
+}
+
+// Save videos to cloud
+async function saveVideos() {
+    try {
+        const users = await BLSC_ACCOUNT.getUsers();
+        users._videos = allVideos;
+        await BLSC_ACCOUNT.saveUsers(users);
+    } catch (e) {
+        console.error('Error saving videos:', e);
+    }
+}
+
+// Render video grid
+function renderVideos(filter = '') {
+    const grid = document.getElementById('videoGrid');
+    let videos = allVideos;
+    
+    if (filter) {
+        videos = videos.filter(v => 
+            v.title.toLowerCase().includes(filter.toLowerCase()) ||
+            v.category.toLowerCase().includes(filter.toLowerCase())
+        );
+    }
+    
+    if (!videos.length) {
+        grid.innerHTML = '<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5)"><i class="fas fa-video" style="font-size:60px;margin-bottom:20px;display:block"></i><h3>No videos yet</h3><p>Be the first to upload!</p></div>';
+        return;
+    }
+    
+    grid.innerHTML = videos.map(v => `
+        <div class="video-card" onclick="playVideo('${v.id}')">
+            <div class="video-thumbnail">
+                <img src="${v.thumbnail || 'https://via.placeholder.com/320x180/1a1a1a/3fb950?text=BLSC'}" alt="${v.title}">
+                <span class="video-duration">${v.duration || '0:00'}</span>
+            </div>
+            <div class="video-info">
+                <div class="channel-avatar" style="background:${BLSC_ACCOUNT.getAvatarColor(v.channelName)}">${BLSC_ACCOUNT.getInitials(v.channelName)}</div>
+                <div class="video-details">
+                    <h3>${v.title}</h3>
+                    <p class="channel-name">${v.channelName}</p>
+                    <p class="video-stats">${formatViews(v.views)} views • ${formatDate(v.uploadedAt)}</p>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+//
+ Play video
+function playVideo(videoId) {
+    const video = allVideos.find(v => v.id === videoId);
+    if (!video) return;
+    
+    currentVideoId = videoId;
+    
+    // Update views
+    video.views = (video.views || 0) + 1;
+    saveVideos();
+    
+    // Show player
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('videoPlayerPage').classList.add('show');
+    
+    // Set video data
+    document.getElementById('videoPlayer').src = video.videoUrl;
+    document.getElementById('videoTitle').textContent = video.title;
+    document.getElementById('videoViews').textContent = formatViews(video.views);
+    document.getElementById('videoDate').textContent = formatDate(video.uploadedAt);
+    document.getElementById('likeCount').textContent = video.likes || 0;
+    document.getElementById('channelName').textContent = video.channelName;
+    document.getElementById('channelAvatar').textContent = BLSC_ACCOUNT.getInitials(video.channelName);
+    document.getElementById('channelAvatar').style.background = BLSC_ACCOUNT.getAvatarColor(video.channelName);
+    document.getElementById('videoDescription').textContent = video.description || 'No description';
+    
+    // Auto play
+    document.getElementById('videoPlayer').play();
+}
+
+function showHome() {
+    document.getElementById('mainContent').style.display = 'block';
+    document.getElementById('videoPlayerPage').classList.remove('show');
+    document.getElementById('videoPlayer').pause();
+    renderVideos();
+}
+
+function showMyVideos() {
+    if (!currentUser) {
+        document.getElementById('loginOverlay').classList.add('show');
+        return;
+    }
+    const myVideos = allVideos.filter(v => v.uploaderId === currentUser.email);
+    renderVideosFiltered(myVideos, 'My Videos');
+}
+
+function renderVideosFiltered(videos, title) {
+    const grid = document.getElementById('videoGrid');
+    if (!videos.length) {
+        grid.innerHTML = `<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5)"><h3>No ${title.toLowerCase()}</h3></div>`;
+        return;
+    }
+    // Same render logic
+    grid.innerHTML = videos.map(v => `
+        <div class="video-card" onclick="playVideo('${v.id}')">
+            <div class="video-thumbnail">
+                <img src="${v.thumbnail || 'https://via.placeholder.com/320x180/1a1a1a/3fb950?text=BLSC'}">
+                <span class="video-duration">${v.duration || '0:00'}</span>
+            </div>
+            <div class="video-info">
+                <div class="channel-avatar" style="background:${BLSC_ACCOUNT.getAvatarColor(v.channelName)}">${BLSC_ACCOUNT.getInitials(v.channelName)}</div>
+                <div class="video-details">
+                    <h3>${v.title}</h3>
+                    <p class="channel-name">${v.channelName}</p>
+                    <p class="video-stats">${formatViews(v.views)} views</p>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function likeVideo() {
+    if (!currentUser) {
+        document.getElementById('loginOverlay').classList.add('show');
+        return;
+    }
+    const video = allVideos.find(v => v.id === currentVideoId);
+    if (video) {
+        video.likes = (video.likes || 0) + 1;
+        document.getElementById('likeCount').textContent = video.likes;
+        saveVideos();
+    }
+}
+
+function searchVideos() {
+    const query = document.getElementById('searchInput').value;
+    renderVideos(query);
+}
+//
+ ========== UPLOAD SYSTEM ==========
+let selectedVideoFile = null;
+let selectedVideoUrl = null;
+
+function showUploadModal() {
+    if (!BLSC_ACCOUNT.isLoggedIn()) {
+        document.getElementById('loginOverlay').classList.add('show');
+        return;
+    }
+    document.getElementById('uploadModal').classList.add('show');
+}
+
+function closeUploadModal() {
+    document.getElementById('uploadModal').classList.remove('show');
+    document.getElementById('uploadArea').style.display = 'block';
+    document.getElementById('uploadForm').style.display = 'none';
+    selectedVideoFile = null;
+    selectedVideoUrl = null;
+}
+
+function handleVideoSelect(input) {
+    if (!input.files || !input.files[0]) return;
+    
+    const file = input.files[0];
+    
+    // Check file size (max 50MB for base64 storage)
+    if (file.size > 50 * 1024 * 1024) {
+        alert('Video must be under 50MB. For larger videos, use external hosting.');
+        return;
+    }
+    
+    selectedVideoFile = file;
+    
+    // Show upload form
+    document.getElementById('uploadArea').style.display = 'none';
+    document.getElementById('uploadForm').style.display = 'block';
+    
+    // Convert to base64 (for small videos)
+    const reader = new FileReader();
+    reader.onprogress = (e) => {
+        if (e.lengthComputable) {
+            const percent = Math.round((e.loaded / e.total) * 100);
+            document.getElementById('uploadPercent').textContent = percent + '%';
+            document.getElementById('uploadBar').style.width = percent + '%';
+        }
+    };
+    reader.onload = (e) => {
+        selectedVideoUrl = e.target.result;
+        document.getElementById('uploadPercent').textContent = '100% - Ready!';
+        document.getElementById('uploadBar').style.width = '100%';
+        document.getElementById('publishBtn').disabled = false;
+    };
+    reader.readAsDataURL(file);
+}
+
+async function publishVideo() {
+    if (!selectedVideoUrl || !currentUser) return;
+    
+    const title = document.getElementById('videoTitleInput').value.trim();
+    if (!title) {
+        alert('Please enter a title');
+        return;
+    }
+    
+    document.getElementById('publishBtn').textContent = 'Publishing...';
+    document.getElementById('publishBtn').disabled = true;
+    
+    // Get video duration
+    const tempVideo = document.createElement('video');
+    tempVideo.src = selectedVideoUrl;
+    await new Promise(resolve => tempVideo.onloadedmetadata = resolve);
+    const duration = formatDuration(tempVideo.duration);
+    
+    // Create video object
+    const newVideo = {
+        id: 'vid_' + Date.now(),
+        title: title,
+        description: document.getElementById('videoDescInput').value,
+        category: document.getElementById('videoCategoryInput').value,
+        videoUrl: selectedVideoUrl,
+        thumbnail: null,
+        duration: duration,
+        views: 0,
+        likes: 0,
+        uploaderId: currentUser.email,
+        channelName: currentUser.name,
+        uploadedAt: new Date().toISOString()
+    };
+    
+    // Handle thumbnail
+    const thumbFile = document.getElementById('thumbnailFile').files[0];
+    if (thumbFile) {
+        const thumbReader = new FileReader();
+        thumbReader.onload = (e) => { newVideo.thumbnail = e.target.result; };
+        thumbReader.readAsDataURL(thumbFile);
+        await new Promise(resolve => setTimeout(resolve, 500));
+    }
+    
+    // Save
+    allVideos.unshift(newVideo);
+    await saveVideos();
+    
+    alert('✅ Video published!');
+    closeUploadModal();
+    renderVideos();
+}
+
+// Utility functions
+function formatViews(n) {
+    if (!n) return '0';
+    if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+    if (n >= 1000) return (n/1000).toFixed(1) + 'K';
+    return n.toString();
+}
+
+function formatDate(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    const now = new Date();
+    const diff = now - d;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    if (days === 0) return 'Today';
+    if (days === 1) return 'Yesterday';
+    if (days < 7) return days + ' days ago';
+    if (days < 30) return Math.floor(days/7) + ' weeks ago';
+    if (days < 365) return Math.floor(days/30) + ' months ago';
+    return Math.floor(days/365) + ' years ago';
+}
+
+function formatDuration(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+function subscribeChannel() {
+    if (!currentUser) {
+        document.getElementById('loginOverlay').classList.add('show');
+        return;
+    }
+    alert('Subscribed!');
+}
+
+// Category filter
+document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.textContent.toLowerCase();
+        if (cat === 'all') {
+            renderVideos();
+        } else {
+            const filtered = allVideos.filter(v => v.category === cat);
+            renderVideosFiltered(filtered, btn.textContent);
+        }
+    });
+});
+
+// Close modals on outside click
+document.getElementById('uploadModal').addEventListener('click', (e) => {
+    if (e.target.id === 'uploadModal') closeUploadModal();
+});
+document.getElementById('loginOverlay').addEventListener('click', (e) => {
+    if (e.target.id === 'loginOverlay') document.getElementById('loginOverlay').classList.remove('show');
+});
+
+// Initialize
+init();
+</script>
+</body>
+</html>

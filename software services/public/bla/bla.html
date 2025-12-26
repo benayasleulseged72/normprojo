@@ -158,6 +158,8 @@
             {id:'gallery',name:'BLSC-Gallery',icon:'fa-images',desc:'Manage and showcase your images',progress:100,ready:true,platforms:['windows','android'],url:'../choose.html?app=gallery'},
             {id:'ai-image',name:'BLSC-AI Image',icon:'fa-wand-magic-sparkles',desc:'Generate images with AI',progress:100,ready:true,platforms:['windows','android','linux'],url:'../choose.html?app=ai-image'},
             {id:'ai-video',name:'BLSC-Video Generator',icon:'fa-film',desc:'Create stunning videos with AI',progress:100,ready:true,platforms:['windows','android','linux'],url:'../choose.html?app=ai-video'},
+            {id:'social',name:'BLSC-Social Media',icon:'fa-play-circle',desc:'Upload and watch videos like YouTube',progress:100,ready:true,platforms:['windows','android','linux'],url:'../social/'},
+            {id:'messenger',name:'BLSC-Messenger',icon:'fa-comments',desc:'Real-time messaging and file sharing',progress:100,ready:true,platforms:['windows','android','linux'],url:'../msg/'},
             {id:'chatbot',name:'BLSC-Chatbot',icon:'fa-robot',desc:'AI-powered chat assistant',progress:85,ready:false,platforms:['windows','android','linux']},
             {id:'converter',name:'BLSC-Converter',icon:'fa-arrows-rotate',desc:'Convert files between formats',progress:40,ready:false,platforms:['windows','linux']},
             {id:'downloader',name:'BLSC-Fast Downloader',icon:'fa-download',desc:'High-speed file downloader',progress:55,ready:false,platforms:['windows','android','linux']},
@@ -204,9 +206,17 @@
                 html += '<div class="app-header"><div class="app-icon"><i class="fas ' + app.icon + '"></i></div>';
                 html += '<div class="app-info"><h3>' + app.name + '</h3><span class="version">v1.0.0</span></div></div>';
                 html += '<p class="app-desc">' + app.desc + '</p>';
-                html += '<div class="progress-section"><div class="progress-header"><span class="progress-label">' + t.progress + '</span>';
-                html += '<span class="progress-percent">' + app.progress + '%</span></div>';
-                html += '<div class="progress-bar"><div class="progress-fill" style="width:' + app.progress + '%"></div></div></div>';
+                
+                // Show progress bar only for unfinished apps
+                if (!app.ready) {
+                    html += '<div class="progress-section"><div class="progress-header"><span class="progress-label">' + t.progress + '</span>';
+                    html += '<span class="progress-percent">' + app.progress + '%</span></div>';
+                    html += '<div class="progress-bar"><div class="progress-fill" style="width:' + app.progress + '%"></div></div></div>';
+                } else {
+                    // Show download button for ready apps
+                    html += '<div style="margin-bottom:16px"><button style="width:100%;padding:12px;background:linear-gradient(135deg,#3fb950,#2ea043);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><i class="fas fa-download"></i> Download</button></div>';
+                }
+                
                 html += '<div class="app-badges">' + badgeHtml + platformBadges + '</div></div>';
             });
             grid.innerHTML = html;
