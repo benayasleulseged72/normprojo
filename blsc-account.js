@@ -7,8 +7,8 @@
 
 const BLSC_ACCOUNT = {
     // JSONBin.io Configuration
-    JSONBIN_API_KEY: '$2a$10$jaYV5knIHoiKLb.lj7qAK.K/hiX5So2LTUA3L6Vk6IvBHY7E6os4S',
-    JSONBIN_BIN_ID: '694c5a5bae596e708faf0517',
+    JSONBIN_API_KEY: '$2a$10$Q9sspFhKrNFYrsE/D/HszeZpPOUummVpDkFX/s7MvGyc4pHTg0hjG',
+    JSONBIN_BIN_ID: '694f61e8ae596e708fb34feb',
     
     // Local session key
     SESSION_KEY: 'blsc_session',
@@ -17,7 +17,7 @@ const BLSC_ACCOUNT = {
     _usersCache: null,
     _cacheTime: null,
     
-    // Get all users from cloud
+    // Get all users from cloud (with localStorage fallback)
     async getUsers() {
         if (this._usersCache && this._cacheTime && (Date.now() - this._cacheTime < 30000)) {
             return this._usersCache;
@@ -32,16 +32,35 @@ const BLSC_ACCOUNT = {
                 const data = await response.json();
                 this._usersCache = data.record.users || {};
                 this._cacheTime = Date.now();
+                // Backup to localStorage
+                localStorage.setItem('blsc_users_backup', JSON.stringify(this._usersCache));
                 return this._usersCache;
+            } else {
+                // API limit reached - use localStorage backup
+                console.warn('JSONBin API limit reached, using localStorage');
+                const backup = localStorage.getItem('blsc_users_backup');
+                if (backup) {
+                    this._usersCache = JSON.parse(backup);
+                    return this._usersCache;
+                }
             }
         } catch (error) {
             console.error('Error fetching users:', error);
+            // Fallback to localStorage
+            const backup = localStorage.getItem('blsc_users_backup');
+            if (backup) {
+                this._usersCache = JSON.parse(backup);
+                return this._usersCache;
+            }
         }
         return {};
     },
     
-    // Save users to cloud
+    // Save users to cloud (with localStorage fallback)
     async saveUsers(users) {
+        // Always save to localStorage as backup
+        localStorage.setItem('blsc_users_backup', JSON.stringify(users));
+        
         try {
             const response = await fetch(`https://api.jsonbin.io/v3/b/${this.JSONBIN_BIN_ID}`, {
                 method: 'PUT',
@@ -56,9 +75,17 @@ const BLSC_ACCOUNT = {
                 this._usersCache = users;
                 this._cacheTime = Date.now();
                 return true;
+            } else {
+                // API limit reached - data saved to localStorage
+                console.warn('JSONBin API limit reached, saved to localStorage only');
+                this._usersCache = users;
+                return true; // Return true since localStorage save succeeded
             }
         } catch (error) {
             console.error('Error saving users:', error);
+            // localStorage backup already saved, so return true
+            this._usersCache = users;
+            return true;
         }
         return false;
     },
@@ -621,7 +648,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const BLSC_VIDEOS = {
     // Separate JSONBin for videos (create new bin for videos)
     JSONBIN_API_KEY: BLSC_ACCOUNT.JSONBIN_API_KEY,
-    VIDEOS_BIN_ID: '694ee67343b1c97be906cde4', // Dedicated bin for videos
+    VIDEOS_BIN_ID: '694f62afae596e708fb350d3', // Dedicated bin for videos
     
     _videosCache: null,
     _cacheTime: null,
