@@ -130,7 +130,7 @@
 <script src="../blsc-account.js"></script>
 <script>
 const ADMIN_KEY='blsc_admin_session';
-const FIREBASE_DB_URL='https://blsc-accounts-206b9-default-rtdb.firebaseio.com';
+const ADMIN_FIREBASE_URL='https://blsc-accounts-206b9-default-rtdb.firebaseio.com';
 let allUsers={};
 
 // Check login
@@ -302,7 +302,7 @@ function exportAllData(){const b=new Blob([JSON.stringify(allUsers,null,2)],{typ
 async function checkSystemStatus(){
     const s=Date.now();
     try{
-        const r=await fetch(`${FIREBASE_DB_URL}/users.json`);
+        const r=await fetch(`${ADMIN_FIREBASE_URL}/users.json`);
         const p=Date.now()-s;
         if(r.ok){
             document.getElementById('statusText').innerHTML='🟢 ONLINE';
