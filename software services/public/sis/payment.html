@@ -441,16 +441,12 @@
             btnText.textContent = 'Submitting...';
             
             try {
-                // Convert image to base64
-                const base64 = await new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => resolve(e.target.result);
-                    reader.readAsDataURL(uploadedFile);
-                });
+                // Compress image before saving (max 100KB)
+                const compressedBase64 = await compressImage(uploadedFile, 800, 0.6);
                 
                 const user = BLSC_ACCOUNT.getCurrentUser();
                 
-                // Create payment request
+                // Create payment request (without large screenshot in main data)
                 const paymentRequest = {
                     id: 'pay_' + Date.now(),
                     userEmail: user.email,
@@ -461,18 +457,26 @@
                     method: selectedMethod,
                     methodName: paymentMethods[selectedMethod].title,
                     senderPhone: phone,
-                    screenshotUrl: base64,
+                    screenshotUrl: compressedBase64,
                     status: 'pending',
                     createdAt: new Date().toISOString()
                 };
                 
                 // Save to cloud
                 const users = await BLSC_ACCOUNT.getUsers();
+                if (!users[user.email]) {
+                    throw new Error('User not found in database');
+                }
                 if (!users[user.email].pendingPayments) {
                     users[user.email].pendingPayments = [];
                 }
                 users[user.email].pendingPayments.push(paymentRequest);
-                await BLSC_ACCOUNT.saveUsers(users);
+                
+                const saved = await BLSC_ACCOUNT.saveUsers(users);
+                
+                if (!saved) {
+                    throw new Error('Failed to save to cloud');
+                }
                 
                 // Show success
                 document.getElementById('paymentForm').style.display = 'none';
@@ -480,11 +484,43 @@
                 
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error submitting payment. Please try again.');
+                alert('Error submitting payment: ' + error.message + '\n\nPlease try again or contact support.');
                 btn.disabled = false;
                 spinner.style.display = 'none';
                 btnText.textContent = '✅ I\'ve Completed Payment';
             }
+        }
+        
+        // Compress image to reduce size
+        async function compressImage(file, maxWidth, quality) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        // Resize if too large
+                        if (width > maxWidth) {
+                            height = (height * maxWidth) / width;
+                            width = maxWidth;
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // Convert to compressed JPEG
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
         }
     </script>
 </body>
