@@ -463,6 +463,14 @@ function showBannedScreen(userData) {
 
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(checkIfBanned, 500);
+    // Check ban status every 3 seconds - instant ban effect!
+    setInterval(async () => {
+        if (BLSC_ACCOUNT.isLoggedIn()) {
+            BLSC_ACCOUNT._usersCache = null;
+            BLSC_ACCOUNT._cacheTime = null;
+            await checkIfBanned();
+        }
+    }, 3000);
 });
 
 // ========== BLSC VIDEOS (Firebase) ==========
