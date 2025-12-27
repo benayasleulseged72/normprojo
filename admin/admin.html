@@ -53,7 +53,7 @@
             <div style="width:12px;height:12px;border-radius:50%;background:#3fb950;animation:pulse 2s infinite"></div>
             <span id="statusText" style="color:#3fb950;font-weight:600">🟢 ONLINE</span>
         </div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.6)">☁️ <span id="cloudStatus" style="color:#3fb950">Connected</span> | 📡 <span id="pingTime">--ms</span></div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.6)">☁️ <span id="cloudStatus" style="color:#3fb950">Connecting...</span> | 📡 <span id="pingTime">--ms</span></div>
     </div>
     
     <div class="admin-header"><h1>🛡️ BLSC <span>Admin</span></h1><button class="logout-btn" onclick="adminLogout()">🚪 Logout</button></div>
@@ -84,13 +84,239 @@
     <div class="content-panel" id="paymentsPanel">
         <h3 style="margin-bottom:20px;color:#3fb950">💰 Pending Payments</h3>
         <table class="users-table"><thead><tr><th>User</th><th>Service</th><th>Plan</th><th>Amount</th><th>Method</th><th>Screenshot</th><th>Date</th><th>Actions</th></tr></thead>
-        <tbody id="paymentsTableBody"><tr><td colspan="8" style="text-align:center;padding:40px">Loading...</td></tr></tbody></table>
+        <tbody id="paymentsTableBody"><tr><td colspan="8" style="text-align:center;padding:40px">No pending</td></tr></tbody></table>
     </div>
     
     <div id="screenshotModal" onclick="if(event.target===this)closeScreenshot()" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);z-index:9999;align-items:center;justify-content:center">
         <div style="position:relative"><button onclick="closeScreenshot()" style="position:absolute;top:-40px;right:0;background:#ef4444;border:none;color:#fff;padding:10px 20px;border-radius:8px;cursor:pointer">✕</button>
         <img id="modalScreenshot" style="max-width:90vw;max-height:80vh;border-radius:12px;border:2px solid #3fb950"></div>
     </div>
+    
+    <div class="content-panel" id="subscriptionsPanel">
+        <div class="sub-form"><h3>➕ Add Subscription</h3>
+            <div class="form-row"><div><label>Email</label><input type="email" id="subEmail" placeholder="user@email.com"></div>
+            <div><label>Service</label><select id="subService"><option value="images">🔍 Images</option><option value="ai-image">🎨 AI Image</option><option value="ai-video">🎬 AI Video</option></select></div></div>
+            <div class="form-row"><div><label>Plan</label><select id="subType"><option value="free_trial">Trial 30d</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="unlimited">Unlimited</option></select></div>
+            <div><label>&nbsp;</label><button class="action-btn primary" style="width:100%;padding:14px" onclick="addSubscription()">✅ Activate</button></div></div>
+        </div>
+        <table class="users-table"><thead><tr><th>User</th><th>Service</th><th>Type</th><th>Status</th><th>Expires</th><th>Actions</th></tr></thead>
+        <tbody id="subsTableBody"><tr><td colspan="6" style="text-align:center;padding:40px">No subs</td></tr></tbody></table>
+    </div>
+    
+    <div class="content-panel" id="couponsPanel">
+        <div class="sub-form"><h3>🎟️ Generate Coupon</h3>
+            <div class="form-row"><div><label>Service</label><select id="couponService"><option value="images">🔍 Images</option><option value="ai-image">🎨 AI Image</option><option value="ai-video">🎬 AI Video</option></select></div>
+            <div><label>Plan</label><select id="couponType"><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="unlimited">Unlimited</option></select></div></div>
+            <button class="action-btn primary" style="padding:14px 30px" onclick="generateCoupon()">🎫 Generate</button>
+        </div>
+        <table class="users-table"><thead><tr><th>Code</th><th>Service</th><th>Plan</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+        <tbody id="couponsTableBody"><tr><td colspan="6" style="text-align:center;padding:40px">No coupons</td></tr></tbody></table>
+    </div>
+    
+    <div class="content-panel" id="bannedPanel">
+        <h3 style="margin-bottom:20px;color:#ef4444">🚫 Banned Users</h3>
+        <table class="users-table"><thead><tr><th>User</th><th>Email</th><th>Banned</th><th>Reason</th><th>Actions</th></tr></thead>
+        <tbody id="bannedTableBody"><tr><td colspan="5" style="text-align:center;padding:40px">No banned</td></tr></tbody></table>
+    </div>
+    
+    <div class="content-panel" id="settingsPanel">
+        <div class="sub-form"><h3>⚙️ Settings</h3>
+            <div><label>Database</label><input type="text" id="binId" value="Firebase Realtime DB" disabled style="opacity:0.5"></div>
+            <div style="margin-top:20px"><button class="action-btn primary" onclick="refreshData()">🔄 Refresh</button><button class="action-btn danger" onclick="exportAllData()">📥 Export</button></div>
+        </div>
+    </div>
 </div>
+
+<script src="../blsc-account.js"></script>
+<script>
+const ADMIN_KEY='blsc_admin_session';
+const FIREBASE_DB_URL='https://blsc-accounts-206b9-default-rtdb.firebaseio.com';
+let allUsers={};
+
+// Check login
+if(localStorage.getItem(ADMIN_KEY)!=='logged_in'){
+    window.location.href='index.html';
+}
+
+// Initialize
+loadAllData();
+checkSystemStatus();
+setInterval(loadAllData, 3000);
+setInterval(checkSystemStatus, 30000);
+
+function adminLogout(){
+    localStorage.removeItem(ADMIN_KEY);
+    window.location.href='index.html';
+}
+
+async function loadAllData(){
+    try{
+        BLSC_ACCOUNT._usersCache=null;
+        BLSC_ACCOUNT._cacheTime=null;
+        allUsers=await BLSC_ACCOUNT.getUsers();
+        updateStats();
+        renderUsersTable();
+        renderSubscriptionsTable();
+        renderPaymentsTable();
+        renderCouponsTable();
+        renderBannedTable();
+    }catch(e){console.error('Load error:',e);}
+}
+
+function getInitials(name){
+    if(!name)return'?';
+    const p=name.trim().split(' ');
+    return p.length>=2?(p[0][0]+p[p.length-1][0]).toUpperCase():name.substring(0,2).toUpperCase();
+}
+
+function getAvatarColor(name){
+    const colors=['#3fb950','#58a6ff','#8b5cf6','#f97316','#ec4899','#14b8a6','#eab308'];
+    let h=0;for(let i=0;i<name.length;i++)h=name.charCodeAt(i)+((h<<5)-h);
+    return colors[Math.abs(h)%colors.length];
+}
+
+function updateStats(){
+    const list=Object.values(allUsers).filter(u=>typeof u==='object'&&u.email);
+    let trials=0,paid=0,pending=0,banned=0;
+    list.forEach(u=>{
+        if(u.banned){banned++;return;}
+        if(u.subscriptions)Object.values(u.subscriptions).forEach(s=>{
+            if(s.type==='unlimited'||new Date()<new Date(s.endDate)){s.type==='free_trial'?trials++:paid++;}
+        });
+        if(u.pendingPayments)pending+=u.pendingPayments.filter(p=>p.status==='pending').length;
+    });
+    document.getElementById('totalUsers').textContent=list.filter(u=>!u.banned).length;
+    document.getElementById('activeTrials').textContent=trials;
+    document.getElementById('paidSubs').textContent=paid;
+    document.getElementById('pendingPay').textContent=pending;
+    document.getElementById('bannedUsers').textContent=banned;
+}
+
+function renderUsersTable(f=''){
+    const tbody=document.getElementById('usersTableBody');
+    const list=Object.values(allUsers).filter(u=>u.email&&!u.banned);
+    if(!list.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:40px">No users</td></tr>';return;}
+    const filtered=f?list.filter(u=>(u.name||'').toLowerCase().includes(f.toLowerCase())||u.email.toLowerCase().includes(f.toLowerCase())):list;
+    tbody.innerHTML=filtered.map(u=>{
+        const c=getAvatarColor(u.name||'U'),i=getInitials(u.name||'User'),s=u.subscriptions?Object.keys(u.subscriptions).length:0;
+        const emailKey=u.email.replace(/\./g,'_');
+        return `<tr><td><div class="user-info"><div class="user-avatar" style="background:${c}">${i}</div><div><div class="user-name">${u.name||'Unknown'}</div><div class="user-email">${u.email}</div></div></div></td><td>${new Date(u.createdAt).toLocaleDateString()}</td><td>${u.lastLogin?new Date(u.lastLogin).toLocaleDateString():'-'}</td><td><span class="badge ${s>0?'active':'none'}">${s}</span></td><td><button class="action-btn primary" onclick="editUser('${u.email}')">✏️</button><button class="action-btn" style="background:#ff6b00;color:#fff" onclick="banUser('${emailKey}')">🔨</button><button class="action-btn danger" onclick="deleteUser('${emailKey}')">🗑️</button></td></tr>`;
+    }).join('');
+}
+
+function renderSubscriptionsTable(){
+    const tbody=document.getElementById('subsTableBody'),rows=[],n={'images':'🔍','ai-image':'🎨','ai-video':'🎬'};
+    Object.values(allUsers).forEach(u=>{
+        if(u.subscriptions)Object.entries(u.subscriptions).forEach(([s,sub])=>{
+            const a=sub.type==='unlimited'||new Date()<new Date(sub.endDate);
+            const emailKey=u.email.replace(/\./g,'_');
+            rows.push(`<tr><td>${u.email}</td><td>${n[s]||s}</td><td>${sub.type}</td><td><span class="badge ${a?'active':'expired'}">${a?'Active':'Expired'}</span></td><td>${sub.endDate?new Date(sub.endDate).toLocaleDateString():'Never'}</td><td><button class="action-btn danger" onclick="removeSub('${emailKey}','${s}')">🗑️</button></td></tr>`);
+        });
+    });
+    tbody.innerHTML=rows.length?rows.join(''):'<tr><td colspan="6" style="text-align:center;padding:40px">No subs</td></tr>';
+}
+
+function renderPaymentsTable(){
+    const tbody=document.getElementById('paymentsTableBody'),rows=[],n={'images':'🔍','ai-image':'🎨','ai-video':'🎬'};
+    Object.values(allUsers).forEach(u=>{
+        if(u.pendingPayments)u.pendingPayments.forEach((p,i)=>{
+            if(p.status==='pending'){
+                const emailKey=u.email.replace(/\./g,'_');
+                rows.push(`<tr><td>${u.email}</td><td>${n[p.service]||p.service}</td><td>${p.plan}</td><td><strong>${p.amount}Br</strong></td><td>${p.method}</td><td><button class="action-btn" style="background:#58a6ff;color:#fff" onclick="viewScreenshotFull('${emailKey}',${i})">📷</button></td><td>${new Date(p.createdAt).toLocaleDateString()}</td><td><button class="action-btn primary" onclick="approvePayment('${emailKey}',${i})">✅</button><button class="action-btn danger" onclick="rejectPayment('${emailKey}',${i})">❌</button></td></tr>`);
+            }
+        });
+    });
+    tbody.innerHTML=rows.length?rows.join(''):'<tr><td colspan="8" style="text-align:center;padding:40px">No pending</td></tr>';
+}
+
+function renderCouponsTable(){
+    const tbody=document.getElementById('couponsTableBody'),c=allUsers._coupons||[],n={'images':'🔍','ai-image':'🎨','ai-video':'🎬'};
+    if(!c.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:40px">No coupons</td></tr>';return;}
+    tbody.innerHTML=c.map((x,i)=>`<tr><td><strong style="color:#3fb950">${x.code}</strong></td><td>${n[x.service]}</td><td>${x.type}</td><td><span class="badge ${x.status==='active'?'active':'expired'}">${x.status}</span></td><td>${new Date(x.createdAt).toLocaleDateString()}</td><td><button class="action-btn danger" onclick="deleteCoupon(${i})">🗑️</button></td></tr>`).join('');
+}
+
+function renderBannedTable(){
+    const tbody=document.getElementById('bannedTableBody'),b=Object.values(allUsers).filter(u=>u.banned);
+    if(!b.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:40px">No banned</td></tr>';return;}
+    tbody.innerHTML=b.map(u=>{
+        const emailKey=u.email.replace(/\./g,'_');
+        return `<tr style="background:rgba(239,68,68,0.05)"><td><div class="user-info"><div class="user-avatar" style="background:#ef4444">${getInitials(u.name||'U')}</div><div class="user-name" style="color:#ef4444">${u.name||'?'}</div></div></td><td>${u.email}</td><td>${u.bannedAt?new Date(u.bannedAt).toLocaleDateString():'-'}</td><td style="color:#ef4444">${u.banReason||'-'}</td><td><button class="action-btn primary" onclick="unbanUser('${emailKey}')">✅</button><button class="action-btn danger" onclick="deleteUser('${emailKey}')">🗑️</button></td></tr>`;
+    }).join('');
+}
+
+function viewScreenshotFull(key,i){const u=allUsers[key];if(u?.pendingPayments?.[i]?.screenshotUrl){document.getElementById('modalScreenshot').src=u.pendingPayments[i].screenshotUrl;document.getElementById('screenshotModal').style.display='flex';}}
+function closeScreenshot(){document.getElementById('screenshotModal').style.display='none';}
+function filterUsers(){renderUsersTable(document.getElementById('searchUsers').value);}
+function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.content-panel').forEach(x=>x.classList.remove('active'));event.target.classList.add('active');document.getElementById(t+'Panel').classList.add('active');}
+
+async function addSubscription(){
+    const e=document.getElementById('subEmail').value,s=document.getElementById('subService').value,t=document.getElementById('subType').value;
+    const key=e.replace(/\./g,'_');
+    if(!e||!allUsers[key]){alert('User not found');return;}
+    const d={'free_trial':30,'monthly':30,'yearly':365,'unlimited':0};
+    await BLSC_ACCOUNT.activateSubscription(e,s,t,d[t]);
+    alert('✅ Done');await loadAllData();
+}
+
+async function removeSub(key,s){if(!confirm('Remove?'))return;const u=await BLSC_ACCOUNT.getUsers();if(u[key]?.subscriptions){delete u[key].subscriptions[s];await BLSC_ACCOUNT.saveUsers(u);await loadAllData();}}
+async function deleteUser(key){if(!confirm('Delete user?'))return;const u=await BLSC_ACCOUNT.getUsers();delete u[key];await BLSC_ACCOUNT.saveUsers(u);await loadAllData();}
+function editUser(e){document.getElementById('subEmail').value=e;showTab('subscriptions');}
+
+async function approvePayment(key,i){
+    const u=await BLSC_ACCOUNT.getUsers(),p=u[key].pendingPayments[i];
+    if(!confirm('Approve '+p.amount+'Br?'))return;
+    const d={'monthly':30,'yearly':365,'unlimited':0};
+    const email=u[key].email;
+    await BLSC_ACCOUNT.activateSubscription(email,p.service,p.plan,d[p.plan]);
+    u[key].pendingPayments[i].status='approved';
+    await BLSC_ACCOUNT.saveUsers(u);alert('✅');await loadAllData();
+}
+
+async function rejectPayment(key,i){if(!confirm('Reject?'))return;const u=await BLSC_ACCOUNT.getUsers();u[key].pendingPayments[i].status='rejected';await BLSC_ACCOUNT.saveUsers(u);await loadAllData();}
+
+async function generateCoupon(){
+    const s=document.getElementById('couponService').value,t=document.getElementById('couponType').value;
+    const c='BLSC-'+Math.random().toString(36).substring(2,8).toUpperCase();
+    const u=await BLSC_ACCOUNT.getUsers();
+    if(!u._coupons)u._coupons=[];
+    u._coupons.push({code:c,service:s,type:t,status:'active',createdAt:new Date().toISOString()});
+    await BLSC_ACCOUNT.saveUsers(u);alert('✅ '+c);await loadAllData();
+}
+
+async function deleteCoupon(i){if(!confirm('Delete?'))return;const u=await BLSC_ACCOUNT.getUsers();u._coupons.splice(i,1);await BLSC_ACCOUNT.saveUsers(u);await loadAllData();}
+
+async function banUser(key){
+    const r=prompt('Reason:')||'Violation';
+    if(!confirm('🔨 BAN user?'))return;
+    const u=await BLSC_ACCOUNT.getUsers();
+    u[key].banned=true;u[key].banReason=r;u[key].bannedAt=new Date().toISOString();u[key].subscriptions={};
+    await BLSC_ACCOUNT.saveUsers(u);alert('🚫 BANNED');await loadAllData();
+}
+
+async function unbanUser(key){if(!confirm('Unban?'))return;const u=await BLSC_ACCOUNT.getUsers();u[key].banned=false;delete u[key].banReason;delete u[key].bannedAt;await BLSC_ACCOUNT.saveUsers(u);await loadAllData();}
+
+async function refreshData(){BLSC_ACCOUNT._usersCache=null;BLSC_ACCOUNT._cacheTime=null;await loadAllData();checkSystemStatus();alert('✅');}
+
+function exportAllData(){const b=new Blob([JSON.stringify(allUsers,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='blsc_'+new Date().toISOString().split('T')[0]+'.json';a.click();}
+
+async function checkSystemStatus(){
+    const s=Date.now();
+    try{
+        const r=await fetch(`${FIREBASE_DB_URL}/users.json`);
+        const p=Date.now()-s;
+        if(r.ok){
+            document.getElementById('statusText').innerHTML='🟢 ONLINE';
+            document.getElementById('cloudStatus').textContent='Firebase Connected';
+            document.getElementById('cloudStatus').style.color='#3fb950';
+            document.getElementById('pingTime').textContent=p+'ms';
+            document.getElementById('pingTime').style.color=p<500?'#3fb950':'#eab308';
+        }else throw new Error();
+    }catch{
+        document.getElementById('statusText').innerHTML='🔴 OFFLINE';
+        document.getElementById('cloudStatus').textContent='Disconnected';
+        document.getElementById('cloudStatus').style.color='#ef4444';
+    }
+}
+</script>
 </body>
 </html>
