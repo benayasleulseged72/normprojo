@@ -176,15 +176,18 @@
     async function loadConversations() {
         const users = await BLSC_ACCOUNT.getUsers();
         allUsers = users;
-        const userData = users[currentUser.email];
+        const emailKey = currentUser.email.replace(/\./g, '_');
+        const userData = users[emailKey];
         conversations = userData?.messages || [];
     }
 
     // Save conversations to cloud
     async function saveConversations() {
         const users = await BLSC_ACCOUNT.getUsers();
-        if (!users[currentUser.email].messages) users[currentUser.email].messages = [];
-        users[currentUser.email].messages = conversations;
+        const emailKey = currentUser.email.replace(/\./g, '_');
+        if (!users[emailKey]) return;
+        if (!users[emailKey].messages) users[emailKey].messages = [];
+        users[emailKey].messages = conversations;
         await BLSC_ACCOUNT.saveUsers(users);
     }
 
@@ -318,9 +321,10 @@
         
         // Also save to recipient's messages
         const users = await BLSC_ACCOUNT.getUsers();
-        if (users[activeConversation]) {
-            if (!users[activeConversation].messages) users[activeConversation].messages = [];
-            users[activeConversation].messages.push(msg);
+        const recipientKey = activeConversation.replace(/\./g, '_');
+        if (users[recipientKey]) {
+            if (!users[recipientKey].messages) users[recipientKey].messages = [];
+            users[recipientKey].messages.push(msg);
             await BLSC_ACCOUNT.saveUsers(users);
         }
         
@@ -436,9 +440,10 @@
         
         // Also save to recipient's messages
         const users = await BLSC_ACCOUNT.getUsers();
-        if (users[selectedRecipient]) {
-            if (!users[selectedRecipient].messages) users[selectedRecipient].messages = [];
-            users[selectedRecipient].messages.push(msg);
+        const recipientKey = selectedRecipient.replace(/\./g, '_');
+        if (users[recipientKey]) {
+            if (!users[recipientKey].messages) users[recipientKey].messages = [];
+            users[recipientKey].messages.push(msg);
             await BLSC_ACCOUNT.saveUsers(users);
         }
         
@@ -480,6 +485,12 @@
 
     function filterConversations() {
         renderConversations();
+    }
+
+    function toggleSendBtn() {
+        const input = document.getElementById('messageInput');
+        const btn = document.getElementById('sendBtn');
+        btn.style.opacity = (input.value.trim() || pendingFile) ? '1' : '0.5';
     }
 </script>
 </body>
