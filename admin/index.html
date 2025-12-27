@@ -169,6 +169,7 @@
 <script src="../blsc-account.js"></script>
 <script>
 const ADMIN_USER='support@blsc.com',ADMIN_PASS='1xvbeni72',ADMIN_KEY='blsc_admin_session';
+const FIREBASE_DB_URL='https://blsc-accounts-206b9-default-rtdb.firebaseio.com';
 let allUsers={};
 if(localStorage.getItem(ADMIN_KEY)==='logged_in')showAdminPanel();
 
@@ -181,16 +182,18 @@ function adminLogout(){localStorage.removeItem(ADMIN_KEY);document.getElementByI
 async function showAdminPanel(){
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('adminPanel').style.display='block';
-    document.getElementById('binId').value=BLSC_ACCOUNT.JSONBIN_BIN_ID;
+    document.getElementById('binId').value='Firebase Realtime DB';
     await loadAllData();
     checkSystemStatus();
-    // Auto-refresh every 5 seconds
-    setInterval(async()=>{await loadAllData();},5000);
+    // Auto-refresh every 3 seconds for real-time updates
+    setInterval(async()=>{await loadAllData();},3000);
 }
 
 async function loadAllData(){
     try{
-        BLSC_ACCOUNT._usersCache=null; // Clear cache to get fresh data
+        // Clear both cache AND cacheTime to force fresh data from Firebase
+        BLSC_ACCOUNT._usersCache=null;
+        BLSC_ACCOUNT._cacheTime=null;
         allUsers=await BLSC_ACCOUNT.getUsers();
         updateStats();
         renderUsersTable();
@@ -219,11 +222,11 @@ function renderPaymentsTable(){const tbody=document.getElementById('paymentsTabl
 Object.values(allUsers).forEach(u=>{if(u.pendingPayments)u.pendingPayments.forEach((p,i)=>{if(p.status==='pending')rows.push(`<tr><td>${u.email}</td><td>${n[p.service]||p.service}</td><td>${p.plan}</td><td><strong>${p.amount}Br</strong></td><td>${p.method}</td><td><button class="action-btn" style="background:#58a6ff;color:#fff" onclick="viewScreenshotFull('${u.email}',${i})">📷</button></td><td>${new Date(p.createdAt).toLocaleDateString()}</td><td><button class="action-btn primary" onclick="approvePayment('${u.email}',${i})">✅</button><button class="action-btn danger" onclick="rejectPayment('${u.email}',${i})">❌</button></td></tr>`);});});
 tbody.innerHTML=rows.length?rows.join(''):'<tr><td colspan="8" style="text-align:center;padding:40px">No pending</td></tr>';}
 
-function viewScreenshotFull(e,i){const u=allUsers[e];if(u?.pendingPayments?.[i]?.screenshotUrl){document.getElementById('modalScreenshot').src=u.pendingPayments[i].screenshotUrl;document.getElementById('screenshotModal').style.display='flex';}}
+function viewScreenshotFull(e,i){const key=e.replace(/\./g,'_');const u=allUsers[key];if(u?.pendingPayments?.[i]?.screenshotUrl){document.getElementById('modalScreenshot').src=u.pendingPayments[i].screenshotUrl;document.getElementById('screenshotModal').style.display='flex';}}
 function closeScreenshot(){document.getElementById('screenshotModal').style.display='none';}
 function filterUsers(){renderUsersTable(document.getElementById('searchUsers').value);}
 function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.content-panel').forEach(x=>x.classList.remove('active'));event.target.classList.add('active');document.getElementById(t+'Panel').classList.add('active');}
-async function addSubscription(){const e=document.getElementById('subEmail').value,s=document.getElementById('subService').value,t=document.getElementById('subType').value;if(!e||!allUsers[e]){alert('User not found');return;}const d={'free_trial':30,'monthly':30,'yearly':365,'unlimited':0};await BLSC_ACCOUNT.activateSubscription(e,s,t,d[t]);alert('✅ Done');await loadAllData();}
+async function addSubscription(){const e=document.getElementById('subEmail').value,s=document.getElementById('subService').value,t=document.getElementById('subType').value;const key=e.replace(/\./g,'_');if(!e||!allUsers[key]){alert('User not found');return;}const d={'free_trial':30,'monthly':30,'yearly':365,'unlimited':0};await BLSC_ACCOUNT.activateSubscription(e,s,t,d[t]);alert('✅ Done');await loadAllData();}
 async function removeSub(e,s){if(!confirm('Remove?'))return;const u=await BLSC_ACCOUNT.getUsers();if(u[e]?.subscriptions){delete u[e].subscriptions[s];await BLSC_ACCOUNT.saveUsers(u);await loadAllData();}}
 async function deleteUser(e){if(!confirm('Delete '+e+'?'))return;const u=await BLSC_ACCOUNT.getUsers();delete u[e];await BLSC_ACCOUNT.saveUsers(u);await loadAllData();}
 function editUser(e){document.getElementById('subEmail').value=e;showTab('subscriptions');}
@@ -237,7 +240,7 @@ async function unbanUser(e){if(!confirm('Unban?'))return;const u=await BLSC_ACCO
 function renderBannedTable(){const tbody=document.getElementById('bannedTableBody'),b=Object.values(allUsers).filter(u=>u.banned);if(!b.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:40px">No banned</td></tr>';return;}tbody.innerHTML=b.map(u=>`<tr style="background:rgba(239,68,68,0.05)"><td><div class="user-info"><div class="user-avatar" style="background:#ef4444">${BLSC_ACCOUNT.getInitials(u.name||'U')}</div><div class="user-name" style="color:#ef4444">${u.name||'?'}</div></div></td><td>${u.email}</td><td>${u.bannedAt?new Date(u.bannedAt).toLocaleDateString():'-'}</td><td style="color:#ef4444">${u.banReason||'-'}</td><td><button class="action-btn primary" onclick="unbanUser('${u.email}')">✅</button><button class="action-btn danger" onclick="deleteUser('${u.email}')">🗑️</button></td></tr>`).join('');}
 async function refreshData(){BLSC_ACCOUNT._usersCache=null;await loadAllData();checkSystemStatus();alert('✅');}
 function exportAllData(){const b=new Blob([JSON.stringify(allUsers,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='blsc_'+new Date().toISOString().split('T')[0]+'.json';a.click();}
-async function checkSystemStatus(){const s=Date.now();try{const r=await fetch(`https://api.jsonbin.io/v3/b/${BLSC_ACCOUNT.JSONBIN_BIN_ID}/latest`,{headers:{'X-Access-Key':BLSC_ACCOUNT.JSONBIN_API_KEY}});const p=Date.now()-s;if(r.ok){document.getElementById('statusText').innerHTML='🟢 ONLINE';document.getElementById('cloudStatus').textContent='Connected';document.getElementById('cloudStatus').style.color='#3fb950';document.getElementById('pingTime').textContent=p+'ms';document.getElementById('pingTime').style.color=p<500?'#3fb950':'#eab308';}else throw new Error();}catch{document.getElementById('statusText').innerHTML='🔴 OFFLINE';document.getElementById('cloudStatus').textContent='Disconnected';document.getElementById('cloudStatus').style.color='#ef4444';}}
+async function checkSystemStatus(){const s=Date.now();try{const r=await fetch(`${FIREBASE_DB_URL}/users.json`);const p=Date.now()-s;if(r.ok){document.getElementById('statusText').innerHTML='🟢 ONLINE';document.getElementById('cloudStatus').textContent='Firebase Connected';document.getElementById('cloudStatus').style.color='#3fb950';document.getElementById('pingTime').textContent=p+'ms';document.getElementById('pingTime').style.color=p<500?'#3fb950':'#eab308';}else throw new Error();}catch{document.getElementById('statusText').innerHTML='🔴 OFFLINE';document.getElementById('cloudStatus').textContent='Disconnected';document.getElementById('cloudStatus').style.color='#ef4444';}}
 setInterval(checkSystemStatus,30000);
 </script>
 </body>
