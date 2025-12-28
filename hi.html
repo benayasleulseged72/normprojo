@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLSC Video Player</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: #0d0d0d;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 20px; font-weight: bold; color: #3fb950; }
+        .main-container {
+            display: flex;
+            flex: 1;
+            padding: 10px;
+            gap: 10px;
+            height: calc(100% - 60px);
+            overflow: hidden;
+        }
+        .playlist-panel {
+            width: 220px;
+            background: #252525;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        .playlist-title { text-align: center; padding: 10px; font-weight: bold; }
+        .playlist {
+            flex: 1;
+            overflow-y: auto;
+            background: #1a1a1a;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .playlist-item {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .playlist-item:hover { background: #333; }
+        .playlist-item.active { background: #3fb950; color: #000; }
+        .playlist-btns { display: flex; gap: 5px; }
+        .playlist-btns button {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-add { background: #3fb950; color: #000; font-weight: bold; }
+        .btn-clear { background: #ef4444; color: #fff; }
+        .video-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            min-height: 0;
+        }
+        .video-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #000;
+            min-height: 0;
+            overflow: hidden;
+        }
+        #videoPlayer {
+            max-width: 100%;
+            max-height: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .placeholder {
+            color: #555;
+            text-align: center;
+            font-size: 18px;
+        }
+        .controls-panel {
+            background: #0d0d0d;
+            padding: 15px 20px;
+        }
+        .now-playing {
+            text-align: center;
+            color: #888;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .time-display { font-size: 13px; color: #888; min-width: 70px; }
+        .time-current { text-align: right; }
+        .time-duration { text-align: left; }
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #3fb950;
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.1s;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .ctrl-btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            background: #333;
+            color: #fff;
+        }
+        .ctrl-btn:hover { opacity: 0.8; }
+        .btn-open { background: #58a6ff; }
+        .btn-play { background: #3fb950; color: #000; font-weight: bold; padding: 10px 25px; }
+        .btn-stop { background: #ef4444; }
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 15px;
+        }
+        .volume-slider {
+            width: 80px;
+            cursor: pointer;
+        }
+        input[type="file"] { display: none; }
+        
+        /* Fullscreen styles */
+        .fullscreen .playlist-panel,
+        .fullscreen header { display: none; }
+        .fullscreen .main-container { padding: 0; }
+        .fullscreen .video-panel { border-radius: 0; }
+        
+        :fullscreen .controls-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        :fullscreen:hover .controls-panel { opacity: 1; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">🎬 BLSC Video Player</div>
+        <div id="status">Ready</div>
+    </header>
+    
+    <div class="main-container">
+        <div class="playlist-panel">
+            <div class="playlist-title">📋 Playlist</div>
+            <div class="playlist" id="playlist"></div>
+            <div class="playlist-btns">
+                <button class="btn-add" onclick="addToPlaylist()">➕ Add</button>
+                <button class="btn-clear" onclick="clearPlaylist()">🗑️</button>
+            </div>
+        </div>
+        
+        <div class="video-panel" id="videoPanel">
+            <div class="video-container" id="videoContainer">
+                <div class="placeholder" id="placeholder">🎬<br><br>Click 'Open' to load a video</div>
+                <video id="videoPlayer" style="display:none;"></video>
+            </div>
+            
+            <div class="controls-panel">
+                <div class="now-playing" id="nowPlaying">No video loaded</div>
+                
+                <div class="progress-container">
+                    <span class="time-display time-current" id="currentTime">00:00.00</span>
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="time-display time-duration" id="duration">00:00.00</span>
+                </div>
+                
+                <div class="controls">
+                    <button class="ctrl-btn btn-open" onclick="openFile()">📂 Open</button>
+                    <button class="ctrl-btn" onclick="prevVideo()">⏮️</button>
+                    <button class="ctrl-btn btn-play" id="playBtn" onclick="togglePlay()">▶️ Play</button>
+                    <button class="ctrl-btn btn-stop" onclick="stopVideo()">⏹️ Stop</button>
+                    <button class="ctrl-btn" onclick="nextVideo()">⏭️</button>
+                    <button class="ctrl-btn" id="fullscreenBtn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+                    <div class="volume-control">
+                        <span id="volIcon">🔊</span>
+                        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <input type="file" id="fileInput" accept="video/*" multiple onchange="handleFiles(this.files)">
+    
+    <script>
+        const video = document.getElementById('videoPlayer');
+        const placeholder = document.getElementById('placeholder');
+        const playBtn = document.getElementById('playBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        const nowPlaying = document.getElementById('nowPlaying');
+        const playlistEl = document.getElementById('playlist');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volIcon = document.getElementById('volIcon');
+        const videoPanel = document.getElementById('videoPanel');
+        const videoContainer = document.getElementById('videoContainer');
+        
+        let playlist = [];
+        let currentIndex = 0;
+        
+        // Set initial volume
+        video.volume = 0.7;
+        
+        function openFile() {
+            document.getElementById('fileInput').click();
+        }
+        
+        function handleFiles(files) {
+            for (let file of files) {
+                if (!playlist.some(p => p.name === file.name)) {
+                    playlist.push(file);
+                    addPlaylistItem(file.name, playlist.length - 1);
+                }
+            }
+            if (playlist.length === 1) {
+                loadVideo(0);
+            }
+        }
+        
+        function addPlaylistItem(name, index) {
+            const item = document.createElement('div');
+            item.className = 'playlist-item';
+            item.textContent = '🎬 ' + name;
+            item.onclick = () => loadVideo(index);
+            playlistEl.appendChild(item);
+        }
+        
+        function loadVideo(index) {
+            if (index < 0 || index >= playlist.length) return;
+            
+            currentIndex = index;
+            const file = playlist[index];
+            const url = URL.createObjectURL(file);
+            
+            video.src = url;
+            video.style.display = 'block';
+            placeholder.style.display = 'none';
+            nowPlaying.textContent = '🎵 ' + file.name;
+            
+            // Update playlist selection
+            document.querySelectorAll('.playlist-item').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+            
+            video.load();
+        }
+        
+        function togglePlay() {
+            if (!video.src) {
+                alert('Please open a video file first!');
+                return;
+            }
+            if (video.paused) {
+                video.play();
+                playBtn.textContent = '⏸️ Pause';
+                playBtn.style.background = '#f97316';
+            } else {
+                video.pause();
+                playBtn.textContent = '▶️ Play';
+                playBtn.style.background = '#3fb950';
+            }
+        }
+        
+        function stopVideo() {
+            video.pause();
+            video.currentTime = 0;
+            playBtn.textContent = '▶️ Play';
+            playBtn.style.background = '#3fb950';
+            progressFill.style.width = '0%';
+            currentTimeEl.textContent = '00:00.00';
+        }
+        
+        function prevVideo() {
+            if (currentIndex > 0) {
+                loadVideo(currentIndex - 1);
+                video.play();
+            }
+        }
+        
+        function nextVideo() {
+            if (currentIndex < playlist.length - 1) {
+                loadVideo(currentIndex + 1);
+                video.play();
+            }
+        }
+        
+        function addToPlaylist() {
+            openFile();
+        }
+        
+        function clearPlaylist() {
+            stopVideo();
+            playlist = [];
+            currentIndex = 0;
+            playlistEl.innerHTML = '';
+            video.src = '';
+            video.style.display = 'none';
+            placeholder.style.display = 'block';
+            nowPlaying.textContent = 'No video loaded';
+            durationEl.textContent = '00:00.00';
+        }
+        
+        function formatTime(seconds) {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            const ms = Math.floor((seconds % 1) * 100);
+            
+            if (hrs > 0) {
+                return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
+        }
+        
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                videoPanel.requestFullscreen();
+                document.getElementById('fullscreenBtn').textContent = '⛶ Exit';
+            } else {
+                document.exitFullscreen();
+                document.getElementById('fullscreenBtn').textContent = '⛶ Fullscreen';
+            }
+        }
+        
+        // Video events
+        video.addEventListener('timeupdate', () => {
+            const progress = (video.currentTime / video.duration) * 100;
+            progressFill.style.width = progress + '%';
+            currentTimeEl.textContent = formatTime(video.currentTime);
+        });
+        
+        video.addEventListener('loadedmetadata', () => {
+            durationEl.textContent = formatTime(video.duration);
+        });
+        
+        video.addEventListener('ended', () => {
+            playBtn.textContent = '▶️ Play';
+            playBtn.style.background = '#3fb950';
+            if (currentIndex < playlist.length - 1) {
+                nextVideo();
+            }
+        });
+        
+        video.addEventListener('play', () => {
+            playBtn.textContent = '⏸️ Pause';
+            playBtn.style.background = '#f97316';
+        });
+        
+        video.addEventListener('pause', () => {
+            playBtn.textContent = '▶️ Play';
+            playBtn.style.background = '#3fb950';
+        });
+        
+        // Progress bar click
+        progressBar.addEventListener('click', (e) => {
+            const rect = progressBar.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            video.currentTime = percent * video.duration;
+        });
+        
+        // Volume control
+        volumeSlider.addEventListener('input', (e) => {
+            const vol = e.target.value / 100;
+            video.volume = vol;
+            if (vol === 0) volIcon.textContent = '🔇';
+            else if (vol < 0.5) volIcon.textContent = '🔉';
+            else volIcon.textContent = '🔊';
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F11') {
+                e.preventDefault();
+                toggleFullscreen();
+            } else if (e.key === 'Escape' && document.fullscreenElement) {
+                document.exitFullscreen();
+            } else if (e.key === ' ' || e.key === 'k') {
+                e.preventDefault();
+                togglePlay();
+            } else if (e.key === 'ArrowLeft') {
+                video.currentTime -= 5;
+            } else if (e.key === 'ArrowRight') {
+                video.currentTime += 5;
+            } else if (e.key === 'm') {
+                video.muted = !video.muted;
+                volIcon.textContent = video.muted ? '🔇' : '🔊';
+            }
+        });
+        
+        // Double-click for fullscreen
+        videoContainer.addEventListener('dblclick', toggleFullscreen);
+        
+        // Fullscreen change event
+        document.addEventListener('fullscreenchange', () => {
+            const btn = document.getElementById('fullscreenBtn');
+            if (document.fullscreenElement) {
+                btn.textContent = '⛶ Exit';
+            } else {
+                btn.textContent = '⛶ Fullscreen';
+            }
+        });
+    </script>
+</body>
+</html>

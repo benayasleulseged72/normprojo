@@ -1,460 +1,548 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLSC Video Player</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #1a1a1a;
-            color: #fff;
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        header {
-            background: #0d0d0d;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo { font-size: 20px; font-weight: bold; color: #3fb950; }
-        .main-container {
-            display: flex;
-            flex: 1;
-            padding: 10px;
-            gap: 10px;
-            height: calc(100% - 60px);
-            overflow: hidden;
-        }
-        .playlist-panel {
-            width: 220px;
-            background: #252525;
-            border-radius: 8px;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-        }
-        .playlist-title { text-align: center; padding: 10px; font-weight: bold; }
-        .playlist {
-            flex: 1;
-            overflow-y: auto;
-            background: #1a1a1a;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-        .playlist-item {
-            padding: 10px;
-            cursor: pointer;
-            border-bottom: 1px solid #333;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .playlist-item:hover { background: #333; }
-        .playlist-item.active { background: #3fb950; color: #000; }
-        .playlist-btns { display: flex; gap: 5px; }
-        .playlist-btns button {
-            flex: 1;
-            padding: 8px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .btn-add { background: #3fb950; color: #000; font-weight: bold; }
-        .btn-clear { background: #ef4444; color: #fff; }
-        .video-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: #000;
-            border-radius: 8px;
-            overflow: hidden;
-            min-height: 0;
-        }
-        .video-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            background: #000;
-            min-height: 0;
-            overflow: hidden;
-        }
-        #videoPlayer {
-            max-width: 100%;
-            max-height: 100%;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        .placeholder {
-            color: #555;
-            text-align: center;
-            font-size: 18px;
-        }
-        .controls-panel {
-            background: #0d0d0d;
-            padding: 15px 20px;
-        }
-        .now-playing {
-            text-align: center;
-            color: #888;
-            margin-bottom: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .progress-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .time-display { font-size: 13px; color: #888; min-width: 70px; }
-        .time-current { text-align: right; }
-        .time-duration { text-align: left; }
-        .progress-bar {
-            flex: 1;
-            height: 6px;
-            background: #333;
-            border-radius: 3px;
-            cursor: pointer;
-            position: relative;
-        }
-        .progress-fill {
-            height: 100%;
-            background: #3fb950;
-            border-radius: 3px;
-            width: 0%;
-            transition: width 0.1s;
-        }
-        .controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .ctrl-btn {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            background: #333;
-            color: #fff;
-        }
-        .ctrl-btn:hover { opacity: 0.8; }
-        .btn-open { background: #58a6ff; }
-        .btn-play { background: #3fb950; color: #000; font-weight: bold; padding: 10px 25px; }
-        .btn-stop { background: #ef4444; }
-        .volume-control {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-left: 15px;
-        }
-        .volume-slider {
-            width: 80px;
-            cursor: pointer;
-        }
-        input[type="file"] { display: none; }
-        
-        /* Fullscreen styles */
-        .fullscreen .playlist-panel,
-        .fullscreen header { display: none; }
-        .fullscreen .main-container { padding: 0; }
-        .fullscreen .video-panel { border-radius: 0; }
-        
-        :fullscreen .controls-panel {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        :fullscreen:hover .controls-panel { opacity: 1; }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="google-site-verification" content="CvaeFMWxsIWnvjwGoErskfnMeKQSygjX-hKccMuS5_A" />
+<title>BLSC - Benayas Leulseged Software Company | Web & Software Services Ethiopia</title>
+<meta name="description" content="BLSC - Benayas Leulseged Software Company. Quality web development, software, app development, and tech services in Jimma, Ethiopia.">
+<meta name="keywords" content="BLSC, blsc web, blsc adv, Benayas Leulseged, Software Company, web development Ethiopia">
+<meta name="author" content="Benayas Leulseged">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://benio.vercel.app/">
+
+<!-- 
+    BLSC Website - Main Homepage
+    Created by: Benayas Leulseged
+    Started: 2024
+    Last updated: Dec 2024
+    
+    This is my personal project for BLSC Software Company
+    Feel free to learn from this code but please dont copy directly :)
+-->
+
+<style>
+  /* importing google fonts - inter looks clean */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  
+  /* reset styles - i always start with this */
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  
+  /* main body styling */
+  body{
+    font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background:#0a0a0a;
+    color:#ffffff;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  
+  /* cool gradient bg effect i made */
+  .bg-gradient{
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(63,185,80,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(88,166,255,0.1) 0%, transparent 50%),
+      #0a0a0a;
+    z-index:-1;
+  }
+  
+  /* header with blur effect */
+  header{
+    background:rgba(10,10,10,0.8);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    position:sticky;top:0;z-index:100;
+  }
+  
+  /* navigation bar */
+  nav{
+    max-width:1200px;margin:auto;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;flex-wrap:wrap;gap:16px;
+  }
+  
+  /* logo styles */
+  .logo{
+    font-size:20px;font-weight:700;
+    color:#fff;
+    display:flex;align-items:center;gap:12px;
+  }
+  .logo img{width:42px;height:42px;border-radius:50%;border:2px solid #3fb950;}
+  .nav-links{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+  .nav-links a{
+    text-decoration:none;
+    color:rgba(255,255,255,0.7);
+    padding:10px 20px;
+    border-radius:100px;
+    font-weight:500;
+    font-size:14px;
+    transition:all 0.3s;
+  }
+  .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.1);}
+  .nav-links a.active{color:#0a0a0a;background:#3fb950;}
+  /* user icon styling - purple theme like the reference */
+  .user-icon{
+    position:relative;
+    display:flex;align-items:center;justify-content:center;
+    width:44px;height:44px;
+    background:transparent;
+    border-radius:12px;
+    color:#fff;
+    text-decoration:none;
+    transition:all 0.3s;
+    margin-left:20px;
+  }
+  .user-icon:hover{
+    transform:translateY(-2px);
+  }
+  .user-icon img{
+    width:44px;height:44px;
+    border-radius:12px;
+  }
+  .user-badge{
+    position:absolute;
+    bottom:-2px;right:-2px;
+    width:18px;height:18px;
+    background:#8b5cf6;
+    border-radius:50%;
+    font-size:10px;
+    display:flex;align-items:center;justify-content:center;
+    border:2px solid #0a0a0a;
+    color:#fff;
+  }
+  
+  .lang-select{
+    padding:8px 14px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:8px;
+    color:#fff;
+    font-size:13px;
+    cursor:pointer;
+  }
+  .lang-select option{background:#1a1a1a;}
+  
+  .hero{
+    min-height:90vh;
+    display:flex;align-items:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;
+    right:-10%;top:50%;
+    transform:translateY(-50%);
+    width:600px;height:600px;
+    background:url('2.jpg') center/cover;
+    border-radius:50%;
+    opacity:0.3;
+    filter:blur(2px);
+  }
+  .hero-inner{
+    max-width:1200px;margin:0 auto;
+    padding:60px 24px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:center;
+    position:relative;z-index:1;
+  }
+  @media(max-width:900px){
+    .hero-inner{grid-template-columns:1fr;text-align:center;}
+    .hero-bg{display:none;}
+  }
+  
+  .hero-content h1{
+    font-size:clamp(36px,6vw,64px);
+    font-weight:800;
+    line-height:1.1;
+    margin-bottom:24px;
+    background:linear-gradient(135deg, #fff 0%, #3fb950 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+  }
+  .hero-content p{
+    font-size:18px;
+    color:rgba(255,255,255,0.6);
+    line-height:1.8;
+    margin-bottom:36px;
+    max-width:480px;
+  }
+  @media(max-width:900px){.hero-content p{margin:0 auto 36px;}}
+  
+  .hero-buttons{display:flex;gap:16px;flex-wrap:wrap;}
+  @media(max-width:900px){.hero-buttons{justify-content:center;}}
+  
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:16px 32px;
+    background:linear-gradient(135deg, #3fb950, #2ea043);
+    color:#fff;
+    text-decoration:none;
+    border-radius:100px;
+    font-weight:600;
+    font-size:15px;
+    transition:all 0.3s;
+    box-shadow:0 4px 20px rgba(63,185,80,0.4);
+  }
+  .btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 30px rgba(63,185,80,0.5);
+  }
+  .btn-outline{
+    background:transparent;
+    border:2px solid rgba(255,255,255,0.3);
+    color:#fff;
+    box-shadow:none;
+  }
+  .btn-outline:hover{
+    border-color:#3fb950;
+    background:rgba(63,185,80,0.1);
+    box-shadow:0 8px 30px rgba(63,185,80,0.2);
+  }
+  
+  .hero-image{text-align:center;}
+  .hero-image img{
+    width:280px;height:280px;
+    border-radius:50%;
+    border:4px solid #3fb950;
+    box-shadow:0 0 60px rgba(63,185,80,0.4);
+    animation:float 4s ease-in-out infinite;
+  }
+  @keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-20px);}
+  }
+  
+  .section-title{
+    text-align:center;
+    margin-bottom:60px;
+  }
+  .section-title h2{
+    font-size:clamp(28px,4vw,42px);
+    font-weight:700;
+    margin-bottom:16px;
+  }
+  .section-title h2 span{color:#3fb950;}
+  .section-title p{color:rgba(255,255,255,0.5);font-size:17px;}
+  
+  .pages-section{
+    max-width:1200px;margin:0 auto;
+    padding:100px 24px;
+  }
+  .pages-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+    gap:30px;
+  }
+  .page-card{
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:24px;
+    overflow:hidden;
+    text-decoration:none;
+    transition:all 0.4s;
+  }
+  .page-card:hover{
+    border-color:#3fb950;
+    transform:translateY(-10px);
+    box-shadow:0 30px 60px rgba(0,0,0,0.5);
+  }
+  .page-card img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    transition:transform 0.4s;
+  }
+  .page-card:hover img{transform:scale(1.05);}
+  .page-card-content{padding:24px;}
+  .page-card h3{
+    font-size:22px;
+    color:#fff;
+    margin-bottom:8px;
+    font-weight:600;
+  }
+  .page-card p{color:rgba(255,255,255,0.5);font-size:15px;}
+  
+  .stats{
+    background:rgba(255,255,255,0.02);
+    border-top:1px solid rgba(255,255,255,0.05);
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    padding:80px 24px;
+  }
+  .stats-grid{
+    max-width:1000px;margin:auto;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:40px;
+    text-align:center;
+  }
+  @media(max-width:600px){.stats-grid{grid-template-columns:1fr;}}
+  .stat-item h3{
+    font-size:clamp(36px,6vw,56px);
+    font-weight:800;
+    background:linear-gradient(135deg, #3fb950, #58a6ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    margin-bottom:8px;
+  }
+  .stat-item p{color:rgba(255,255,255,0.5);font-size:16px;font-weight:500;}
+  
+  footer{
+    text-align:center;
+    padding:50px 24px;
+    color:rgba(255,255,255,0.4);
+    font-size:14px;
+  }
+  footer a{color:#3fb950;text-decoration:none;}
+</style>
 </head>
 <body>
-    <header>
-        <div class="logo">🎬 BLSC Video Player</div>
-        <div id="status">Ready</div>
-    </header>
-    
-    <div class="main-container">
-        <div class="playlist-panel">
-            <div class="playlist-title">📋 Playlist</div>
-            <div class="playlist" id="playlist"></div>
-            <div class="playlist-btns">
-                <button class="btn-add" onclick="addToPlaylist()">➕ Add</button>
-                <button class="btn-clear" onclick="clearPlaylist()">🗑️</button>
-            </div>
-        </div>
-        
-        <div class="video-panel" id="videoPanel">
-            <div class="video-container" id="videoContainer">
-                <div class="placeholder" id="placeholder">🎬<br><br>Click 'Open' to load a video</div>
-                <video id="videoPlayer" style="display:none;"></video>
-            </div>
-            
-            <div class="controls-panel">
-                <div class="now-playing" id="nowPlaying">No video loaded</div>
-                
-                <div class="progress-container">
-                    <span class="time-display time-current" id="currentTime">00:00.00</span>
-                    <div class="progress-bar" id="progressBar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <span class="time-display time-duration" id="duration">00:00.00</span>
-                </div>
-                
-                <div class="controls">
-                    <button class="ctrl-btn btn-open" onclick="openFile()">📂 Open</button>
-                    <button class="ctrl-btn" onclick="prevVideo()">⏮️</button>
-                    <button class="ctrl-btn btn-play" id="playBtn" onclick="togglePlay()">▶️ Play</button>
-                    <button class="ctrl-btn btn-stop" onclick="stopVideo()">⏹️ Stop</button>
-                    <button class="ctrl-btn" onclick="nextVideo()">⏭️</button>
-                    <button class="ctrl-btn" id="fullscreenBtn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
-                    <div class="volume-control">
-                        <span id="volIcon">🔊</span>
-                        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70">
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="bg-gradient"></div>
+
+<audio autoplay>
+  <source src="1.mp3" type="audio/mpeg">
+</audio>
+
+<header>
+  <nav>
+    <div class="logo">
+      <img src="1.png" alt="Logo">
+      <span>Benayas Leulseged Software Company</span>
     </div>
-    
-    <input type="file" id="fileInput" accept="video/*" multiple onchange="handleFiles(this.files)">
-    
-    <script>
-        const video = document.getElementById('videoPlayer');
-        const placeholder = document.getElementById('placeholder');
-        const playBtn = document.getElementById('playBtn');
-        const progressBar = document.getElementById('progressBar');
-        const progressFill = document.getElementById('progressFill');
-        const currentTimeEl = document.getElementById('currentTime');
-        const durationEl = document.getElementById('duration');
-        const nowPlaying = document.getElementById('nowPlaying');
-        const playlistEl = document.getElementById('playlist');
-        const volumeSlider = document.getElementById('volumeSlider');
-        const volIcon = document.getElementById('volIcon');
-        const videoPanel = document.getElementById('videoPanel');
-        const videoContainer = document.getElementById('videoContainer');
-        
-        let playlist = [];
-        let currentIndex = 0;
-        
-        // Set initial volume
-        video.volume = 0.7;
-        
-        function openFile() {
-            document.getElementById('fileInput').click();
-        }
-        
-        function handleFiles(files) {
-            for (let file of files) {
-                if (!playlist.some(p => p.name === file.name)) {
-                    playlist.push(file);
-                    addPlaylistItem(file.name, playlist.length - 1);
-                }
-            }
-            if (playlist.length === 1) {
-                loadVideo(0);
-            }
-        }
-        
-        function addPlaylistItem(name, index) {
-            const item = document.createElement('div');
-            item.className = 'playlist-item';
-            item.textContent = '🎬 ' + name;
-            item.onclick = () => loadVideo(index);
-            playlistEl.appendChild(item);
-        }
-        
-        function loadVideo(index) {
-            if (index < 0 || index >= playlist.length) return;
-            
-            currentIndex = index;
-            const file = playlist[index];
-            const url = URL.createObjectURL(file);
-            
-            video.src = url;
-            video.style.display = 'block';
-            placeholder.style.display = 'none';
-            nowPlaying.textContent = '🎵 ' + file.name;
-            
-            // Update playlist selection
-            document.querySelectorAll('.playlist-item').forEach((item, i) => {
-                item.classList.toggle('active', i === index);
-            });
-            
-            video.load();
-        }
-        
-        function togglePlay() {
-            if (!video.src) {
-                alert('Please open a video file first!');
-                return;
-            }
-            if (video.paused) {
-                video.play();
-                playBtn.textContent = '⏸️ Pause';
-                playBtn.style.background = '#f97316';
-            } else {
-                video.pause();
-                playBtn.textContent = '▶️ Play';
-                playBtn.style.background = '#3fb950';
-            }
-        }
-        
-        function stopVideo() {
-            video.pause();
-            video.currentTime = 0;
-            playBtn.textContent = '▶️ Play';
-            playBtn.style.background = '#3fb950';
-            progressFill.style.width = '0%';
-            currentTimeEl.textContent = '00:00.00';
-        }
-        
-        function prevVideo() {
-            if (currentIndex > 0) {
-                loadVideo(currentIndex - 1);
-                video.play();
-            }
-        }
-        
-        function nextVideo() {
-            if (currentIndex < playlist.length - 1) {
-                loadVideo(currentIndex + 1);
-                video.play();
-            }
-        }
-        
-        function addToPlaylist() {
-            openFile();
-        }
-        
-        function clearPlaylist() {
-            stopVideo();
-            playlist = [];
-            currentIndex = 0;
-            playlistEl.innerHTML = '';
-            video.src = '';
-            video.style.display = 'none';
-            placeholder.style.display = 'block';
-            nowPlaying.textContent = 'No video loaded';
-            durationEl.textContent = '00:00.00';
-        }
-        
-        function formatTime(seconds) {
-            const hrs = Math.floor(seconds / 3600);
-            const mins = Math.floor((seconds % 3600) / 60);
-            const secs = Math.floor(seconds % 60);
-            const ms = Math.floor((seconds % 1) * 100);
-            
-            if (hrs > 0) {
-                return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            }
-            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
-        }
-        
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                videoPanel.requestFullscreen();
-                document.getElementById('fullscreenBtn').textContent = '⛶ Exit';
-            } else {
-                document.exitFullscreen();
-                document.getElementById('fullscreenBtn').textContent = '⛶ Fullscreen';
-            }
-        }
-        
-        // Video events
-        video.addEventListener('timeupdate', () => {
-            const progress = (video.currentTime / video.duration) * 100;
-            progressFill.style.width = progress + '%';
-            currentTimeEl.textContent = formatTime(video.currentTime);
-        });
-        
-        video.addEventListener('loadedmetadata', () => {
-            durationEl.textContent = formatTime(video.duration);
-        });
-        
-        video.addEventListener('ended', () => {
-            playBtn.textContent = '▶️ Play';
-            playBtn.style.background = '#3fb950';
-            if (currentIndex < playlist.length - 1) {
-                nextVideo();
-            }
-        });
-        
-        video.addEventListener('play', () => {
-            playBtn.textContent = '⏸️ Pause';
-            playBtn.style.background = '#f97316';
-        });
-        
-        video.addEventListener('pause', () => {
-            playBtn.textContent = '▶️ Play';
-            playBtn.style.background = '#3fb950';
-        });
-        
-        // Progress bar click
-        progressBar.addEventListener('click', (e) => {
-            const rect = progressBar.getBoundingClientRect();
-            const percent = (e.clientX - rect.left) / rect.width;
-            video.currentTime = percent * video.duration;
-        });
-        
-        // Volume control
-        volumeSlider.addEventListener('input', (e) => {
-            const vol = e.target.value / 100;
-            video.volume = vol;
-            if (vol === 0) volIcon.textContent = '🔇';
-            else if (vol < 0.5) volIcon.textContent = '🔉';
-            else volIcon.textContent = '🔊';
-        });
-        
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'F11') {
-                e.preventDefault();
-                toggleFullscreen();
-            } else if (e.key === 'Escape' && document.fullscreenElement) {
-                document.exitFullscreen();
-            } else if (e.key === ' ' || e.key === 'k') {
-                e.preventDefault();
-                togglePlay();
-            } else if (e.key === 'ArrowLeft') {
-                video.currentTime -= 5;
-            } else if (e.key === 'ArrowRight') {
-                video.currentTime += 5;
-            } else if (e.key === 'm') {
-                video.muted = !video.muted;
-                volIcon.textContent = video.muted ? '🔇' : '🔊';
-            }
-        });
-        
-        // Double-click for fullscreen
-        videoContainer.addEventListener('dblclick', toggleFullscreen);
-        
-        // Fullscreen change event
-        document.addEventListener('fullscreenchange', () => {
-            const btn = document.getElementById('fullscreenBtn');
-            if (document.fullscreenElement) {
-                btn.textContent = '⛶ Exit';
-            } else {
-                btn.textContent = '⛶ Fullscreen';
-            }
-        });
-    </script>
+    <div class="nav-links">
+      <a href="index.html" class="active" id="navHome">Home</a>
+      <a href="about.html" id="navAbout">About</a>
+      <a href="serv.html" id="navServices">Services</a>
+      <a href="software services/index.html" id="navSoftware">Software</a>
+      <a href="com.html" id="navContact">Contact</a>
+      <select class="lang-select" id="langSelect">
+        <option value="en">🇺🇸 EN</option>
+        <option value="am">🇪🇹 አማ</option>
+        <option value="or">🇪🇹 OR</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="ar">🇸🇦 AR</option>
+        <option value="zh">🇨🇳 中</option>
+      </select>
+      <a href="auth.html" class="user-icon" title="Login / Account">
+        <img src="user.png" alt="User">
+      </a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <h1 id="heroTitle">Quality Software & Technology Services</h1>
+      <p id="heroDesc">We provide premium hardware and software solutions at affordable prices. From web development to app creation, we've got you covered.</p>
+      <div class="hero-buttons">
+        <a href="serv.html" class="btn" id="btnServices">View Services →</a>
+        <a href="com.html" class="btn btn-outline" id="btnContact">Contact Us</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="1.png" alt="BLSC Logo">
+    </div>
+  </div>
+</section>
+
+<section class="pages-section">
+  <div class="section-title">
+    <h2 id="exploreTitle">Explore <span>Our Pages</span></h2>
+    <p id="exploreDesc">Discover what we offer and how we can help you</p>
+  </div>
+  <div class="pages-grid">
+    <a href="about.html" class="page-card">
+      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop" alt="About Us">
+      <div class="page-card-content">
+        <h3 id="cardAbout">About Us</h3>
+        <p id="cardAboutDesc">Learn more about who we are and our mission</p>
+      </div>
+    </a>
+    <a href="serv.html" class="page-card">
+      <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500&h=300&fit=crop" alt="Services">
+      <div class="page-card-content">
+        <h3 id="cardServices">Our Services</h3>
+        <p id="cardServicesDesc">View all the services we offer</p>
+      </div>
+    </a>
+    <a href="com.html" class="page-card">
+      <img src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=500&h=300&fit=crop" alt="Contact">
+      <div class="page-card-content">
+        <h3 id="cardContact">Contact Us</h3>
+        <p id="cardContactDesc">Get in touch with us today</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <h3>20+</h3>
+      <p id="statServices">Services Offered</p>
+    </div>
+    <div class="stat-item">
+      <h3>100%</h3>
+      <p id="statSatisfaction">Client Satisfaction</p>
+    </div>
+    <div class="stat-item">
+      <h3>24/7</h3>
+      <p id="statSupport">Support Available</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© <span id="yr"></span> <a href="#">BENAYAS LEULSEGED Software Company</a> — Jimma, Ethiopia</p>
+</footer>
+<script src="blsc-account.js"></script>
+<script>
+// ========== BLSC PROTECTION ==========
+// Disable right-click
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+// Disable F12, Ctrl+Shift+I, Ctrl+U
+document.addEventListener('keydown', e => {
+    if (e.key === 'F12' || 
+        (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+        (e.ctrlKey && e.key === 'u')) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Console warning
+console.log('%c⚠️ STOP!', 'color:red;font-size:50px;font-weight:bold');
+console.log('%cThis code is protected by BLSC. Copying is prohibited.', 'color:red;font-size:16px');
+console.log('%c© 2024 Benayas Leulseged Software Company', 'color:green;font-size:14px');
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+const translations = {
+  en: {
+    home:'Home',about:'About',services:'Services',software:'Software',contact:'Contact',
+    heroTitle:'Quality Software & Technology Services',
+    heroDesc:'We provide premium hardware and software solutions at affordable prices. From web development to app creation, we\'ve got you covered.',
+    btnServices:'View Services →',btnContact:'Contact Us',
+    exploreTitle:'Explore <span>Our Pages</span>',exploreDesc:'Discover what we offer and how we can help you',
+    cardAbout:'About Us',cardAboutDesc:'Learn more about who we are and our mission',
+    cardServices:'Our Services',cardServicesDesc:'View all the services we offer',
+    cardContact:'Contact Us',cardContactDesc:'Get in touch with us today',
+    statServices:'Services Offered',statSatisfaction:'Client Satisfaction',statSupport:'Support Available'
+  },
+  am: {
+    home:'መነሻ',about:'ስለ እኛ',services:'አገልግሎቶች',software:'ሶፍትዌር',contact:'አግኙን',
+    heroTitle:'ጥራት ያለው ሶፍትዌር እና ቴክኖሎጂ አገልግሎቶች',
+    heroDesc:'በተመጣጣኝ ዋጋ ከፍተኛ ጥራት ያላቸው ሃርድዌር እና ሶፍትዌር መፍትሄዎችን እናቀርባለን።',
+    btnServices:'አገልግሎቶችን ይመልከቱ →',btnContact:'አግኙን',
+    exploreTitle:'ገጾቻችንን <span>ያስሱ</span>',exploreDesc:'የምናቀርበውን እና እንዴት ልንረዳዎት እንደምንችል ይወቁ',
+    cardAbout:'ስለ እኛ',cardAboutDesc:'እኛ ማን እንደሆንን እና ተልዕኮአችንን ይወቁ',
+    cardServices:'አገልግሎቶቻችን',cardServicesDesc:'የምናቀርባቸውን አገልግሎቶች ሁሉ ይመልከቱ',
+    cardContact:'አግኙን',cardContactDesc:'ዛሬ ያግኙን',
+    statServices:'የሚቀርቡ አገልግሎቶች',statSatisfaction:'የደንበኛ እርካታ',statSupport:'ድጋፍ ይገኛል'
+  },
+  or: {
+    home:'Mana',about:'Waa\'ee',services:'Tajaajila',software:'Sooftiweerii',contact:'Nu Quunnamaa',
+    heroTitle:'Tajaajila Sooftiweerii fi Teeknooloojii Qulqullina Qabu',
+    heroDesc:'Gatii madaalawaa ta\'een furmaata haardweerii fi sooftiweerii olaanaa dhiyeessina.',
+    btnServices:'Tajaajila Ilaali →',btnContact:'Nu Quunnamaa',
+    exploreTitle:'Fuulawwan Keenya <span>Sakatta\'i</span>',exploreDesc:'Maal akka dhiyeessinu fi akkamitti si gargaaruu dandeenya barbaadi',
+    cardAbout:'Waa\'ee Keenya',cardAboutDesc:'Eenyu akka taane fi kaayyoo keenya barbaadi',
+    cardServices:'Tajaajila Keenya',cardServicesDesc:'Tajaajila hunda dhiyeessinu ilaali',
+    cardContact:'Nu Quunnamaa',cardContactDesc:'Har\'a nu quunnamaa',
+    statServices:'Tajaajila Dhiyaatan',statSatisfaction:'Gammachuu Maamilaa',statSupport:'Deeggarsi Ni Argama'
+  },
+  es: {
+    home:'Inicio',about:'Acerca de',services:'Servicios',software:'Software',contact:'Contacto',
+    heroTitle:'Servicios de Software y Tecnología de Calidad',
+    heroDesc:'Proporcionamos soluciones de hardware y software premium a precios asequibles.',
+    btnServices:'Ver Servicios →',btnContact:'Contáctenos',
+    exploreTitle:'Explore <span>Nuestras Páginas</span>',exploreDesc:'Descubra lo que ofrecemos y cómo podemos ayudarle',
+    cardAbout:'Sobre Nosotros',cardAboutDesc:'Conozca más sobre quiénes somos y nuestra misión',
+    cardServices:'Nuestros Servicios',cardServicesDesc:'Vea todos los servicios que ofrecemos',
+    cardContact:'Contáctenos',cardContactDesc:'Póngase en contacto con nosotros hoy',
+    statServices:'Servicios Ofrecidos',statSatisfaction:'Satisfacción del Cliente',statSupport:'Soporte Disponible'
+  },
+  fr: {
+    home:'Accueil',about:'À propos',services:'Services',software:'Logiciel',contact:'Contact',
+    heroTitle:'Services Logiciels et Technologiques de Qualité',
+    heroDesc:'Nous fournissons des solutions matérielles et logicielles premium à des prix abordables.',
+    btnServices:'Voir les Services →',btnContact:'Contactez-nous',
+    exploreTitle:'Explorez <span>Nos Pages</span>',exploreDesc:'Découvrez ce que nous offrons et comment nous pouvons vous aider',
+    cardAbout:'À Propos de Nous',cardAboutDesc:'En savoir plus sur qui nous sommes et notre mission',
+    cardServices:'Nos Services',cardServicesDesc:'Voir tous les services que nous offrons',
+    cardContact:'Contactez-nous',cardContactDesc:'Contactez-nous aujourd\'hui',
+    statServices:'Services Offerts',statSatisfaction:'Satisfaction Client',statSupport:'Support Disponible'
+  },
+  ar: {
+    home:'الرئيسية',about:'حول',services:'الخدمات',software:'البرمجيات',contact:'اتصل بنا',
+    heroTitle:'خدمات برمجيات وتكنولوجيا عالية الجودة',
+    heroDesc:'نقدم حلول أجهزة وبرمجيات متميزة بأسعار معقولة.',
+    btnServices:'عرض الخدمات →',btnContact:'اتصل بنا',
+    exploreTitle:'استكشف <span>صفحاتنا</span>',exploreDesc:'اكتشف ما نقدمه وكيف يمكننا مساعدتك',
+    cardAbout:'من نحن',cardAboutDesc:'تعرف على المزيد عنا وعن مهمتنا',
+    cardServices:'خدماتنا',cardServicesDesc:'عرض جميع الخدمات التي نقدمها',
+    cardContact:'اتصل بنا',cardContactDesc:'تواصل معنا اليوم',
+    statServices:'الخدمات المقدمة',statSatisfaction:'رضا العملاء',statSupport:'الدعم متاح'
+  },
+  zh: {
+    home:'首页',about:'关于',services:'服务',software:'软件',contact:'联系',
+    heroTitle:'优质软件和技术服务',
+    heroDesc:'我们以实惠的价格提供优质的硬件和软件解决方案。',
+    btnServices:'查看服务 →',btnContact:'联系我们',
+    exploreTitle:'探索<span>我们的页面</span>',exploreDesc:'了解我们提供的服务以及我们如何帮助您',
+    cardAbout:'关于我们',cardAboutDesc:'了解更多关于我们是谁和我们的使命',
+    cardServices:'我们的服务',cardServicesDesc:'查看我们提供的所有服务',
+    cardContact:'联系我们',cardContactDesc:'今天就联系我们',
+    statServices:'提供的服务',statSatisfaction:'客户满意度',statSupport:'支持可用'
+  }
+};
+
+function changeLanguage() {
+  const lang = document.getElementById('langSelect').value;
+  const t = translations[lang];
+  localStorage.setItem('blsc_lang', lang);
+  
+  document.getElementById('navHome').textContent = t.home;
+  document.getElementById('navAbout').textContent = t.about;
+  document.getElementById('navServices').textContent = t.services;
+  document.getElementById('navSoftware').textContent = t.software;
+  document.getElementById('navContact').textContent = t.contact;
+  document.getElementById('heroTitle').textContent = t.heroTitle;
+  document.getElementById('heroDesc').textContent = t.heroDesc;
+  document.getElementById('btnServices').textContent = t.btnServices;
+  document.getElementById('btnContact').textContent = t.btnContact;
+  document.getElementById('exploreTitle').innerHTML = t.exploreTitle;
+  document.getElementById('exploreDesc').textContent = t.exploreDesc;
+  document.getElementById('cardAbout').textContent = t.cardAbout;
+  document.getElementById('cardAboutDesc').textContent = t.cardAboutDesc;
+  document.getElementById('cardServices').textContent = t.cardServices;
+  document.getElementById('cardServicesDesc').textContent = t.cardServicesDesc;
+  document.getElementById('cardContact').textContent = t.cardContact;
+  document.getElementById('cardContactDesc').textContent = t.cardContactDesc;
+  document.getElementById('statServices').textContent = t.statServices;
+  document.getElementById('statSatisfaction').textContent = t.statSatisfaction;
+  document.getElementById('statSupport').textContent = t.statSupport;
+  
+  document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+}
+
+document.getElementById('langSelect').addEventListener('change', changeLanguage);
+
+const savedLang = localStorage.getItem('blsc_lang');
+if (savedLang) {
+  document.getElementById('langSelect').value = savedLang;
+  changeLanguage();
+}
+</script>
 </body>
 </html>
