@@ -327,6 +327,18 @@ const BLSC_ACCOUNT = {
         
         users[emailKey] = userData;
         return await this.saveUsers(users);
+    },
+    
+    // ========== COURSE ENROLLMENT ==========
+    
+    async isEnrolledInCourse(courseId) {
+        if (!this.isLoggedIn()) return false;
+        const user = this.getCurrentUser();
+        const users = await this.getUsers();
+        const emailKey = user.email.replace(/\./g, '_');
+        const userData = users[emailKey];
+        if (!userData || !userData.courses) return false;
+        return userData.courses[courseId]?.enrolled === true;
     }
 };
 

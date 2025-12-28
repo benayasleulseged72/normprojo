@@ -277,8 +277,13 @@
         const serviceNames = {
             'images': '🔍 BLSC Image Stock',
             'ai-image': '🎨 BLSC Image Generator',
-            'ai-video': '🎬 BLSC Video Generator'
+            'ai-video': '🎬 BLSC Video Generator',
+            'computer-basics': '💻 Computer Basics Course'
         };
+        
+        // Check if this is a course payment
+        const course = urlParams.get('course');
+        const isCourse = !!course;
         
         const planInfo = {
             'monthly': { name: 'Monthly', duration: '30 Days' },
@@ -326,16 +331,27 @@
         
         // Initialize page
         function init() {
-            document.getElementById('serviceName').textContent = serviceNames[service] || service;
-            document.getElementById('planName').textContent = planInfo[plan]?.name || plan;
-            document.getElementById('duration').textContent = planInfo[plan]?.duration || '30 Days';
-            document.getElementById('originalPrice').textContent = originalPrice.toLocaleString() + ' Birr';
-            document.getElementById('totalPrice').textContent = price.toLocaleString() + ' Birr';
-            document.getElementById('exactAmount').textContent = price.toLocaleString() + ' Birr';
-            
-            // Calculate discount
-            const discount = Math.round((1 - price/originalPrice) * 100);
-            document.querySelector('.discount-badge').textContent = '-' + discount + '%';
+            // Handle course payments
+            if (isCourse) {
+                document.getElementById('serviceName').textContent = serviceNames[course] || '📚 ' + course;
+                document.getElementById('planName').textContent = 'Course';
+                document.getElementById('duration').textContent = 'Lifetime Access';
+                document.getElementById('originalPrice').textContent = price.toLocaleString() + ' Birr';
+                document.getElementById('totalPrice').textContent = price.toLocaleString() + ' Birr';
+                document.getElementById('exactAmount').textContent = price.toLocaleString() + ' Birr';
+                document.querySelector('.discount-badge').style.display = 'none';
+            } else {
+                document.getElementById('serviceName').textContent = serviceNames[service] || service;
+                document.getElementById('planName').textContent = planInfo[plan]?.name || plan;
+                document.getElementById('duration').textContent = planInfo[plan]?.duration || '30 Days';
+                document.getElementById('originalPrice').textContent = originalPrice.toLocaleString() + ' Birr';
+                document.getElementById('totalPrice').textContent = price.toLocaleString() + ' Birr';
+                document.getElementById('exactAmount').textContent = price.toLocaleString() + ' Birr';
+                
+                // Calculate discount
+                const discount = Math.round((1 - price/originalPrice) * 100);
+                document.querySelector('.discount-badge').textContent = '-' + discount + '%';
+            }
             
             updatePaymentMethod();
         }
@@ -445,14 +461,16 @@
                 const compressedBase64 = await compressImage(uploadedFile, 800, 0.6);
                 
                 const user = BLSC_ACCOUNT.getCurrentUser();
+                const emailKey = user.email.replace(/\./g, '_'); // Firebase doesn't allow dots in keys
                 
                 // Create payment request (without large screenshot in main data)
                 const paymentRequest = {
                     id: 'pay_' + Date.now(),
                     userEmail: user.email,
                     userName: user.name,
-                    service: service,
-                    plan: plan,
+                    service: isCourse ? course : service,
+                    plan: isCourse ? 'course' : plan,
+                    isCourse: isCourse,
                     amount: price,
                     method: selectedMethod,
                     methodName: paymentMethods[selectedMethod].title,
@@ -464,13 +482,13 @@
                 
                 // Save to cloud
                 const users = await BLSC_ACCOUNT.getUsers();
-                if (!users[user.email]) {
+                if (!users[emailKey]) {
                     throw new Error('User not found in database');
                 }
-                if (!users[user.email].pendingPayments) {
-                    users[user.email].pendingPayments = [];
+                if (!users[emailKey].pendingPayments) {
+                    users[emailKey].pendingPayments = [];
                 }
-                users[user.email].pendingPayments.push(paymentRequest);
+                users[emailKey].pendingPayments.push(paymentRequest);
                 
                 const saved = await BLSC_ACCOUNT.saveUsers(users);
                 
