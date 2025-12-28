@@ -173,7 +173,9 @@
             {id:'antitheft',name:'BLSC-Anti Theft',icon:'fa-lock',desc:'Device security and tracking',progress:20,ready:false,platforms:['android']},
             {id:'cmdrunner',name:'BLSC-CMD Runner',icon:'fa-keyboard',desc:'All commands list and executor',progress:60,ready:false,platforms:['windows']},
             {id:'office',name:'BLSC-Office',icon:'fa-file-word',desc:'Document editing suite',progress:15,ready:false,platforms:['windows','android','linux']},
-            {id:'images',name:'BLSC-Image Stock',icon:'fa-magnifying-glass',desc:'Search millions of free photos',progress:100,ready:true,platforms:['windows','android','linux'],url:'../choose.html?app=images'}
+            {id:'images',name:'BLSC-Image Stock',icon:'fa-magnifying-glass',desc:'Search millions of free photos',progress:100,ready:true,platforms:['windows','android','linux'],url:'../choose.html?app=images'},
+            {id:'text2web',name:'BLSC-Text2Web',icon:'fa-code',desc:'Convert text to web pages instantly',progress:100,ready:true,platforms:['windows'],url:'../apps/text2web/',download:'https://www.mediafire.com/file/y6jlz8h3uzx0s7p/BLSC-Text2Web-Setup.exe/file'},
+            {id:'videoplayer',name:'BLSC-Video Player',icon:'fa-play',desc:'Modern video player with playlist support',progress:100,ready:true,platforms:['windows'],url:'../apps/videoplayer/',download:'https://www.mediafire.com/file/tfbdln3utc9htx6/BLSC-VideoPlayer-Setup.exe/file'}
         ];
         function changeLanguage() {
             currentLang = document.getElementById('langSelect').value;
@@ -214,9 +216,12 @@
                     html += '<div class="progress-section"><div class="progress-header"><span class="progress-label">' + t.progress + '</span>';
                     html += '<span class="progress-percent">' + app.progress + '%</span></div>';
                     html += '<div class="progress-bar"><div class="progress-fill" style="width:' + app.progress + '%"></div></div></div>';
+                } else if (app.download) {
+                    // Show download button for apps with download link
+                    html += '<div style="margin-bottom:16px"><a href="' + app.download + '" target="_blank" onclick="event.stopPropagation()" style="display:flex;width:100%;padding:12px;background:linear-gradient(135deg,#3fb950,#2ea043);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;align-items:center;justify-content:center;gap:8px;text-decoration:none"><i class="fas fa-download"></i> Download for Windows</a></div>';
                 } else {
-                    // Show download button for ready apps
-                    html += '<div style="margin-bottom:16px"><button style="width:100%;padding:12px;background:linear-gradient(135deg,#3fb950,#2ea043);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><i class="fas fa-download"></i> Download</button></div>';
+                    // Show open button for ready apps without download
+                    html += '<div style="margin-bottom:16px"><button style="width:100%;padding:12px;background:linear-gradient(135deg,#3fb950,#2ea043);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><i class="fas fa-external-link-alt"></i> Open</button></div>';
                 }
                 
                 html += '<div class="app-badges">' + badgeHtml + platformBadges + '</div></div>';
