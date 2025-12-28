@@ -406,6 +406,25 @@
 </footer>
 <script src="blsc-account.js"></script>
 <script>
+// ========== BLSC PROTECTION ==========
+// Disable right-click
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+// Disable F12, Ctrl+Shift+I, Ctrl+U
+document.addEventListener('keydown', e => {
+    if (e.key === 'F12' || 
+        (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+        (e.ctrlKey && e.key === 'u')) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Console warning
+console.log('%c⚠️ STOP!', 'color:red;font-size:50px;font-weight:bold');
+console.log('%cThis code is protected by BLSC. Copying is prohibited.', 'color:red;font-size:16px');
+console.log('%c© 2024 Benayas Leulseged Software Company', 'color:green;font-size:14px');
+
 document.getElementById('yr').textContent = new Date().getFullYear();
 
 const translations = {
