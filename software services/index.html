@@ -329,6 +329,42 @@
             color: #3fb950;
         }
 
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 14px 35px;
+            border-radius: 100px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+        }
+        .filter-btn:hover {
+            border-color: #3fb950;
+            background: rgba(63,185,80,0.1);
+        }
+        .filter-btn.active {
+            background: #3fb950;
+            color: #0a0a0a;
+            border-color: #3fb950;
+        }
+        .filter-btn.premium-btn.active {
+            background: linear-gradient(135deg, #ffd700, #f97316);
+            border-color: #ffd700;
+        }
+        .service-card.hidden {
+            display: none;
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -423,10 +459,17 @@
         <h2 class="section-title"><span id="sectionTitle1">Software </span><span id="sectionTitle2">Services</span></h2>
         <p class="section-subtitle" id="sectionSubtitle">Explore our collection of powerful tools and applications</p>
         
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterSoftware('all')">🔥 All Software</button>
+            <button class="filter-btn" onclick="filterSoftware('free')">🆓 Free Software</button>
+            <button class="filter-btn premium-btn" onclick="filterSoftware('premium')">⭐ Premium Software</button>
+        </div>
+        
         <div class="services-grid">
   
-            <!-- Messenger - NOW AVAILABLE -->
-            <div class="service-card" onclick="window.location.href='public/msg/index.html'">
+            <!-- FREE: Messenger -->
+            <div class="service-card" data-type="free" onclick="window.location.href='public/msg/index.html'">
                 <img src="https://images.unsplash.com/photo-1611606063065-ee7946f0787a?w=400&h=200&fit=crop" alt="Message">
                 <div class="service-body">
                     <h3 class="service-title" id="sw1Title">💬 BLSC-Message & File Sharing</h3>
@@ -435,8 +478,8 @@
                 </div>
             </div>
 
-            <!-- Coming Soon Services -->
-            <div class="service-card" onclick="window.location.href='public/osc/osc.html'">
+            <!-- FREE: Courses -->
+            <div class="service-card" data-type="free" onclick="window.location.href='public/osc/osc.html'">
                 <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=200&fit=crop" alt="Courses">
                 <div class="service-body">
                     <h3 class="service-title" id="sw2Title">🎓 BLSC-Online Software Courses</h3>
@@ -445,8 +488,8 @@
                 </div>
             </div>
 
-            <!-- Working Services with Choose Option -->
-            <div class="service-card" onclick="window.location.href='public/choose.html?app=browser'">
+            <!-- FREE: Browser -->
+            <div class="service-card" data-type="free" onclick="window.location.href='public/choose.html?app=browser'">
                 <img src="https://images.unsplash.com/photo-1542744094-24638eff58bb?w=400&h=200&fit=crop" alt="Browser">
                 <div class="service-body">
                     <h3 class="service-title" id="sw3Title">🌐 BLSC-Browser</h3>
@@ -455,7 +498,8 @@
                 </div>
             </div>
 
-            <div class="service-card" onclick="window.location.href='public/bla/bla.html'">
+            <!-- FREE: BLSC Apps -->
+            <div class="service-card" data-type="free" onclick="window.location.href='public/bla/bla.html'">
                 <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=200&fit=crop" alt="Apps">
                 <div class="service-body">
                     <h3 class="service-title" id="sw4Title">📦 Developed by BLSC Applications</h3>
@@ -464,7 +508,8 @@
                 </div>
             </div>
 
-            <div class="service-card" onclick="window.location.href='public/bld/bld.html'">
+            <!-- FREE: Drive -->
+            <div class="service-card" data-type="free" onclick="window.location.href='public/bld/bld.html'">
                 <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=400&h=200&fit=crop" alt="Cloud">
                 <div class="service-body">
                     <h3 class="service-title" id="sw5Title">☁️ BLCS-Drive</h3>
@@ -473,7 +518,8 @@
                 </div>
             </div>
 
-            <div class="service-card" onclick="window.location.href='public/choose.html?app=gallery'">
+            <!-- FREE: Gallery -->
+            <div class="service-card" data-type="free" onclick="window.location.href='public/choose.html?app=gallery'">
                 <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop" alt="Gallery">
                 <div class="service-body">
                     <h3 class="service-title" id="sw6Title">🖼️ BLSC-Gallery</h3>
@@ -482,7 +528,8 @@
                 </div>
             </div>
 
-            <div class="service-card" onclick="window.location.href='public/choose.html?app=websites'">
+            <!-- FREE: Important Websites -->
+            <div class="service-card" data-type="free" onclick="window.location.href='public/choose.html?app=websites'">
                 <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop" alt="Websites">
                 <div class="service-body">
                     <h3 class="service-title" id="sw7Title">⭐ Important Websites</h3>
@@ -491,7 +538,8 @@
                 </div>
             </div>
 
-            <div class="service-card" onclick="window.location.href='public/choose.html?app=translator'">
+            <!-- FREE: Translator -->
+            <div class="service-card" data-type="free" onclick="window.location.href='public/choose.html?app=translator'">
                 <img src="https://images.unsplash.com/photo-1451226428352-cf66bf8a0317?w=400&h=200&fit=crop" alt="Translator">
                 <div class="service-body">
                     <h3 class="service-title" id="sw8Title">🌍 BLSC-Language Translator</h3>
@@ -500,7 +548,8 @@
                 </div>
             </div>
 
-            <div class="service-card" onclick="window.location.href='public/meet/index.html'">
+            <!-- FREE: Meeting -->
+            <div class="service-card" data-type="free" onclick="window.location.href='public/meet/index.html'">
                 <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400&h=200&fit=crop" alt="Meeting">
                 <div class="service-body">
                     <h3 class="service-title" id="sw9Title">🤝 BLCS Meeting</h3>
@@ -509,7 +558,8 @@
                 </div>
             </div>
 
-            <div class="service-card premium-card" onclick="window.location.href='public/sis/subscribe.html?service=images'">
+            <!-- PREMIUM: Image Stock -->
+            <div class="service-card premium-card" data-type="premium" onclick="window.location.href='public/sis/subscribe.html?service=images'">
                 <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&h=200&fit=crop" alt="Image Search">
                 <div class="service-body">
                     <h3 class="service-title" id="sw10Title">🔍 BLSC-Image Stock ⭐</h3>
@@ -518,7 +568,8 @@
                 </div>
             </div>
 
-            <div class="service-card premium-card" onclick="window.location.href='public/sis/subscribe.html?service=ai-image'">
+            <!-- PREMIUM: AI Image Generator -->
+            <div class="service-card premium-card" data-type="premium" onclick="window.location.href='public/sis/subscribe.html?service=ai-image'">
                 <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=200&fit=crop" alt="AI Image">
                 <div class="service-body">
                     <h3 class="service-title" id="sw11Title">🎨 BLSC-Image Generator ⭐</h3>
@@ -527,12 +578,13 @@
                 </div>
             </div>
 
-            <div class="service-card" onclick="window.location.href='public/choose.html?app=ai-video'">
+            <!-- PREMIUM: AI Video Generator -->
+            <div class="service-card premium-card" data-type="premium" onclick="window.location.href='public/choose.html?app=ai-video'">
                 <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400&h=200&fit=crop" alt="AI Video">
                 <div class="service-body">
-                    <h3 class="service-title" id="sw12Title">🎬 BLSC-Video Generator</h3>
+                    <h3 class="service-title" id="sw12Title">🎬 BLSC-Video Generator ⭐</h3>
                     <p class="service-desc" id="sw12Desc">Turn your ideas into stunning videos with AI technology</p>
-                    <span class="service-hint hint-choose">Choose →</span>
+                    <span class="service-hint" style="background:rgba(255,215,0,0.15);color:#ffd700;">Premium →</span>
                 </div>
             </div>
         </div>
@@ -546,6 +598,28 @@
     <script src="../blsc-account.js"></script>
     <script>
         document.getElementById('yr').textContent = new Date().getFullYear();
+        
+        // Filter Software Function
+        function filterSoftware(type) {
+            const cards = document.querySelectorAll('.service-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                const cardType = card.getAttribute('data-type');
+                if (type === 'all') {
+                    card.classList.remove('hidden');
+                } else if (cardType === type) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
         
         // Translations with software cards
         const translations = {

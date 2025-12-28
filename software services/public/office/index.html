@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLSC Office</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            background: #111;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+        }
+        .logo { font-size: 22px; font-weight: bold; color: #3fb950; }
+        .logo span { color: #fff; }
+        nav a { color: #888; text-decoration: none; margin-left: 20px; }
+        nav a:hover { color: #3fb950; }
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        h1 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        h1 span { color: #3fb950; }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 50px;
+        }
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .app-card {
+            background: #151515;
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: #fff;
+        }
+        .app-card:hover {
+            transform: translateY(-5px);
+            border-color: #3fb950;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 20px;
+        }
+        .app-icon.word { background: linear-gradient(135deg, #2b579a, #1e3a5f); }
+        .app-icon.ppt { background: linear-gradient(135deg, #d24726, #a33d1f); }
+        .app-icon.note { background: linear-gradient(135deg, #7719aa, #5a1280); }
+        .app-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .app-card p {
+            color: #888;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #444;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">BLSC <span>Office</span></div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="../bla/bla.html">Apps</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>BLSC <span>Office</span></h1>
+        <p class="subtitle">Free online document editing suite</p>
+
+        <div class="apps-grid">
+            <a href="word.html" class="app-card">
+                <div class="app-icon word">W</div>
+                <h3>BLSC Word</h3>
+                <p>Create and edit documents with rich text formatting, images, and more</p>
+            </a>
+
+            <a href="slides.html" class="app-card">
+                <div class="app-icon ppt">P</div>
+                <h3>BLSC Slides</h3>
+                <p>Design beautiful presentations with slides, transitions, and themes</p>
+            </a>
+
+            <a href="notes.html" class="app-card">
+                <div class="app-icon note">N</div>
+                <h3>BLSC Notes</h3>
+                <p>Quick notes and to-do lists with auto-save functionality</p>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        © 2024 BLSC - Benayas Leulseged Software Company
+    </footer>
+</body>
+</html>

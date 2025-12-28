@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLSC AI Video Generator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            background: #111;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+        }
+        .logo { font-size: 22px; font-weight: bold; color: #3fb950; }
+        .logo span { color: #fff; }
+        nav a { color: #888; text-decoration: none; margin-left: 20px; }
+        nav a:hover { color: #3fb950; }
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1 {
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        h1 span { color: #3fb950; }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 40px;
+        }
+        .panel {
+            background: #151515;
+            border: 1px solid #333;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .panel-header {
+            background: #1a1a1a;
+            padding: 15px 20px;
+            border-bottom: 1px solid #333;
+            font-weight: 600;
+        }
+        .panel-body { padding: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+        }
+        textarea:focus { outline: none; border-color: #3fb950; }
+        select {
+            width: 100%;
+            padding: 12px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 14px;
+        }
+        select:focus { outline: none; border-color: #3fb950; }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        .btn-primary { background: #3fb950; color: #000; }
+        .btn-primary:hover { background: #4cc95f; }
+        .btn-primary:disabled { background: #333; color: #666; cursor: not-allowed; }
+        .btn-secondary { background: #333; color: #fff; }
+        .btn-secondary:hover { background: #444; }
+        .templates {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .template-btn {
+            padding: 8px 14px;
+            background: #222;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: #888;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .template-btn:hover { border-color: #3fb950; color: #3fb950; }
+        .status-box {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .status-box.generating { border-color: #3fb950; }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #333;
+            border-top-color: #3fb950;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .status-text { color: #888; font-size: 14px; }
+        .status-text.success { color: #3fb950; }
+        .status-text.error { color: #ef4444; }
+        .video-result { display: none; }
+        .video-result.show { display: block; }
+        .video-result video {
+            width: 100%;
+            border-radius: 8px;
+            background: #000;
+        }
+        .video-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .video-actions .btn { flex: 1; }
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #3fb950;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        .info-box {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-radius: 4px;
+            padding: 10px 15px;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #444;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">BLSC <span>AI Video Generator</span></div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="../bla/bla.html">Apps</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>AI <span>Video Generator</span></h1>
+        <p class="subtitle">Create stunning videos from text descriptions using AI</p>
+
+        <div class="panel">
+            <div class="panel-header">Describe Your Video</div>
+            <div class="panel-body">
+                <div class="info-box">
+                    Powered by Stable Video Diffusion on Hugging Face
+                </div>
+                
+                <div class="templates">
+                    <button class="template-btn" onclick="setPrompt('cinematic')">Cinematic</button>
+                    <button class="template-btn" onclick="setPrompt('nature')">Nature</button>
+                    <button class="template-btn" onclick="setPrompt('scifi')">Sci-Fi</button>
+                    <button class="template-btn" onclick="setPrompt('abstract')">Abstract</button>
+                    <button class="template-btn" onclick="setPrompt('urban')">Urban</button>
+                </div>
+                
+                <div class="form-group">
+                    <label>Video Prompt</label>
+                    <textarea id="prompt" placeholder="Describe the video you want to create...&#10;&#10;Example: A majestic eagle soaring through golden sunset clouds, cinematic slow motion, 4K quality"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Model</label>
+                        <select id="model">
+                            <option value="ali-vilab/text-to-video-ms-1.7b">Text-to-Video (Fast)</option>
+                            <option value="damo-vilab/text-to-video-ms-1.7b">DAMO Text-to-Video</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Frames</label>
+                        <select id="frames">
+                            <option value="16">16 frames</option>
+                            <option value="24" selected>24 frames</option>
+                            <option value="32">32 frames</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="generateBtn" onclick="generateVideo()">Generate Video</button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">Result</div>
+            <div class="panel-body">
+                <div class="status-box" id="statusBox">
+                    <p class="status-text">Enter a prompt and click Generate</p>
+                </div>
+                
+                <div class="video-result" id="videoResult">
+                    <video id="videoPlayer" controls loop autoplay></video>
+                    <div class="video-actions">
+                        <a class="btn btn-primary" id="downloadBtn" href="#" download="blsc-video.mp4">Download Video</a>
+                        <button class="btn btn-secondary" onclick="resetGenerator()">New Video</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        © 2024 BLSC - Benayas Leulseged Software Company
+    </footer>
+
+    <script>
+        const HF_TOKEN = 'hf_y6W8B3t3TVx3Uhju21kHyXGfH5lUx3WXgcda-3tvps4';
+        
+        const prompts = {
+            cinematic: "A breathtaking cinematic shot of mountains at golden hour, dramatic lighting, film grain, high quality",
+            nature: "A serene forest stream with sunlight filtering through trees, peaceful atmosphere, nature documentary",
+            scifi: "A futuristic cityscape with flying vehicles and neon lights, cyberpunk aesthetic, rain",
+            abstract: "Flowing liquid metal morphing into shapes, iridescent colors, smooth transitions",
+            urban: "Time-lapse of a busy city at night, car lights creating trails, urban energy"
+        };
+        
+        function setPrompt(type) {
+            document.getElementById('prompt').value = prompts[type];
+        }
+        
+        async function generateVideo() {
+            const prompt = document.getElementById('prompt').value.trim();
+            if (!prompt) {
+                alert('Please enter a video description');
+                return;
+            }
+            
+            const model = document.getElementById('model').value;
+            const frames = parseInt(document.getElementById('frames').value);
+            const btn = document.getElementById('generateBtn');
+            const statusBox = document.getElementById('statusBox');
+            const videoResult = document.getElementById('videoResult');
+            
+            btn.disabled = true;
+            statusBox.classList.add('generating');
+            videoResult.classList.remove('show');
+            
+            statusBox.innerHTML = `
+                <div class="spinner"></div>
+                <p class="status-text">Generating video... This may take 1-3 minutes</p>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            `;
+            
+            // Simulate progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress = Math.min(progress + 2, 90);
+                document.getElementById('progressFill').style.width = progress + '%';
+            }, 2000);
+            
+            try {
+                const response = await fetch(`https://api-inference.huggingface.co/models/${model}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${HF_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        inputs: prompt,
+                        parameters: {
+                            num_frames: frames
+                        }
+                    })
+                });
+                
+                clearInterval(progressInterval);
+                
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error || 'Generation failed');
+                }
+                
+                const blob = await response.blob();
+                const videoUrl = URL.createObjectURL(blob);
+                
+                document.getElementById('progressFill').style.width = '100%';
+                
+                statusBox.innerHTML = `<p class="status-text success">Video generated successfully!</p>`;
+                statusBox.classList.remove('generating');
+                
+                document.getElementById('videoPlayer').src = videoUrl;
+                document.getElementById('downloadBtn').href = videoUrl;
+                videoResult.classList.add('show');
+                
+            } catch (error) {
+                clearInterval(progressInterval);
+                console.error(error);
+                
+                let errorMsg = error.message;
+                if (errorMsg.includes('loading')) {
+                    errorMsg = 'Model is loading. Please wait 20-30 seconds and try again.';
+                }
+                
+                statusBox.innerHTML = `<p class="status-text error">Error: ${errorMsg}</p>`;
+                statusBox.classList.remove('generating');
+            }
+            
+            btn.disabled = false;
+        }
+        
+        function resetGenerator() {
+            document.getElementById('prompt').value = '';
+            document.getElementById('videoResult').classList.remove('show');
+            document.getElementById('statusBox').innerHTML = `<p class="status-text">Enter a prompt and click Generate</p>`;
+            document.getElementById('statusBox').classList.remove('generating');
+        }
+    </script>
+</body>
+</html>

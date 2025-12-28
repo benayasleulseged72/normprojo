@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLSC Word</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: #2b579a;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 18px; font-weight: bold; color: #fff; }
+        .header-actions { display: flex; gap: 10px; }
+        .header-btn {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .header-btn:hover { background: rgba(255,255,255,0.2); }
+        .toolbar {
+            background: #252525;
+            padding: 8px 15px;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #333;
+        }
+        .tool-btn {
+            padding: 8px 12px;
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            color: #ccc;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .tool-btn:hover { background: #333; color: #fff; }
+        .tool-btn.active { background: #3fb950; color: #000; }
+        .separator {
+            width: 1px;
+            background: #444;
+            margin: 0 8px;
+        }
+        select.tool-select {
+            padding: 6px 10px;
+            background: #333;
+            border: 1px solid #444;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 13px;
+        }
+        .editor-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 30px;
+            background: #2a2a2a;
+            overflow: auto;
+        }
+        .document {
+            width: 816px;
+            min-height: 1056px;
+            background: #fff;
+            color: #000;
+            padding: 72px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            outline: none;
+            font-size: 12pt;
+            line-height: 1.5;
+        }
+        .document:focus { outline: none; }
+        .status-bar {
+            background: #2b579a;
+            padding: 5px 15px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+            display: flex;
+            justify-content: space-between;
+        }
+        @media (max-width: 900px) {
+            .document { width: 100%; min-height: auto; padding: 30px; }
+            .editor-container { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">BLSC Word</div>
+        <div class="header-actions">
+            <button class="header-btn" onclick="newDoc()">New</button>
+            <button class="header-btn" onclick="saveDoc()">Save</button>
+            <button class="header-btn" onclick="openDoc()">Open</button>
+            <button class="header-btn" onclick="exportPDF()">Export PDF</button>
+            <a href="index.html" class="header-btn" style="text-decoration:none">Back</a>
+        </div>
+    </header>
+
+    <div class="toolbar">
+        <button class="tool-btn" onclick="execCmd('undo')" title="Undo">↶</button>
+        <button class="tool-btn" onclick="execCmd('redo')" title="Redo">↷</button>
+        <div class="separator"></div>
+        <select class="tool-select" onchange="execCmd('fontName', this.value)">
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Courier New">Courier New</option>
+        </select>
+        <select class="tool-select" onchange="execCmd('fontSize', this.value)">
+            <option value="1">8</option>
+            <option value="2">10</option>
+            <option value="3" selected>12</option>
+            <option value="4">14</option>
+            <option value="5">18</option>
+            <option value="6">24</option>
+            <option value="7">36</option>
+        </select>
+        <div class="separator"></div>
+        <button class="tool-btn" onclick="execCmd('bold')" title="Bold"><b>B</b></button>
+        <button class="tool-btn" onclick="execCmd('italic')" title="Italic"><i>I</i></button>
+        <button class="tool-btn" onclick="execCmd('underline')" title="Underline"><u>U</u></button>
+        <button class="tool-btn" onclick="execCmd('strikeThrough')" title="Strikethrough"><s>S</s></button>
+        <div class="separator"></div>
+        <button class="tool-btn" onclick="execCmd('justifyLeft')" title="Align Left">⫷</button>
+        <button class="tool-btn" onclick="execCmd('justifyCenter')" title="Center">☰</button>
+        <button class="tool-btn" onclick="execCmd('justifyRight')" title="Align Right">⫸</button>
+        <button class="tool-btn" onclick="execCmd('justifyFull')" title="Justify">⊞</button>
+        <div class="separator"></div>
+        <button class="tool-btn" onclick="execCmd('insertUnorderedList')" title="Bullet List">•</button>
+        <button class="tool-btn" onclick="execCmd('insertOrderedList')" title="Numbered List">1.</button>
+        <div class="separator"></div>
+        <input type="color" id="textColor" onchange="execCmd('foreColor', this.value)" title="Text Color" style="width:30px;height:30px;border:none;cursor:pointer;">
+        <input type="color" id="bgColor" value="#ffff00" onchange="execCmd('hiliteColor', this.value)" title="Highlight" style="width:30px;height:30px;border:none;cursor:pointer;">
+        <div class="separator"></div>
+        <button class="tool-btn" onclick="insertImage()" title="Insert Image">🖼</button>
+        <button class="tool-btn" onclick="insertLink()" title="Insert Link">🔗</button>
+        <button class="tool-btn" onclick="insertTable()" title="Insert Table">⊞</button>
+    </div>
+
+    <div class="editor-container">
+        <div class="document" id="editor" contenteditable="true">
+            <h1 style="text-align:center">Welcome to BLSC Word</h1>
+            <p>Start typing your document here. Use the toolbar above to format your text.</p>
+            <p><br></p>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <span id="wordCount">Words: 0</span>
+        <span>BLSC Word - Free Document Editor</span>
+    </div>
+
+    <input type="file" id="fileInput" accept=".txt,.html" style="display:none" onchange="loadFile(this)">
+
+    <script>
+        const editor = document.getElementById('editor');
+        
+        function execCmd(cmd, value = null) {
+            document.execCommand(cmd, false, value);
+            editor.focus();
+        }
+        
+        function newDoc() {
+            if (confirm('Create new document? Unsaved changes will be lost.')) {
+                editor.innerHTML = '<p><br></p>';
+            }
+        }
+        
+        function saveDoc() {
+            const content = editor.innerHTML;
+            const blob = new Blob([`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Document</title></head><body>${content}</body></html>`], {type: 'text/html'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'document.html';
+            a.click();
+        }
+        
+        function openDoc() {
+            document.getElementById('fileInput').click();
+        }
+        
+        function loadFile(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const content = e.target.result;
+                    if (file.name.endsWith('.html')) {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(content, 'text/html');
+                        editor.innerHTML = doc.body.innerHTML;
+                    } else {
+                        editor.innerText = content;
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+        
+        function exportPDF() {
+            window.print();
+        }
+        
+        function insertImage() {
+            const url = prompt('Enter image URL:');
+            if (url) {
+                execCmd('insertImage', url);
+            }
+        }
+        
+        function insertLink() {
+            const url = prompt('Enter URL:');
+            if (url) {
+                execCmd('createLink', url);
+            }
+        }
+        
+        function insertTable() {
+            const rows = prompt('Number of rows:', '3');
+            const cols = prompt('Number of columns:', '3');
+            if (rows && cols) {
+                let table = '<table border="1" style="border-collapse:collapse;width:100%">';
+                for (let i = 0; i < rows; i++) {
+                    table += '<tr>';
+                    for (let j = 0; j < cols; j++) {
+                        table += '<td style="padding:8px;border:1px solid #ccc">&nbsp;</td>';
+                    }
+                    table += '</tr>';
+                }
+                table += '</table><p><br></p>';
+                execCmd('insertHTML', table);
+            }
+        }
+        
+        // Word count
+        editor.addEventListener('input', () => {
+            const text = editor.innerText.trim();
+            const words = text ? text.split(/\s+/).length : 0;
+            document.getElementById('wordCount').textContent = `Words: ${words}`;
+            localStorage.setItem('blsc_word_doc', editor.innerHTML);
+        });
+        
+        // Load saved document
+        const saved = localStorage.getItem('blsc_word_doc');
+        if (saved) {
+            editor.innerHTML = saved;
+        }
+        
+        // Initial word count
+        editor.dispatchEvent(new Event('input'));
+    </script>
+</body>
+</html>
