@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Basics Course - BLSC</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            background: #111;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+        }
+        .logo { font-size: 22px; font-weight: bold; color: #3fb950; }
+        nav a { color: #888; text-decoration: none; margin-left: 20px; }
+        nav a:hover { color: #3fb950; }
+        .hero {
+            background: linear-gradient(135deg, #1a1a1a, #252525);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+        .hero h1 span { color: #3fb950; }
+        .hero p {
+            color: #888;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .hero-meta span {
+            color: #888;
+            font-size: 15px;
+        }
+        .hero-meta span strong { color: #fff; }
+        .price-box {
+            display: inline-block;
+            background: #151515;
+            border: 2px solid #3fb950;
+            border-radius: 12px;
+            padding: 20px 40px;
+        }
+        .price-box .price {
+            font-size: 36px;
+            font-weight: bold;
+            color: #3fb950;
+        }
+        .price-box .label {
+            color: #888;
+            font-size: 14px;
+        }
+        .enroll-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 16px 50px;
+            background: #3fb950;
+            color: #000;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .enroll-btn:hover { background: #4cc95f; }
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+        .section-title span { color: #3fb950; }
+        .curriculum {
+            margin-bottom: 50px;
+        }
+        .day-card {
+            background: #151515;
+            border: 1px solid #333;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .day-header {
+            padding: 20px;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .day-header:hover { background: #222; }
+        .day-num {
+            background: #3fb950;
+            color: #000;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .day-title { font-size: 18px; flex: 1; }
+        .day-duration { color: #888; font-size: 14px; }
+        .day-content {
+            padding: 20px;
+            border-top: 1px solid #333;
+            display: none;
+        }
+        .day-content.show { display: block; }
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #222;
+        }
+        .lesson-item:last-child { border-bottom: none; }
+        .lesson-icon {
+            width: 40px;
+            height: 40px;
+            background: #252525;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        .lesson-info { flex: 1; }
+        .lesson-info h4 { font-size: 15px; margin-bottom: 3px; }
+        .lesson-info p { font-size: 13px; color: #888; }
+        .lesson-type {
+            padding: 4px 10px;
+            background: #252525;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #888;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        .feature-card {
+            background: #151515;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+        .feature-card .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        .feature-card h4 {
+            margin-bottom: 8px;
+        }
+        .feature-card p {
+            color: #888;
+            font-size: 14px;
+        }
+        .certificate-preview {
+            background: #151515;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+        }
+        .cert-frame {
+            background: linear-gradient(135deg, #ffd700, #f97316);
+            padding: 3px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .cert-inner {
+            background: #fff;
+            color: #000;
+            padding: 40px 60px;
+            border-radius: 6px;
+        }
+        .cert-inner h3 {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        .cert-inner h2 {
+            font-size: 28px;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+        .cert-inner p {
+            color: #666;
+            font-size: 12px;
+        }
+        .cert-inner .name {
+            font-size: 24px;
+            font-style: italic;
+            color: #3fb950;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #444;
+            font-size: 14px;
+            border-top: 1px solid #222;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">💻 Computer Basics</div>
+        <nav>
+            <a href="index.html">All Courses</a>
+            <a href="../index.html">Home</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Computer <span>Basics</span> Course</h1>
+        <p>Master essential computer skills in just 1 week. Perfect for beginners with step-by-step video lessons and screenshots.</p>
+        <div class="hero-meta">
+            <span>📅 Duration: <strong>1 Week</strong></span>
+            <span>📚 Lessons: <strong>7 Days</strong></span>
+            <span>🎓 Certificate: <strong>Yes</strong></span>
+            <span>📱 Access: <strong>Lifetime</strong></span>
+        </div>
+        <div class="price-box">
+            <div class="price">3,000 ETB</div>
+            <div class="label">One-time payment</div>
+        </div>
+        <br>
+        <a href="../sis/payment.html?course=computer-basics&price=3000" class="enroll-btn">Enroll Now</a>
+    </div>
+
+    <main>
+        <h2 class="section-title">What You'll <span>Learn</span></h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">🖥️</div>
+                <h4>Computer Parts</h4>
+                <p>Understand hardware components and how they work together</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">⌨️</div>
+                <h4>Keyboard & Mouse</h4>
+                <p>Master typing and mouse skills for efficient work</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🪟</div>
+                <h4>Windows OS</h4>
+                <p>Navigate Windows like a pro with shortcuts and tips</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📁</div>
+                <h4>File Management</h4>
+                <p>Organize files and folders effectively</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🌐</div>
+                <h4>Internet Basics</h4>
+                <p>Browse safely and use email professionally</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔒</div>
+                <h4>Security</h4>
+                <p>Protect your computer from viruses and threats</p>
+            </div>
+        </div>
+
+        <h2 class="section-title">Course <span>Curriculum</span></h2>
+        <div class="curriculum">
+            <div class="day-card">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <span class="day-num">Day 1</span>
+                    <span class="day-title">Introduction to Computers</span>
+                    <span class="day-duration">45 min</span>
+                </div>
+                <div class="day-content">
+                    <div class="lesson-item">
+                        <div class="lesson-icon">📹</div>
+                        <div class="lesson-info">
+                            <h4>What is a Computer?</h4>
+                            <p>Understanding computers and their purpose</p>
+                        </div>
+                        <span class="lesson-type">Video</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">🖼️</div>
+                        <div class="lesson-info">
+                            <h4>Computer Parts Explained</h4>
+                            <p>CPU, RAM, Storage, Monitor, Keyboard, Mouse</p>
+                        </div>
+                        <span class="lesson-type">Screenshots</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">✏️</div>
+                        <div class="lesson-info">
+                            <h4>Quiz: Identify Computer Parts</h4>
+                            <p>Test your knowledge</p>
+                        </div>
+                        <span class="lesson-type">Quiz</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <span class="day-num">Day 2</span>
+                    <span class="day-title">Starting Your Computer</span>
+                    <span class="day-duration">40 min</span>
+                </div>
+                <div class="day-content">
+                    <div class="lesson-item">
+                        <div class="lesson-icon">📹</div>
+                        <div class="lesson-info">
+                            <h4>Turning On/Off Properly</h4>
+                            <p>Safe startup and shutdown procedures</p>
+                        </div>
+                        <span class="lesson-type">Video</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">🖼️</div>
+                        <div class="lesson-info">
+                            <h4>Understanding the Desktop</h4>
+                            <p>Icons, taskbar, start menu explained</p>
+                        </div>
+                        <span class="lesson-type">Screenshots</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">🖼️</div>
+                        <div class="lesson-info">
+                            <h4>Using the Start Menu</h4>
+                            <p>Finding and opening programs</p>
+                        </div>
+                        <span class="lesson-type">Screenshots</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <span class="day-num">Day 3</span>
+                    <span class="day-title">Keyboard & Mouse Skills</span>
+                    <span class="day-duration">50 min</span>
+                </div>
+                <div class="day-content">
+                    <div class="lesson-item">
+                        <div class="lesson-icon">📹</div>
+                        <div class="lesson-info">
+                            <h4>Keyboard Layout</h4>
+                            <p>Understanding keys and their functions</p>
+                        </div>
+                        <span class="lesson-type">Video</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">🖼️</div>
+                        <div class="lesson-info">
+                            <h4>Essential Keyboard Shortcuts</h4>
+                            <p>Ctrl+C, Ctrl+V, Ctrl+Z and more</p>
+                        </div>
+                        <span class="lesson-type">Screenshots</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">📹</div>
+                        <div class="lesson-info">
+                            <h4>Mouse Operations</h4>
+                            <p>Click, double-click, right-click, drag</p>
+                        </div>
+                        <span class="lesson-type">Video</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">✏️</div>
+                        <div class="lesson-info">
+                            <h4>Practice: Typing Exercise</h4>
+                            <p>Improve your typing speed</p>
+                        </div>
+                        <span class="lesson-type">Exercise</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <span class="day-num">Day 4</span>
+                    <span class="day-title">File Management</span>
+                    <span class="day-duration">55 min</span>
+                </div>
+                <div class="day-content">
+                    <div class="lesson-item">
+                        <div class="lesson-icon">📹</div>
+                        <div class="lesson-info">
+                            <h4>Understanding Files & Folders</h4>
+                            <p>What are files and how to organize them</p>
+                        </div>
+                        <span class="lesson-type">Video</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">🖼️</div>
+                        <div class="lesson-info">
+                            <h4>Using File Explorer</h4>
+                            <p>Navigate, create, rename, delete files</p>
+                        </div>
+                        <span class="lesson-type">Screenshots</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">🖼️</div>
+                        <div class="lesson-info">
+                            <h4>Copy, Move, and Delete</h4>
+                            <p>Managing your files effectively</p>
+                        </div>
+                        <span class="lesson-type">Screenshots</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">✏️</div>
+                        <div class="lesson-info">
+                            <h4>Practice: Organize Files</h4>
+                            <p>Create a folder structure</p>
+                        </div>
+                        <span class="lesson-type">Exercise</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <span class="day-num">Day 5</span>
+                    <span class="day-title">Internet & Web Browsing</span>
+                    <span class="day-duration">50 min</span>
+                </div>
+                <div class="day-content">
+                    <div class="lesson-item">
+                        <div class="lesson-icon">📹</div>
+                        <div class="lesson-info">
+                            <h4>What is the Internet?</h4>
+                            <p>Understanding how the internet works</p>
+                        </div>
+                        <span class="lesson-type">Video</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">🖼️</div>
+                        <div class="lesson-info">
+                            <h4>Using Web Browsers</h4>
+                            <p>Chrome, Edge, Firefox basics</p>
+                        </div>
+                        <span class="lesson-type">Screenshots</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">🖼️</div>
+                        <div class="lesson-info">
+                            <h4>Searching the Web</h4>
+                            <p>Google search tips and tricks</p>
+                        </div>
+                        <span class="lesson-type">Screenshots</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">📹</div>
+                        <div class="lesson-info">
+                            <h4>Downloading Files Safely</h4>
+                            <p>How to download without viruses</p>
+                        </div>
+                        <span class="lesson-type">Video</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <span class="day-num">Day 6</span>
+                    <span class="day-title">Email & Communication</span>
+                    <span class="day-duration">45 min</span>
+                </div>
+                <div class="day-content">
+                    <div class="lesson-item">
+                        <div class="lesson-icon">📹</div>
+                        <div class="lesson-info">
+                            <h4>Creating an Email Account</h4>
+                            <p>Gmail setup step by step</p>
+                        </div>
+                        <span class="lesson-type">Video</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">🖼️</div>
+                        <div class="lesson-info">
+                            <h4>Sending & Receiving Emails</h4>
+                            <p>Compose, reply, forward, attachments</p>
+                        </div>
+                        <span class="lesson-type">Screenshots</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">🖼️</div>
+                        <div class="lesson-info">
+                            <h4>Email Etiquette</h4>
+                            <p>Professional email writing tips</p>
+                        </div>
+                        <span class="lesson-type">Screenshots</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <span class="day-num">Day 7</span>
+                    <span class="day-title">Security & Final Test</span>
+                    <span class="day-duration">60 min</span>
+                </div>
+                <div class="day-content">
+                    <div class="lesson-item">
+                        <div class="lesson-icon">📹</div>
+                        <div class="lesson-info">
+                            <h4>Computer Security Basics</h4>
+                            <p>Passwords, antivirus, safe browsing</p>
+                        </div>
+                        <span class="lesson-type">Video</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">🖼️</div>
+                        <div class="lesson-info">
+                            <h4>Recognizing Threats</h4>
+                            <p>Viruses, phishing, scams</p>
+                        </div>
+                        <span class="lesson-type">Screenshots</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">🖼️</div>
+                        <div class="lesson-info">
+                            <h4>Keeping Your Computer Healthy</h4>
+                            <p>Updates, cleanup, maintenance</p>
+                        </div>
+                        <span class="lesson-type">Screenshots</span>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-icon">🎓</div>
+                        <div class="lesson-info">
+                            <h4>Final Exam</h4>
+                            <p>Complete to earn your certificate</p>
+                        </div>
+                        <span class="lesson-type">Exam</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Your <span>Certificate</span></h2>
+        <div class="certificate-preview">
+            <div class="cert-frame">
+                <div class="cert-inner">
+                    <h3>BLSC Online Courses</h3>
+                    <h2>Certificate of Completion</h2>
+                    <p>This certifies that</p>
+                    <div class="name">[Your Name]</div>
+                    <p>has successfully completed the</p>
+                    <h4 style="margin:10px 0">Computer Basics Course</h4>
+                    <p>Date: _______________</p>
+                </div>
+            </div>
+            <p style="color:#888;margin-top:20px">Pass the final exam with 70% or higher to receive your certificate</p>
+        </div>
+    </main>
+
+    <footer>
+        © 2024 BLSC - Benayas Leulseged Software Company
+    </footer>
+
+    <script>
+        function toggleDay(header) {
+            const content = header.nextElementSibling;
+            content.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

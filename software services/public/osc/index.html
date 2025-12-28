@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLSC Online Software Courses</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            background: #111;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+        }
+        .logo { font-size: 22px; font-weight: bold; color: #3fb950; }
+        .logo span { color: #fff; }
+        nav a { color: #888; text-decoration: none; margin-left: 20px; }
+        nav a:hover { color: #3fb950; }
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        h1 span { color: #3fb950; }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 50px;
+        }
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        .course-card {
+            background: #151515;
+            border: 1px solid #333;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .course-card:hover {
+            transform: translateY(-5px);
+            border-color: #3fb950;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .course-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+        .course-body {
+            padding: 25px;
+        }
+        .course-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(63, 185, 80, 0.15);
+            color: #3fb950;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .course-badge.premium {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+        }
+        .course-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .course-desc {
+            color: #888;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .course-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #666;
+        }
+        .course-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .course-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3fb950;
+            margin-bottom: 15px;
+        }
+        .course-price .original {
+            font-size: 16px;
+            color: #666;
+            text-decoration: line-through;
+            margin-left: 10px;
+        }
+        .enroll-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: #3fb950;
+            color: #000;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.3s;
+        }
+        .enroll-btn:hover { background: #4cc95f; }
+        .features-list {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+        }
+        .features-list li {
+            list-style: none;
+            padding: 5px 0;
+            font-size: 13px;
+            color: #888;
+        }
+        .features-list li::before {
+            content: "✓ ";
+            color: #3fb950;
+        }
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #444;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">BLSC <span>Online Courses</span></div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="../bla/bla.html">Apps</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Online <span>Software Courses</span></h1>
+        <p class="subtitle">Learn from experts and get certified</p>
+
+        <div class="courses-grid">
+            <!-- Computer Basics Course -->
+            <div class="course-card">
+                <div class="course-image">💻</div>
+                <div class="course-body">
+                    <span class="course-badge">Beginner</span>
+                    <h3 class="course-title">Computer Basics</h3>
+                    <p class="course-desc">Learn essential computer skills from scratch. Perfect for beginners who want to master the fundamentals.</p>
+                    <div class="course-meta">
+                        <span>📅 1 Week</span>
+                        <span>📚 7 Lessons</span>
+                        <span>🎓 Certificate</span>
+                    </div>
+                    <div class="course-price">
+                        3,000 ETB
+                    </div>
+                    <a href="computer-basics.html" class="enroll-btn">View Course</a>
+                    <ul class="features-list">
+                        <li>Video lessons with screenshots</li>
+                        <li>Practice exercises</li>
+                        <li>Certificate on completion</li>
+                        <li>Lifetime access</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Web Development Course -->
+            <div class="course-card">
+                <div class="course-image">🌐</div>
+                <div class="course-body">
+                    <span class="course-badge premium">Coming Soon</span>
+                    <h3 class="course-title">Web Development</h3>
+                    <p class="course-desc">Build modern websites with HTML, CSS, and JavaScript. From basics to advanced techniques.</p>
+                    <div class="course-meta">
+                        <span>📅 4 Weeks</span>
+                        <span>📚 28 Lessons</span>
+                        <span>🎓 Certificate</span>
+                    </div>
+                    <div class="course-price">
+                        5,000 ETB
+                    </div>
+                    <span class="enroll-btn" style="background:#333;color:#666;cursor:not-allowed">Coming Soon</span>
+                </div>
+            </div>
+
+            <!-- Python Programming -->
+            <div class="course-card">
+                <div class="course-image">🐍</div>
+                <div class="course-body">
+                    <span class="course-badge premium">Coming Soon</span>
+                    <h3 class="course-title">Python Programming</h3>
+                    <p class="course-desc">Master Python from beginner to advanced. Build real projects and automate tasks.</p>
+                    <div class="course-meta">
+                        <span>📅 6 Weeks</span>
+                        <span>📚 42 Lessons</span>
+                        <span>🎓 Certificate</span>
+                    </div>
+                    <div class="course-price">
+                        7,000 ETB
+                    </div>
+                    <span class="enroll-btn" style="background:#333;color:#666;cursor:not-allowed">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        © 2024 BLSC - Benayas Leulseged Software Company
+    </footer>
+</body>
+</html>
