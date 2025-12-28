@@ -319,6 +319,7 @@
       <a href="index.html" class="active" id="navHome">Home</a>
       <a href="about.html" id="navAbout">About</a>
       <a href="serv.html" id="navServices">Services</a>
+      <a href="software services/index.html" id="navSoftware">Software</a>
       <a href="com.html" id="navContact">Contact</a>
       <select class="lang-select" id="langSelect">
         <option value="en">🇺🇸 EN</option>
@@ -409,7 +410,7 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 
 const translations = {
   en: {
-    home:'Home',about:'About',services:'Services',contact:'Contact',
+    home:'Home',about:'About',services:'Services',software:'Software',contact:'Contact',
     heroTitle:'Quality Software & Technology Services',
     heroDesc:'We provide premium hardware and software solutions at affordable prices. From web development to app creation, we\'ve got you covered.',
     btnServices:'View Services →',btnContact:'Contact Us',
@@ -420,7 +421,7 @@ const translations = {
     statServices:'Services Offered',statSatisfaction:'Client Satisfaction',statSupport:'Support Available'
   },
   am: {
-    home:'መነሻ',about:'ስለ እኛ',services:'አገልግሎቶች',contact:'አግኙን',
+    home:'መነሻ',about:'ስለ እኛ',services:'አገልግሎቶች',software:'ሶፍትዌር',contact:'አግኙን',
     heroTitle:'ጥራት ያለው ሶፍትዌር እና ቴክኖሎጂ አገልግሎቶች',
     heroDesc:'በተመጣጣኝ ዋጋ ከፍተኛ ጥራት ያላቸው ሃርድዌር እና ሶፍትዌር መፍትሄዎችን እናቀርባለን።',
     btnServices:'አገልግሎቶችን ይመልከቱ →',btnContact:'አግኙን',
@@ -431,7 +432,7 @@ const translations = {
     statServices:'የሚቀርቡ አገልግሎቶች',statSatisfaction:'የደንበኛ እርካታ',statSupport:'ድጋፍ ይገኛል'
   },
   or: {
-    home:'Mana',about:'Waa\'ee',services:'Tajaajila',contact:'Nu Quunnamaa',
+    home:'Mana',about:'Waa\'ee',services:'Tajaajila',software:'Sooftiweerii',contact:'Nu Quunnamaa',
     heroTitle:'Tajaajila Sooftiweerii fi Teeknooloojii Qulqullina Qabu',
     heroDesc:'Gatii madaalawaa ta\'een furmaata haardweerii fi sooftiweerii olaanaa dhiyeessina.',
     btnServices:'Tajaajila Ilaali →',btnContact:'Nu Quunnamaa',
@@ -442,7 +443,7 @@ const translations = {
     statServices:'Tajaajila Dhiyaatan',statSatisfaction:'Gammachuu Maamilaa',statSupport:'Deeggarsi Ni Argama'
   },
   es: {
-    home:'Inicio',about:'Acerca de',services:'Servicios',contact:'Contacto',
+    home:'Inicio',about:'Acerca de',services:'Servicios',software:'Software',contact:'Contacto',
     heroTitle:'Servicios de Software y Tecnología de Calidad',
     heroDesc:'Proporcionamos soluciones de hardware y software premium a precios asequibles.',
     btnServices:'Ver Servicios →',btnContact:'Contáctenos',
@@ -453,7 +454,7 @@ const translations = {
     statServices:'Servicios Ofrecidos',statSatisfaction:'Satisfacción del Cliente',statSupport:'Soporte Disponible'
   },
   fr: {
-    home:'Accueil',about:'À propos',services:'Services',contact:'Contact',
+    home:'Accueil',about:'À propos',services:'Services',software:'Logiciel',contact:'Contact',
     heroTitle:'Services Logiciels et Technologiques de Qualité',
     heroDesc:'Nous fournissons des solutions matérielles et logicielles premium à des prix abordables.',
     btnServices:'Voir les Services →',btnContact:'Contactez-nous',
@@ -464,7 +465,7 @@ const translations = {
     statServices:'Services Offerts',statSatisfaction:'Satisfaction Client',statSupport:'Support Disponible'
   },
   ar: {
-    home:'الرئيسية',about:'حول',services:'الخدمات',contact:'اتصل بنا',
+    home:'الرئيسية',about:'حول',services:'الخدمات',software:'البرمجيات',contact:'اتصل بنا',
     heroTitle:'خدمات برمجيات وتكنولوجيا عالية الجودة',
     heroDesc:'نقدم حلول أجهزة وبرمجيات متميزة بأسعار معقولة.',
     btnServices:'عرض الخدمات →',btnContact:'اتصل بنا',
@@ -475,7 +476,7 @@ const translations = {
     statServices:'الخدمات المقدمة',statSatisfaction:'رضا العملاء',statSupport:'الدعم متاح'
   },
   zh: {
-    home:'首页',about:'关于',services:'服务',contact:'联系',
+    home:'首页',about:'关于',services:'服务',software:'软件',contact:'联系',
     heroTitle:'优质软件和技术服务',
     heroDesc:'我们以实惠的价格提供优质的硬件和软件解决方案。',
     btnServices:'查看服务 →',btnContact:'联系我们',
@@ -495,6 +496,7 @@ function changeLanguage() {
   document.getElementById('navHome').textContent = t.home;
   document.getElementById('navAbout').textContent = t.about;
   document.getElementById('navServices').textContent = t.services;
+  document.getElementById('navSoftware').textContent = t.software;
   document.getElementById('navContact').textContent = t.contact;
   document.getElementById('heroTitle').textContent = t.heroTitle;
   document.getElementById('heroDesc').textContent = t.heroDesc;
