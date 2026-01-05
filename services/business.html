@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Business Solutions - BLSC</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100vh}
+  .bg-gradient{position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 20%,rgba(168,85,247,0.15) 0%,transparent 50%),#0a0a0a;z-index:-1}
+  header{background:rgba(10,10,10,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:100}
+  nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:16px 24px}
+  .logo{font-size:20px;font-weight:700;color:#fff;display:flex;align-items:center;gap:12px;text-decoration:none}
+  .logo img{width:42px;height:42px;border-radius:50%;border:2px solid #a855f7}
+  .back-btn{padding:10px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:100px;color:#fff;text-decoration:none;font-size:14px;transition:all 0.3s}
+  .back-btn:hover{background:#a855f7;border-color:#a855f7;color:#fff}
+  .hero{text-align:center;padding:60px 24px 40px}
+  .hero-icon{width:80px;height:80px;border-radius:20px;background:rgba(168,85,247,0.2);display:flex;align-items:center;justify-content:center;font-size:36px;color:#a855f7;margin:0 auto 20px}
+  .hero h1{font-size:clamp(28px,5vw,42px);font-weight:800;margin-bottom:12px}
+  .hero h1 span{color:#a855f7}
+  .hero p{color:rgba(255,255,255,0.6);font-size:16px;max-width:500px;margin:0 auto}
+  main{max-width:1000px;margin:0 auto;padding:0 24px 80px}
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+  .service-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;transition:all 0.3s}
+  .service-card:hover{border-color:#a855f7;transform:translateY(-4px)}
+  .service-card .icon{width:50px;height:50px;border-radius:12px;background:rgba(168,85,247,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;color:#a855f7;margin-bottom:16px}
+  .service-card h3{font-size:18px;font-weight:600;margin-bottom:8px}
+  .service-card p{color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6}
+  .cta-box{background:linear-gradient(135deg,rgba(168,85,247,0.1),rgba(168,85,247,0.05));border:1px solid rgba(168,85,247,0.2);border-radius:20px;padding:40px;text-align:center;margin-top:50px}
+  .cta-box h2{font-size:24px;margin-bottom:12px}
+  .cta-box p{color:rgba(255,255,255,0.6);margin-bottom:20px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:#a855f7;color:#fff;text-decoration:none;border-radius:100px;font-weight:600;transition:all 0.3s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(168,85,247,0.3)}
+  footer{text-align:center;padding:40px;color:rgba(255,255,255,0.4);font-size:14px;border-top:1px solid rgba(255,255,255,0.05)}
+</style>
+</head>
+<body>
+<div class="bg-gradient"></div>
+<header>
+  <nav>
+    <a href="../index.html" class="logo"><img src="../1.png" alt="BLSC"><span>BLSC</span></a>
+    <div style="display:flex;align-items:center;gap:12px">
+      <select class="lang-select" id="langSelect" style="padding:8px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;font-size:13px;cursor:pointer">
+        <option value="en">🇺🇸 EN</option>
+        <option value="am">🇪🇹 አማ</option>
+        <option value="or">🇪🇹 OR</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="ar">🇸🇦 AR</option>
+        <option value="zh">🇨🇳 中</option>
+      </select>
+      <a href="../serv.html" class="back-btn"><i class="fas fa-arrow-left"></i> <span id="backBtn">Back to Services</span></a>
+    </div>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="hero-icon"><i class="fas fa-briefcase"></i></div>
+  <h1 id="heroTitle">Business <span>Solutions</span></h1>
+  <p id="heroDesc">Software solutions to grow your business</p>
+</div>
+
+<main>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-cash-register"></i></div>
+      <h3 id="s1Title">POS Systems</h3>
+      <p id="s1Desc">Point of sale systems for shops, restaurants, and retail businesses.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-boxes-stacked"></i></div>
+      <h3 id="s2Title">Inventory Management</h3>
+      <p id="s2Desc">Track stock, manage orders, and automate inventory processes.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-users-gear"></i></div>
+      <h3 id="s3Title">HR Management</h3>
+      <p id="s3Desc">Employee management, payroll, and attendance tracking systems.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-chart-line"></i></div>
+      <h3 id="s4Title">Accounting Software</h3>
+      <p id="s4Desc">Financial management, invoicing, and bookkeeping solutions.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-school"></i></div>
+      <h3 id="s5Title">School Management</h3>
+      <p id="s5Desc">Complete school management systems for educational institutions.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-hospital"></i></div>
+      <h3 id="s6Title">Clinic Management</h3>
+      <p id="s6Desc">Patient records, appointments, and medical practice management.</p>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h2 id="ctaTitle">Ready to digitize your business?</h2>
+    <p id="ctaDesc">Let's build the perfect solution for you</p>
+    <a href="../com.html" class="btn"><i class="fas fa-phone"></i> <span id="ctaBtn">Contact Us</span></a>
+  </div>
+</main>
+
+<footer><p>© <span id="yr"></span> BENAYAS LEULSEGED Software Company</p></footer>
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+const translations = {
+  en: {
+    back:'Back to Services',heroTitle:'Business <span>Solutions</span>',heroDesc:'Software solutions to grow your business',
+    s1Title:'POS Systems',s1Desc:'Point of sale systems for shops, restaurants, and retail businesses.',
+    s2Title:'Inventory Management',s2Desc:'Track stock, manage orders, and automate inventory processes.',
+    s3Title:'HR Management',s3Desc:'Employee management, payroll, and attendance tracking systems.',
+    s4Title:'Accounting Software',s4Desc:'Financial management, invoicing, and bookkeeping solutions.',
+    s5Title:'School Management',s5Desc:'Complete school management systems for educational institutions.',
+    s6Title:'Clinic Management',s6Desc:'Patient records, appointments, and medical practice management.',
+    ctaTitle:'Ready to digitize your business?',ctaDesc:'Let\'s build the perfect solution for you',ctaBtn:'Contact Us'
+  },
+  am: {
+    back:'ወደ አገልግሎቶች ተመለስ',heroTitle:'የቢዝነስ <span>መፍትሄዎች</span>',heroDesc:'ቢዝነስዎን ለማሳደግ የሶፍትዌር መፍትሄዎች',
+    s1Title:'POS ሲስተሞች',s1Desc:'ለሱቆች፣ ሬስቶራንቶች እና የችርቻሮ ቢዝነሶች የሽያጭ ነጥብ ሲስተሞች።',
+    s2Title:'ኢንቬንቶሪ ማኔጅመንት',s2Desc:'ክምችት ይከታተሉ፣ ትዕዛዞችን ያስተዳድሩ እና የኢንቬንቶሪ ሂደቶችን ያውቶሜት ያድርጉ።',
+    s3Title:'HR ማኔጅመንት',s3Desc:'የሰራተኛ ማኔጅመንት፣ ደመወዝ እና የመገኘት ክትትል ሲስተሞች።',
+    s4Title:'የሂሳብ ሶፍትዌር',s4Desc:'የፋይናንስ ማኔጅመንት፣ ኢንቮይሲንግ እና የሂሳብ አያያዝ መፍትሄዎች።',
+    s5Title:'የትምህርት ቤት ማኔጅመንት',s5Desc:'ለትምህርት ተቋማት ሙሉ የትምህርት ቤት ማኔጅመንት ሲስተሞች።',
+    s6Title:'የክሊኒክ ማኔጅመንት',s6Desc:'የታካሚ መዝገቦች፣ ቀጠሮዎች እና የሕክምና ልምምድ ማኔጅመንት።',
+    ctaTitle:'ቢዝነስዎን ዲጂታል ለማድረግ ዝግጁ ነዎት?',ctaDesc:'ለእርስዎ ፍጹም መፍትሄ እንገንባ',ctaBtn:'አግኙን'
+  },
+  or: {
+    back:'Gara Tajaajilatti Deebi\'i',heroTitle:'Furmaata <span>Daldalaa</span>',heroDesc:'Furmaata sooftiweerii daldalaa keessan guddisuuf',
+    s1Title:'Sirna POS',s1Desc:'Sirna iddoo gurgurtaa suuqii, mana nyaataa fi daldalaa daldala xiqqaaf.',
+    s2Title:'Bulchiinsa Kuusaa',s2Desc:'Kuusaa hordofuu, ajaja bulchuu fi adeemsa kuusaa ofumaan hojjechuu.',
+    s3Title:'Bulchiinsa HR',s3Desc:'Bulchiinsa hojjetaa, mindaa fi sirna hordoffii argama.',
+    s4Title:'Sooftiweerii Herrega',s4Desc:'Bulchiinsa maallaqaa, invoicing fi furmaata herrega qabachuu.',
+    s5Title:'Bulchiinsa Mana Barumsaa',s5Desc:'Sirna bulchiinsa mana barumsaa guutuu dhaabbilee barnootaaf.',
+    s6Title:'Bulchiinsa Kilinikaa',s6Desc:'Galmee dhukkubsataa, beellama fi bulchiinsa shaakala yaalaa.',
+    ctaTitle:'Daldalaa keessan dijitaalii gochuuf qophii dha?',ctaDesc:'Furmaata sirrii isiniif haa ijaaru',ctaBtn:'Nu Quunnamaa'
+  },
+  es: {
+    back:'Volver a Servicios',heroTitle:'Soluciones <span>Empresariales</span>',heroDesc:'Soluciones de software para hacer crecer su negocio',
+    s1Title:'Sistemas POS',s1Desc:'Sistemas de punto de venta para tiendas, restaurantes y negocios minoristas.',
+    s2Title:'Gestión de Inventario',s2Desc:'Rastree stock, gestione pedidos y automatice procesos de inventario.',
+    s3Title:'Gestión de RRHH',s3Desc:'Gestión de empleados, nómina y sistemas de seguimiento de asistencia.',
+    s4Title:'Software Contable',s4Desc:'Gestión financiera, facturación y soluciones de contabilidad.',
+    s5Title:'Gestión Escolar',s5Desc:'Sistemas completos de gestión escolar para instituciones educativas.',
+    s6Title:'Gestión de Clínicas',s6Desc:'Registros de pacientes, citas y gestión de práctica médica.',
+    ctaTitle:'¿Listo para digitalizar su negocio?',ctaDesc:'Construyamos la solución perfecta para usted',ctaBtn:'Contáctenos'
+  },
+  fr: {
+    back:'Retour aux Services',heroTitle:'Solutions <span>d\'Entreprise</span>',heroDesc:'Solutions logicielles pour développer votre entreprise',
+    s1Title:'Systèmes POS',s1Desc:'Systèmes de point de vente pour magasins, restaurants et commerces de détail.',
+    s2Title:'Gestion d\'Inventaire',s2Desc:'Suivez le stock, gérez les commandes et automatisez les processus d\'inventaire.',
+    s3Title:'Gestion RH',s3Desc:'Gestion des employés, paie et systèmes de suivi de présence.',
+    s4Title:'Logiciel Comptable',s4Desc:'Gestion financière, facturation et solutions de comptabilité.',
+    s5Title:'Gestion Scolaire',s5Desc:'Systèmes complets de gestion scolaire pour institutions éducatives.',
+    s6Title:'Gestion de Clinique',s6Desc:'Dossiers patients, rendez-vous et gestion de pratique médicale.',
+    ctaTitle:'Prêt à digitaliser votre entreprise?',ctaDesc:'Construisons la solution parfaite pour vous',ctaBtn:'Contactez-nous'
+  },
+  ar: {
+    back:'العودة للخدمات',heroTitle:'حلول <span>الأعمال</span>',heroDesc:'حلول برمجية لتنمية أعمالك',
+    s1Title:'أنظمة نقاط البيع',s1Desc:'أنظمة نقاط البيع للمتاجر والمطاعم وأعمال التجزئة.',
+    s2Title:'إدارة المخزون',s2Desc:'تتبع المخزون، إدارة الطلبات وأتمتة عمليات المخزون.',
+    s3Title:'إدارة الموارد البشرية',s3Desc:'إدارة الموظفين، الرواتب وأنظمة تتبع الحضور.',
+    s4Title:'برنامج المحاسبة',s4Desc:'الإدارة المالية، الفواتير وحلول مسك الدفاتر.',
+    s5Title:'إدارة المدرسة',s5Desc:'أنظمة إدارة مدرسية كاملة للمؤسسات التعليمية.',
+    s6Title:'إدارة العيادة',s6Desc:'سجلات المرضى، المواعيد وإدارة الممارسة الطبية.',
+    ctaTitle:'مستعد لرقمنة عملك؟',ctaDesc:'دعنا نبني الحل المثالي لك',ctaBtn:'اتصل بنا'
+  },
+  zh: {
+    back:'返回服务',heroTitle:'<span>商业</span>解决方案',heroDesc:'帮助您业务增长的软件解决方案',
+    s1Title:'POS系统',s1Desc:'适用于商店、餐厅和零售业务的销售点系统。',
+    s2Title:'库存管理',s2Desc:'跟踪库存、管理订单并自动化库存流程。',
+    s3Title:'人力资源管理',s3Desc:'员工管理、工资和考勤跟踪系统。',
+    s4Title:'会计软件',s4Desc:'财务管理、发票和簿记解决方案。',
+    s5Title:'学校管理',s5Desc:'为教育机构提供完整的学校管理系统。',
+    s6Title:'诊所管理',s6Desc:'患者记录、预约和医疗实践管理。',
+    ctaTitle:'准备好数字化您的业务？',ctaDesc:'让我们为您构建完美的解决方案',ctaBtn:'联系我们'
+  }
+};
+
+function changeLanguage() {
+  const lang = document.getElementById('langSelect').value;
+  const t = translations[lang];
+  localStorage.setItem('blsc_lang', lang);
+  
+  document.getElementById('backBtn').textContent = t.back;
+  document.getElementById('heroTitle').innerHTML = t.heroTitle;
+  document.getElementById('heroDesc').textContent = t.heroDesc;
+  for(let i=1; i<=6; i++) {
+    if(document.getElementById('s'+i+'Title')) document.getElementById('s'+i+'Title').textContent = t['s'+i+'Title'];
+    if(document.getElementById('s'+i+'Desc')) document.getElementById('s'+i+'Desc').textContent = t['s'+i+'Desc'];
+  }
+  document.getElementById('ctaTitle').textContent = t.ctaTitle;
+  document.getElementById('ctaDesc').textContent = t.ctaDesc;
+  document.getElementById('ctaBtn').textContent = t.ctaBtn;
+  
+  document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+}
+
+document.getElementById('langSelect').addEventListener('change', changeLanguage);
+
+const savedLang = localStorage.getItem('blsc_lang');
+if (savedLang && translations[savedLang]) {
+  document.getElementById('langSelect').value = savedLang;
+  changeLanguage();
+}
+</script>
+</body>
+</html>

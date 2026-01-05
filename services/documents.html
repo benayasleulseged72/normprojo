@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data & Documents - BLSC</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100vh}
+  .bg-gradient{position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 20%,rgba(234,179,8,0.15) 0%,transparent 50%),#0a0a0a;z-index:-1}
+  header{background:rgba(10,10,10,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:100}
+  nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:16px 24px}
+  .logo{font-size:20px;font-weight:700;color:#fff;display:flex;align-items:center;gap:12px;text-decoration:none}
+  .logo img{width:42px;height:42px;border-radius:50%;border:2px solid #eab308}
+  .back-btn{padding:10px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:100px;color:#fff;text-decoration:none;font-size:14px;transition:all 0.3s}
+  .back-btn:hover{background:#eab308;border-color:#eab308;color:#000}
+  .hero{text-align:center;padding:60px 24px 40px}
+  .hero-icon{width:80px;height:80px;border-radius:20px;background:rgba(234,179,8,0.2);display:flex;align-items:center;justify-content:center;font-size:36px;color:#eab308;margin:0 auto 20px}
+  .hero h1{font-size:clamp(28px,5vw,42px);font-weight:800;margin-bottom:12px}
+  .hero h1 span{color:#eab308}
+  .hero p{color:rgba(255,255,255,0.6);font-size:16px;max-width:500px;margin:0 auto}
+  main{max-width:1000px;margin:0 auto;padding:0 24px 80px}
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+  .service-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;transition:all 0.3s}
+  .service-card:hover{border-color:#eab308;transform:translateY(-4px)}
+  .service-card .icon{width:50px;height:50px;border-radius:12px;background:rgba(234,179,8,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;color:#eab308;margin-bottom:16px}
+  .service-card h3{font-size:18px;font-weight:600;margin-bottom:8px}
+  .service-card p{color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6}
+  .cta-box{background:linear-gradient(135deg,rgba(234,179,8,0.1),rgba(234,179,8,0.05));border:1px solid rgba(234,179,8,0.2);border-radius:20px;padding:40px;text-align:center;margin-top:50px}
+  .cta-box h2{font-size:24px;margin-bottom:12px}
+  .cta-box p{color:rgba(255,255,255,0.6);margin-bottom:20px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:#eab308;color:#000;text-decoration:none;border-radius:100px;font-weight:600;transition:all 0.3s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(234,179,8,0.3)}
+  footer{text-align:center;padding:40px;color:rgba(255,255,255,0.4);font-size:14px;border-top:1px solid rgba(255,255,255,0.05)}
+</style>
+</head>
+<body>
+<div class="bg-gradient"></div>
+<header>
+  <nav>
+    <a href="../index.html" class="logo"><img src="../1.png" alt="BLSC"><span>BLSC</span></a>
+    <div style="display:flex;align-items:center;gap:12px">
+      <select class="lang-select" id="langSelect" style="padding:8px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;font-size:13px;cursor:pointer">
+        <option value="en">🇺🇸 EN</option>
+        <option value="am">🇪🇹 አማ</option>
+        <option value="or">🇪🇹 OR</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="ar">🇸🇦 AR</option>
+        <option value="zh">🇨🇳 中</option>
+      </select>
+      <a href="../serv.html" class="back-btn"><i class="fas fa-arrow-left"></i> <span id="backBtn">Back to Services</span></a>
+    </div>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="hero-icon"><i class="fas fa-file-alt"></i></div>
+  <h1 id="heroTitle">Data & <span>Documents</span></h1>
+  <p id="heroDesc">Professional document creation and data services</p>
+</div>
+
+<main>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-id-card"></i></div>
+      <h3 id="s1Title">CV / Resume</h3>
+      <p id="s1Desc">Professional CV and resume design that helps you stand out to employers.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-address-card"></i></div>
+      <h3 id="s2Title">Business Cards</h3>
+      <p id="s2Desc">Custom business card designs, print-ready files for professional networking.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-file-invoice"></i></div>
+      <h3 id="s3Title">Reports & Documents</h3>
+      <p id="s3Desc">Professional reports, proposals, and business documents formatted perfectly.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-certificate"></i></div>
+      <h3 id="s4Title">Certificates</h3>
+      <p id="s4Desc">Custom certificate designs for awards, completion, and recognition.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-keyboard"></i></div>
+      <h3 id="s5Title">Data Entry</h3>
+      <p id="s5Desc">Accurate and fast data entry services for any type of data.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-print"></i></div>
+      <h3 id="s6Title">Print Materials</h3>
+      <p id="s6Desc">Flyers, brochures, posters, and other print-ready materials.</p>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h2 id="ctaTitle">Need document services?</h2>
+    <p id="ctaDesc">Contact us for professional results</p>
+    <a href="../com.html" class="btn"><i class="fas fa-phone"></i> <span id="ctaBtn">Contact Us</span></a>
+  </div>
+</main>
+
+<footer><p>© <span id="yr"></span> BENAYAS LEULSEGED Software Company</p></footer>
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+const translations = {
+  en: {
+    back:'Back to Services',heroTitle:'Data & <span>Documents</span>',heroDesc:'Professional document creation and data services',
+    s1Title:'CV / Resume',s1Desc:'Professional CV and resume design that helps you stand out to employers.',
+    s2Title:'Business Cards',s2Desc:'Custom business card designs, print-ready files for professional networking.',
+    s3Title:'Reports & Documents',s3Desc:'Professional reports, proposals, and business documents formatted perfectly.',
+    s4Title:'Certificates',s4Desc:'Custom certificate designs for awards, completion, and recognition.',
+    s5Title:'Data Entry',s5Desc:'Accurate and fast data entry services for any type of data.',
+    s6Title:'Print Materials',s6Desc:'Flyers, brochures, posters, and other print-ready materials.',
+    ctaTitle:'Need document services?',ctaDesc:'Contact us for professional results',ctaBtn:'Contact Us'
+  },
+  am: {
+    back:'ወደ አገልግሎቶች ተመለስ',heroTitle:'ዳታ እና <span>ዶክመንቶች</span>',heroDesc:'ፕሮፌሽናል ዶክመንት ፈጠራ እና ዳታ አገልግሎቶች',
+    s1Title:'CV / ሬዝዩሜ',s1Desc:'ለአሰሪዎች ጎልቶ እንዲታዩ የሚያግዝ ፕሮፌሽናል CV እና ሬዝዩሜ ዲዛይን።',
+    s2Title:'ቢዝነስ ካርዶች',s2Desc:'ለፕሮፌሽናል ኔትወርኪንግ ብጁ የቢዝነስ ካርድ ዲዛይኖች፣ ለማተም ዝግጁ ፋይሎች።',
+    s3Title:'ሪፖርቶች እና ዶክመንቶች',s3Desc:'ፕሮፌሽናል ሪፖርቶች፣ ፕሮፖዛሎች እና የቢዝነስ ዶክመንቶች በትክክል ተቀርጸዋል።',
+    s4Title:'ሰርተፊኬቶች',s4Desc:'ለሽልማቶች፣ ማጠናቀቂያ እና እውቅና ብጁ ሰርተፊኬት ዲዛይኖች።',
+    s5Title:'ዳታ ኢንትሪ',s5Desc:'ለማንኛውም ዓይነት ዳታ ትክክለኛ እና ፈጣን ዳታ ኢንትሪ አገልግሎቶች።',
+    s6Title:'የህትመት ቁሳቁሶች',s6Desc:'ፍላየሮች፣ ብሮሸሮች፣ ፖስተሮች እና ሌሎች ለማተም ዝግጁ ቁሳቁሶች።',
+    ctaTitle:'የዶክመንት አገልግሎቶች ይፈልጋሉ?',ctaDesc:'ለፕሮፌሽናል ውጤቶች ያግኙን',ctaBtn:'አግኙን'
+  },
+  or: {
+    back:'Gara Tajaajilatti Deebi\'i',heroTitle:'Daataa fi <span>Dokumantii</span>',heroDesc:'Uumama dokumantii ogummaa fi tajaajila daataa',
+    s1Title:'CV / Gabaasa',s1Desc:'Dizaayinii CV fi gabaasa ogummaa hojii kennaa irratti akka mul\'attu si gargaaru.',
+    s2Title:'Kaardii Daldalaa',s2Desc:'Dizaayinii kaardii daldalaa addaa, faayilii maxxansuuf qophaa\'e networkii ogummaaf.',
+    s3Title:'Gabaasa fi Dokumantii',s3Desc:'Gabaasa ogummaa, yaada dhiheessuu fi dokumantii daldalaa sirriitti qophaa\'e.',
+    s4Title:'Waraqaa Ragaa',s4Desc:'Dizaayinii waraqaa ragaa addaa badhaasa, xumura fi beekamtiif.',
+    s5Title:'Galchii Daataa',s5Desc:'Tajaajila galchii daataa sirrii fi saffisaa gosa daataa kamiifuu.',
+    s6Title:'Meeshaalee Maxxansaa',s6Desc:'Flaayarii, birooshurii, poostarii fi meeshaalee maxxansuuf qophaa\'an biroo.',
+    ctaTitle:'Tajaajila dokumantii barbaaddaa?',ctaDesc:'Bu\'aa ogummaa argachuuf nu quunnamaa',ctaBtn:'Nu Quunnamaa'
+  },
+  es: {
+    back:'Volver a Servicios',heroTitle:'Datos y <span>Documentos</span>',heroDesc:'Creación profesional de documentos y servicios de datos',
+    s1Title:'CV / Currículum',s1Desc:'Diseño profesional de CV y currículum que te ayuda a destacar ante los empleadores.',
+    s2Title:'Tarjetas de Presentación',s2Desc:'Diseños personalizados de tarjetas de presentación, archivos listos para imprimir para networking profesional.',
+    s3Title:'Informes y Documentos',s3Desc:'Informes profesionales, propuestas y documentos comerciales formateados perfectamente.',
+    s4Title:'Certificados',s4Desc:'Diseños de certificados personalizados para premios, finalización y reconocimiento.',
+    s5Title:'Entrada de Datos',s5Desc:'Servicios de entrada de datos precisos y rápidos para cualquier tipo de datos.',
+    s6Title:'Materiales Impresos',s6Desc:'Volantes, folletos, carteles y otros materiales listos para imprimir.',
+    ctaTitle:'¿Necesita servicios de documentos?',ctaDesc:'Contáctenos para resultados profesionales',ctaBtn:'Contáctenos'
+  },
+  fr: {
+    back:'Retour aux Services',heroTitle:'Données et <span>Documents</span>',heroDesc:'Création professionnelle de documents et services de données',
+    s1Title:'CV / Curriculum',s1Desc:'Design professionnel de CV et curriculum qui vous aide à vous démarquer auprès des employeurs.',
+    s2Title:'Cartes de Visite',s2Desc:'Designs personnalisés de cartes de visite, fichiers prêts à imprimer pour le réseautage professionnel.',
+    s3Title:'Rapports et Documents',s3Desc:'Rapports professionnels, propositions et documents commerciaux parfaitement formatés.',
+    s4Title:'Certificats',s4Desc:'Designs de certificats personnalisés pour récompenses, achèvement et reconnaissance.',
+    s5Title:'Saisie de Données',s5Desc:'Services de saisie de données précis et rapides pour tout type de données.',
+    s6Title:'Matériaux d\'Impression',s6Desc:'Flyers, brochures, affiches et autres matériaux prêts à imprimer.',
+    ctaTitle:'Besoin de services de documents?',ctaDesc:'Contactez-nous pour des résultats professionnels',ctaBtn:'Contactez-nous'
+  },
+  ar: {
+    back:'العودة للخدمات',heroTitle:'البيانات و<span>المستندات</span>',heroDesc:'إنشاء مستندات احترافية وخدمات البيانات',
+    s1Title:'السيرة الذاتية',s1Desc:'تصميم سيرة ذاتية احترافية تساعدك على التميز أمام أصحاب العمل.',
+    s2Title:'بطاقات العمل',s2Desc:'تصاميم بطاقات عمل مخصصة، ملفات جاهزة للطباعة للتواصل المهني.',
+    s3Title:'التقارير والمستندات',s3Desc:'تقارير احترافية، مقترحات ومستندات أعمال منسقة بشكل مثالي.',
+    s4Title:'الشهادات',s4Desc:'تصاميم شهادات مخصصة للجوائز والإنجاز والتقدير.',
+    s5Title:'إدخال البيانات',s5Desc:'خدمات إدخال بيانات دقيقة وسريعة لأي نوع من البيانات.',
+    s6Title:'مواد الطباعة',s6Desc:'منشورات، كتيبات، ملصقات ومواد أخرى جاهزة للطباعة.',
+    ctaTitle:'تحتاج خدمات مستندات؟',ctaDesc:'اتصل بنا للحصول على نتائج احترافية',ctaBtn:'اتصل بنا'
+  },
+  zh: {
+    back:'返回服务',heroTitle:'数据与<span>文档</span>',heroDesc:'专业文档创建和数据服务',
+    s1Title:'简历',s1Desc:'帮助您在雇主面前脱颖而出的专业简历设计。',
+    s2Title:'名片',s2Desc:'定制名片设计，用于专业网络的可打印文件。',
+    s3Title:'报告和文档',s3Desc:'专业报告、提案和商业文档完美格式化。',
+    s4Title:'证书',s4Desc:'用于奖励、完成和认可的定制证书设计。',
+    s5Title:'数据录入',s5Desc:'任何类型数据的准确快速数据录入服务。',
+    s6Title:'印刷材料',s6Desc:'传单、小册子、海报和其他可打印材料。',
+    ctaTitle:'需要文档服务？',ctaDesc:'联系我们获取专业结果',ctaBtn:'联系我们'
+  }
+};
+
+function changeLanguage() {
+  const lang = document.getElementById('langSelect').value;
+  const t = translations[lang];
+  localStorage.setItem('blsc_lang', lang);
+  
+  document.getElementById('backBtn').textContent = t.back;
+  document.getElementById('heroTitle').innerHTML = t.heroTitle;
+  document.getElementById('heroDesc').textContent = t.heroDesc;
+  for(let i=1; i<=6; i++) {
+    if(document.getElementById('s'+i+'Title')) document.getElementById('s'+i+'Title').textContent = t['s'+i+'Title'];
+    if(document.getElementById('s'+i+'Desc')) document.getElementById('s'+i+'Desc').textContent = t['s'+i+'Desc'];
+  }
+  document.getElementById('ctaTitle').textContent = t.ctaTitle;
+  document.getElementById('ctaDesc').textContent = t.ctaDesc;
+  document.getElementById('ctaBtn').textContent = t.ctaBtn;
+  
+  document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+}
+
+document.getElementById('langSelect').addEventListener('change', changeLanguage);
+
+const savedLang = localStorage.getItem('blsc_lang');
+if (savedLang && translations[savedLang]) {
+  document.getElementById('langSelect').value = savedLang;
+  changeLanguage();
+}
+</script>
+</body>
+</html>

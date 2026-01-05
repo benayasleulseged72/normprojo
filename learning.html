@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Services - BLSC</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#0a0a0a;min-height:100vh;color:#fff}
+        .bg-gradient{position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 0%,rgba(139,92,246,0.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(63,185,80,0.1) 0%,transparent 50%),#0a0a0a;z-index:-1}
+        header{background:rgba(10,10,10,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:100}
+        nav{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:16px 24px}
+        .logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff}
+        .logo img{width:42px;height:42px;border-radius:50%;border:2px solid #8b5cf6}
+        .logo span{font-size:20px;font-weight:700}
+        .back-btn{padding:10px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:100px;color:#fff;text-decoration:none;font-size:14px;display:flex;align-items:center;gap:8px;transition:all 0.3s}
+        .back-btn:hover{background:#8b5cf6;border-color:#8b5cf6}
+        .hero{text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
+        .hero::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(139,92,246,0.1) 0%,transparent 70%);z-index:-1}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:100px;font-size:13px;color:#a78bfa;margin-bottom:20px}
+        .hero h1{font-size:clamp(36px,6vw,56px);font-weight:800;margin-bottom:16px;background:linear-gradient(135deg,#fff 0%,#a78bfa 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero p{color:rgba(255,255,255,0.6);font-size:18px;max-width:600px;margin:0 auto}
+        main{max-width:1400px;margin:0 auto;padding:0 24px 100px}
+        .category{margin-bottom:60px}
+        .category-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.1)}
+        .category-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px}
+        .category-header h2{font-size:24px;font-weight:700}
+        .category-header span{color:rgba(255,255,255,0.5);font-size:14px;margin-left:auto}
+        .courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+        .course-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:20px 16px;cursor:pointer;transition:all 0.3s;text-decoration:none;color:#fff;text-align:center;position:relative;overflow:hidden}
+        .course-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),transparent);opacity:0;transition:opacity 0.3s}
+        .course-card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+        .course-card:hover::before{opacity:1}
+        .course-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:28px;background:rgba(255,255,255,0.05);transition:all 0.3s}
+        .course-card:hover .course-icon{transform:scale(1.1)}
+        .course-card h3{font-size:13px;font-weight:600;line-height:1.4}
+        .course-card.active{border-color:#3fb950;background:rgba(63,185,80,0.05)}
+        .course-card.active::after{content:'FREE';position:absolute;top:8px;right:8px;padding:4px 8px;background:#3fb950;color:#000;font-size:9px;font-weight:700;border-radius:4px}
+        footer{text-align:center;padding:40px;color:rgba(255,255,255,0.4);font-size:14px;border-top:1px solid rgba(255,255,255,0.05)}
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="1.png" alt="BLSC">
+                <span>BLSC Learning</span>
+            </a>
+            <a href="serv.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <div class="hero-badge"><i class="fas fa-graduation-cap"></i> Learn & Grow</div>
+        <h1>Master New Skills</h1>
+        <p>Comprehensive courses from basics to advanced development</p>
+    </div>
+
+    <main>
+        <!-- Computer Basics -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(139,92,246,0.15);color:#8b5cf6"><i class="fas fa-desktop"></i></div>
+                <h2>Computer Basics</h2>
+                <span>6 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#8b5cf6">
+                <a href="software services/public/osc/computer-basics.html" class="course-card active">
+                    <div class="course-icon" style="color:#8b5cf6"><i class="fas fa-laptop"></i></div>
+                    <h3>Computer Basics</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#8b5cf6"><i class="fas fa-keyboard"></i></div>
+                    <h3>Typing</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#2b579a"><i class="fas fa-file-word"></i></div>
+                    <h3>MS Word</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#217346"><i class="fas fa-file-excel"></i></div>
+                    <h3>MS Excel</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#d24726"><i class="fas fa-file-powerpoint"></i></div>
+                    <h3>PowerPoint</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#3b82f6"><i class="fas fa-globe"></i></div>
+                    <h3>Internet</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- Web Development -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(59,130,246,0.15);color:#3b82f6"><i class="fas fa-code"></i></div>
+                <h2>Web Development</h2>
+                <span>12 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#3b82f6">
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#e34f26"><i class="devicon-html5-plain"></i></div>
+                    <h3>HTML5</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#1572b6"><i class="devicon-css3-plain"></i></div>
+                    <h3>CSS3</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#f7df1e"><i class="devicon-javascript-plain"></i></div>
+                    <h3>JavaScript</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#3178c6"><i class="devicon-typescript-plain"></i></div>
+                    <h3>TypeScript</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#61dafb"><i class="devicon-react-original"></i></div>
+                    <h3>React</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#4fc08d"><i class="devicon-vuejs-plain"></i></div>
+                    <h3>Vue.js</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#dd0031"><i class="devicon-angular-plain"></i></div>
+                    <h3>Angular</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#000"><i class="devicon-nextjs-plain"></i></div>
+                    <h3>Next.js</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#06b6d4"><i class="devicon-tailwindcss-original"></i></div>
+                    <h3>Tailwind</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#7952b3"><i class="devicon-bootstrap-plain"></i></div>
+                    <h3>Bootstrap</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#339933"><i class="devicon-nodejs-plain"></i></div>
+                    <h3>Node.js</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#777bb4"><i class="devicon-php-plain"></i></div>
+                    <h3>PHP</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- Programming Languages -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(63,185,80,0.15);color:#3fb950"><i class="fas fa-terminal"></i></div>
+                <h2>Programming Languages</h2>
+                <span>10 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#3fb950">
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#3776ab"><i class="devicon-python-plain"></i></div>
+                    <h3>Python</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#007396"><i class="devicon-java-plain"></i></div>
+                    <h3>Java</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#512bd4"><i class="devicon-csharp-plain"></i></div>
+                    <h3>C#</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#00599c"><i class="devicon-cplusplus-plain"></i></div>
+                    <h3>C++</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#a8b9cc"><i class="devicon-c-plain"></i></div>
+                    <h3>C</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#7f52ff"><i class="devicon-kotlin-plain"></i></div>
+                    <h3>Kotlin</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#f05138"><i class="devicon-swift-plain"></i></div>
+                    <h3>Swift</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#00add8"><i class="devicon-go-plain"></i></div>
+                    <h3>Go</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#dea584"><i class="devicon-rust-original"></i></div>
+                    <h3>Rust</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#cc342d"><i class="devicon-ruby-plain"></i></div>
+                    <h3>Ruby</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- App Development -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(249,115,22,0.15);color:#f97316"><i class="fas fa-mobile-alt"></i></div>
+                <h2>App Development</h2>
+                <span>6 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#f97316">
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#3ddc84"><i class="devicon-android-plain"></i></div>
+                    <h3>Android</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#000"><i class="devicon-apple-original"></i></div>
+                    <h3>iOS</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#02569b"><i class="devicon-flutter-plain"></i></div>
+                    <h3>Flutter</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#61dafb"><i class="devicon-react-original"></i></div>
+                    <h3>React Native</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#512bd4"><i class="devicon-xamarin-original"></i></div>
+                    <h3>Xamarin</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#2396f3"><i class="fas fa-mobile-screen"></i></div>
+                    <h3>PWA</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- Database -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(20,184,166,0.15);color:#14b8a6"><i class="fas fa-database"></i></div>
+                <h2>Database</h2>
+                <span>6 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#14b8a6">
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#4479a1"><i class="devicon-mysql-plain"></i></div>
+                    <h3>MySQL</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#336791"><i class="devicon-postgresql-plain"></i></div>
+                    <h3>PostgreSQL</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#47a248"><i class="devicon-mongodb-plain"></i></div>
+                    <h3>MongoDB</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#ffca28"><i class="devicon-firebase-plain"></i></div>
+                    <h3>Firebase</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#dc382d"><i class="devicon-redis-plain"></i></div>
+                    <h3>Redis</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#003b57"><i class="devicon-sqlite-plain"></i></div>
+                    <h3>SQLite</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- DevOps & Cloud -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(234,179,8,0.15);color:#eab308"><i class="fas fa-cloud"></i></div>
+                <h2>DevOps & Cloud</h2>
+                <span>8 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#eab308">
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#ff9900"><i class="devicon-amazonwebservices-plain-wordmark"></i></div>
+                    <h3>AWS</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#0078d4"><i class="devicon-azure-plain"></i></div>
+                    <h3>Azure</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#4285f4"><i class="devicon-googlecloud-plain"></i></div>
+                    <h3>Google Cloud</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#2496ed"><i class="devicon-docker-plain"></i></div>
+                    <h3>Docker</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#326ce5"><i class="devicon-kubernetes-plain"></i></div>
+                    <h3>Kubernetes</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#f05032"><i class="devicon-git-plain"></i></div>
+                    <h3>Git</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#181717"><i class="devicon-github-original"></i></div>
+                    <h3>GitHub</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#fcc624"><i class="devicon-linux-plain"></i></div>
+                    <h3>Linux</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- Design -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(236,72,153,0.15);color:#ec4899"><i class="fas fa-palette"></i></div>
+                <h2>Design</h2>
+                <span>6 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#ec4899">
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#f24e1e"><i class="devicon-figma-plain"></i></div>
+                    <h3>Figma</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#31a8ff"><i class="devicon-photoshop-plain"></i></div>
+                    <h3>Photoshop</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#ff9a00"><i class="devicon-illustrator-plain"></i></div>
+                    <h3>Illustrator</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#ff61f6"><i class="devicon-xd-plain"></i></div>
+                    <h3>Adobe XD</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#ea77ff"><i class="devicon-premierepro-plain"></i></div>
+                    <h3>Premiere Pro</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#9999ff"><i class="devicon-aftereffects-plain"></i></div>
+                    <h3>After Effects</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- AI & Data Science -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(168,85,247,0.15);color:#a855f7"><i class="fas fa-brain"></i></div>
+                <h2>AI & Data Science</h2>
+                <span>8 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#a855f7">
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#ff6f00"><i class="devicon-tensorflow-original"></i></div>
+                    <h3>TensorFlow</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#ee4c2c"><i class="devicon-pytorch-original"></i></div>
+                    <h3>PyTorch</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#150458"><i class="devicon-pandas-original"></i></div>
+                    <h3>Pandas</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#013243"><i class="devicon-numpy-original"></i></div>
+                    <h3>NumPy</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#f7931e"><i class="devicon-jupyter-plain"></i></div>
+                    <h3>Jupyter</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#3499cd"><i class="devicon-opencv-plain"></i></div>
+                    <h3>OpenCV</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#f9ab00"><i class="devicon-keras-plain"></i></div>
+                    <h3>Keras</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#f89939"><i class="devicon-scikitlearn-plain"></i></div>
+                    <h3>Scikit-Learn</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- Game Development -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(239,68,68,0.15);color:#ef4444"><i class="fas fa-gamepad"></i></div>
+                <h2>Game Development</h2>
+                <span>6 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#ef4444">
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#000"><i class="devicon-unity-plain"></i></div>
+                    <h3>Unity</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#313131"><i class="devicon-unrealengine-original"></i></div>
+                    <h3>Unreal Engine</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#478cbf"><i class="devicon-godot-plain"></i></div>
+                    <h3>Godot</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#5c2d91"><i class="devicon-csharp-plain"></i></div>
+                    <h3>C# for Games</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#e34c26"><i class="devicon-blender-original"></i></div>
+                    <h3>Blender 3D</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#83b81a"><i class="fas fa-cube"></i></div>
+                    <h3>Game Design</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- Cybersecurity -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(34,197,94,0.15);color:#22c55e"><i class="fas fa-shield-halved"></i></div>
+                <h2>Cybersecurity</h2>
+                <span>6 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#22c55e">
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#22c55e"><i class="fas fa-user-secret"></i></div>
+                    <h3>Ethical Hacking</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#22c55e"><i class="fas fa-network-wired"></i></div>
+                    <h3>Network Security</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#22c55e"><i class="fas fa-bug"></i></div>
+                    <h3>Penetration Testing</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#22c55e"><i class="fas fa-lock"></i></div>
+                    <h3>Cryptography</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#557c94"><i class="devicon-linux-plain"></i></div>
+                    <h3>Kali Linux</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#22c55e"><i class="fas fa-file-shield"></i></div>
+                    <h3>Security+</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- Backend Frameworks -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(99,102,241,0.15);color:#6366f1"><i class="fas fa-server"></i></div>
+                <h2>Backend Frameworks</h2>
+                <span>8 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#6366f1">
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#092e20"><i class="devicon-django-plain"></i></div>
+                    <h3>Django</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#000"><i class="devicon-flask-original"></i></div>
+                    <h3>Flask</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#009688"><i class="devicon-fastapi-plain"></i></div>
+                    <h3>FastAPI</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#000"><i class="devicon-express-original"></i></div>
+                    <h3>Express.js</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#ff2d20"><i class="devicon-laravel-original"></i></div>
+                    <h3>Laravel</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#6db33f"><i class="devicon-spring-original"></i></div>
+                    <h3>Spring Boot</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#cc0000"><i class="devicon-rails-plain"></i></div>
+                    <h3>Ruby on Rails</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#512bd4"><i class="devicon-dotnetcore-plain"></i></div>
+                    <h3>.NET Core</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- Testing & QA -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(251,146,60,0.15);color:#fb923c"><i class="fas fa-vial"></i></div>
+                <h2>Testing & QA</h2>
+                <span>6 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#fb923c">
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#c21325"><i class="devicon-jest-plain"></i></div>
+                    <h3>Jest</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#43b02a"><i class="devicon-selenium-original"></i></div>
+                    <h3>Selenium</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#17202c"><i class="devicon-cypressio-plain"></i></div>
+                    <h3>Cypress</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#669900"><i class="devicon-pytest-plain"></i></div>
+                    <h3>Pytest</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#25a162"><i class="devicon-mocha-plain"></i></div>
+                    <h3>Mocha</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#fb923c"><i class="fas fa-clipboard-check"></i></div>
+                    <h3>Manual Testing</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- Tools & IDEs -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(107,114,128,0.15);color:#6b7280"><i class="fas fa-wrench"></i></div>
+                <h2>Tools & IDEs</h2>
+                <span>8 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#6b7280">
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#007acc"><i class="devicon-vscode-plain"></i></div>
+                    <h3>VS Code</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#000"><i class="devicon-intellij-plain"></i></div>
+                    <h3>IntelliJ IDEA</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#fcdc00"><i class="devicon-pycharm-plain"></i></div>
+                    <h3>PyCharm</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#3ddc84"><i class="devicon-androidstudio-plain"></i></div>
+                    <h3>Android Studio</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#147efb"><i class="devicon-xcode-plain"></i></div>
+                    <h3>Xcode</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#cb3837"><i class="devicon-npm-original-wordmark"></i></div>
+                    <h3>NPM</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#2c8ebb"><i class="devicon-yarn-plain"></i></div>
+                    <h3>Yarn</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#ff4785"><i class="devicon-storybook-plain"></i></div>
+                    <h3>Storybook</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- Blockchain & Web3 -->
+        <div class="category">
+            <div class="category-header">
+                <div class="category-icon" style="background:rgba(245,158,11,0.15);color:#f59e0b"><i class="fas fa-link"></i></div>
+                <h2>Blockchain & Web3</h2>
+                <span>4 courses</span>
+            </div>
+            <div class="courses-grid" style="--accent:#f59e0b">
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#3c3c3d"><i class="devicon-solidity-plain"></i></div>
+                    <h3>Solidity</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#f7931a"><i class="fab fa-bitcoin"></i></div>
+                    <h3>Blockchain</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#627eea"><i class="fab fa-ethereum"></i></div>
+                    <h3>Ethereum</h3>
+                </a>
+                <a href="#" class="course-card" onclick="alert('Coming Soon!');return false;">
+                    <div class="course-icon" style="color:#f59e0b"><i class="fas fa-coins"></i></div>
+                    <h3>Smart Contracts</h3>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© <span id="yr"></span> BENAYAS LEULSEGED Software Company — Jimma, Ethiopia</p>
+    </footer>
+
+    <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security Services - BLSC</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100vh}
+  .bg-gradient{position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 20%,rgba(34,197,94,0.15) 0%,transparent 50%),#0a0a0a;z-index:-1}
+  header{background:rgba(10,10,10,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:100}
+  nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:16px 24px}
+  .logo{font-size:20px;font-weight:700;color:#fff;display:flex;align-items:center;gap:12px;text-decoration:none}
+  .logo img{width:42px;height:42px;border-radius:50%;border:2px solid #22c55e}
+  .back-btn{padding:10px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:100px;color:#fff;text-decoration:none;font-size:14px;transition:all 0.3s}
+  .back-btn:hover{background:#22c55e;border-color:#22c55e;color:#000}
+  .hero{text-align:center;padding:60px 24px 40px}
+  .hero-icon{width:80px;height:80px;border-radius:20px;background:rgba(34,197,94,0.2);display:flex;align-items:center;justify-content:center;font-size:36px;color:#22c55e;margin:0 auto 20px}
+  .hero h1{font-size:clamp(28px,5vw,42px);font-weight:800;margin-bottom:12px}
+  .hero h1 span{color:#22c55e}
+  .hero p{color:rgba(255,255,255,0.6);font-size:16px;max-width:500px;margin:0 auto}
+  main{max-width:1000px;margin:0 auto;padding:0 24px 80px}
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+  .service-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;transition:all 0.3s}
+  .service-card:hover{border-color:#22c55e;transform:translateY(-4px)}
+  .service-card .icon{width:50px;height:50px;border-radius:12px;background:rgba(34,197,94,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;color:#22c55e;margin-bottom:16px}
+  .service-card h3{font-size:18px;font-weight:600;margin-bottom:8px}
+  .service-card p{color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6}
+  .cta-box{background:linear-gradient(135deg,rgba(34,197,94,0.1),rgba(34,197,94,0.05));border:1px solid rgba(34,197,94,0.2);border-radius:20px;padding:40px;text-align:center;margin-top:50px}
+  .cta-box h2{font-size:24px;margin-bottom:12px}
+  .cta-box p{color:rgba(255,255,255,0.6);margin-bottom:20px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:#22c55e;color:#000;text-decoration:none;border-radius:100px;font-weight:600;transition:all 0.3s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(34,197,94,0.3)}
+  footer{text-align:center;padding:40px;color:rgba(255,255,255,0.4);font-size:14px;border-top:1px solid rgba(255,255,255,0.05)}
+</style>
+</head>
+<body>
+<div class="bg-gradient"></div>
+<header>
+  <nav>
+    <a href="../index.html" class="logo"><img src="../1.png" alt="BLSC"><span>BLSC</span></a>
+    <div style="display:flex;align-items:center;gap:12px">
+      <select class="lang-select" id="langSelect" style="padding:8px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;font-size:13px;cursor:pointer">
+        <option value="en">🇺🇸 EN</option>
+        <option value="am">🇪🇹 አማ</option>
+        <option value="or">🇪🇹 OR</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="ar">🇸🇦 AR</option>
+        <option value="zh">🇨🇳 中</option>
+      </select>
+      <a href="../serv.html" class="back-btn"><i class="fas fa-arrow-left"></i> <span id="backBtn">Back to Services</span></a>
+    </div>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="hero-icon"><i class="fas fa-shield-halved"></i></div>
+  <h1 id="heroTitle">Security <span>Services</span></h1>
+  <p id="heroDesc">Protect your files, accounts, and data</p>
+</div>
+
+<main>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-lock"></i></div>
+      <h3 id="s1Title">File Encryption</h3>
+      <p id="s1Desc">Secure your sensitive files with strong encryption to prevent unauthorized access.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-cloud-arrow-up"></i></div>
+      <h3 id="s2Title">Secure Backup</h3>
+      <p id="s2Desc">Safe backup solutions for your important files and documents.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-user-shield"></i></div>
+      <h3 id="s3Title">Account Protection</h3>
+      <p id="s3Desc">Secure your social media and email accounts from hackers.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-virus-slash"></i></div>
+      <h3 id="s4Title">Virus Removal</h3>
+      <p id="s4Desc">Remove malware, viruses, and other threats from your devices.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-eye-slash"></i></div>
+      <h3 id="s5Title">Privacy Settings</h3>
+      <p id="s5Desc">Configure privacy settings on your devices and accounts.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><i class="fas fa-key"></i></div>
+      <h3 id="s6Title">Password Management</h3>
+      <p id="s6Desc">Set up secure password management for all your accounts.</p>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h2 id="ctaTitle">Need security help?</h2>
+    <p id="ctaDesc">Protect your digital life today</p>
+    <a href="../com.html" class="btn"><i class="fas fa-phone"></i> <span id="ctaBtn">Contact Us</span></a>
+  </div>
+</main>
+
+<footer><p>© <span id="yr"></span> BENAYAS LEULSEGED Software Company</p></footer>
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+const translations = {
+  en: {
+    back:'Back to Services',heroTitle:'Security <span>Services</span>',heroDesc:'Protect your files, accounts, and data',
+    s1Title:'File Encryption',s1Desc:'Secure your sensitive files with strong encryption to prevent unauthorized access.',
+    s2Title:'Secure Backup',s2Desc:'Safe backup solutions for your important files and documents.',
+    s3Title:'Account Protection',s3Desc:'Secure your social media and email accounts from hackers.',
+    s4Title:'Virus Removal',s4Desc:'Remove malware, viruses, and other threats from your devices.',
+    s5Title:'Privacy Settings',s5Desc:'Configure privacy settings on your devices and accounts.',
+    s6Title:'Password Management',s6Desc:'Set up secure password management for all your accounts.',
+    ctaTitle:'Need security help?',ctaDesc:'Protect your digital life today',ctaBtn:'Contact Us'
+  },
+  am: {
+    back:'ወደ አገልግሎቶች ተመለስ',heroTitle:'የደህንነት <span>አገልግሎቶች</span>',heroDesc:'ፋይሎችዎን፣ አካውንቶችዎን እና ዳታዎን ይጠብቁ',
+    s1Title:'ፋይል ምስጠራ',s1Desc:'ያልተፈቀደ መዳረሻን ለመከላከል ስሱ ፋይሎችዎን በጠንካራ ምስጠራ ያስጠብቁ።',
+    s2Title:'ደህንነቱ የተጠበቀ ባክአፕ',s2Desc:'ለአስፈላጊ ፋይሎችዎ እና ዶክመንቶችዎ ደህንነቱ የተጠበቀ ባክአፕ መፍትሄዎች።',
+    s3Title:'አካውንት ጥበቃ',s3Desc:'የማህበራዊ ሚዲያ እና ኢሜይል አካውንቶችዎን ከሃከሮች ያስጠብቁ።',
+    s4Title:'ቫይረስ ማስወገድ',s4Desc:'ማልዌር፣ ቫይረሶች እና ሌሎች ስጋቶችን ከመሳሪያዎችዎ ያስወግዱ።',
+    s5Title:'የግላዊነት ቅንብሮች',s5Desc:'በመሳሪያዎችዎ እና አካውንቶችዎ ላይ የግላዊነት ቅንብሮችን ያዋቅሩ።',
+    s6Title:'ፓስዎርድ ማኔጅመንት',s6Desc:'ለሁሉም አካውንቶችዎ ደህንነቱ የተጠበቀ ፓስዎርድ ማኔጅመንት ያዋቅሩ።',
+    ctaTitle:'የደህንነት እርዳታ ይፈልጋሉ?',ctaDesc:'ዛሬ ዲጂታል ህይወትዎን ይጠብቁ',ctaBtn:'አግኙን'
+  },
+  or: {
+    back:'Gara Tajaajilatti Deebi\'i',heroTitle:'Tajaajila <span>Nageenya</span>',heroDesc:'Faayilii, herrega fi daataa keessan eegaa',
+    s1Title:'Icciitii Faayilii',s1Desc:'Faayilii miira qabu keessan icciitii cimaan eegaa seensa hayyama hin qabne ittisuuf.',
+    s2Title:'Kuusaa Nageenya',s2Desc:'Furmaata kuusaa nageenya qabu faayilii fi dokumantii barbaachisaa keessaniif.',
+    s3Title:'Eegumsa Herrega',s3Desc:'Herrega miidiyaa hawaasaa fi imeelii keessan haakeroota irraa eegaa.',
+    s4Title:'Balleessuu Vaayirasii',s4Desc:'Maalweerii, vaayirasii fi sodaawwan biroo meeshaalee keessan irraa balleessaa.',
+    s5Title:'Qindaa\'ina Dhuunfaa',s5Desc:'Meeshaalee fi herrega keessan irratti qindaa\'ina dhuunfaa qindeessaa.',
+    s6Title:'Bulchiinsa Jecha Icciitii',s6Desc:'Herrega keessan hundaaf bulchiinsa jecha icciitii nageenya qabu qindeessaa.',
+    ctaTitle:'Gargaarsa nageenya barbaaddaa?',ctaDesc:'Har\'a jireenya dijitaalaa keessan eegaa',ctaBtn:'Nu Quunnamaa'
+  },
+  es: {
+    back:'Volver a Servicios',heroTitle:'Servicios de <span>Seguridad</span>',heroDesc:'Proteja sus archivos, cuentas y datos',
+    s1Title:'Cifrado de Archivos',s1Desc:'Asegure sus archivos sensibles con cifrado fuerte para prevenir acceso no autorizado.',
+    s2Title:'Respaldo Seguro',s2Desc:'Soluciones de respaldo seguras para sus archivos y documentos importantes.',
+    s3Title:'Protección de Cuentas',s3Desc:'Asegure sus cuentas de redes sociales y correo electrónico de hackers.',
+    s4Title:'Eliminación de Virus',s4Desc:'Elimine malware, virus y otras amenazas de sus dispositivos.',
+    s5Title:'Configuración de Privacidad',s5Desc:'Configure ajustes de privacidad en sus dispositivos y cuentas.',
+    s6Title:'Gestión de Contraseñas',s6Desc:'Configure gestión segura de contraseñas para todas sus cuentas.',
+    ctaTitle:'¿Necesita ayuda de seguridad?',ctaDesc:'Proteja su vida digital hoy',ctaBtn:'Contáctenos'
+  },
+  fr: {
+    back:'Retour aux Services',heroTitle:'Services de <span>Sécurité</span>',heroDesc:'Protégez vos fichiers, comptes et données',
+    s1Title:'Chiffrement de Fichiers',s1Desc:'Sécurisez vos fichiers sensibles avec un chiffrement fort pour empêcher l\'accès non autorisé.',
+    s2Title:'Sauvegarde Sécurisée',s2Desc:'Solutions de sauvegarde sécurisées pour vos fichiers et documents importants.',
+    s3Title:'Protection de Compte',s3Desc:'Sécurisez vos comptes de réseaux sociaux et email contre les hackers.',
+    s4Title:'Suppression de Virus',s4Desc:'Supprimez les malwares, virus et autres menaces de vos appareils.',
+    s5Title:'Paramètres de Confidentialité',s5Desc:'Configurez les paramètres de confidentialité sur vos appareils et comptes.',
+    s6Title:'Gestion des Mots de Passe',s6Desc:'Configurez une gestion sécurisée des mots de passe pour tous vos comptes.',
+    ctaTitle:'Besoin d\'aide en sécurité?',ctaDesc:'Protégez votre vie numérique aujourd\'hui',ctaBtn:'Contactez-nous'
+  },
+  ar: {
+    back:'العودة للخدمات',heroTitle:'خدمات <span>الأمان</span>',heroDesc:'احمِ ملفاتك وحساباتك وبياناتك',
+    s1Title:'تشفير الملفات',s1Desc:'أمّن ملفاتك الحساسة بتشفير قوي لمنع الوصول غير المصرح به.',
+    s2Title:'نسخ احتياطي آمن',s2Desc:'حلول نسخ احتياطي آمنة لملفاتك ومستنداتك المهمة.',
+    s3Title:'حماية الحساب',s3Desc:'أمّن حسابات وسائل التواصل الاجتماعي والبريد الإلكتروني من المخترقين.',
+    s4Title:'إزالة الفيروسات',s4Desc:'أزل البرامج الضارة والفيروسات والتهديدات الأخرى من أجهزتك.',
+    s5Title:'إعدادات الخصوصية',s5Desc:'قم بتكوين إعدادات الخصوصية على أجهزتك وحساباتك.',
+    s6Title:'إدارة كلمات المرور',s6Desc:'قم بإعداد إدارة آمنة لكلمات المرور لجميع حساباتك.',
+    ctaTitle:'تحتاج مساعدة أمنية؟',ctaDesc:'احمِ حياتك الرقمية اليوم',ctaBtn:'اتصل بنا'
+  },
+  zh: {
+    back:'返回服务',heroTitle:'<span>安全</span>服务',heroDesc:'保护您的文件、账户和数据',
+    s1Title:'文件加密',s1Desc:'使用强加密保护您的敏感文件，防止未经授权的访问。',
+    s2Title:'安全备份',s2Desc:'为您的重要文件和文档提供安全备份解决方案。',
+    s3Title:'账户保护',s3Desc:'保护您的社交媒体和电子邮件账户免受黑客攻击。',
+    s4Title:'病毒清除',s4Desc:'从您的设备中删除恶意软件、病毒和其他威胁。',
+    s5Title:'隐私设置',s5Desc:'在您的设备和账户上配置隐私设置。',
+    s6Title:'密码管理',s6Desc:'为您的所有账户设置安全的密码管理。',
+    ctaTitle:'需要安全帮助？',ctaDesc:'今天就保护您的数字生活',ctaBtn:'联系我们'
+  }
+};
+
+function changeLanguage() {
+  const lang = document.getElementById('langSelect').value;
+  const t = translations[lang];
+  localStorage.setItem('blsc_lang', lang);
+  
+  document.getElementById('backBtn').textContent = t.back;
+  document.getElementById('heroTitle').innerHTML = t.heroTitle;
+  document.getElementById('heroDesc').textContent = t.heroDesc;
+  for(let i=1; i<=6; i++) {
+    if(document.getElementById('s'+i+'Title')) document.getElementById('s'+i+'Title').textContent = t['s'+i+'Title'];
+    if(document.getElementById('s'+i+'Desc')) document.getElementById('s'+i+'Desc').textContent = t['s'+i+'Desc'];
+  }
+  document.getElementById('ctaTitle').textContent = t.ctaTitle;
+  document.getElementById('ctaDesc').textContent = t.ctaDesc;
+  document.getElementById('ctaBtn').textContent = t.ctaBtn;
+  
+  document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+}
+
+document.getElementById('langSelect').addEventListener('change', changeLanguage);
+
+const savedLang = localStorage.getItem('blsc_lang');
+if (savedLang && translations[savedLang]) {
+  document.getElementById('langSelect').value = savedLang;
+  changeLanguage();
+}
+</script>
+</body>
+</html>
