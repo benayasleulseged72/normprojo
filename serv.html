@@ -1,229 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Services - BLSC | Web Development, Software, Apps</title>
-<meta name="description" content="BLSC Services: Website creation, software development, app development in Jimma, Ethiopia.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://benio.vercel.app/serv.html">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Services - BLSC</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-  
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-    font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background:#0a0a0a;
-    color:#ffffff;
-    min-height:100vh;
-  }
-  
-  .bg-gradient{
-    position:fixed;
-    top:0;left:0;right:0;bottom:0;
-    background:
-      radial-gradient(circle at 20% 20%, rgba(63,185,80,0.15) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(88,166,255,0.1) 0%, transparent 50%),
-      #0a0a0a;
-    z-index:-1;
-  }
-  
-  header{
-    background:rgba(10,10,10,0.8);
-    backdrop-filter:blur(20px);
-    border-bottom:1px solid rgba(255,255,255,0.1);
-    position:sticky;top:0;z-index:100;
-  }
-  nav{
-    max-width:1200px;margin:auto;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:16px 24px;flex-wrap:wrap;gap:16px;
-  }
-  .logo{
-    font-size:20px;font-weight:700;color:#fff;
-    display:flex;align-items:center;gap:12px;
-  }
-  .logo img{width:42px;height:42px;border-radius:50%;border:2px solid #3fb950;}
-  .nav-links{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
-  .nav-links a{
-    text-decoration:none;color:rgba(255,255,255,0.7);padding:10px 20px;
-    border-radius:100px;font-weight:500;font-size:14px;transition:all 0.3s;
-  }
-  .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.1);}
-  .nav-links a.active{color:#0a0a0a;background:#3fb950;}
-  
-  /* language selector */
-  .lang-select{
-    padding:8px 14px;
-    background:rgba(255,255,255,0.05);
-    border:1px solid rgba(255,255,255,0.2);
-    border-radius:8px;
-    color:#fff;
-    font-size:13px;
-    cursor:pointer;
-  }
-  .lang-select option{background:#1a1a1a;}
-  
-  /* user icon styling - purple theme */
-  .user-icon{
-    position:relative;
-    display:flex;align-items:center;justify-content:center;
-    width:44px;height:44px;
-    background:transparent;
-    border-radius:12px;
-    color:#fff;
-    text-decoration:none;
-    transition:all 0.3s;
-    margin-left:20px;
-  }
-  .user-icon:hover{
-    transform:translateY(-2px);
-  }
-  .user-icon img{
-    width:44px;height:44px;
-    border-radius:12px;
-  }
-  .user-badge{
-    position:absolute;
-    bottom:-2px;right:-2px;
-    width:18px;height:18px;
-    background:#8b5cf6;
-    border-radius:50%;
-    font-size:10px;
-    display:flex;align-items:center;justify-content:center;
-    border:2px solid #0a0a0a;
-    color:#fff;
-  }
-  
-  .page-header{
-    text-align:center;
-    padding:80px 24px 60px;
-    max-width:800px;margin:auto;
-  }
-  .page-logo{
-    width:100px;height:100px;
-    border-radius:50%;
-    border:3px solid #3fb950;
-    box-shadow:0 0 40px rgba(63,185,80,0.4);
-    margin-bottom:24px;
-    animation:pulse 3s ease-in-out infinite;
-  }
-  @keyframes pulse{
-    0%,100%{box-shadow:0 0 40px rgba(63,185,80,0.4);}
-    50%{box-shadow:0 0 60px rgba(63,185,80,0.6);}
-  }
-  .page-header h1{
-    font-size:clamp(32px,5vw,48px);
-    font-weight:800;
-    margin-bottom:16px;
-  }
-  .page-header h1 span{color:#3fb950;}
-  .page-header h3{
-    color:#3fb950;
-    font-weight:500;
-    margin-bottom:12px;
-    font-size:18px;
-  }
-  .page-header p{color:rgba(255,255,255,0.6);font-size:17px;line-height:1.7;}
-  
-  .services{
-    max-width:1300px;margin:0 auto;
-    padding:0 24px 80px;
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
-    gap:28px;
-  }
-  
-  .card{
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.1);
-    border-radius:20px;
-    overflow:hidden;
-    transition:all 0.4s;
-    cursor:pointer;
-  }
-  .card:hover{
-    border-color:#3fb950;
-    transform:translateY(-8px);
-    box-shadow:0 30px 60px rgba(0,0,0,0.5);
-  }
-  .card-img{
-    width:100%;
-    height:180px;
-    object-fit:cover;
-    transition:transform 0.4s;
-  }
-  .card:hover .card-img{transform:scale(1.05);}
-  .card-body{padding:24px;}
-  .card h3{font-size:18px;margin-bottom:10px;color:#fff;font-weight:600;}
-  .card .desc{color:rgba(255,255,255,0.6);font-size:14px;line-height:1.7;}
-  .card .more{
-    display:none;
-    margin-top:16px;
-    padding-top:16px;
-    border-top:1px solid rgba(255,255,255,0.1);
-    color:#3fb950;
-    font-size:14px;
-    line-height:1.7;
-  }
-  .card.open .more{display:block;}
-  .card-hint{
-    display:inline-block;
-    color:#58a6ff;
-    font-size:13px;
-    margin-top:14px;
-    padding:8px 16px;
-    background:rgba(88,166,255,0.1);
-    border-radius:100px;
-    transition:all 0.3s;
-  }
-  .card:hover .card-hint{background:rgba(63,185,80,0.15);color:#3fb950;}
-  .card.open .card-hint{display:none;}
-  
-  .cta-section{
-    max-width:900px;margin:0 auto;
-    padding:0 24px 100px;
-    text-align:center;
-  }
-  .cta-box{
-    background:linear-gradient(135deg, rgba(63,185,80,0.1), rgba(88,166,255,0.1));
-    border:1px solid rgba(255,255,255,0.1);
-    border-radius:24px;
-    padding:60px 40px;
-  }
-  .cta-box h2{
-    font-size:clamp(24px,4vw,36px);
-    font-weight:700;
-    margin-bottom:16px;
-  }
-  .cta-box h2 span{color:#3fb950;}
-  .cta-box p{color:rgba(255,255,255,0.6);margin-bottom:32px;font-size:17px;}
-  
-  .btn-large{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:18px 40px;
-    background:linear-gradient(135deg, #3fb950, #2ea043);
-    color:#fff;
-    text-decoration:none;
-    border-radius:100px;
-    font-weight:600;
-    font-size:16px;
-    transition:all 0.3s;
-    box-shadow:0 4px 20px rgba(63,185,80,0.4);
-  }
-  .btn-large:hover{
-    transform:translateY(-3px);
-    box-shadow:0 8px 30px rgba(63,185,80,0.5);
-  }
-  
-  footer{
-    text-align:center;
-    padding:50px 24px;
-    color:rgba(255,255,255,0.4);
-    font-size:14px;
-    border-top:1px solid rgba(255,255,255,0.05);
-  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100vh}
+  .bg-gradient{position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 20%,rgba(63,185,80,0.15) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(88,166,255,0.1) 0%,transparent 50%),#0a0a0a;z-index:-1}
+  header{background:rgba(10,10,10,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:100}
+  nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;flex-wrap:wrap;gap:16px}
+  .logo{font-size:20px;font-weight:700;color:#fff;display:flex;align-items:center;gap:12px;text-decoration:none}
+  .logo img{width:42px;height:42px;border-radius:50%;border:2px solid #3fb950}
+  .nav-links{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .nav-links a{text-decoration:none;color:rgba(255,255,255,0.7);padding:10px 20px;border-radius:100px;font-weight:500;font-size:14px;transition:all 0.3s}
+  .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.1)}
+  .nav-links a.active{color:#0a0a0a;background:#3fb950}
+  .user-icon img{width:44px;height:44px;border-radius:12px}
+  .page-header{text-align:center;padding:60px 24px 40px;max-width:800px;margin:auto}
+  .page-header h1{font-size:clamp(32px,5vw,48px);font-weight:800;margin-bottom:16px}
+  .page-header h1 span{color:#3fb950}
+  .page-header p{color:rgba(255,255,255,0.6);font-size:17px}
+  main{max-width:1200px;margin:0 auto;padding:0 24px 80px}
+  .categories-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:24px}
+  .category-card{position:relative;border-radius:20px;overflow:hidden;cursor:pointer;transition:all 0.4s;text-decoration:none;color:#fff;height:220px}
+  .category-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,0,0,0.5)}
+  .category-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
+  .category-card:hover img{transform:scale(1.1)}
+  .category-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.3) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:24px}
+  .category-icon{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px}
+  .category-card h3{font-size:20px;font-weight:700;margin-bottom:6px}
+  .category-card p{color:rgba(255,255,255,0.7);font-size:14px;margin-bottom:12px}
+  .category-card .explore-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:100px;font-size:13px;font-weight:500;transition:all 0.3s}
+  .category-card:hover .explore-btn{background:#3fb950;border-color:#3fb950;color:#000}
+  .cta-section{max-width:900px;margin:0 auto;padding:40px 24px 80px;text-align:center}
+  .cta-box{background:linear-gradient(135deg,rgba(63,185,80,0.1),rgba(88,166,255,0.1));border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:50px 40px}
+  .cta-box h2{font-size:clamp(24px,4vw,32px);font-weight:700;margin-bottom:12px}
+  .cta-box h2 span{color:#3fb950}
+  .cta-box p{color:rgba(255,255,255,0.6);margin-bottom:24px}
+  .btn-large{display:inline-flex;align-items:center;gap:8px;padding:16px 36px;background:linear-gradient(135deg,#3fb950,#2ea043);color:#fff;text-decoration:none;border-radius:100px;font-weight:600;font-size:16px;transition:all 0.3s}
+  .btn-large:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(63,185,80,0.4)}
+  footer{text-align:center;padding:40px;color:rgba(255,255,255,0.4);font-size:14px;border-top:1px solid rgba(255,255,255,0.05)}
+  .lang-select{padding:8px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;font-size:13px;cursor:pointer}
+  .lang-select option{background:#1a1a1a}
+  @media(max-width:768px){.categories-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -231,7 +53,7 @@
 
 <header>
   <nav>
-    <div class="logo"><img src="1.png" alt="Logo"><span>BLSC</span></div>
+    <a href="index.html" class="logo"><img src="1.png" alt="Logo"><span>BLSC</span></a>
     <div class="nav-links">
       <a href="index.html" id="navHome">Home</a>
       <a href="about.html" id="navAbout">About</a>
@@ -247,428 +69,269 @@
         <option value="ar">🇸🇦 AR</option>
         <option value="zh">🇨🇳 中</option>
       </select>
-      <a href="auth.html" class="user-icon" title="Login / Account">
-        <img src="user.png" alt="User">
-      </a>
+      <a href="auth.html" class="user-icon"><img src="user.png" alt="User"></a>
     </div>
   </nav>
 </header>
 
 <div class="page-header">
-  <img src="1.png" alt="BLSC Logo" class="page-logo">
   <h1 id="pageTitle">Our <span>Services</span></h1>
-  <h3 id="pageSubtitle">የሚሰጡት አገልግሎቶች</h3>
-  <p id="pageDesc">ጥራት ባለው ስራ በተመጣጣኝ ዋጋ የሚፈልጉትን ስራ በአግባቡ ይሰራል</p>
+  <p id="pageDesc">Quality work at affordable prices - click to explore each category</p>
 </div>
 
-<section class="services">
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=400&h=200&fit=crop" alt="Website" class="card-img">
-    <div class="card-body">
-      <h3 id="s1Title">🌐 Website Creation</h3>
-      <p class="desc" id="s1Desc">Quality websites built to your specifications</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s1More">Personal websites, business sites, e-commerce, portfolios. Responsive design for all devices.</div>
-    </div>
+<main>
+  <div class="categories-grid">
+    <!-- Development Services -->
+    <a href="services/development.html" class="category-card">
+      <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop" alt="Development">
+      <div class="category-overlay">
+        <div class="category-icon" style="background:rgba(63,185,80,0.2);color:#3fb950"><i class="fas fa-code"></i></div>
+        <h3 id="cat1Title">Development Services</h3>
+        <p id="cat1Desc">Website, Software, App & Game Development</p>
+        <span class="explore-btn"><i class="fas fa-arrow-right"></i> <span class="explore-text">Explore</span></span>
+      </div>
+    </a>
+
+    <!-- Learning Services -->
+    <a href="learning.html" class="category-card">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" alt="Learning">
+      <div class="category-overlay">
+        <div class="category-icon" style="background:rgba(139,92,246,0.2);color:#8b5cf6"><i class="fas fa-graduation-cap"></i></div>
+        <h3 id="cat2Title">Learning Services</h3>
+        <p id="cat2Desc">Computer Basics, Programming, Web & App Dev</p>
+        <span class="explore-btn"><i class="fas fa-arrow-right"></i> <span class="explore-text">Explore</span></span>
+      </div>
+    </a>
+
+    <!-- Tech Services -->
+    <a href="services/tech.html" class="category-card">
+      <img src="https://images.unsplash.com/photo-1597673030062-0a0f1a801a31?w=600&h=400&fit=crop" alt="Tech Services">
+      <div class="category-overlay">
+        <div class="category-icon" style="background:rgba(59,130,246,0.2);color:#3b82f6"><i class="fas fa-tools"></i></div>
+        <h3 id="cat3Title">Tech Services</h3>
+        <p id="cat3Desc">OS Install, Device Repair, Password Recovery</p>
+        <span class="explore-btn"><i class="fas fa-arrow-right"></i> <span class="explore-text">Explore</span></span>
+      </div>
+    </a>
+
+    <!-- Creative Services -->
+    <a href="services/creative.html" class="category-card">
+      <img src="https://images.unsplash.com/photo-1626785774625-ddcddc3445e9?w=600&h=400&fit=crop" alt="Creative">
+      <div class="category-overlay">
+        <div class="category-icon" style="background:rgba(236,72,153,0.2);color:#ec4899"><i class="fas fa-palette"></i></div>
+        <h3 id="cat4Title">Creative Services</h3>
+        <p id="cat4Desc">Photo & Video Editing, Graphic Design, Documents</p>
+        <span class="explore-btn"><i class="fas fa-arrow-right"></i> <span class="explore-text">Explore</span></span>
+      </div>
+    </a>
+
+    <!-- Gaming & Entertainment -->
+    <a href="services/gaming.html" class="category-card">
+      <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=600&h=400&fit=crop" alt="Gaming">
+      <div class="category-overlay">
+        <div class="category-icon" style="background:rgba(249,115,22,0.2);color:#f97316"><i class="fas fa-gamepad"></i></div>
+        <h3 id="cat5Title">Gaming & Entertainment</h3>
+        <p id="cat5Desc">Game Setup, Sales & Software</p>
+        <span class="explore-btn"><i class="fas fa-arrow-right"></i> <span class="explore-text">Explore</span></span>
+      </div>
+    </a>
+
+    <!-- Software Services -->
+    <a href="software services/index.html" class="category-card">
+      <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=400&fit=crop" alt="Software">
+      <div class="category-overlay">
+        <div class="category-icon" style="background:rgba(20,184,166,0.2);color:#14b8a6"><i class="fas fa-rocket"></i></div>
+        <h3 id="cat6Title">Software Services</h3>
+        <p id="cat6Desc">Cloud Storage, AI Tools, Messenger, Apps</p>
+        <span class="explore-btn"><i class="fas fa-arrow-right"></i> <span class="explore-text">Explore</span></span>
+      </div>
+    </a>
+
+    <!-- Data & Documents -->
+    <a href="services/documents.html" class="category-card">
+      <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=600&h=400&fit=crop" alt="Documents">
+      <div class="category-overlay">
+        <div class="category-icon" style="background:rgba(234,179,8,0.2);color:#eab308"><i class="fas fa-file-alt"></i></div>
+        <h3 id="cat7Title">Data & Documents</h3>
+        <p id="cat7Desc">CV, Business Cards, Reports, Data Entry</p>
+        <span class="explore-btn"><i class="fas fa-arrow-right"></i> <span class="explore-text">Explore</span></span>
+      </div>
+    </a>
+
+    <!-- Security Services -->
+    <a href="services/security.html" class="category-card">
+      <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&h=400&fit=crop" alt="Security">
+      <div class="category-overlay">
+        <div class="category-icon" style="background:rgba(34,197,94,0.2);color:#22c55e"><i class="fas fa-shield-halved"></i></div>
+        <h3 id="cat8Title">Security Services</h3>
+        <p id="cat8Desc">File Protection, Backup, Account Security</p>
+        <span class="explore-btn"><i class="fas fa-arrow-right"></i> <span class="explore-text">Explore</span></span>
+      </div>
+    </a>
+
+    <!-- School & Education -->
+    <a href="services/education.html" class="category-card">
+      <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&h=400&fit=crop" alt="Education">
+      <div class="category-overlay">
+        <div class="category-icon" style="background:rgba(99,102,241,0.2);color:#6366f1"><i class="fas fa-school"></i></div>
+        <h3 id="cat9Title">School & Education</h3>
+        <p id="cat9Desc">Club Projects, Tech Demos, Assignments</p>
+        <span class="explore-btn"><i class="fas fa-arrow-right"></i> <span class="explore-text">Explore</span></span>
+      </div>
+    </a>
+
+    <!-- Business Solutions -->
+    <a href="services/business.html" class="category-card">
+      <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" alt="Business">
+      <div class="category-overlay">
+        <div class="category-icon" style="background:rgba(168,85,247,0.2);color:#a855f7"><i class="fas fa-briefcase"></i></div>
+        <h3 id="cat10Title">Business Solutions</h3>
+        <p id="cat10Desc">Management Systems, Inventory, POS</p>
+        <span class="explore-btn"><i class="fas fa-arrow-right"></i> <span class="explore-text">Explore</span></span>
+      </div>
+    </a>
+
+    <!-- Custom Request -->
+    <a href="com.html" class="category-card">
+      <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&h=400&fit=crop" alt="Custom">
+      <div class="category-overlay">
+        <div class="category-icon" style="background:rgba(107,114,128,0.2);color:#6b7280"><i class="fas fa-plus-circle"></i></div>
+        <h3 id="cat11Title">Custom Request</h3>
+        <p id="cat11Desc">Have something else in mind? Contact us!</p>
+        <span class="explore-btn"><i class="fas fa-arrow-right"></i> <span class="explore-text">Explore</span></span>
+      </div>
+    </a>
   </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop" alt="Software" class="card-img">
-    <div class="card-body">
-      <h3 id="s2Title">💻 Software Development</h3>
-      <p class="desc" id="s2Desc">Custom software for businesses, education, and more</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s2More">Custom desktop applications, management systems, inventory software, school systems.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=200&fit=crop" alt="App" class="card-img">
-    <div class="card-body">
-      <h3 id="s3Title">📱 App Development</h3>
-      <p class="desc" id="s3Desc">Apps designed exclusively for your device</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s3More">Android apps designed exclusively for your device. Private, secure, and customized.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400&h=200&fit=crop" alt="Games" class="card-img">
-    <div class="card-body">
-      <h3 id="s4Title">🕹️ Games Setup & Sales</h3>
-      <p class="desc" id="s4Desc">Any game at affordable prices</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s4More">PC games, mobile games, game installation and setup. All popular titles available.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=400&h=200&fit=crop" alt="OS" class="card-img">
-    <div class="card-body">
-      <h3 id="s5Title">🪛 OS Installation</h3>
-      <p class="desc" id="s5Desc">Any operating system at low prices</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s5More">Windows 7/8/10/11, Linux. Full installation with drivers and essential software.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=200&fit=crop" alt="Security" class="card-img">
-    <div class="card-body">
-      <h3 id="s6Title">🛡️ File Security</h3>
-      <p class="desc" id="s6Desc">File and account protection services</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s6More">File encryption, secure backup, account protection, privacy settings.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=200&fit=crop" alt="Computer" class="card-img">
-    <div class="card-body">
-      <h3 id="s7Title">👨‍🏫 Computer Basics</h3>
-      <p class="desc" id="s7Desc">Full course on basic computer skills</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s7More">Learn typing, Microsoft Office, internet basics, file management.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=400&h=200&fit=crop" alt="Programming" class="card-img">
-    <div class="card-body">
-      <h3 id="s8Title">🧑‍💻 Learn Programming</h3>
-      <p class="desc" id="s8Desc">Full programming courses available</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s8More">Python, JavaScript, HTML/CSS, Java. From basics to advanced.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=400&h=200&fit=crop" alt="Password" class="card-img">
-    <div class="card-body">
-      <h3 id="s9Title">🔑 Password Recovery</h3>
-      <p class="desc" id="s9Desc">Any password can be recovered</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s9More">Windows password, phone lock, email recovery, social media accounts.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.pexels.com/photos/31949740/pexels-photo-31949740.jpeg" alt="Photo Edit" class="card-img">
-    <div class="card-body">
-      <h3 id="s10Title">🎨 Photo & Video Editing</h3>
-      <p class="desc" id="s10Desc">Photo editing and video editing services</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s10More">Background removal, retouching, color correction, video editing.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1597673030062-0a0f1a801a31?w=400&h=200&fit=crop" alt="Repair" class="card-img">
-    <div class="card-body">
-      <h3 id="s11Title">🔧 Device Repair</h3>
-      <p class="desc" id="s11Desc">Fix broken devices</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s11More">Software issues, virus removal, slow performance, boot problems.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&h=200&fit=crop" alt="USB" class="card-img">
-    <div class="card-body">
-      <h3 id="s12Title">💽 Bootable USB OS</h3>
-      <p class="desc" id="s12Desc">Any OS on bootable USB drive</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s12More">Windows 7/8/10/11, Linux distributions, recovery tools.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1530133532239-eda6f53fcf0f?w=400&h=200&fit=crop" alt="Format" class="card-img">
-    <div class="card-body">
-      <h3 id="s13Title">🔧 Device Formatting</h3>
-      <p class="desc" id="s13Desc">Any device can be formatted</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s13More">Complete device reset, data backup, fresh start for all devices.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=200&fit=crop" alt="Web Dev" class="card-img">
-    <div class="card-body">
-      <h3 id="s14Title">👨‍🏫 Learn Web Development</h3>
-      <p class="desc" id="s14Desc">Learn to create websites</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s14More">HTML, CSS, JavaScript, responsive design.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=400&h=200&fit=crop" alt="Software Dev" class="card-img">
-    <div class="card-body">
-      <h3 id="s15Title">🛠️ Learn Software Dev</h3>
-      <p class="desc" id="s15Desc">Learn to create software</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s15More">Desktop apps, databases, user interfaces.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&h=200&fit=crop" alt="Documents" class="card-img">
-    <div class="card-body">
-      <h3 id="s16Title">🧾 Printable Documents</h3>
-      <p class="desc" id="s16Desc">Quality print-ready documents</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s16More">CVs, certificates, business cards, flyers, reports.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=200&fit=crop" alt="App Dev" class="card-img">
-    <div class="card-body">
-      <h3 id="s17Title">📱 Learn App Development</h3>
-      <p class="desc" id="s17Desc">Learn to create apps</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s17More">Android app development, UI design, Play Store publishing.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400&h=200&fit=crop" alt="School" class="card-img">
-    <div class="card-body">
-      <h3 id="s18Title">📡 School Club Projects</h3>
-      <p class="desc" id="s18Desc">Tech project help for clubs</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s18More">Science fair projects, tech demos, coding workshops.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?w=400&h=200&fit=crop" alt="Software" class="card-img">
-    <div class="card-body">
-      <h3 id="s19Title">💽 Software Purchasing</h3>
-      <p class="desc" id="s19Desc">Hard-to-find software at good prices</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s19More">Premium apps, licensed programs. We get what you need.</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="this.classList.toggle('open')">
-    <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop" alt="More" class="card-img">
-    <div class="card-body">
-      <h3 id="s20Title">🧰 Plus More</h3>
-      <p class="desc" id="s20Desc">Contact us for additional services</p>
-      <span class="card-hint">+ More</span>
-      <div class="more" id="s20More">Have a different request? Contact us!</div>
-    </div>
-  </div>
-  
-  <div class="card" onclick="window.location.href='software services/index.html'">
-    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=200&fit=crop" alt="Software Services" class="card-img">
-    <div class="card-body">
-      <h3 id="s21Title">🚀 Software Services</h3>
-      <p class="desc" id="s21Desc">Cloud storage, AI tools, messaging & more</p>
-      <span class="card-hint">Explore →</span>
-    </div>
-  </div>
-</section>
+</main>
 
 <section class="cta-section">
   <div class="cta-box">
-    <h2 id="ctaTitle">Interested in our <span>services</span>?</h2>
-    <p id="ctaDesc">Get in touch with us today. We're here to help!</p>
-    <a href="com.html" class="btn-large" id="ctaBtn">Contact Us →</a>
+    <h2 id="ctaTitle">Need our <span>services</span>?</h2>
+    <p id="ctaDesc">Contact us today - we're here to help!</p>
+    <a href="com.html" class="btn-large" id="ctaBtn"><i class="fas fa-phone"></i> Contact Us</a>
   </div>
 </section>
 
 <footer>
   <p>© <span id="yr"></span> BENAYAS LEULSEGED Software Company — Jimma, Ethiopia</p>
 </footer>
+
 <script src="blsc-account.js"></script>
 <script>
-document.getElementById('yr').textContent = new Date().getFullYear();
+document.getElementById('yr').textContent=new Date().getFullYear();
 
 const translations = {
   en: {
-    home:'Home',about:'About',services:'Services',contact:'Contact',
-    pageTitle:'Our <span>Services</span>',pageSubtitle:'Services We Offer',pageDesc:'Quality work at affordable prices.',
-    ctaTitle:'Interested in our <span>services</span>?',ctaDesc:'Get in touch today!',ctaBtn:'Contact Us →',
-    s1Title:'🌐 Website Creation',s1Desc:'Quality websites built to your specifications',
-    s2Title:'💻 Software Development',s2Desc:'Custom software for businesses and education',
-    s3Title:'📱 App Development',s3Desc:'Apps designed exclusively for your device',
-    s4Title:'🕹️ Games Setup & Sales',s4Desc:'Any game at affordable prices',
-    s5Title:'🪛 OS Installation',s5Desc:'Any operating system at low prices',
-    s6Title:'🛡️ File Security',s6Desc:'File and account protection services',
-    s7Title:'👨‍🏫 Computer Basics',s7Desc:'Full course on basic computer skills',
-    s8Title:'🧑‍💻 Learn Programming',s8Desc:'Full programming courses available',
-    s9Title:'🔑 Password Recovery',s9Desc:'Any password can be recovered',
-    s10Title:'🎨 Photo & Video Editing',s10Desc:'Photo and video editing services',
-    s11Title:'🔧 Device Repair',s11Desc:'Fix broken devices',
-    s12Title:'💽 Bootable USB OS',s12Desc:'Any OS on bootable USB drive',
-    s13Title:'🔧 Device Formatting',s13Desc:'Any device can be formatted',
-    s14Title:'👨‍🏫 Learn Web Development',s14Desc:'Learn to create websites',
-    s15Title:'🛠️ Learn Software Dev',s15Desc:'Learn to create software',
-    s16Title:'🧾 Printable Documents',s16Desc:'Quality print-ready documents',
-    s17Title:'📱 Learn App Development',s17Desc:'Learn to create apps',
-    s18Title:'📡 School Club Projects',s18Desc:'Tech project help for clubs',
-    s19Title:'💽 Software Purchasing',s19Desc:'Hard-to-find software',
-    s20Title:'🧰 Plus More',s20Desc:'Contact us for more services',
-    s21Title:'🚀 Software Services',s21Desc:'Cloud, AI tools, messaging & more'
+    home:'Home',about:'About',services:'Services',software:'Software',contact:'Contact',
+    pageTitle:'Our <span>Services</span>',pageDesc:'Quality work at affordable prices - click to explore each category',
+    ctaTitle:'Need our <span>services</span>?',ctaDesc:'Contact us today - we\'re here to help!',ctaBtn:'Contact Us',explore:'Explore',
+    cat1Title:'Development Services',cat1Desc:'Website, Software, App & Game Development',
+    cat2Title:'Learning Services',cat2Desc:'Computer Basics, Programming, Web & App Dev',
+    cat3Title:'Tech Services',cat3Desc:'OS Install, Device Repair, Password Recovery',
+    cat4Title:'Creative Services',cat4Desc:'Photo & Video Editing, Graphic Design, Documents',
+    cat5Title:'Gaming & Entertainment',cat5Desc:'Game Setup, Sales & Software',
+    cat6Title:'Software Services',cat6Desc:'Cloud Storage, AI Tools, Messenger, Apps',
+    cat7Title:'Data & Documents',cat7Desc:'CV, Business Cards, Reports, Data Entry',
+    cat8Title:'Security Services',cat8Desc:'File Protection, Backup, Account Security',
+    cat9Title:'School & Education',cat9Desc:'Club Projects, Tech Demos, Assignments',
+    cat10Title:'Business Solutions',cat10Desc:'Management Systems, Inventory, POS',
+    cat11Title:'Custom Request',cat11Desc:'Have something else in mind? Contact us!'
   },
   am: {
-    home:'መነሻ',about:'ስለ እኛ',services:'አገልግሎቶች',contact:'አግኙን',
-    pageTitle:'የእኛ <span>አገልግሎቶች</span>',pageSubtitle:'የሚሰጡት አገልግሎቶች',pageDesc:'ጥራት ባለው ስራ በተመጣጣኝ ዋጋ',
-    ctaTitle:'በአገልግሎቶቻችን <span>ፍላጎት</span> አለዎት?',ctaDesc:'ዛሬ ያግኙን!',ctaBtn:'አግኙን →',
-    s1Title:'🌐 ዌብሳይት መፍጠር',s1Desc:'ጥራት ያለው ዌብሳይት በፈለጉት መልክ',
-    s2Title:'💻 ሶፍትዌር ልማት',s2Desc:'ምርጥ ሶፍትዌር ለድርጅቶች፣ ለትምህርት',
-    s3Title:'📱 አፕ ልማት',s3Desc:'በእርስዎ ዲቫይስ ብቻ የሚሰራ አፕ',
-    s4Title:'🕹️ ጌም ማዘጋጀት እና መሸጥ',s4Desc:'የትኛውንም ጌም በተመጣጣኝ ዋጋ',
-    s5Title:'🪛 ኦፕሬቲንግ ሲስተም መጫን',s5Desc:'የትኛውንም ኦኤስ በርካሽ ዋጋ',
-    s6Title:'🛡️ ፋይል ደህንነት',s6Desc:'ፍይል እና አካካውንት ጥበቃ',
-    s7Title:'👨‍🏫 መሰረታዊ ኮምፒውተር',s7Desc:'ሙሉ ኮርስ ይሰጣል',
-    s8Title:'🧑‍💻 ፕሮግራሚንግ ይማሩ',s8Desc:'ሙሉ ፕሮግራሚንግ ኮርስ',
-    s9Title:'🔑 ፓስዎርድ ማስመለስ',s9Desc:'የትኛውም ፓስዎርድ ሪከቨር ይደረጋል',
-    s10Title:'🎨 ፎቶ እና ቪዲዮ ማቀናበር',s10Desc:'ፎቶ እና ቪዲዮ ኤዲቲንግ',
-    s11Title:'🔧 ዲቫይስ ጥገና',s11Desc:'የተበላሸ ዲቫይሶችን ማስተካከል',
-    s12Title:'💽 ቡታብል ዩኤስቢ ኦኤስ',s12Desc:'የትኛውንም ኦኤስ በድራይቭ',
-    s13Title:'🔧 ዲቫይስ ፎርማት',s13Desc:'የትኛውም ዲቫይስ ፎርማት ይደረጋል',
-    s14Title:'👨‍🏫 ዌብ ልማት ይማሩ',s14Desc:'ዌብሳይት መፍጠር ማስተማር',
-    s15Title:'🛠️ ሶፍትዌር ልማት ይማሩ',s15Desc:'ሶፍትዌር መፍጠር ማስተማር',
-    s16Title:'🧾 ለማተም የሚሆኑ ዶክመንቶች',s16Desc:'ጥራት ያለው ፕሪንት ዶክመንት',
-    s17Title:'📱 አፕ ልማት ይማሩ',s17Desc:'አፕ መፍጠር ማስተማር',
-    s18Title:'📡 የትምህርት ቤት ክለብ ፕሮጀክቶች',s18Desc:'የቴክኖሎጂ ፕሮጀክቶች እርዳታ',
-    s19Title:'💽 ሶፍትዌር ግዢ',s19Desc:'የማይገኙ ሶፍትዌር በተመጣጣኝ ዋጋ',
-    s20Title:'🧰 ተጨማሪ',s20Desc:'ለተጨማሪ አገልግሎቶች ያግኙን',
-    s21Title:'🚀 ሶፍትዌር አገልግሎቶች',s21Desc:'ክላውድ፣ AI መሳሪያዎች፣ መልእክት'
+    home:'መነሻ',about:'ስለ እኛ',services:'አገልግሎቶች',software:'ሶፍትዌር',contact:'አግኙን',
+    pageTitle:'የእኛ <span>አገልግሎቶች</span>',pageDesc:'ጥራት ባለው ስራ በተመጣጣኝ ዋጋ - ለማሰስ ይጫኑ',
+    ctaTitle:'አገልግሎታችን <span>ይፈልጋሉ</span>?',ctaDesc:'ዛሬ ያግኙን - እርስዎን ለመርዳት እዚህ ነን!',ctaBtn:'አግኙን',explore:'ያስሱ',
+    cat1Title:'የልማት አገልግሎቶች',cat1Desc:'ዌብሳይት፣ ሶፍትዌር፣ አፕ እና ጌም ልማት',
+    cat2Title:'የትምህርት አገልግሎቶች',cat2Desc:'መሰረታዊ ኮምፒውተር፣ ፕሮግራሚንግ፣ ዌብ እና አፕ',
+    cat3Title:'የቴክኒክ አገልግሎቶች',cat3Desc:'ኦኤስ መጫን፣ ዲቫይስ ጥገና፣ ፓስዎርድ ማስመለስ',
+    cat4Title:'የፈጠራ አገልግሎቶች',cat4Desc:'ፎቶ እና ቪዲዮ ኤዲቲንግ፣ ግራፊክ ዲዛይን',
+    cat5Title:'ጌም እና መዝናኛ',cat5Desc:'ጌም ማዘጋጀት፣ መሸጥ እና ሶፍትዌር',
+    cat6Title:'የሶፍትዌር አገልግሎቶች',cat6Desc:'ክላውድ ማከማቻ፣ AI መሳሪያዎች፣ መልእክት',
+    cat7Title:'ዳታ እና ዶክመንቶች',cat7Desc:'CV፣ ቢዝነስ ካርድ፣ ሪፖርቶች፣ ዳታ ኢንትሪ',
+    cat8Title:'የደህንነት አገልግሎቶች',cat8Desc:'ፋይል ጥበቃ፣ ባክአፕ፣ አካውንት ደህንነት',
+    cat9Title:'ትምህርት ቤት እና ትምህርት',cat9Desc:'ክለብ ፕሮጀክቶች፣ ቴክ ዴሞዎች፣ ስራዎች',
+    cat10Title:'የቢዝነስ መፍትሄዎች',cat10Desc:'ማኔጅመንት ሲስተሞች፣ ኢንቬንቶሪ፣ POS',
+    cat11Title:'ልዩ ጥያቄ',cat11Desc:'ሌላ ነገር አለዎት? ያግኙን!'
   },
   or: {
-    home:'Mana',about:'Waa\'ee',services:'Tajaajila',contact:'Nu Quunnamaa',
-    pageTitle:'<span>Tajaajila</span> Keenya',pageSubtitle:'Tajaajila Dhiyeessinu',pageDesc:'Hojii qulqullina qabu gatii madaalawaan',
-    ctaTitle:'Tajaajila keenyaan <span>fedhii</span> qabdaa?',ctaDesc:'Har\'a nu quunnamaa!',ctaBtn:'Nu Quunnamaa →',
-    s1Title:'🌐 Weebsaayitii Uumuu',s1Desc:'Weebsaayitii qulqullina qabu',
-    s2Title:'💻 Sooftiweerii Misoomuu',s2Desc:'Sooftiweerii dhaabbataaf',
-    s3Title:'📱 Appii Misoomuu',s3Desc:'Appii meeshaa keessaniif qofa',
-    s4Title:'🕹️ Geemii Qopheessuu',s4Desc:'Geemii kamiyyuu gatii madaalawaan',
-    s5Title:'🪛 OS Fe\'uu',s5Desc:'OS kamiyyuu gatii gadaanaan',
-    s6Title:'🛡️ Nageenya Faayilii',s6Desc:'Eegumsa faayilii fi herrega',
-    s7Title:'👨‍🏫 Bu\'uura Kompitaraa',s7Desc:'Koorsa guutuu',
-    s8Title:'🧑‍💻 Pirograamii Baraa',s8Desc:'Koorsa pirograamii guutuu',
-    s9Title:'🔑 Jecha Icciitii Deebisuu',s9Desc:'Jecha icciitii kamiyyuu',
-    s10Title:'🎨 Suuraa fi Viidiyoo Gulaaluu',s10Desc:'Tajaajila gulaaluu',
-    s11Title:'🔧 Meeshaa Supphuu',s11Desc:'Meeshaa cabsan supphuu',
-    s12Title:'💽 USB OS Bootable',s12Desc:'OS kamiyyuu USB irratti',
-    s13Title:'🔧 Meeshaa Format Gochuu',s13Desc:'Meeshaa kamiyyuu format',
-    s14Title:'👨‍🏫 Web Misoomuu Baraa',s14Desc:'Weebsaayitii uumuu baraa',
-    s15Title:'🛠️ Sooftiweerii Baraa',s15Desc:'Sooftiweerii uumuu baraa',
-    s16Title:'🧾 Dokumantii Maxxansaa',s16Desc:'Dokumantii qulqullina qabu',
-    s17Title:'📱 Appii Misoomuu Baraa',s17Desc:'Appii uumuu baraa',
-    s18Title:'📡 Pirojektii Kilabii',s18Desc:'Gargaarsa pirojektii teeknooloojii',
-    s19Title:'💽 Sooftiweerii Bitachuu',s19Desc:'Sooftiweerii argamuu hin dandeenye',
-    s20Title:'🧰 Dabalataan',s20Desc:'Tajaajila dabalataaf nu quunnamaa',
-    s21Title:'🚀 Tajaajila Sooftiweerii',s21Desc:'Kuusaa duumessaa, meeshaalee AI'
+    home:'Mana',about:'Waa\'ee',services:'Tajaajila',software:'Sooftiweerii',contact:'Nu Quunnamaa',
+    pageTitle:'<span>Tajaajila</span> Keenya',pageDesc:'Hojii qulqullina qabu gatii madaalawaan - qorachuuf tuqi',
+    ctaTitle:'Tajaajila keenya <span>barbaaddaa</span>?',ctaDesc:'Har\'a nu quunnamaa - isin gargaaruuf as jirra!',ctaBtn:'Nu Quunnamaa',explore:'Qoradi',
+    cat1Title:'Tajaajila Misoomaa',cat1Desc:'Weebsaayitii, Sooftiweerii, Appii fi Geemii',
+    cat2Title:'Tajaajila Barnoota',cat2Desc:'Bu\'uura Kompitaraa, Pirograamii, Weebii fi Appii',
+    cat3Title:'Tajaajila Teekinikaa',cat3Desc:'OS Fe\'uu, Meeshaa Supphuu, Jecha Icciitii',
+    cat4Title:'Tajaajila Kalaqa',cat4Desc:'Suuraa fi Viidiyoo Gulaaluu, Dizaayinii',
+    cat5Title:'Geemii fi Bashannana',cat5Desc:'Geemii Qopheessuu, Gurgurtaa fi Sooftiweerii',
+    cat6Title:'Tajaajila Sooftiweerii',cat6Desc:'Kuusaa Duumessaa, Meeshaalee AI, Ergaa',
+    cat7Title:'Daataa fi Dokumantii',cat7Desc:'CV, Kaardii Daldalaa, Gabaasa, Galchii Daataa',
+    cat8Title:'Tajaajila Nageenya',cat8Desc:'Eegumsa Faayilii, Kuusaa, Nageenya Herrega',
+    cat9Title:'Mana Barumsaa fi Barnoota',cat9Desc:'Pirojektii Kilabii, Agarsiisa Teeknoo',
+    cat10Title:'Furmaata Daldalaa',cat10Desc:'Sirna Bulchiinsaa, Kuusaa, POS',
+    cat11Title:'Gaaffii Addaa',cat11Desc:'Waan biraa qabdaa? Nu quunnamaa!'
   },
   es: {
-    home:'Inicio',about:'Acerca de',services:'Servicios',contact:'Contacto',
-    pageTitle:'Nuestros <span>Servicios</span>',pageSubtitle:'Servicios que Ofrecemos',pageDesc:'Trabajo de calidad a precios asequibles',
-    ctaTitle:'¿Interesado en nuestros <span>servicios</span>?',ctaDesc:'¡Contáctenos hoy!',ctaBtn:'Contáctenos →',
-    s1Title:'🌐 Creación de Sitios Web',s1Desc:'Sitios web de calidad',
-    s2Title:'💻 Desarrollo de Software',s2Desc:'Software personalizado',
-    s3Title:'📱 Desarrollo de Apps',s3Desc:'Apps para su dispositivo',
-    s4Title:'🕹️ Juegos',s4Desc:'Cualquier juego a buen precio',
-    s5Title:'🪛 Instalación de SO',s5Desc:'Cualquier SO a bajo precio',
-    s6Title:'🛡️ Seguridad de Archivos',s6Desc:'Protección de archivos',
-    s7Title:'👨‍🏫 Computación Básica',s7Desc:'Curso completo',
-    s8Title:'🧑‍💻 Aprende Programación',s8Desc:'Cursos de programación',
-    s9Title:'🔑 Recuperación de Contraseñas',s9Desc:'Recuperamos cualquier contraseña',
-    s10Title:'🎨 Edición de Fotos y Videos',s10Desc:'Servicios de edición',
-    s11Title:'🔧 Reparación de Dispositivos',s11Desc:'Arreglamos dispositivos',
-    s12Title:'💽 USB Booteable',s12Desc:'Cualquier SO en USB',
-    s13Title:'🔧 Formateo de Dispositivos',s13Desc:'Formateamos cualquier dispositivo',
-    s14Title:'👨‍🏫 Aprende Desarrollo Web',s14Desc:'Aprende a crear sitios web',
-    s15Title:'🛠️ Aprende Desarrollo de Software',s15Desc:'Aprende a crear software',
-    s16Title:'🧾 Documentos Imprimibles',s16Desc:'Documentos de calidad',
-    s17Title:'📱 Aprende Desarrollo de Apps',s17Desc:'Aprende a crear apps',
-    s18Title:'📡 Proyectos Escolares',s18Desc:'Ayuda con proyectos tech',
-    s19Title:'💽 Compra de Software',s19Desc:'Software difícil de encontrar',
-    s20Title:'🧰 Y Más',s20Desc:'Contáctenos para más servicios',
-    s21Title:'🚀 Servicios de Software',s21Desc:'Almacenamiento, IA, mensajería'
+    home:'Inicio',about:'Acerca de',services:'Servicios',software:'Software',contact:'Contacto',
+    pageTitle:'Nuestros <span>Servicios</span>',pageDesc:'Trabajo de calidad a precios asequibles - haga clic para explorar',
+    ctaTitle:'¿Necesita nuestros <span>servicios</span>?',ctaDesc:'¡Contáctenos hoy - estamos aquí para ayudar!',ctaBtn:'Contáctenos',explore:'Explorar',
+    cat1Title:'Servicios de Desarrollo',cat1Desc:'Desarrollo de Sitios Web, Software, Apps y Juegos',
+    cat2Title:'Servicios de Aprendizaje',cat2Desc:'Computación Básica, Programación, Web y Apps',
+    cat3Title:'Servicios Técnicos',cat3Desc:'Instalación de SO, Reparación, Recuperación',
+    cat4Title:'Servicios Creativos',cat4Desc:'Edición de Fotos y Videos, Diseño Gráfico',
+    cat5Title:'Juegos y Entretenimiento',cat5Desc:'Configuración de Juegos, Ventas y Software',
+    cat6Title:'Servicios de Software',cat6Desc:'Almacenamiento en la Nube, Herramientas IA',
+    cat7Title:'Datos y Documentos',cat7Desc:'CV, Tarjetas de Presentación, Informes',
+    cat8Title:'Servicios de Seguridad',cat8Desc:'Protección de Archivos, Respaldo, Seguridad',
+    cat9Title:'Escuela y Educación',cat9Desc:'Proyectos de Club, Demos Técnicas, Tareas',
+    cat10Title:'Soluciones Empresariales',cat10Desc:'Sistemas de Gestión, Inventario, POS',
+    cat11Title:'Solicitud Personalizada',cat11Desc:'¿Tiene algo más en mente? ¡Contáctenos!'
   },
   fr: {
-    home:'Accueil',about:'À propos',services:'Services',contact:'Contact',
-    pageTitle:'Nos <span>Services</span>',pageSubtitle:'Services Offerts',pageDesc:'Travail de qualité à prix abordables',
-    ctaTitle:'Intéressé par nos <span>services</span>?',ctaDesc:'Contactez-nous!',ctaBtn:'Contactez-nous →',
-    s1Title:'🌐 Création de Sites Web',s1Desc:'Sites web de qualité',
-    s2Title:'💻 Développement Logiciel',s2Desc:'Logiciels personnalisés',
-    s3Title:'📱 Développement d\'Apps',s3Desc:'Apps pour votre appareil',
-    s4Title:'🕹️ Jeux',s4Desc:'Tous les jeux à bon prix',
-    s5Title:'🪛 Installation OS',s5Desc:'Tout OS à bas prix',
-    s6Title:'🛡️ Sécurité des Fichiers',s6Desc:'Protection des fichiers',
-    s7Title:'👨‍🏫 Informatique de Base',s7Desc:'Cours complet',
-    s8Title:'🧑‍💻 Apprendre la Programmation',s8Desc:'Cours de programmation',
-    s9Title:'🔑 Récupération de Mots de Passe',s9Desc:'Récupération de tout mot de passe',
-    s10Title:'🎨 Édition Photo et Vidéo',s10Desc:'Services d\'édition',
-    s11Title:'🔧 Réparation d\'Appareils',s11Desc:'Réparation d\'appareils',
-    s12Title:'💽 USB Bootable',s12Desc:'Tout OS sur USB',
-    s13Title:'🔧 Formatage d\'Appareils',s13Desc:'Formatage de tout appareil',
-    s14Title:'👨‍🏫 Apprendre le Développement Web',s14Desc:'Créer des sites web',
-    s15Title:'🛠️ Apprendre le Développement Logiciel',s15Desc:'Créer des logiciels',
-    s16Title:'🧾 Documents Imprimables',s16Desc:'Documents de qualité',
-    s17Title:'📱 Apprendre le Développement d\'Apps',s17Desc:'Créer des apps',
-    s18Title:'📡 Projets Scolaires',s18Desc:'Aide aux projets tech',
-    s19Title:'💽 Achat de Logiciels',s19Desc:'Logiciels rares',
-    s20Title:'🧰 Et Plus',s20Desc:'Contactez-nous pour plus',
-    s21Title:'🚀 Services Logiciels',s21Desc:'Stockage, IA, messagerie'
+    home:'Accueil',about:'À propos',services:'Services',software:'Logiciel',contact:'Contact',
+    pageTitle:'Nos <span>Services</span>',pageDesc:'Travail de qualité à prix abordables - cliquez pour explorer',
+    ctaTitle:'Besoin de nos <span>services</span>?',ctaDesc:'Contactez-nous aujourd\'hui - nous sommes là pour vous aider!',ctaBtn:'Contactez-nous',explore:'Explorer',
+    cat1Title:'Services de Développement',cat1Desc:'Développement de Sites Web, Logiciels, Apps et Jeux',
+    cat2Title:'Services d\'Apprentissage',cat2Desc:'Informatique de Base, Programmation, Web et Apps',
+    cat3Title:'Services Techniques',cat3Desc:'Installation OS, Réparation, Récupération',
+    cat4Title:'Services Créatifs',cat4Desc:'Édition Photo et Vidéo, Design Graphique',
+    cat5Title:'Jeux et Divertissement',cat5Desc:'Configuration de Jeux, Ventes et Logiciels',
+    cat6Title:'Services Logiciels',cat6Desc:'Stockage Cloud, Outils IA, Messagerie',
+    cat7Title:'Données et Documents',cat7Desc:'CV, Cartes de Visite, Rapports, Saisie',
+    cat8Title:'Services de Sécurité',cat8Desc:'Protection des Fichiers, Sauvegarde, Sécurité',
+    cat9Title:'École et Éducation',cat9Desc:'Projets de Club, Démos Tech, Devoirs',
+    cat10Title:'Solutions d\'Entreprise',cat10Desc:'Systèmes de Gestion, Inventaire, POS',
+    cat11Title:'Demande Personnalisée',cat11Desc:'Autre chose en tête? Contactez-nous!'
   },
   ar: {
-    home:'الرئيسية',about:'حول',services:'الخدمات',contact:'اتصل بنا',
-    pageTitle:'<span>خدماتنا</span>',pageSubtitle:'الخدمات التي نقدمها',pageDesc:'عمل عالي الجودة بأسعار معقولة',
-    ctaTitle:'مهتم <span>بخدماتنا</span>؟',ctaDesc:'تواصل معنا اليوم!',ctaBtn:'اتصل بنا →',
-    s1Title:'🌐 إنشاء المواقع',s1Desc:'مواقع عالية الجودة',
-    s2Title:'💻 تطوير البرمجيات',s2Desc:'برمجيات مخصصة',
-    s3Title:'📱 تطوير التطبيقات',s3Desc:'تطبيقات لجهازك',
-    s4Title:'🕹️ الألعاب',s4Desc:'أي لعبة بسعر جيد',
-    s5Title:'🪛 تثبيت نظام التشغيل',s5Desc:'أي نظام بسعر منخفض',
-    s6Title:'🛡️ أمان الملفات',s6Desc:'حماية الملفات',
-    s7Title:'👨‍🏫 أساسيات الكمبيوتر',s7Desc:'دورة كاملة',
-    s8Title:'🧑‍💻 تعلم البرمجة',s8Desc:'دورات برمجة',
-    s9Title:'🔑 استعادة كلمات المرور',s9Desc:'استعادة أي كلمة مرور',
-    s10Title:'🎨 تحرير الصور والفيديو',s10Desc:'خدمات التحرير',
-    s11Title:'🔧 إصلاح الأجهزة',s11Desc:'إصلاح الأجهزة',
-    s12Title:'💽 USB قابل للإقلاع',s12Desc:'أي نظام على USB',
-    s13Title:'🔧 تهيئة الأجهزة',s13Desc:'تهيئة أي جهاز',
-    s14Title:'👨‍🏫 تعلم تطوير الويب',s14Desc:'إنشاء المواقع',
-    s15Title:'🛠️ تعلم تطوير البرمجيات',s15Desc:'إنشاء البرمجيات',
-    s16Title:'🧾 مستندات قابلة للطباعة',s16Desc:'مستندات عالية الجودة',
-    s17Title:'📱 تعلم تطوير التطبيقات',s17Desc:'إنشاء التطبيقات',
-    s18Title:'📡 مشاريع النوادي المدرسية',s18Desc:'مساعدة في المشاريع',
-    s19Title:'💽 شراء البرمجيات',s19Desc:'برمجيات نادرة',
-    s20Title:'🧰 والمزيد',s20Desc:'اتصل بنا للمزيد',
-    s21Title:'🚀 خدمات البرمجيات',s21Desc:'تخزين، ذكاء اصطناعي، رسائل'
+    home:'الرئيسية',about:'حول',services:'الخدمات',software:'البرمجيات',contact:'اتصل بنا',
+    pageTitle:'<span>خدماتنا</span>',pageDesc:'عمل عالي الجودة بأسعار معقولة - انقر للاستكشاف',
+    ctaTitle:'هل تحتاج <span>خدماتنا</span>؟',ctaDesc:'اتصل بنا اليوم - نحن هنا للمساعدة!',ctaBtn:'اتصل بنا',explore:'استكشف',
+    cat1Title:'خدمات التطوير',cat1Desc:'تطوير المواقع والبرمجيات والتطبيقات والألعاب',
+    cat2Title:'خدمات التعلم',cat2Desc:'أساسيات الكمبيوتر، البرمجة، الويب والتطبيقات',
+    cat3Title:'الخدمات التقنية',cat3Desc:'تثبيت نظام التشغيل، الإصلاح، استعادة كلمة المرور',
+    cat4Title:'الخدمات الإبداعية',cat4Desc:'تحرير الصور والفيديو، التصميم الجرافيكي',
+    cat5Title:'الألعاب والترفيه',cat5Desc:'إعداد الألعاب، المبيعات والبرمجيات',
+    cat6Title:'خدمات البرمجيات',cat6Desc:'التخزين السحابي، أدوات الذكاء الاصطناعي',
+    cat7Title:'البيانات والمستندات',cat7Desc:'السيرة الذاتية، بطاقات العمل، التقارير',
+    cat8Title:'خدمات الأمان',cat8Desc:'حماية الملفات، النسخ الاحتياطي، أمان الحساب',
+    cat9Title:'المدرسة والتعليم',cat9Desc:'مشاريع النادي، العروض التقنية، الواجبات',
+    cat10Title:'حلول الأعمال',cat10Desc:'أنظمة الإدارة، المخزون، نقاط البيع',
+    cat11Title:'طلب مخصص',cat11Desc:'هل لديك شيء آخر في ذهنك؟ اتصل بنا!'
   },
   zh: {
-    home:'首页',about:'关于',services:'服务',contact:'联系',
-    pageTitle:'我们的<span>服务</span>',pageSubtitle:'我们提供的服务',pageDesc:'以实惠的价格提供优质工作',
-    ctaTitle:'对我们的<span>服务</span>感兴趣？',ctaDesc:'今天就联系我们！',ctaBtn:'联系我们 →',
-    s1Title:'🌐 网站创建',s1Desc:'高质量网站',
-    s2Title:'💻 软件开发',s2Desc:'定制软件',
-    s3Title:'📱 应用开发',s3Desc:'专属应用',
-    s4Title:'🕹️ 游戏',s4Desc:'任何游戏优惠价',
-    s5Title:'🪛 操作系统安装',s5Desc:'任何系统低价',
-    s6Title:'🛡️ 文件安全',s6Desc:'文件保护',
-    s7Title:'👨‍🏫 计算机基础',s7Desc:'完整课程',
-    s8Title:'🧑‍💻 学习编程',s8Desc:'编程课程',
-    s9Title:'🔑 密码恢复',s9Desc:'恢复任何密码',
-    s10Title:'🎨 照片和视频编辑',s10Desc:'编辑服务',
-    s11Title:'🔧 设备维修',s11Desc:'修复设备',
-    s12Title:'💽 可启动USB',s12Desc:'任何系统在USB上',
-    s13Title:'🔧 设备格式化',s13Desc:'格式化任何设备',
-    s14Title:'👨‍🏫 学习网页开发',s14Desc:'创建网站',
-    s15Title:'🛠️ 学习软件开发',s15Desc:'创建软件',
-    s16Title:'🧾 可打印文档',s16Desc:'高质量文档',
-    s17Title:'📱 学习应用开发',s17Desc:'创建应用',
-    s18Title:'📡 学校俱乐部项目',s18Desc:'技术项目帮助',
-    s19Title:'💽 软件购买',s19Desc:'稀有软件',
-    s20Title:'🧰 更多',s20Desc:'联系我们获取更多',
-    s21Title:'🚀 软件服务',s21Desc:'云存储、AI工具、消息'
+    home:'首页',about:'关于',services:'服务',software:'软件',contact:'联系',
+    pageTitle:'我们的<span>服务</span>',pageDesc:'以实惠的价格提供优质工作 - 点击探索',
+    ctaTitle:'需要我们的<span>服务</span>？',ctaDesc:'今天就联系我们 - 我们随时为您服务！',ctaBtn:'联系我们',explore:'探索',
+    cat1Title:'开发服务',cat1Desc:'网站、软件、应用和游戏开发',
+    cat2Title:'学习服务',cat2Desc:'计算机基础、编程、网页和应用开发',
+    cat3Title:'技术服务',cat3Desc:'操作系统安装、设备维修、密码恢复',
+    cat4Title:'创意服务',cat4Desc:'照片和视频编辑、平面设计',
+    cat5Title:'游戏和娱乐',cat5Desc:'游戏设置、销售和软件',
+    cat6Title:'软件服务',cat6Desc:'云存储、AI工具、消息应用',
+    cat7Title:'数据和文档',cat7Desc:'简历、名片、报告、数据录入',
+    cat8Title:'安全服务',cat8Desc:'文件保护、备份、账户安全',
+    cat9Title:'学校和教育',cat9Desc:'俱乐部项目、技术演示、作业',
+    cat10Title:'商业解决方案',cat10Desc:'管理系统、库存、POS',
+    cat11Title:'定制请求',cat11Desc:'有其他想法？联系我们！'
   }
 };
 
@@ -680,18 +343,22 @@ function changeLanguage() {
   document.getElementById('navHome').textContent = t.home;
   document.getElementById('navAbout').textContent = t.about;
   document.getElementById('navServices').textContent = t.services;
+  document.getElementById('navSoftware').textContent = t.software;
   document.getElementById('navContact').textContent = t.contact;
   document.getElementById('pageTitle').innerHTML = t.pageTitle;
-  document.getElementById('pageSubtitle').textContent = t.pageSubtitle;
   document.getElementById('pageDesc').textContent = t.pageDesc;
   document.getElementById('ctaTitle').innerHTML = t.ctaTitle;
   document.getElementById('ctaDesc').textContent = t.ctaDesc;
-  document.getElementById('ctaBtn').textContent = t.ctaBtn;
+  document.getElementById('ctaBtn').innerHTML = '<i class="fas fa-phone"></i> ' + t.ctaBtn;
   
-  for(let i=1; i<=21; i++) {
-    if(document.getElementById('s'+i+'Title')) document.getElementById('s'+i+'Title').textContent = t['s'+i+'Title'];
-    if(document.getElementById('s'+i+'Desc')) document.getElementById('s'+i+'Desc').textContent = t['s'+i+'Desc'];
+  // Update category cards
+  for(let i=1; i<=11; i++) {
+    if(document.getElementById('cat'+i+'Title')) document.getElementById('cat'+i+'Title').textContent = t['cat'+i+'Title'];
+    if(document.getElementById('cat'+i+'Desc')) document.getElementById('cat'+i+'Desc').textContent = t['cat'+i+'Desc'];
   }
+  
+  // Update explore buttons
+  document.querySelectorAll('.explore-text').forEach(el => el.textContent = t.explore);
   
   document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
 }
@@ -699,7 +366,7 @@ function changeLanguage() {
 document.getElementById('langSelect').addEventListener('change', changeLanguage);
 
 const savedLang = localStorage.getItem('blsc_lang');
-if (savedLang) {
+if (savedLang && translations[savedLang]) {
   document.getElementById('langSelect').value = savedLang;
   changeLanguage();
 }
