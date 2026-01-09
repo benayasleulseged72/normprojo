@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BLSC Bookmarks - Save Your Links</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100vh}
+.bg-gradient{position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 20%,rgba(99,102,241,0.15) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(236,72,153,0.1) 0%,transparent 50%),#0a0a0a;z-index:-1}
+
+header{background:rgba(10,10,10,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);padding:16px 24px;position:sticky;top:0;z-index:100}
+nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff;font-weight:700;font-size:20px}
+.logo img{width:40px;height:40px;border-radius:50%;border:2px solid #6366f1}
+.back-btn{padding:10px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;text-decoration:none;font-size:14px;transition:all 0.3s}
+.back-btn:hover{background:#6366f1;border-color:#6366f1}
+
+main{max-width:1000px;margin:0 auto;padding:40px 24px}
+
+.page-header{text-align:center;margin-bottom:40px}
+.page-header h1{font-size:36px;margin-bottom:8px}
+.page-header h1 i{color:#6366f1}
+.page-header p{color:#888}
+
+.add-form{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;margin-bottom:30px}
+.form-row{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.form-row:last-child{margin-bottom:0}
+.input-group{flex:1;min-width:200px}
+.input-group label{display:block;font-size:12px;color:#888;margin-bottom:6px}
+.input-group input,.input-group select{width:100%;padding:12px 16px;background:#111;border:1px solid #333;border-radius:8px;color:#fff;font-size:14px;outline:none;transition:border-color 0.2s}
+.input-group input:focus,.input-group select:focus{border-color:#6366f1}
+.input-group select option{background:#111}
+.btn-add{padding:12px 24px;background:#6366f1;border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all 0.2s;align-self:flex-end}
+.btn-add:hover{background:#5558e3;transform:translateY(-2px)}
+
+.controls{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.search-box{flex:1;min-width:250px;position:relative}
+.search-box i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#666}
+.search-box input{width:100%;padding:12px 16px 12px 42px;background:#111;border:1px solid #333;border-radius:8px;color:#fff;font-size:14px;outline:none}
+.search-box input:focus{border-color:#6366f1}
+.filter-select{padding:12px 16px;background:#111;border:1px solid #333;border-radius:8px;color:#fff;font-size:14px;cursor:pointer;outline:none}
+.filter-select:focus{border-color:#6366f1}
+.view-btns{display:flex;gap:4px}
+.view-btn{padding:12px 14px;background:#111;border:1px solid #333;border-radius:8px;color:#888;cursor:pointer;transition:all 0.2s}
+.view-btn:hover,.view-btn.active{background:#6366f1;border-color:#6366f1;color:#fff}
+
+.stats{display:flex;gap:16px;margin-bottom:30px;flex-wrap:wrap}
+.stat-card{flex:1;min-width:120px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;text-align:center}
+.stat-value{font-size:28px;font-weight:700;color:#6366f1}
+.stat-label{font-size:12px;color:#888;margin-top:4px}
+
+.bookmarks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.bookmarks-grid.list-view{grid-template-columns:1fr}
+
+.bookmark-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px;transition:all 0.3s;position:relative}
+.bookmark-card:hover{border-color:#6366f1;transform:translateY(-4px);box-shadow:0 10px 30px rgba(99,102,241,0.2)}
+.bookmark-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.bookmark-favicon{width:40px;height:40px;border-radius:8px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bookmark-favicon img{width:24px;height:24px;border-radius:4px}
+.bookmark-favicon i{font-size:18px;color:#6366f1}
+.bookmark-info{flex:1;min-width:0}
+.bookmark-title{font-size:16px;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bookmark-url{font-size:12px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bookmark-desc{font-size:13px;color:#aaa;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bookmark-footer{display:flex;align-items:center;justify-content:space-between}
+.bookmark-category{padding:4px 10px;background:rgba(99,102,241,0.2);color:#6366f1;border-radius:100px;font-size:11px}
+.bookmark-date{font-size:11px;color:#666}
+.bookmark-actions{position:absolute;top:12px;right:12px;display:flex;gap:4px;opacity:0;transition:opacity 0.2s}
+.bookmark-card:hover .bookmark-actions{opacity:1}
+.action-btn{width:32px;height:32px;border-radius:6px;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center}
+.action-btn:hover{background:#6366f1}
+.action-btn.delete:hover{background:#ef4444}
+
+.list-view .bookmark-card{display:flex;align-items:center;gap:16px;padding:16px 20px}
+.list-view .bookmark-header{margin-bottom:0;flex:1}
+.list-view .bookmark-desc{display:none}
+.list-view .bookmark-footer{flex-direction:row;gap:12px}
+.list-view .bookmark-actions{position:static;opacity:1}
+
+.empty-state{text-align:center;padding:60px 24px;color:#666}
+.empty-state i{font-size:64px;margin-bottom:16px;color:#333}
+.empty-state h3{font-size:20px;color:#888;margin-bottom:8px}
+
+.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center}
+.modal.show{display:flex}
+.modal-content{background:#1a1a1a;border:1px solid #333;border-radius:16px;padding:24px;max-width:450px;width:90%}
+.modal-content h3{margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.modal-content h3 i{color:#6366f1}
+.modal-actions{display:flex;gap:12px;margin-top:20px}
+.modal-actions button{flex:1;padding:12px;border:none;border-radius:8px;font-size:14px;cursor:pointer;transition:all 0.2s}
+.btn-cancel{background:#333;color:#fff}
+.btn-cancel:hover{background:#444}
+.btn-confirm{background:#6366f1;color:#fff}
+.btn-confirm:hover{background:#5558e3}
+.btn-danger{background:#ef4444;color:#fff}
+.btn-danger:hover{background:#dc2626}
+
+footer{text-align:center;padding:40px;color:#666;font-size:13px}
+</style>
+</head>
+<body>
+<div class="bg-gradient"></div>
+
+<header>
+  <nav>
+    <a href="../bla/bla.html" class="logo">
+      <img src="../../1.png" alt="BLSC">
+      <span>BLSC Bookmarks</span>
+    </a>
+    <a href="../bla/bla.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+  </nav>
+</header>
+
+<main>
+  <div class="page-header">
+    <h1><i class="fas fa-bookmark"></i> My Bookmarks</h1>
+    <p>Save and organize your favorite links</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-value" id="totalCount">0</div>
+      <div class="stat-label">Total Bookmarks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="categoryCount">0</div>
+      <div class="stat-label">Categories</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="todayCount">0</div>
+      <div class="stat-label">Added Today</div>
+    </div>
+  </div>
+
+  <div class="add-form">
+    <div class="form-row">
+      <div class="input-group">
+        <label>URL *</label>
+        <input type="url" id="inputUrl" placeholder="https://example.com">
+      </div>
+      <div class="input-group">
+        <label>Title *</label>
+        <input type="text" id="inputTitle" placeholder="Website name">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="input-group">
+        <label>Description</label>
+        <input type="text" id="inputDesc" placeholder="Brief description (optional)">
+      </div>
+      <div class="input-group" style="max-width:180px">
+        <label>Category</label>
+        <select id="inputCategory">
+          <option value="General">General</option>
+          <option value="Work">Work</option>
+          <option value="Social">Social</option>
+          <option value="News">News</option>
+          <option value="Shopping">Shopping</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="Education">Education</option>
+          <option value="Tools">Tools</option>
+        </select>
+      </div>
+      <button class="btn-add" onclick="addBookmark()">
+        <i class="fas fa-plus"></i> Add
+      </button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search bookmarks..." oninput="filterBookmarks()">
+    </div>
+    <select class="filter-select" id="filterCategory" onchange="filterBookmarks()">
+      <option value="all">All Categories</option>
+    </select>
+    <div class="view-btns">
+      <button class="view-btn active" onclick="setView('grid')" id="gridBtn"><i class="fas fa-th-large"></i></button>
+      <button class="view-btn" onclick="setView('list')" id="listBtn"><i class="fas fa-list"></i></button>
+    </div>
+  </div>
+
+  <div class="bookmarks-grid" id="bookmarksGrid">
+    <div class="empty-state">
+      <i class="fas fa-bookmark"></i>
+      <h3>No bookmarks yet</h3>
+      <p>Add your first bookmark above!</p>
+    </div>
+  </div>
+</main>
+
+<div class="modal" id="editModal">
+  <div class="modal-content">
+    <h3><i class="fas fa-edit"></i> Edit Bookmark</h3>
+    <div class="input-group" style="margin-bottom:12px">
+      <label>URL</label>
+      <input type="url" id="editUrl">
+    </div>
+    <div class="input-group" style="margin-bottom:12px">
+      <label>Title</label>
+      <input type="text" id="editTitle">
+    </div>
+    <div class="input-group" style="margin-bottom:12px">
+      <label>Description</label>
+      <input type="text" id="editDesc">
+    </div>
+    <div class="input-group">
+      <label>Category</label>
+      <select id="editCategory">
+        <option value="General">General</option>
+        <option value="Work">Work</option>
+        <option value="Social">Social</option>
+        <option value="News">News</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Education">Education</option>
+        <option value="Tools">Tools</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-confirm" onclick="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="deleteModal">
+  <div class="modal-content">
+    <h3><i class="fas fa-trash"></i> Delete Bookmark</h3>
+    <p style="color:#888;margin-bottom:16px">Are you sure you want to delete "<span id="deleteTitle"></span>"?</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-danger" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 BENAYAS LEULSEGED Software Company — Jimma, Ethiopia</p>
+</footer>
+
+<script>
+let bookmarks = JSON.parse(localStorage.getItem('blsc_bookmarks')) || [];
+let currentView = 'grid';
+let editingId = null;
+let deletingId = null;
+
+function init() {
+  renderBookmarks();
+  updateStats();
+  updateCategoryFilter();
+}
+
+function getFavicon(url) {
+  try {
+    const domain = new URL(url).hostname;
+    return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+  } catch { return null; }
+}
+
+function addBookmark() {
+  const url = document.getElementById('inputUrl').value.trim();
+  const title = document.getElementById('inputTitle').value.trim();
+  const desc = document.getElementById('inputDesc').value.trim();
+  const category = document.getElementById('inputCategory').value;
+
+  if (!url || !title) { alert('Please enter URL and Title'); return; }
+  try { new URL(url); } catch { alert('Please enter a valid URL'); return; }
+
+  const bookmark = {
+    id: Date.now(), url, title, description: desc, category,
+    favicon: getFavicon(url), createdAt: new Date().toISOString()
+  };
+
+  bookmarks.unshift(bookmark);
+  saveBookmarks();
+  renderBookmarks();
+  updateStats();
+  updateCategoryFilter();
+
+  document.getElementById('inputUrl').value = '';
+  document.getElementById('inputTitle').value = '';
+  document.getElementById('inputDesc').value = '';
+}
+
+function saveBookmarks() {
+  localStorage.setItem('blsc_bookmarks', JSON.stringify(bookmarks));
+}
+
+function renderBookmarks() {
+  const grid = document.getElementById('bookmarksGrid');
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const categoryFilter = document.getElementById('filterCategory').value;
+
+  let filtered = bookmarks.filter(b => {
+    const matchSearch = b.title.toLowerCase().includes(search) || 
+                       b.url.toLowerCase().includes(search) ||
+                       (b.description && b.description.toLowerCase().includes(search));
+    const matchCategory = categoryFilter === 'all' || b.category === categoryFilter;
+    return matchSearch && matchCategory;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><i class="fas fa-bookmark"></i>
+      <h3>${bookmarks.length === 0 ? 'No bookmarks yet' : 'No results found'}</h3>
+      <p>${bookmarks.length === 0 ? 'Add your first bookmark above!' : 'Try a different search term'}</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(b => `
+    <div class="bookmark-card" data-id="${b.id}">
+      <div class="bookmark-actions">
+        <button class="action-btn" onclick="openBookmark('${b.url}')" title="Open"><i class="fas fa-external-link-alt"></i></button>
+        <button class="action-btn" onclick="editBookmark(${b.id})" title="Edit"><i class="fas fa-edit"></i></button>
+        <button class="action-btn delete" onclick="deleteBookmark(${b.id})" title="Delete"><i class="fas fa-trash"></i></button>
+      </div>
+      <div class="bookmark-header">
+        <div class="bookmark-favicon">
+          ${b.favicon ? `<img src="${b.favicon}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><i class="fas fa-globe" style="display:none"></i>` : '<i class="fas fa-globe"></i>'}
+        </div>
+        <div class="bookmark-info">
+          <div class="bookmark-title">${escapeHtml(b.title)}</div>
+          <div class="bookmark-url">${escapeHtml(b.url)}</div>
+        </div>
+      </div>
+      ${b.description ? `<div class="bookmark-desc">${escapeHtml(b.description)}</div>` : ''}
+      <div class="bookmark-footer">
+        <span class="bookmark-category">${b.category}</span>
+        <span class="bookmark-date">${formatDate(b.createdAt)}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openBookmark(url) { window.open(url, '_blank'); }
+
+function editBookmark(id) {
+  const bookmark = bookmarks.find(b => b.id === id);
+  if (!bookmark) return;
+  editingId = id;
+  document.getElementById('editUrl').value = bookmark.url;
+  document.getElementById('editTitle').value = bookmark.title;
+  document.getElementById('editDesc').value = bookmark.description || '';
+  document.getElementById('editCategory').value = bookmark.category;
+  document.getElementById('editModal').classList.add('show');
+}
+
+function saveEdit() {
+  const bookmark = bookmarks.find(b => b.id === editingId);
+  if (!bookmark) return;
+  bookmark.url = document.getElementById('editUrl').value.trim();
+  bookmark.title = document.getElementById('editTitle').value.trim();
+  bookmark.description = document.getElementById('editDesc').value.trim();
+  bookmark.category = document.getElementById('editCategory').value;
+  bookmark.favicon = getFavicon(bookmark.url);
+  saveBookmarks();
+  renderBookmarks();
+  updateCategoryFilter();
+  closeModal();
+}
+
+function deleteBookmark(id) {
+  const bookmark = bookmarks.find(b => b.id === id);
+  if (!bookmark) return;
+  deletingId = id;
+  document.getElementById('deleteTitle').textContent = bookmark.title;
+  document.getElementById('deleteModal').classList.add('show');
+}
+
+function confirmDelete() {
+  bookmarks = bookmarks.filter(b => b.id !== deletingId);
+  saveBookmarks();
+  renderBookmarks();
+  updateStats();
+  updateCategoryFilter();
+  closeModal();
+}
+
+function closeModal() {
+  document.getElementById('editModal').classList.remove('show');
+  document.getElementById('deleteModal').classList.remove('show');
+  editingId = null;
+  deletingId = null;
+}
+
+function filterBookmarks() { renderBookmarks(); }
+
+function setView(view) {
+  currentView = view;
+  const grid = document.getElementById('bookmarksGrid');
+  grid.classList.toggle('list-view', view === 'list');
+  document.getElementById('gridBtn').classList.toggle('active', view === 'grid');
+  document.getElementById('listBtn').classList.toggle('active', view === 'list');
+}
+
+function updateStats() {
+  document.getElementById('totalCount').textContent = bookmarks.length;
+  const categories = [...new Set(bookmarks.map(b => b.category))];
+  document.getElementById('categoryCount').textContent = categories.length;
+  const today = new Date().toDateString();
+  const todayCount = bookmarks.filter(b => new Date(b.createdAt).toDateString() === today).length;
+  document.getElementById('todayCount').textContent = todayCount;
+}
+
+function updateCategoryFilter() {
+  const select = document.getElementById('filterCategory');
+  const categories = [...new Set(bookmarks.map(b => b.category))];
+  select.innerHTML = '<option value="all">All Categories</option>' +
+    categories.map(c => `<option value="${c}">${c}</option>`).join('');
+}
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr);
+  const now = new Date();
+  const diff = now - date;
+  if (diff < 60000) return 'Just now';
+  if (diff < 3600000) return Math.floor(diff / 60000) + 'm ago';
+  if (diff < 86400000) return Math.floor(diff / 3600000) + 'h ago';
+  if (diff < 604800000) return Math.floor(diff / 86400000) + 'd ago';
+  return date.toLocaleDateString();
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+window.onclick = function(e) {
+  if (e.target.classList.contains('modal')) closeModal();
+}
+
+init();
+</script>
+</body>
+</html>

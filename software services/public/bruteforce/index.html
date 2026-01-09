@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BLSC Brute Force - Password Guessing Game</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Share Tech Mono',monospace;background:#0a0a0a;color:#00ff00;min-height:100vh;overflow-x:hidden}
+.scanlines{position:fixed;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,0.1) 0px,rgba(0,0,0,0.1) 1px,transparent 1px,transparent 2px);pointer-events:none;z-index:1000}
+.glow{text-shadow:0 0 10px #00ff00,0 0 20px #00ff00,0 0 30px #00ff00}
+
+header{background:rgba(0,20,0,0.9);border-bottom:2px solid #00ff00;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:#00ff00}
+.logo img{width:40px;height:40px;border-radius:50%;border:2px solid #00ff00;filter:hue-rotate(90deg) brightness(1.5)}
+.logo span{font-size:20px;font-weight:bold}
+.back-btn{padding:10px 20px;background:transparent;border:1px solid #00ff00;color:#00ff00;text-decoration:none;font-family:inherit;transition:all 0.3s}
+.back-btn:hover{background:#00ff00;color:#000}
+
+main{max-width:900px;margin:0 auto;padding:40px 24px}
+
+.terminal-header{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.terminal-dot{width:12px;height:12px;border-radius:50%}
+.dot-red{background:#ff5f56}
+.dot-yellow{background:#ffbd2e}
+.dot-green{background:#27ca40}
+.terminal-title{margin-left:auto;color:#666;font-size:12px}
+
+.terminal{background:#0d0d0d;border:2px solid #00ff00;border-radius:8px;padding:24px;margin-bottom:30px}
+.terminal-line{margin-bottom:8px;opacity:0;animation:fadeIn 0.3s forwards}
+.terminal-line.visible{opacity:1}
+@keyframes fadeIn{to{opacity:1}}
+
+.prompt{color:#00ff00}
+.command{color:#fff}
+.output{color:#00aa00}
+.error{color:#ff4444}
+.success{color:#00ff00}
+
+.input-section{margin-top:30px}
+.input-group{margin-bottom:20px}
+.input-group label{display:block;margin-bottom:8px;color:#00ff00}
+.input-group input{width:100%;padding:12px 16px;background:#000;border:1px solid #00ff00;color:#00ff00;font-family:inherit;font-size:16px;outline:none}
+.input-group input:focus{box-shadow:0 0 10px rgba(0,255,0,0.3)}
+.input-group input::placeholder{color:#006600}
+
+.charset-options{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.charset-option{display:flex;align-items:center;gap:8px;cursor:pointer}
+.charset-option input{accent-color:#00ff00;width:18px;height:18px}
+
+.btn-attack{width:100%;padding:16px;background:linear-gradient(180deg,#ff0000,#aa0000);border:none;color:#fff;font-family:inherit;font-size:18px;cursor:pointer;transition:all 0.3s;text-transform:uppercase;letter-spacing:2px}
+.btn-attack:hover{background:linear-gradient(180deg,#ff3333,#cc0000);box-shadow:0 0 20px rgba(255,0,0,0.5)}
+.btn-attack:disabled{background:#333;color:#666;cursor:not-allowed}
+.btn-attack.running{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
+
+.btn-stop{background:linear-gradient(180deg,#ff6600,#aa4400)}
+.btn-stop:hover{background:linear-gradient(180deg,#ff8833,#cc5500);box-shadow:0 0 20px rgba(255,102,0,0.5)}
+
+.grid-container{margin:30px 0}
+.grid-label{margin-bottom:12px;color:#00ff00}
+.password-grid{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+.grid-cell{width:36px;height:44px;background:#001100;border:1px solid #00ff00;display:flex;align-items:center;justify-content:center;font-size:20px;color:#00ff00;position:relative}
+.grid-cell.found{background:#003300;animation:cellFound 0.3s}
+.grid-cell.checking{background:#002200;animation:cellCheck 0.2s infinite}
+@keyframes cellFound{0%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes cellCheck{0%,100%{opacity:1}50%{opacity:0.5}}
+
+.attempts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(30px,1fr));gap:2px;max-height:80px;overflow:hidden}
+.attempt-cell{width:100%;aspect-ratio:1;background:#110000;border:1px solid #330000;display:flex;align-items:center;justify-content:center;font-size:10px;color:#ff0000}
+.attempt-cell.tried{background:#220000;color:#ff3333}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin:30px 0}
+.stat-box{background:#001100;border:1px solid #00ff00;padding:16px;text-align:center}
+.stat-value{font-size:28px;color:#00ff00;margin-bottom:4px}
+.stat-label{font-size:12px;color:#008800}
+
+.status-bar{text-align:center;padding:16px;font-size:20px;margin:20px 0}
+.status-bar.standby{color:#ffff00}
+.status-bar.running{color:#00ff00;animation:blink 0.5s infinite}
+.status-bar.success{color:#00ff00}
+.status-bar.failed{color:#ff0000}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.5}}
+
+.progress-bar{height:20px;background:#001100;border:1px solid #00ff00;margin:20px 0;position:relative;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#003300,#00ff00);width:0%;transition:width 0.1s}
+.progress-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#00ff00;font-size:12px}
+
+.log-container{max-height:200px;overflow-y:auto;background:#000;border:1px solid #003300;padding:12px;font-size:12px}
+.log-entry{margin-bottom:4px}
+.log-time{color:#666}
+.log-attempt{color:#ff6600}
+.log-found{color:#00ff00}
+
+footer{text-align:center;padding:30px;color:#006600;font-size:12px;border-top:1px solid #003300}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+
+<header>
+  <a href="../../index.html" class="logo">
+    <img src="../../1.png" alt="BLSC">
+    <span class="glow">BLSC</span>
+  </a>
+  <a href="../choose.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</header>
+
+<main>
+  <div class="terminal-header">
+    <div class="terminal-dot dot-red"></div>
+    <div class="terminal-dot dot-yellow"></div>
+    <div class="terminal-dot dot-green"></div>
+    <span class="terminal-title">blsc_bruteforce.exe</span>
+  </div>
+
+  <div class="terminal">
+    <div class="terminal-line visible"><span class="prompt">BLSC@hacker:~$</span> <span class="command">./bruteforce --init</span></div>
+    <div class="terminal-line visible"><span class="output">[*] BLSC Brute Force Password Guesser v1.0</span></div>
+    <div class="terminal-line visible"><span class="output">[*] Educational simulation tool</span></div>
+    <div class="terminal-line visible"><span class="output">[*] Enter a password and watch the system guess it!</span></div>
+  </div>
+
+  <div class="input-section">
+    <div class="input-group">
+      <label><i class="fas fa-key"></i> Enter Password to Crack:</label>
+      <input type="text" id="targetPassword" placeholder="Enter any password...">
+    </div>
+
+    <div class="charset-options">
+      <label class="charset-option">
+        <input type="checkbox" id="useLower" checked>
+        <span>a-z (lowercase)</span>
+      </label>
+      <label class="charset-option">
+        <input type="checkbox" id="useUpper">
+        <span>A-Z (uppercase)</span>
+      </label>
+      <label class="charset-option">
+        <input type="checkbox" id="useNumbers" checked>
+        <span>0-9 (numbers)</span>
+      </label>
+      <label class="charset-option">
+        <input type="checkbox" id="useSpecial">
+        <span>!@#$ (special)</span>
+      </label>
+    </div>
+
+    <button class="btn-attack" id="btnAttack" onclick="startAttack()">
+      <i class="fas fa-skull-crossbones"></i> Start Brute Force Attack
+    </button>
+  </div>
+
+  <div class="status-bar standby" id="statusBar">
+    <i class="fas fa-circle"></i> Status: Standby
+  </div>
+
+  <div class="grid-container">
+    <div class="grid-label"><i class="fas fa-lock"></i> Password Grid:</div>
+    <div class="password-grid" id="passwordGrid"></div>
+    
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+      <span class="progress-text" id="progressText">0%</span>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-box">
+      <div class="stat-value" id="attemptsCount">0</div>
+      <div class="stat-label">ATTEMPTS</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value" id="speedCount">0</div>
+      <div class="stat-label">ATTEMPTS/SEC</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value" id="timeElapsed">0.0s</div>
+      <div class="stat-label">TIME ELAPSED</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value" id="charsFound">0/0</div>
+      <div class="stat-label">CHARS FOUND</div>
+    </div>
+  </div>
+
+  <div class="grid-label"><i class="fas fa-terminal"></i> Attack Log:</div>
+  <div class="log-container" id="logContainer"></div>
+</main>
+
+<footer>
+  <p>BLSC Brute Force Simulator - Educational Purpose Only</p>
+  <p>© 2026 BENAYAS LEULSEGED Software Company</p>
+</footer>
+
+<script>
+let isRunning = false;
+let targetPassword = '';
+let foundChars = [];
+let attempts = 0;
+let startTime = 0;
+let intervalId = null;
+let charsets = {
+  lower: 'abcdefghijklmnopqrstuvwxyz',
+  upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+  numbers: '0123456789',
+  special: '!@#$%^&*()_+-=[]{}|;:,.<>?'
+};
+
+function getCharset() {
+  let charset = '';
+  if (document.getElementById('useLower').checked) charset += charsets.lower;
+  if (document.getElementById('useUpper').checked) charset += charsets.upper;
+  if (document.getElementById('useNumbers').checked) charset += charsets.numbers;
+  if (document.getElementById('useSpecial').checked) charset += charsets.special;
+  return charset || charsets.lower;
+}
+
+function initGrid(length) {
+  const grid = document.getElementById('passwordGrid');
+  grid.innerHTML = '';
+  foundChars = new Array(length).fill(null);
+  
+  for (let i = 0; i < length; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'grid-cell';
+    cell.id = `cell-${i}`;
+    cell.textContent = '×';
+    grid.appendChild(cell);
+  }
+  
+  document.getElementById('charsFound').textContent = `0/${length}`;
+}
+
+function addLog(message, type = 'attempt') {
+  const log = document.getElementById('logContainer');
+  const time = ((Date.now() - startTime) / 1000).toFixed(2);
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.innerHTML = `<span class="log-time">[${time}s]</span> <span class="log-${type}">${message}</span>`;
+  log.appendChild(entry);
+  log.scrollTop = log.scrollHeight;
+}
+
+function updateStats() {
+  const elapsed = (Date.now() - startTime) / 1000;
+  const speed = Math.round(attempts / elapsed) || 0;
+  
+  document.getElementById('attemptsCount').textContent = attempts.toLocaleString();
+  document.getElementById('speedCount').textContent = speed.toLocaleString();
+  document.getElementById('timeElapsed').textContent = elapsed.toFixed(1) + 's';
+  
+  const found = foundChars.filter(c => c !== null).length;
+  document.getElementById('charsFound').textContent = `${found}/${targetPassword.length}`;
+  
+  const progress = (found / targetPassword.length) * 100;
+  document.getElementById('progressFill').style.width = progress + '%';
+  document.getElementById('progressText').textContent = Math.round(progress) + '%';
+}
+
+function setStatus(status, text) {
+  const bar = document.getElementById('statusBar');
+  bar.className = 'status-bar ' + status;
+  bar.innerHTML = `<i class="fas fa-circle"></i> Status: ${text}`;
+}
+
+async function startAttack() {
+  targetPassword = document.getElementById('targetPassword').value;
+  
+  if (!targetPassword) {
+    alert('Please enter a password to crack!');
+    return;
+  }
+  
+  if (isRunning) {
+    stopAttack();
+    return;
+  }
+  
+  isRunning = true;
+  attempts = 0;
+  startTime = Date.now();
+  
+  const btn = document.getElementById('btnAttack');
+  btn.innerHTML = '<i class="fas fa-stop"></i> Stop Attack';
+  btn.classList.add('running', 'btn-stop');
+  
+  document.getElementById('logContainer').innerHTML = '';
+  initGrid(targetPassword.length);
+  setStatus('running', 'ATTACKING...');
+  addLog('Brute force attack initiated...', 'attempt');
+  addLog(`Target length: ${targetPassword.length} characters`, 'attempt');
+  
+  const charset = getCharset();
+  addLog(`Charset size: ${charset.length} characters`, 'attempt');
+  
+  // Start stats update interval
+  intervalId = setInterval(updateStats, 100);
+  
+  // Crack each character position
+  for (let pos = 0; pos < targetPassword.length; pos++) {
+    if (!isRunning) break;
+    
+    const cell = document.getElementById(`cell-${pos}`);
+    cell.classList.add('checking');
+    addLog(`Attacking position ${pos + 1}...`, 'attempt');
+    
+    const targetChar = targetPassword[pos];
+    let found = false;
+    
+    // Try each character in charset
+    for (let i = 0; i < charset.length; i++) {
+      if (!isRunning) break;
+      
+      const tryChar = charset[i];
+      attempts++;
+      cell.textContent = tryChar;
+      
+      // Random delay for visual effect (50-150ms)
+      await new Promise(r => setTimeout(r, 50 + Math.random() * 100));
+      
+      if (tryChar === targetChar) {
+        found = true;
+        foundChars[pos] = tryChar;
+        cell.classList.remove('checking');
+        cell.classList.add('found');
+        addLog(`Position ${pos + 1} CRACKED: "${tryChar}"`, 'found');
+        break;
+      }
+    }
+    
+    // If char not in charset, try the actual char
+    if (!found && isRunning) {
+      attempts++;
+      await new Promise(r => setTimeout(r, 200));
+      foundChars[pos] = targetChar;
+      cell.textContent = targetChar;
+      cell.classList.remove('checking');
+      cell.classList.add('found');
+      addLog(`Position ${pos + 1} CRACKED: "${targetChar}"`, 'found');
+    }
+  }
+  
+  if (isRunning) {
+    // Success!
+    clearInterval(intervalId);
+    updateStats();
+    setStatus('success', 'PASSWORD CRACKED!');
+    addLog(`SUCCESS! Password: "${targetPassword}"`, 'found');
+    addLog(`Total attempts: ${attempts.toLocaleString()}`, 'found');
+    
+    btn.innerHTML = '<i class="fas fa-skull-crossbones"></i> Start Brute Force Attack';
+    btn.classList.remove('running', 'btn-stop');
+    isRunning = false;
+  }
+}
+
+function stopAttack() {
+  isRunning = false;
+  clearInterval(intervalId);
+  
+  const btn = document.getElementById('btnAttack');
+  btn.innerHTML = '<i class="fas fa-skull-crossbones"></i> Start Brute Force Attack';
+  btn.classList.remove('running', 'btn-stop');
+  
+  setStatus('failed', 'ATTACK STOPPED');
+  addLog('Attack manually stopped by user.', 'attempt');
+  updateStats();
+}
+
+// Initialize empty grid
+initGrid(12);
+</script>
+</body>
+</html>

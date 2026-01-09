@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLSC Temperature Converter</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            min-height: 100vh;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            font-size: 28px;
+            color: #3fb950;
+            margin-bottom: 5px;
+        }
+        header p { color: #888; font-size: 14px; }
+        .converter-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(63,185,80,0.3);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            color: #3fb950;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            font-size: 24px;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid rgba(63,185,80,0.3);
+            border-radius: 12px;
+            color: #fff;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+        }
+        .input-group input:focus {
+            border-color: #3fb950;
+            box-shadow: 0 0 15px rgba(63,185,80,0.3);
+        }
+        .unit-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .unit-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #888;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .unit-btn:hover {
+            border-color: rgba(63,185,80,0.5);
+            color: #fff;
+        }
+        .unit-btn.active {
+            background: rgba(63,185,80,0.2);
+            border-color: #3fb950;
+            color: #3fb950;
+        }
+        .results {
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        .results h3 {
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+        .result-item:hover {
+            background: rgba(63,185,80,0.1);
+        }
+        .result-item:last-child { margin-bottom: 0; }
+        .result-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .result-label .icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .result-label .icon.c { background: rgba(59,130,246,0.2); }
+        .result-label .icon.f { background: rgba(239,68,68,0.2); }
+        .result-label .icon.k { background: rgba(168,85,247,0.2); }
+        .result-label .icon.r { background: rgba(249,115,22,0.2); }
+        .result-label span { color: #888; font-size: 14px; }
+        .result-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .result-value small {
+            font-size: 14px;
+            color: #888;
+            font-weight: 400;
+        }
+        .info-box {
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(63,185,80,0.1);
+            border-left: 3px solid #3fb950;
+            border-radius: 0 10px 10px 0;
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.6;
+        }
+        .info-box strong { color: #3fb950; }
+        .back-link {
+            margin-top: 20px;
+            color: #888;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-link:hover { color: #3fb950; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🌡️ BLSC Temperature</h1>
+        <p>Convert between Celsius, Fahrenheit, Kelvin & Rankine</p>
+    </header>
+
+    <div class="converter-box">
+        <div class="input-group">
+            <label>Enter Temperature</label>
+            <input type="number" id="tempInput" placeholder="0" oninput="convert()">
+        </div>
+
+        <div class="unit-selector">
+            <button class="unit-btn active" onclick="setUnit('C')">°C</button>
+            <button class="unit-btn" onclick="setUnit('F')">°F</button>
+            <button class="unit-btn" onclick="setUnit('K')">K</button>
+            <button class="unit-btn" onclick="setUnit('R')">°R</button>
+        </div>
+
+        <div class="results">
+            <h3>Converted Values</h3>
+            <div class="result-item">
+                <div class="result-label">
+                    <div class="icon c">❄️</div>
+                    <span>Celsius</span>
+                </div>
+                <div class="result-value" id="celsius">0 <small>°C</small></div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">
+                    <div class="icon f">🔥</div>
+                    <span>Fahrenheit</span>
+                </div>
+                <div class="result-value" id="fahrenheit">32 <small>°F</small></div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">
+                    <div class="icon k">⚛️</div>
+                    <span>Kelvin</span>
+                </div>
+                <div class="result-value" id="kelvin">273.15 <small>K</small></div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">
+                    <div class="icon r">🌀</div>
+                    <span>Rankine</span>
+                </div>
+                <div class="result-value" id="rankine">491.67 <small>°R</small></div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>Quick Reference:</strong><br>
+            • Water freezes: 0°C = 32°F = 273.15K<br>
+            • Water boils: 100°C = 212°F = 373.15K<br>
+            • Absolute zero: -273.15°C = -459.67°F = 0K
+        </div>
+    </div>
+
+    <a href="../index.html" class="back-link">← Back to Apps</a>
+
+    <script>
+        let currentUnit = 'C';
+
+        function setUnit(unit) {
+            currentUnit = unit;
+            document.querySelectorAll('.unit-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            convert();
+        }
+
+        function convert() {
+            const input = parseFloat(document.getElementById('tempInput').value) || 0;
+            let celsius, fahrenheit, kelvin, rankine;
+
+            // Convert input to Celsius first
+            switch(currentUnit) {
+                case 'C':
+                    celsius = input;
+                    break;
+                case 'F':
+                    celsius = (input - 32) * 5/9;
+                    break;
+                case 'K':
+                    celsius = input - 273.15;
+                    break;
+                case 'R':
+                    celsius = (input - 491.67) * 5/9;
+                    break;
+            }
+
+            // Convert Celsius to all units
+            fahrenheit = (celsius * 9/5) + 32;
+            kelvin = celsius + 273.15;
+            rankine = (celsius + 273.15) * 9/5;
+
+            // Display results
+            document.getElementById('celsius').innerHTML = `${celsius.toFixed(2)} <small>°C</small>`;
+            document.getElementById('fahrenheit').innerHTML = `${fahrenheit.toFixed(2)} <small>°F</small>`;
+            document.getElementById('kelvin').innerHTML = `${kelvin.toFixed(2)} <small>K</small>`;
+            document.getElementById('rankine').innerHTML = `${rankine.toFixed(2)} <small>°R</small>`;
+        }
+
+        // Initialize
+        convert();
+    </script>
+</body>
+</html>
