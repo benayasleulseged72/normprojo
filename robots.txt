@@ -1,105 +1,23 @@
-# BLSC - Benayas Leulseged Software Company
-# Robots.txt for https://benio.vercel.app/
-# Updated: January 2025
-
-# Allow all search engines to crawl the entire site
 User-agent: *
 Allow: /
 
-# Specific rules for major search engines
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Slurp
-Allow: /
-Crawl-delay: 2
-
-# Block access to sensitive directories and files
+# Block sensitive directories only
 Disallow: /admin/
 Disallow: /useraccountssave/
 Disallow: /.vscode/
-Disallow: /software services/public/business/school sys/
-Disallow: /software services/public/bruteforce/
+
+# Block executable files
 Disallow: *.py
 Disallow: *.bat
-Disallow: *.db
-Disallow: *.zip
 Disallow: *.exe
-Disallow: /software services/public/processing apps/
+Disallow: *.db
 
-# Allow important directories for SEO
-Allow: /services/
-Allow: /software services/public/bla/
-Allow: /software services/public/booking/
-Allow: /software services/public/calculator/
-Allow: /software services/public/chatbot/
-Allow: /software services/public/converter/
-Allow: /software services/public/temperature/
-Allow: /software services/public/buttons/
-Allow: /software services/public/office/
-Allow: /software services/public/recorder/
-Allow: /software services/public/business/
+# Allow important resources
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.ico
 
-# Block specific file types that shouldn't be indexed
-Disallow: /*.log$
-Disallow: /*.tmp$
-Disallow: /*.bak$
-Disallow: /*~$
-
-# Allow CSS, JS, and image files for proper rendering
-Allow: /*.css$
-Allow: /*.js$
-Allow: /*.png$
-Allow: /*.jpg$
-Allow: /*.jpeg$
-Allow: /*.gif$
-Allow: /*.ico$
-Allow: /*.svg$
-
-# Sitemap location
+# Sitemap
 Sitemap: https://benio.vercel.app/sitemap.xml
-
-# Additional sitemaps for different sections
-# Sitemap: https://benio.vercel.app/services-sitemap.xml
-# Sitemap: https://benio.vercel.app/software-sitemap.xml
-
-# Crawl delay for less aggressive bots
-User-agent: *
-Crawl-delay: 1
-
-# Block bad bots and scrapers
-User-agent: AhrefsBot
-Disallow: /
-
-User-agent: MJ12bot
-Disallow: /
-
-User-agent: DotBot
-Disallow: /
-
-User-agent: SemrushBot
-Disallow: /
-
-User-agent: BLEXBot
-Disallow: /
-
-# Allow social media bots for sharing
-User-agent: facebookexternalhit
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: LinkedInBot
-Allow: /
-
-User-agent: WhatsApp
-Allow: /
-
-# Cache directive
-# Cache-Control: public, max-age=3600
