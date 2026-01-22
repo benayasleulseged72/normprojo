@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLSC Speech Tools - Text to Speech & Speech to Text</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .tool-card { border: 1px solid #ccc; padding: 20px; margin: 20px 0; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        textarea, select, input { width: 100%; padding: 8px; border: 1px solid #ccc; }
+        textarea { min-height: 100px; }
+        .btn { padding: 10px 15px; margin: 5px; border: none; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .status-listening { background: #d4edda; color: #155724; }
+        .status-speaking { background: #cce5ff; color: #004085; }
+        .status-error { background: #f8d7da; color: #721c24; }
+        .status-success { background: #d4edda; color: #155724; }
+        .recording-indicator { display: none; color: red; font-weight: bold; margin: 10px 0; }
+        .recording-indicator.active { display: block; }
+        .download-section { background: #f8f9fa; border: 1px dashed #ccc; padding: 15px; margin: 15px 0; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <h1>BLSC Speech Tools</h1>
+        <p>Text-to-Speech and Speech-to-Text with Download Features</p>
+
+        <!-- Text to Speech Tool -->
+        <div class="tool-card">
+            <h2>Text to Speech</h2>
+                
+                <div class="form-group">
+                    <label for="textInput">Enter Text to Convert to Speech</label>
+                    <textarea id="textInput" placeholder="Type or paste your text here...">Hello! Welcome to BLSC Speech Tools. This is a demonstration of our text-to-speech functionality.</textarea>
+                </div>
+                
+                
+                <div class="form-group">
+                    <label for="voiceSelect">Select Voice</label>
+                    <select id="voiceSelect">
+                        <option value="">Loading voices...</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="speedRange">Speech Speed: <span id="speedValue">1.0</span></label>
+                    <input type="range" id="speedRange" min="0.5" max="2.0" step="0.1" value="1.0">
+                </div>
+                
+                <div id="ttsStatus" class="status" style="display: none;"></div>
+                
+                <button class="btn btn-primary" onclick="speakText()">Speak</button>
+                <button class="btn btn-danger" onclick="stopSpeaking()">Stop</button>
+                <button class="btn btn-secondary" onclick="pauseSpeaking()">Pause</button>
+                <button class="btn btn-success" onclick="resumeSpeaking()">Resume</button>
+                
+                <div class="download-section">
+                    <h3>Download Audio</h3>
+                    <p>Convert your text to audio file and download it</p>
+                    <button class="btn btn-success" onclick="downloadAudio()">Generate & Download Audio</button>
+                </div>
+            </div>
+
+            <!-- Speech to Text Tool -->
+            <div class="tool-card">
+                <h2>Speech to Text</h2>
+                
+                <div class="recording-indicator" id="recordingIndicator">
+                    Recording... Speak now!
+                </div>
+                
+                <div class="form-group">
+                    <label for="languageSelect">Select Language</label>
+                    <select id="languageSelect">
+                        <option value="en-US">English (US)</option>
+                        <option value="en-GB">English (UK)</option>
+                        <option value="es-ES">Spanish</option>
+                        <option value="fr-FR">French</option>
+                        <option value="de-DE">German</option>
+                        <option value="it-IT">Italian</option>
+                        <option value="pt-BR">Portuguese (Brazil)</option>
+                        <option value="ru-RU">Russian</option>
+                        <option value="ja-JP">Japanese</option>
+                        <option value="ko-KR">Korean</option>
+                        <option value="zh-CN">Chinese (Mandarin)</option>
+                        <option value="ar-SA">Arabic</option>
+                    </select>
+                </div>
+                
+                <div id="sttStatus" class="status" style="display: none;"></div>
+                
+                <button class="btn btn-primary" onclick="startRecording()" id="startBtn">Start Recording</button>
+                <button class="btn btn-danger" onclick="stopRecording()" id="stopBtn" disabled>Stop Recording</button>
+                <button class="btn btn-secondary" onclick="clearTranscript()">Clear</button>
+                
+                <div class="form-group">
+                    <label for="transcriptOutput">Transcribed Text</label>
+                    <textarea id="transcriptOutput" placeholder="Your speech will appear here..." readonly></textarea>
+                </div>
+                
+                <div class="download-section">
+                    <h3>Download Transcript</h3>
+                    <p>Save your transcribed text as a file</p>
+                    <button class="btn btn-success" onclick="downloadTranscript('txt')">Download as TXT</button>
+                    <button class="btn btn-primary" onclick="downloadTranscript('docx')">Download as HTML</button>
+                    <button class="btn btn-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Text-to-Speech Variables
+        let speechSynthesis = window.speechSynthesis;
+        let voices = [];
+        let currentUtterance = null;
+
+        // Speech-to-Text Variables
+        let recognition = null;
+        let isRecording = false;
+        let transcript = '';
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTextToSpeech();
+            initializeSpeechToText();
+            setupEventListeners();
+        });
+
+        // Text-to-Speech Functions
+        function initializeTextToSpeech() {
+            loadVoices();
+            
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = loadVoices;
+            }
+        }
+
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            const voiceSelect = document.getElementById('voiceSelect');
+            voiceSelect.innerHTML = '';
+            
+            if (voices.length === 0) {
+                voiceSelect.innerHTML = '<option value="">No voices available</option>';
+                return;
+            }
+            
+            voices.forEach((voice, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                if (voice.default) {
+                    option.selected = true;
+                }
+                voiceSelect.appendChild(option);
+            });
+        }
+
+        function speakText() {
+            const text = document.getElementById('textInput').value.trim();
+            if (!text) {
+                showStatus('ttsStatus', 'Please enter some text to speak!', 'error');
+                return;
+            }
+
+            // Stop any current speech
+            speechSynthesis.cancel();
+
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            
+            // Set voice
+            const voiceIndex = document.getElementById('voiceSelect').value;
+            if (voiceIndex && voices[voiceIndex]) {
+                currentUtterance.voice = voices[voiceIndex];
+            }
+            
+            // Set speed
+            currentUtterance.rate = parseFloat(document.getElementById('speedRange').value);
+            
+            // Event listeners
+            currentUtterance.onstart = () => {
+                showStatus('ttsStatus', 'Speaking...', 'speaking');
+            };
+            
+            currentUtterance.onend = () => {
+                showStatus('ttsStatus', 'Speech completed!', 'success');
+                setTimeout(() => hideStatus('ttsStatus'), 3000);
+            };
+            
+            currentUtterance.onerror = (event) => {
+                showStatus('ttsStatus', `Error: ${event.error}`, 'error');
+            };
+
+            speechSynthesis.speak(currentUtterance);
+        }
+
+        function stopSpeaking() {
+            speechSynthesis.cancel();
+            showStatus('ttsStatus', 'Speech stopped!', 'success');
+            setTimeout(() => hideStatus('ttsStatus'), 2000);
+        }
+
+        function pauseSpeaking() {
+            if (speechSynthesis.speaking && !speechSynthesis.paused) {
+                speechSynthesis.pause();
+                showStatus('ttsStatus', 'Speech paused!', 'success');
+            }
+        }
+
+        function resumeSpeaking() {
+            if (speechSynthesis.paused) {
+                speechSynthesis.resume();
+                showStatus('ttsStatus', 'Speech resumed!', 'speaking');
+            }
+        }
+
+        // Speech-to-Text Functions
+        function initializeSpeechToText() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.maxAlternatives = 1;
+                
+                recognition.onstart = () => {
+                    isRecording = true;
+                    document.getElementById('recordingIndicator').classList.add('active');
+                    document.getElementById('startBtn').disabled = true;
+                    document.getElementById('stopBtn').disabled = false;
+                    showStatus('sttStatus', 'Listening... Please speak!', 'listening');
+                };
+                
+                recognition.onresult = (event) => {
+                    let interimTranscript = '';
+                    let finalTranscript = '';
+                    
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        const transcriptPart = event.results[i][0].transcript;
+                        if (event.results[i].isFinal) {
+                            finalTranscript += transcriptPart;
+                        } else {
+                            interimTranscript += transcriptPart;
+                        }
+                    }
+                    
+                    transcript += finalTranscript;
+                    document.getElementById('transcriptOutput').value = transcript + interimTranscript;
+                };
+                
+                recognition.onend = () => {
+                    isRecording = false;
+                    document.getElementById('recordingIndicator').classList.remove('active');
+                    document.getElementById('startBtn').disabled = false;
+                    document.getElementById('stopBtn').disabled = true;
+                    showStatus('sttStatus', 'Recording stopped!', 'success');
+                    setTimeout(() => hideStatus('sttStatus'), 3000);
+                };
+                
+                recognition.onerror = (event) => {
+                    showStatus('sttStatus', `Error: ${event.error}`, 'error');
+                    isRecording = false;
+                    document.getElementById('recordingIndicator').classList.remove('active');
+                    document.getElementById('startBtn').disabled = false;
+                    document.getElementById('stopBtn').disabled = true;
+                };
+            } else {
+                showStatus('sttStatus', 'Speech recognition not supported in this browser!', 'error');
+                document.getElementById('startBtn').disabled = true;
+            }
+        }
+
+        function startRecording() {
+            if (recognition) {
+                const language = document.getElementById('languageSelect').value;
+                recognition.lang = language;
+                recognition.start();
+            }
+        }
+
+        function stopRecording() {
+            if (recognition && isRecording) {
+                recognition.stop();
+            }
+        }
+
+        function clearTranscript() {
+            transcript = '';
+            document.getElementById('transcriptOutput').value = '';
+            showStatus('sttStatus', 'Transcript cleared!', 'success');
+            setTimeout(() => hideStatus('sttStatus'), 2000);
+        }
+
+        // Download Functions
+        function downloadAudio() {
+            const text = document.getElementById('textInput').value.trim();
+            if (!text) {
+                showStatus('ttsStatus', 'Please enter some text first!', 'error');
+                return;
+            }
+
+            // Create a simple audio file using Web Audio API
+            // Note: This is a basic implementation. For production, you might want to use a server-side solution
+            showStatus('ttsStatus', 'Generating audio file...', 'speaking');
+            
+            // Create utterance for audio generation
+            const utterance = new SpeechSynthesisUtterance(text);
+            const voiceIndex = document.getElementById('voiceSelect').value;
+            if (voiceIndex && voices[voiceIndex]) {
+                utterance.voice = voices[voiceIndex];
+            }
+            utterance.rate = parseFloat(document.getElementById('speedRange').value);
+            
+            // For now, we'll create a simple text file with instructions
+            // In a real implementation, you'd use server-side TTS or Web Audio API
+            const audioInstructions = `Audio Generation Instructions:
+Text: ${text}
+Voice: ${voices[voiceIndex] ? voices[voiceIndex].name : 'Default'}
+Speed: ${document.getElementById('speedRange').value}
+
+Note: This is a placeholder. In a production environment, 
+this would generate an actual audio file using server-side 
+text-to-speech services or advanced Web Audio API techniques.`;
+
+            downloadFile(audioInstructions, 'audio-instructions.txt', 'text/plain');
+            showStatus('ttsStatus', 'Audio instructions downloaded! (Demo mode)', 'success');
+            setTimeout(() => hideStatus('ttsStatus'), 3000);
+        }
+
+        function downloadTranscript(format) {
+            const text = document.getElementById('transcriptOutput').value.trim();
+            if (!text) {
+                showStatus('sttStatus', 'No transcript to download!', 'error');
+                return;
+            }
+
+            const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+            
+            if (format === 'txt') {
+                downloadFile(text, `transcript-${timestamp}.txt`, 'text/plain');
+            } else if (format === 'docx') {
+                // Create a simple HTML document that can be opened in Word
+                const htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Speech Transcript</title>
+</head>
+<body>
+    <h1>Speech Transcript</h1>
+    <p><strong>Generated:</strong> ${new Date().toLocaleString()}</p>
+    <hr>
+    <div style="white-space: pre-wrap; font-family: Arial, sans-serif; line-height: 1.6;">
+${text}
+    </div>
+</body>
+</html>`;
+                downloadFile(htmlContent, `transcript-${timestamp}.html`, 'text/html');
+            }
+            
+            showStatus('sttStatus', `Transcript downloaded as ${format.toUpperCase()}!`, 'success');
+            setTimeout(() => hideStatus('sttStatus'), 3000);
+        }
+
+        function copyToClipboard() {
+            const text = document.getElementById('transcriptOutput').value.trim();
+            if (!text) {
+                showStatus('sttStatus', 'No transcript to copy!', 'error');
+                return;
+            }
+
+            navigator.clipboard.writeText(text).then(() => {
+                showStatus('sttStatus', 'Transcript copied to clipboard!', 'success');
+                setTimeout(() => hideStatus('sttStatus'), 3000);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showStatus('sttStatus', 'Transcript copied to clipboard!', 'success');
+                setTimeout(() => hideStatus('sttStatus'), 3000);
+            });
+        }
+
+        // Utility Functions
+        function downloadFile(content, filename, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        function showStatus(elementId, message, type) {
+            const statusElement = document.getElementById(elementId);
+            statusElement.textContent = message;
+            statusElement.className = `status status-${type}`;
+            statusElement.style.display = 'block';
+        }
+
+        function hideStatus(elementId) {
+            const statusElement = document.getElementById(elementId);
+            statusElement.style.display = 'none';
+        }
+
+        function setupEventListeners() {
+            // Speed range slider
+            document.getElementById('speedRange').addEventListener('input', function() {
+                document.getElementById('speedValue').textContent = this.value;
+            });
+
+            // Enter key support for text input
+            document.getElementById('textInput').addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    speakText();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
