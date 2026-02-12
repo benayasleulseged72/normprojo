@@ -2413,7 +2413,6 @@
     box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
 }`
             },
-            // Add more code templates for styles 3-30...
             3: {
                 name: "Glass Morphism",
                 html: `<div class="glass-login">
@@ -2471,6 +2470,474 @@
 .glass-login button:hover {
     background: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
+}`
+            },
+            4: {
+                name: "Dark Minimal",
+                html: `<div class="dark-minimal">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Enter</button>
+</div>`,
+                css: `.dark-minimal {
+    background: #2d2d2d;
+    border-radius: 10px;
+    padding: 30px;
+    border: 1px solid #444;
+}
+
+.dark-minimal input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: none;
+    border-bottom: 2px solid #555;
+    background: transparent;
+    color: white;
+}`
+            },
+            5: {
+                name: "Colorful Cards",
+                html: `<div class="colorful-card">
+    <h3>Welcome</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.colorful-card {
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    border-radius: 20px;
+    padding: 30px;
+}`
+            },
+            6: {
+                name: "Retro Wave",
+                html: `<div class="retro-wave">
+    <h3>RETRO LOGIN</h3>
+    <input type="email" placeholder="EMAIL">
+    <input type="password" placeholder="PASSWORD">
+    <button>ENTER</button>
+</div>`,
+                css: `.retro-wave {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 3px solid #ff00ff;
+    font-family: 'Courier New', monospace;
+}`
+            },
+            7: {
+                name: "Material Design",
+                html: `<div class="material-design">
+    <h3>Sign In</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>LOGIN</button>
+</div>`,
+                css: `.material-design {
+    background: white;
+    color: #333;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}`
+            },
+            8: {
+                name: "Neumorphism",
+                html: `<div class="neumorphism">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.neumorphism {
+    background: #e0e0e0;
+    color: #333;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+}`
+            },
+            9: {
+                name: "Cyberpunk",
+                html: `<div class="cyberpunk">
+    <h3>ACCESS TERMINAL</h3>
+    <input type="email" placeholder="USER_EMAIL">
+    <input type="password" placeholder="PASSWORD">
+    <button>AUTHENTICATE</button>
+</div>`,
+                css: `.cyberpunk {
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+    border: 2px solid #eee600;
+    padding: 30px;
+    font-family: 'Courier New', monospace;
+}`
+            },
+            10: {
+                name: "Gradient Border",
+                html: `<div class="gradient-border">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.gradient-border {
+    background: #1a1a1a;
+    border-radius: 15px;
+    padding: 30px;
+    position: relative;
+}
+
+.gradient-border::before {
+    content: '';
+    position: absolute;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00);
+    z-index: -1;
+}`
+            },
+            11: {
+                name: "Floating Labels",
+                html: `<div class="floating-labels">
+    <h3>Welcome Back</h3>
+    <input type="email" placeholder="Email Address">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.floating-labels {
+    background: #f8f9fa;
+    color: #333;
+    border-radius: 12px;
+    padding: 30px;
+}`
+            },
+            12: {
+                name: "Split Screen",
+                html: `<div class="split-screen">
+    <div class="left-side">
+        <h2>Welcome!</h2>
+    </div>
+    <div class="right-side">
+        <h3>Login</h3>
+        <input type="email" placeholder="Email">
+        <input type="password" placeholder="Password">
+        <button>Sign In</button>
+    </div>
+</div>`,
+                css: `.split-screen {
+    display: flex;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.left-side {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    flex: 1;
+    padding: 30px;
+}`
+            },
+            13: {
+                name: "Minimalist White",
+                html: `<div class="minimalist-white">
+    <h3>Sign In</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Login</button>
+</div>`,
+                css: `.minimalist-white {
+    background: white;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}`
+            },
+            14: {
+                name: "Animated Gradient",
+                html: `<div class="animated-gradient">
+    <h3>Welcome</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.animated-gradient {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    border-radius: 20px;
+    padding: 30px;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}`
+            },
+            15: {
+                name: "Card Stack",
+                html: `<div class="card-stack">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.card-stack {
+    background: white;
+    color: #333;
+    border-radius: 12px;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}`
+            },
+            16: {
+                name: "Holographic",
+                html: `<div class="holographic">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.holographic {
+    background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5);
+    background-size: 300% 300%;
+    animation: holographic 3s ease-in-out infinite;
+    border-radius: 15px;
+    padding: 30px;
+}
+
+@keyframes holographic {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}`
+            },
+            17: {
+                name: "Vintage Paper",
+                html: `<div class="vintage-paper">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.vintage-paper {
+    background: #f4f1e8;
+    color: #5d4e37;
+    border: 3px solid #8b4513;
+    padding: 30px;
+    font-family: serif;
+}`
+            },
+            18: {
+                name: "Neon Border",
+                html: `<div class="neon-border">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.neon-border {
+    background: #000;
+    color: #fff;
+    border: 2px solid #ff073a;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 20px #ff073a;
+}`
+            },
+            19: {
+                name: "Corporate Blue",
+                html: `<div class="corporate-blue">
+    <h3>Sign In</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Login</button>
+</div>`,
+                css: `.corporate-blue {
+    background: #f8f9fa;
+    color: #333;
+    border: 1px solid #0056b3;
+    border-radius: 8px;
+    padding: 30px;
+}`
+            },
+            20: {
+                name: "Geometric",
+                html: `<div class="geometric">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.geometric {
+    background: white;
+    color: #333;
+    padding: 30px;
+    border: 2px solid #333;
+    clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+}`
+            },
+            21: {
+                name: "Soft Shadows",
+                html: `<div class="soft-shadows">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.soft-shadows {
+    background: #ffffff;
+    color: #333;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+}`
+            },
+            22: {
+                name: "Matrix Style",
+                html: `<div class="matrix-style">
+    <h3>LOGIN</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>ACCESS</button>
+</div>`,
+                css: `.matrix-style {
+    background: #000;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    padding: 30px;
+    font-family: 'Courier New', monospace;
+}`
+            },
+            23: {
+                name: "Pastel Dreams",
+                html: `<div class="pastel-dreams">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.pastel-dreams {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    color: #8b5a3c;
+    border-radius: 25px;
+    padding: 30px;
+}`
+            },
+            24: {
+                name: "Industrial",
+                html: `<div class="industrial">
+    <h3>LOGIN</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>ENTER</button>
+</div>`,
+                css: `.industrial {
+    background: #2c3e50;
+    color: #ecf0f1;
+    border: 3px solid #e74c3c;
+    padding: 30px;
+}`
+            },
+            25: {
+                name: "Luxury Gold",
+                html: `<div class="luxury-gold">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.luxury-gold {
+    background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+    color: #8b4513;
+    border: 2px solid #ffd700;
+    border-radius: 15px;
+    padding: 30px;
+}`
+            },
+            26: {
+                name: "Cosmic",
+                html: `<div class="cosmic">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.cosmic {
+    background: radial-gradient(ellipse at center, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    border: 2px solid #4a90e2;
+    border-radius: 20px;
+    padding: 30px;
+}`
+            },
+            27: {
+                name: "Watercolor",
+                html: `<div class="watercolor">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.watercolor {
+    background: linear-gradient(45deg, rgba(255, 182, 193, 0.8), rgba(173, 216, 230, 0.8));
+    color: #4a4a4a;
+    border-radius: 20px;
+    padding: 30px;
+}`
+            },
+            28: {
+                name: "Terminal Green",
+                html: `<div class="terminal-green">
+    <h3>$ LOGIN</h3>
+    <input type="email" placeholder="user@domain.com">
+    <input type="password" placeholder="password">
+    <button>./login</button>
+</div>`,
+                css: `.terminal-green {
+    background: #0c0c0c;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    padding: 30px;
+    font-family: 'Courier New', monospace;
+}`
+            },
+            29: {
+                name: "Elegant Black",
+                html: `<div class="elegant-black">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.elegant-black {
+    background: #1a1a1a;
+    color: #ffffff;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 40px;
+}`
+            },
+            30: {
+                name: "Rainbow Gradient",
+                html: `<div class="rainbow-gradient">
+    <h3>Welcome</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign In</button>
+</div>`,
+                css: `.rainbow-gradient {
+    background: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00);
+    background-size: 400% 400%;
+    animation: rainbow 8s ease infinite;
+    border-radius: 20px;
+    padding: 30px;
+}
+
+@keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }`
             }
         };
